@@ -12,6 +12,18 @@ Provide the `NSCameraUsageDescription`.
 The simplest code example:
 
 ```dart
+import 'package:arkit_plugin/arkit_position.dart';
+import 'package:arkit_plugin/arkit_sphere.dart';
+import 'package:flutter/material.dart';
+import 'package:arkit_plugin/arkit_plugin.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
 class _MyAppState extends State<MyApp> {
   ARKitController arkitController;
 
