@@ -1,4 +1,4 @@
-import 'package:arkit_plugin/arkit_position.dart';
+import 'package:arkit_plugin/geometries/arkit_position.dart';
 import 'package:meta/meta.dart';
 
 class ARKitSphere {
