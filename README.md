@@ -5,13 +5,25 @@ ARKit Flutter Plugin
 Add the following code to `Info.plist`:
 ```xml
     <key>io.flutter.embedded_views_preview</key>
-	<string>YES</string>
+    <string>YES</string>
 ```
 Provide the `NSCameraUsageDescription`.
 
 The simplest code example:
 
 ```dart
+import 'package:arkit_plugin/arkit_position.dart';
+import 'package:arkit_plugin/arkit_sphere.dart';
+import 'package:flutter/material.dart';
+import 'package:arkit_plugin/arkit_plugin.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
 class _MyAppState extends State<MyApp> {
   ARKitController arkitController;
 
@@ -45,4 +57,9 @@ class _MyAppState extends State<MyApp> {
 }
 ```
 Result:
+
 ![flutter](./demo.gif)
+
+## Contributing
+
+If you find a bug or would like to request a new feature, just [open an issue](https://github.com/olexale/arkit_flutter_plugin/issues/new). Your contributions are always welcome!
