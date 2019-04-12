@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
     this.arkitController.addSphere(ARKitSphere(
-          position: ARKitPosition(0, 0, -0.5),
+          position: const ARKitPosition(0, 0, -0.5),
           radius: 0.1,
         ));
   }

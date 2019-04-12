@@ -4,18 +4,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
-typedef void ARKitPluginCreatedCallback(ARKitController controller);
-typedef void StringResultHandler(String text);
+typedef ARKitPluginCreatedCallback = void Function(ARKitController controller);
+typedef StringResultHandler = void Function(String text);
 
 class ARKitSceneView extends StatefulWidget {
-  final ARKitPluginCreatedCallback onARKitViewCreated;
-  final bool showStatistics;
-
-  ARKitSceneView({
+  const ARKitSceneView({
     Key key,
     @required this.onARKitViewCreated,
     this.showStatistics = true,
-  });
+  }) : super(key: key);
+
+  final ARKitPluginCreatedCallback onARKitViewCreated;
+  final bool showStatistics;
 
   @override
   _ARKitSceneViewState createState() => _ARKitSceneViewState();
@@ -35,7 +35,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
     return Text('$defaultTargetPlatform is not supported by this plugin');
   }
 
-  Future<void> onPlatformViewCreated(id) async {
+  Future<void> onPlatformViewCreated(int id) async {
     if (widget.onARKitViewCreated == null) {
       return;
     }
@@ -44,17 +44,17 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
 }
 
 class ARKitController {
+  ARKitController._init(int id, bool showStatistics) {
+    _channel = MethodChannel('arkit_$id');
+    _channel.setMethodCallHandler(_platformCallHandler);
+    _channel.invokeMethod<void>('init', {'showStatistics': showStatistics});
+  }
+
   MethodChannel _channel;
   StringResultHandler onError;
 
   void dispose() {
-    _channel?.invokeMethod('dispose');
-  }
-
-  ARKitController._init(int id, bool showStatistics) {
-    _channel = new MethodChannel('arkit_$id');
-    _channel.setMethodCallHandler(_platformCallHandler);
-    _channel.invokeMethod('init', {'showStatistics': showStatistics});
+    _channel?.invokeMethod<void>('dispose');
   }
 
   Future<void> addSphere(ARKitSphere sphere) async {

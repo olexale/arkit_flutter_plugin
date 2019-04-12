@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 
 @immutable
 class ARKitPosition {
-  ARKitPosition(this.x, this.y, this.z);
+  const ARKitPosition(this.x, this.y, this.z);
 
   final double x;
   final double y;

@@ -8,6 +8,6 @@ class ARKitSphere {
   final double radius;
 
   Map<String, dynamic> toMap() {
-    return {'radius': radius, 'position': position.toMap()};
+    return <String, dynamic>{'radius': radius, 'position': position.toMap()};
   }
 }
