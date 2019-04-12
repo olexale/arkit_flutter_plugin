@@ -47,3 +47,7 @@ class _MyAppState extends State<MyApp> {
 Result:
 
 ![flutter](./demo.gif)
+
+## Contributing
+
+If you find a bug or would like to request a new feature, just [open an issue](https://github.com/olexale/arkit_flutter_plugin/issues/new). Your contributions are always welcome!
