@@ -5,7 +5,7 @@ ARKit Flutter Plugin
 Add the following code to `Info.plist`:
 ```xml
     <key>io.flutter.embedded_views_preview</key>
-	<string>YES</string>
+    <string>YES</string>
 ```
 Provide the `NSCameraUsageDescription`.
 
@@ -45,4 +45,5 @@ class _MyAppState extends State<MyApp> {
 }
 ```
 Result:
+
 ![flutter](./demo.gif)
