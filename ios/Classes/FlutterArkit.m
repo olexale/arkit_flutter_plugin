@@ -31,6 +31,7 @@
 
 @implementation FlutterArkitController {
   ARSCNView* _sceneView;
+  ARPlaneDetection planeDetection;
   int64_t _viewId;
   FlutterMethodChannel* _channel;
 }
@@ -48,8 +49,6 @@
     [_channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
       [weakSelf onMethodCall:call result:result];
     }];
-      
-      _sceneView.autoenablesDefaultLighting = YES;
     _sceneView.delegate = self;
   }
   return self;
@@ -72,6 +71,12 @@
 - (void)init:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSNumber* showStatistics = call.arguments[@"showStatistics"];
     _sceneView.showsStatistics = [showStatistics boolValue];
+  
+    NSNumber* autoenablesDefaultLighting = call.arguments[@"autoenablesDefaultLighting"];
+    _sceneView.autoenablesDefaultLighting = [autoenablesDefaultLighting boolValue];
+  
+    NSNumber* requestedPlaneDetection = call.arguments[@"planeDetection"];
+    planeDetection = [self getPlaneFromNumber:[requestedPlaneDetection intValue]];
     
     ARConfiguration* configuration = self.configuration;
     [self.sceneView.session runWithConfiguration:configuration];
@@ -131,8 +136,18 @@
     if (!ARWorldTrackingConfiguration.isSupported) {}
     
     _configuration = [ARWorldTrackingConfiguration new];
-    _configuration.planeDetection = ARPlaneDetectionHorizontal;
+    _configuration.planeDetection = planeDetection;
     return _configuration;
+}
+
+#pragma mark - Utils
+-(ARPlaneDetection) getPlaneFromNumber: (int) number {
+  if (number == 0) {
+    return ARPlaneDetectionNone;
+  } else if (number == 1) {
+    return ARPlaneDetectionHorizontal;
+  }
+  return ARPlaneDetectionVertical;
 }
 
 @end

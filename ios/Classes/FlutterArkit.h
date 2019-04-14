@@ -2,6 +2,7 @@
 #import <ARKit/ARKit.h>
 #import <SceneKit/SceneKit.h>
 
+API_AVAILABLE(ios(11.0))
 @interface FlutterArkitController : NSObject <FlutterPlatformView, ARSCNViewDelegate>
 
 - (instancetype)initWithWithFrame:(CGRect)frame
