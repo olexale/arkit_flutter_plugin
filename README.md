@@ -8,16 +8,19 @@
 ## Usage
 Add the following code to `Info.plist`:
 ```xml
-    <key>io.flutter.embedded_views_preview</key>
-    <string>YES</string>
+<key>io.flutter.embedded_views_preview</key>
+<string>YES</string>
 ```
-Provide the `NSCameraUsageDescription`.
+And provide the `NSCameraUsageDescription`.
+
+```xml
+<key>NSCameraUsageDescription</key>
+<string>${PRODUCT_NAME} Camera Usage</string>
+```
 
 The simplest code example:
 
 ```dart
-import 'package:arkit_plugin/arkit_position.dart';
-import 'package:arkit_plugin/arkit_sphere.dart';
 import 'package:flutter/material.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
 
