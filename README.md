@@ -6,18 +6,26 @@
 **Note**: ARKit is only supported by mobile devices with A9 or later processors (iPhone 6s/7/SE/8/X, iPad 2017/Pro) on iOS 11 and newer.
 
 ## Usage
-Add the following code to `Info.plist`:
+Add dependency to `pubspec.yaml`
 ```xml
-    <key>io.flutter.embedded_views_preview</key>
-    <string>YES</string>
+dependencies:
+  arkit_plugin: ^0.0.1
 ```
-Provide the `NSCameraUsageDescription`.
+
+and install by opening terminal and type `flutter packages get` inside project folder.
+
+Add the following code to `ios/Runner/Info.plist`:
+```xml
+<key>io.flutter.embedded_views_preview</key>
+<string>YES</string>
+
+<key>NSCameraUsageDescription</key>
+<string>${PRODUCT_NAME} Camera Usage</string>
+```
 
 The simplest code example:
 
 ```dart
-import 'package:arkit_plugin/arkit_position.dart';
-import 'package:arkit_plugin/arkit_sphere.dart';
 import 'package:flutter/material.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
 
