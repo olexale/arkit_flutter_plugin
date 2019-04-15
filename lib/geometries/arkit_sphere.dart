@@ -12,9 +12,8 @@ class ARKitSphere extends ARKitGeometry {
 
   final double radius;
 
+  @override
   Map<String, dynamic> toMap() => <String, dynamic>{
         'radius': radius,
-        'position': position.toMap(),
-        'materials': materials.map((m) => m.toMap()).toList(),
-      };
+      }..addAll(super.toMap());
 }

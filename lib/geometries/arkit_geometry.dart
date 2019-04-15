@@ -10,4 +10,10 @@ abstract class ARKitGeometry {
 
   final List<ARKitMaterial> materials;
   final ARKitPosition position;
+
+  Map<String, dynamic> toMap() => <String, dynamic>{
+        'position': position.toMap(),
+        'materials':
+            materials != null ? materials.map((m) => m.toMap()).toList() : null,
+      }..removeWhere((String k, dynamic v) => v == null);
 }

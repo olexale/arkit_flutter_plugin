@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:arkit_plugin/geometries/arkit_plane.dart';
 import 'package:arkit_plugin/geometries/arkit_sphere.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:flutter/foundation.dart';
@@ -89,9 +90,14 @@ class ARKitController {
     _channel?.invokeMethod<void>('dispose');
   }
 
-  Future<void> addSphere(ARKitSphere sphere) async {
+  Future<void> addSphere(ARKitSphere sphere) {
     assert(sphere != null);
     return _channel.invokeMethod('addSphere', sphere.toMap());
+  }
+
+  Future<void> addPlane(ARKitPlane plane) {
+    assert(plane != null);
+    return _channel.invokeMethod('addPlane', plane.toMap());
   }
 
   Future<void> _platformCallHandler(MethodCall call) {

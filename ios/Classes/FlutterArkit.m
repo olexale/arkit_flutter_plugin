@@ -63,6 +63,8 @@
     [self init:call result:result];
   } else if ([[call method] isEqualToString:@"addSphere"]) {
     [self onAddSphere:call result:result];
+  } else if ([[call method] isEqualToString:@"addPlane"]) {
+      [self onAddPlane:call result:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -95,6 +97,28 @@
     SCNNode* sphereNode = [SCNNode nodeWithGeometry:sphereGeometry];
     sphereNode.position = SCNVector3Make([x floatValue], [y floatValue],[z floatValue]);
     [self.sceneView.scene.rootNode addChildNode:sphereNode];
+    result(nil);
+}
+
+- (void)onAddPlane:(FlutterMethodCall*)call result:(FlutterResult)result {
+    float width = [call.arguments[@"width"] floatValue];
+    float height = [call.arguments[@"height"] floatValue];
+    int widthSegmentCount =[call.arguments[@"widthSegmentCount"] intValue];
+    int heightSegmentCount =[call.arguments[@"heightSegmentCount"] intValue];
+    
+    NSDictionary* position = call.arguments[@"position"];
+    NSNumber* x = position[@"x"];
+    NSNumber* y = position[@"y"];
+    NSNumber* z = position[@"z"];
+    
+    SCNPlane* geometry = [SCNPlane planeWithWidth:width height:height];
+    geometry.widthSegmentCount = widthSegmentCount;
+    geometry.heightSegmentCount = heightSegmentCount;
+    
+    geometry.materials = [self getMaterials: call.arguments[@"materials"]];
+    SCNNode* node = [SCNNode nodeWithGeometry:geometry];
+    node.position = SCNVector3Make([x floatValue], [y floatValue],[z floatValue]);
+    [self.sceneView.scene.rootNode addChildNode:node];
     result(nil);
 }
 

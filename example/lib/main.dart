@@ -45,5 +45,17 @@ class _MyAppState extends State<MyApp> {
       radius: 0.1,
     );
     this.arkitController.addSphere(sphere);
+
+    final plane = ARKitPlane(
+      width: 1,
+      height: 1,
+      position: const ARKitPosition(0.4, 0.4, -1.5),
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty(color: Colors.green),
+        )
+      ],
+    );
+    this.arkitController.addPlane(plane);
   }
 }

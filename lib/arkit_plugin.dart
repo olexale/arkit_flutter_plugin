@@ -4,3 +4,4 @@ export 'package:arkit_plugin/geometries/arkit_geometry.dart';
 export 'package:arkit_plugin/geometries/arkit_material.dart';
 export 'package:arkit_plugin/geometries/arkit_position.dart';
 export 'package:arkit_plugin/geometries/arkit_sphere.dart';
+export 'package:arkit_plugin/geometries/arkit_plane.dart';
