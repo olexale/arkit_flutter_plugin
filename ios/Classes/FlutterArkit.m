@@ -163,10 +163,29 @@
 
 -(SCNMaterial*) getMaterial: (NSDictionary*) materialString {
     SCNMaterial* material = [SCNMaterial material];
-    if (materialString[@"diffuse"] != nil) {
-        material.diffuse.contents = [self getMaterialProperty:materialString[@"diffuse"]];
+    for(NSString* property in @[@"diffuse", @"ambient", @"specular", @"emission", @"transparent", @"reflective", @"multiply" , @"normal", @"displacement", @"ambientOcclusion", @"selfIllumination", @"metalness", @"roughness"]) {
+        [self applyMaterialProperty:property withPropertyDictionary:materialString and:material];
     }
+    
+    material.shininess = [materialString[@"shininess"] doubleValue];
+    material.transparency = [materialString[@"transparency"] doubleValue];
+    material.lightingModelName = [self getLightingMode: [materialString[@"lightingModelName"] integerValue]];
+    material.fillMode = [materialString[@"fillMode"] integerValue];
+    material.cullMode = [materialString[@"cullMode"] integerValue];
+    material.transparencyMode = [materialString[@"transparencyMode"] integerValue];
+    material.locksAmbientWithDiffuse = [materialString[@"locksAmbientWithDiffuse"] boolValue];
+    material.writesToDepthBuffer =[materialString[@"writesToDepthBuffer"] boolValue];
+    material.colorBufferWriteMask = [self getColorMask:[materialString[@"colorBufferWriteMask"] integerValue]];
+    material.blendMode = [materialString[@"blendMode"] integerValue];
+    
     return material;
+}
+
+-(void) applyMaterialProperty: (NSString*) propertyName withPropertyDictionary: (NSDictionary*) dict and:(SCNMaterial *) material {
+    if (dict[propertyName] != nil) {
+        SCNMaterialProperty *property = [material valueForKey: propertyName];
+        property.contents = [self getMaterialProperty:dict[propertyName]];
+    }
 }
 
 -(id) getMaterialProperty: (NSDictionary*) propertyString {
@@ -184,5 +203,38 @@
                             blue:((float)(rgbValue & 0xFF))/255.0
                            alpha:((float)((rgbValue & 0xFF000000) >> 24))/255.0];
 }
+
+- (SCNLightingModel) getLightingMode:(NSInteger) mode {
+    switch (mode) {
+        case 0:
+            return SCNLightingModelPhong;
+        case 1:
+            return SCNLightingModelBlinn;
+        case 2:
+            return SCNLightingModelLambert;
+        case 3:
+            return SCNLightingModelConstant;
+        default:
+            return SCNLightingModelPhysicallyBased;
+    }
+}
+
+- (SCNColorMask) getColorMask:(NSInteger) mode {
+    switch (mode) {
+        case 0:
+            return SCNColorMaskNone;
+        case 1:
+            return SCNColorMaskRed;
+        case 2:
+            return SCNColorMaskGreen;
+        case 3:
+            return SCNColorMaskBlue;
+        case 4:
+            return SCNColorMaskAlpha;
+        default:
+            return SCNColorMaskAll;
+    }
+}
+
 
 @end

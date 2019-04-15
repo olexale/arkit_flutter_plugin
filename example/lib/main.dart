@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
 
     final material = ARKitMaterial(
       diffuse: ARKitMaterialProperty(
-        color: Colors.red.withAlpha(200),
+        color: Colors.red,
       ),
     );
     final sphere = ARKitSphere(
