@@ -33,9 +33,17 @@ class _MyAppState extends State<MyApp> {
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
-    this.arkitController.addSphere(ARKitSphere(
-          position: const ARKitPosition(0, 0, -0.5),
-          radius: 0.1,
-        ));
+
+    final material = ARKitMaterial(
+      diffuse: ARKitMaterialProperty(
+        color: Colors.red.withAlpha(200),
+      ),
+    );
+    final sphere = ARKitSphere(
+      position: const ARKitPosition(0, 0, -0.5),
+      materials: [material],
+      radius: 0.1,
+    );
+    this.arkitController.addSphere(sphere);
   }
 }

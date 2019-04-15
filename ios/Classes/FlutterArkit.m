@@ -91,6 +91,7 @@
     NSNumber* z = position[@"z"];
     
     SCNSphere* sphereGeometry = [SCNSphere sphereWithRadius:[radius doubleValue]];
+    sphereGeometry.materials = [self getMaterials: call.arguments[@"materials"]];
     SCNNode* sphereNode = [SCNNode nodeWithGeometry:sphereGeometry];
     sphereNode.position = SCNVector3Make([x floatValue], [y floatValue],[z floatValue]);
     [self.sceneView.scene.rootNode addChildNode:sphereNode];
@@ -148,6 +149,40 @@
     return ARPlaneDetectionHorizontal;
   }
   return ARPlaneDetectionVertical;
+}
+
+-(NSArray<SCNMaterial*>*) getMaterials: (NSArray*) materialsString {
+    if (materialsString == nil || [materialsString count] == 0)
+        return nil;
+    NSMutableArray *materials = [NSMutableArray arrayWithCapacity:[materialsString count]];
+    for (NSDictionary* material in materialsString) {
+        [materials addObject:[self getMaterial:material]];
+    }
+    return materials;
+}
+
+-(SCNMaterial*) getMaterial: (NSDictionary*) materialString {
+    SCNMaterial* material = [SCNMaterial material];
+    if (materialString[@"diffuse"] != nil) {
+        material.diffuse.contents = [self getMaterialProperty:materialString[@"diffuse"]];
+    }
+    return material;
+}
+
+-(id) getMaterialProperty: (NSDictionary*) propertyString {
+    if (propertyString[@"color"] != nil) {
+        NSNumber* color = propertyString[@"color"];
+        return [self UIColorFromRGB:([color integerValue])];
+    }
+    
+    return nil;
+}
+
+- (UIColor *)UIColorFromRGB:(NSInteger)rgbValue {
+    return [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0
+                           green:((float)((rgbValue & 0xFF00) >> 8))/255.0
+                            blue:((float)(rgbValue & 0xFF))/255.0
+                           alpha:((float)((rgbValue & 0xFF000000) >> 24))/255.0];
 }
 
 @end
