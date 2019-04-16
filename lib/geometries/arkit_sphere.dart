@@ -3,13 +3,22 @@ import 'package:arkit_plugin/geometries/arkit_material.dart';
 import 'package:arkit_plugin/geometries/arkit_position.dart';
 import 'package:meta/meta.dart';
 
+/// Represents a sphere with controllable radius
 class ARKitSphere extends ARKitGeometry {
   ARKitSphere({
-    @required ARKitPosition position,
-    @required this.radius,
+    @required ARKitVector3 position,
+    this.radius = 0.5,
+    ARKitVector3 scale,
     List<ARKitMaterial> materials,
-  }) : super(position, materials: materials);
+  }) : super(
+          position,
+          materials: materials,
+          scale: scale,
+        );
 
+  /// The sphere radius.
+  /// If the value is less than or equal to 0, the geometry is empty.
+  /// The default value is 0.5.
   final double radius;
 
   @override

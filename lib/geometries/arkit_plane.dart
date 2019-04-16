@@ -1,18 +1,23 @@
 import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/arkit_material.dart';
-import 'package:arkit_plugin/geometries/arkit_position.dart';
+import 'package:arkit_plugin/geometries/arkit_vector3.dart';
 import 'package:meta/meta.dart';
 
 /// Represents a rectangle with controllable width and height. The plane has one visible side.
 class ARKitPlane extends ARKitGeometry {
   ARKitPlane({
+    @required ARKitVector3 position,
     this.width = 1,
     this.height = 1,
     this.widthSegmentCount = 1,
     this.heightSegmentCount = 1,
-    @required ARKitPosition position,
     List<ARKitMaterial> materials,
-  }) : super(position, materials: materials);
+    ARKitVector3 scale,
+  }) : super(
+          position,
+          materials: materials,
+          scale: scale,
+        );
 
   /// The plane extent along the X axis.
   /// If the value is less than or equal to 0, the geometry is empty.

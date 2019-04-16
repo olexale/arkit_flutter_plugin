@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
 
 @immutable
-class ARKitPosition {
-  const ARKitPosition(this.x, this.y, this.z);
+class ARKitVector3 {
+  const ARKitVector3(this.x, this.y, this.z);
 
   final double x;
   final double y;
