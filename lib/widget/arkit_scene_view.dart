@@ -18,24 +18,27 @@ class ARKitSceneView extends StatefulWidget {
     @required this.onARKitViewCreated,
     this.showStatistics = false,
     this.autoenablesDefaultLighting = true,
-    this.planeDetection = ARPlaneDetection.horizontal,
+    this.planeDetection = ARPlaneDetection.none,
   }) : super(key: key);
 
   /// This function will be fired when ARKit view is created.
   final ARKitPluginCreatedCallback onARKitViewCreated;
 
   /// Determines whether the receiver should display statistics info like FPS.
-  /// Defaults to false.
   /// When set to true, statistics are displayed in a overlay on top of the rendered scene.
+  /// Defaults to false.
   final bool showStatistics;
 
   /// Specifies whether the receiver should automatically light up scenes that have no light source.
-  /// The default is true.
   /// When enabled, a diffuse light is automatically added and placed while rendering scenes that have no light or only ambient lights.
+  /// The default is true.
   final bool autoenablesDefaultLighting;
 
-  /// Indicating the type of planes to detect.
-  /// The default is Horizontal.
+  /// Type of planes to detect in the scene.
+  /// If set, new planes will continue to be detected and updated over time.
+  /// Detected planes will be added to the session as ARPlaneAnchor objects.
+  /// In the event that two planes are merged, the newer plane will be removed.
+  /// Defaults to ARPlaneDetection.none.
   final ARPlaneDetection planeDetection;
 
   @override
