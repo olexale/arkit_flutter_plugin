@@ -1,6 +1,7 @@
 import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/arkit_material.dart';
 import 'package:arkit_plugin/geometries/arkit_vector3.dart';
+import 'package:arkit_plugin/geometries/arkit_vector4.dart';
 import 'package:meta/meta.dart';
 
 /// Represents a rectangle with controllable width and height. The plane has one visible side.
@@ -13,11 +14,13 @@ class ARKitPlane extends ARKitGeometry {
     this.heightSegmentCount = 1,
     List<ARKitMaterial> materials,
     ARKitVector3 scale,
+    ARKitVector4 rotation,
     String name,
   }) : super(
           position,
           materials: materials,
           scale: scale,
+          rotation: rotation,
           name: name,
         );
 

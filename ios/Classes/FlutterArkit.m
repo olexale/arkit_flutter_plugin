@@ -289,6 +289,9 @@
     if (dict[@"scale"] != nil) {
         node.scale = [self parseVector3:dict[@"scale"]];
     }
+    if (dict[@"rotation"] != nil) {
+        node.rotation = [self parseVector4:dict[@"rotation"]];
+    }
     if (dict[@"name"] != nil) {
         node.name = dict[@"name"];
     }
@@ -300,6 +303,14 @@
     NSNumber* y = vector[@"y"];
     NSNumber* z = vector[@"z"];
     return SCNVector3Make([x floatValue], [y floatValue],[z floatValue]);
+}
+
+- (SCNVector4) parseVector4:(NSDictionary*) vector {
+    NSNumber* x = vector[@"x"];
+    NSNumber* y = vector[@"y"];
+    NSNumber* z = vector[@"z"];
+    NSNumber* w = vector[@"w"];
+    return SCNVector4Make([x floatValue], [y floatValue],[z floatValue],[w floatValue]);
 }
 
 
