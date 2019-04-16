@@ -82,6 +82,11 @@
     NSNumber* requestedPlaneDetection = call.arguments[@"planeDetection"];
     planeDetection = [self getPlaneFromNumber:[requestedPlaneDetection intValue]];
     
+    if ([call.arguments[@"enableTapRecognizer"] boolValue]) {
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+        [self.sceneView addGestureRecognizer:tapGestureRecognizer];
+    }
+    
     ARConfiguration* configuration = self.configuration;
     [self.sceneView.session runWithConfiguration:configuration];
     result(nil);
@@ -164,6 +169,18 @@
     _configuration = [ARWorldTrackingConfiguration new];
     _configuration.planeDetection = planeDetection;
     return _configuration;
+}
+
+#pragma mark - Scene tap event
+- (void) handleTapFrom: (UITapGestureRecognizer *)recognizer
+{
+    SCNView* sceneView = (SCNView *)recognizer.view;
+    CGPoint touchLocation = [recognizer locationInView:sceneView];
+    NSArray<SCNHitTestResult *> * hitResults = [sceneView hitTest:touchLocation options:@{}];
+    if ([hitResults count] != 0) {
+        SCNNode *node = hitResults[0].node;
+        [_channel invokeMethod: @"onTap" arguments: node.name];
+    }
 }
 
 #pragma mark - Utils
@@ -268,8 +285,12 @@
 - (SCNNode *) getNodeWithGeometry:(SCNGeometry *)geometry fromDict:(NSDictionary *)dict {
     SCNNode* node = [SCNNode nodeWithGeometry:geometry];
     node.position = [self parseVector3:dict[@"position"]];
+    
     if (dict[@"scale"] != nil) {
         node.scale = [self parseVector3:dict[@"scale"]];
+    }
+    if (dict[@"name"] != nil) {
+        node.name = dict[@"name"];
     }
     return node;
 }

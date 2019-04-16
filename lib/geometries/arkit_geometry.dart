@@ -7,6 +7,7 @@ abstract class ARKitGeometry {
     this.position, {
     this.materials,
     this.scale,
+    this.name,
   });
 
   /// Specifies the receiver's materials array.
@@ -20,9 +21,13 @@ abstract class ARKitGeometry {
   /// Determines the receiver's scale.
   final ARKitVector3 scale;
 
+  /// Determines the name of the receiver.
+  final String name;
+
   Map<String, dynamic> toMap() => <String, dynamic>{
         'position': position.toMap(),
         'scale': scale?.toMap(),
+        'name': name,
         'materials':
             materials != null ? materials.map((m) => m.toMap()).toList() : null,
       }..removeWhere((String k, dynamic v) => v == null);

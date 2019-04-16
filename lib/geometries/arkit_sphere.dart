@@ -10,10 +10,12 @@ class ARKitSphere extends ARKitGeometry {
     this.radius = 0.5,
     ARKitVector3 scale,
     List<ARKitMaterial> materials,
+    String name,
   }) : super(
           position,
           materials: materials,
           scale: scale,
+          name: name,
         );
 
   /// The sphere radius.

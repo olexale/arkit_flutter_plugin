@@ -18,6 +18,7 @@ class ARKitSceneView extends StatefulWidget {
     @required this.onARKitViewCreated,
     this.showStatistics = false,
     this.autoenablesDefaultLighting = true,
+    this.enableTapRecognizer = false,
     this.planeDetection = ARPlaneDetection.none,
   }) : super(key: key);
 
@@ -33,6 +34,10 @@ class ARKitSceneView extends StatefulWidget {
   /// When enabled, a diffuse light is automatically added and placed while rendering scenes that have no light or only ambient lights.
   /// The default is true.
   final bool autoenablesDefaultLighting;
+
+  /// Determines whether the receiver should recognize taps.
+  /// The default is false.
+  final bool enableTapRecognizer;
 
   /// Type of planes to detect in the scene.
   /// If set, new planes will continue to be detected and updated over time.
@@ -67,6 +72,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       id,
       widget.showStatistics,
       widget.autoenablesDefaultLighting,
+      widget.enableTapRecognizer,
       widget.planeDetection,
     ));
   }
@@ -77,6 +83,7 @@ class ARKitController {
     int id,
     bool showStatistics,
     bool autoenablesDefaultLighting,
+    bool enableTapRecognizer,
     ARPlaneDetection planeDetection,
   ) {
     _channel = MethodChannel('arkit_$id');
@@ -84,12 +91,14 @@ class ARKitController {
     _channel.invokeMethod<void>('init', {
       'showStatistics': showStatistics,
       'autoenablesDefaultLighting': autoenablesDefaultLighting,
+      'enableTapRecognizer': enableTapRecognizer,
       'planeDetection': planeDetection.index,
     });
   }
 
   MethodChannel _channel;
   StringResultHandler onError;
+  StringResultHandler onTap;
 
   void dispose() {
     _channel?.invokeMethod<void>('dispose');
@@ -129,6 +138,11 @@ class ARKitController {
       case 'onError':
         if (onError != null) {
           onError(call.arguments);
+        }
+        break;
+      case 'onTap':
+        if (onTap != null) {
+          onTap(call.arguments);
         }
         break;
       default:

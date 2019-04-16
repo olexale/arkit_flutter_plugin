@@ -13,10 +13,12 @@ class ARKitPlane extends ARKitGeometry {
     this.heightSegmentCount = 1,
     List<ARKitMaterial> materials,
     ARKitVector3 scale,
+    String name,
   }) : super(
           position,
           materials: materials,
           scale: scale,
+          name: name,
         );
 
   /// The plane extent along the X axis.

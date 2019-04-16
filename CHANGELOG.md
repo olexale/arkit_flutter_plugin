@@ -5,9 +5,10 @@
 * Plane detection enum implemented
 * ARKitSceneView.autoenablesDefaultLighting property implemented
 * Documentation added
-* Materials and colors draft implementation
+* Materials implementation
 * Plane added
 * Text added
+* Basic tap gesture recognizer added
 
 ## 0.0.1
 

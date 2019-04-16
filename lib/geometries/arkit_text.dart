@@ -11,10 +11,12 @@ class ARKitText extends ARKitGeometry {
     @required this.extrusionDepth,
     ARKitVector3 scale,
     List<ARKitMaterial> materials,
+    String name,
   }) : super(
           position,
           materials: materials,
           scale: scale,
+          name: name,
         );
 
   /// The text to be represented.
