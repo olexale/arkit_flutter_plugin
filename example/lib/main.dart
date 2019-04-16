@@ -3,30 +3,25 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final samples = [
+      Sample(
+        'Hello World',
+        'The simplest scene with only 3 AR objects.',
+        Icons.home,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => HelloWorldPage())),
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('ARKit Demo'),
       ),
-      body: ListView(
-          children: [
-        Sample(
-          'Hello World',
-          'The simplest scene with only 3 AR objects.',
-          Icons.home,
-          () {
-            Navigator.of(context).push<void>(
-                MaterialPageRoute(builder: (c) => HelloWorldPage()));
-          },
-        )
-      ].map((s) => SampleItem(item: s)).toList()),
+      body:
+          ListView(children: samples.map((s) => SampleItem(item: s)).toList()),
     );
   }
 }
