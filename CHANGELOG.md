@@ -6,6 +6,8 @@
 * ARKitSceneView.autoenablesDefaultLighting property implemented
 * Documentation added
 * Materials and colors draft implementation
+* Plane added
+* Text added
 
 ## 0.0.1
 
