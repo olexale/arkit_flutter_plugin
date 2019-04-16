@@ -1,3 +1,4 @@
+import 'package:arkit_plugin_example/earth_page.dart';
 import 'package:arkit_plugin_example/hello_world.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,13 @@ class MyApp extends StatelessWidget {
         Icons.home,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => HelloWorldPage())),
+      ),
+      Sample(
+        'Earth',
+        'Sphere with an image texture.',
+        Icons.language,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => EarthPage())),
       ),
     ];
 

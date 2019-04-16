@@ -214,7 +214,11 @@
 }
 
 -(id) getMaterialProperty: (NSDictionary*) propertyString {
-    if (propertyString[@"color"] != nil) {
+    if (propertyString[@"image"] != nil) {
+        UIImage* img = [UIImage imageNamed:propertyString[@"image"]];
+        return img;
+        
+    } else if (propertyString[@"color"] != nil) {
         NSNumber* color = propertyString[@"color"];
         return [self UIColorFromRGB:([color integerValue])];
     }
