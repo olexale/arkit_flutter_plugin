@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
 import 'package:arkit_plugin/geometries/arkit_sphere.dart';
+import 'package:arkit_plugin/geometries/arkit_text.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -90,6 +92,19 @@ class ARKitController {
     _channel?.invokeMethod<void>('dispose');
   }
 
+  Future<void> add(ARKitGeometry geometry) {
+    assert(geometry != null);
+    switch (geometry.runtimeType) {
+      case ARKitPlane:
+        return addPlane(geometry);
+      case ARKitSphere:
+        return addSphere(geometry);
+      case ARKitText:
+        return addText(geometry);
+    }
+    throw ArgumentError('Not supported geometry');
+  }
+
   Future<void> addSphere(ARKitSphere sphere) {
     assert(sphere != null);
     return _channel.invokeMethod('addSphere', sphere.toMap());
@@ -98,6 +113,11 @@ class ARKitController {
   Future<void> addPlane(ARKitPlane plane) {
     assert(plane != null);
     return _channel.invokeMethod('addPlane', plane.toMap());
+  }
+
+  Future<void> addText(ARKitText text) {
+    assert(text != null);
+    return _channel.invokeMethod('addText', text.toMap());
   }
 
   Future<void> _platformCallHandler(MethodCall call) {

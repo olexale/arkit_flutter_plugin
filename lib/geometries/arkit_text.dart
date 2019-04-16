@@ -3,11 +3,12 @@ import 'package:arkit_plugin/geometries/arkit_material.dart';
 import 'package:arkit_plugin/geometries/arkit_vector3.dart';
 import 'package:meta/meta.dart';
 
-/// Represents a sphere with controllable radius
-class ARKitSphere extends ARKitGeometry {
-  ARKitSphere({
+/// Represents a block of text that has been extruded.
+class ARKitText extends ARKitGeometry {
+  ARKitText({
     @required ARKitVector3 position,
-    this.radius = 0.5,
+    @required this.text,
+    @required this.extrusionDepth,
     ARKitVector3 scale,
     List<ARKitMaterial> materials,
   }) : super(
@@ -16,13 +17,16 @@ class ARKitSphere extends ARKitGeometry {
           scale: scale,
         );
 
-  /// The sphere radius.
-  /// If the value is less than or equal to 0, the geometry is empty.
-  /// The default value is 0.5.
-  final double radius;
+  /// The text to be represented.
+  final String text;
+
+  /// The extrusion depth.
+  /// If the value is 0, we get a mono-sided, 2D version of the text.
+  final double extrusionDepth;
 
   @override
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'radius': radius,
+        'text': text,
+        'extrusionDepth': extrusionDepth,
       }..addAll(super.toMap());
 }

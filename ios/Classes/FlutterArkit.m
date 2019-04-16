@@ -65,6 +65,8 @@
     [self onAddSphere:call result:result];
   } else if ([[call method] isEqualToString:@"addPlane"]) {
       [self onAddPlane:call result:result];
+  } else if ([[call method] isEqualToString:@"addText"]) {
+      [self onAddText:call result:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -87,37 +89,36 @@
 
 - (void)onAddSphere:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSNumber* radius = call.arguments[@"radius"];
-    NSDictionary* position = call.arguments[@"position"];
-    NSNumber* x = position[@"x"];
-    NSNumber* y = position[@"y"];
-    NSNumber* z = position[@"z"];
-    
     SCNSphere* sphereGeometry = [SCNSphere sphereWithRadius:[radius doubleValue]];
     sphereGeometry.materials = [self getMaterials: call.arguments[@"materials"]];
-    SCNNode* sphereNode = [SCNNode nodeWithGeometry:sphereGeometry];
-    sphereNode.position = SCNVector3Make([x floatValue], [y floatValue],[z floatValue]);
-    [self.sceneView.scene.rootNode addChildNode:sphereNode];
+    
+    SCNNode* node = [self getNodeWithGeometry:sphereGeometry fromDict:call.arguments];
+    [self.sceneView.scene.rootNode addChildNode:node];
     result(nil);
 }
 
 - (void)onAddPlane:(FlutterMethodCall*)call result:(FlutterResult)result {
     float width = [call.arguments[@"width"] floatValue];
     float height = [call.arguments[@"height"] floatValue];
-    int widthSegmentCount =[call.arguments[@"widthSegmentCount"] intValue];
-    int heightSegmentCount =[call.arguments[@"heightSegmentCount"] intValue];
-    
-    NSDictionary* position = call.arguments[@"position"];
-    NSNumber* x = position[@"x"];
-    NSNumber* y = position[@"y"];
-    NSNumber* z = position[@"z"];
+    int widthSegmentCount = [call.arguments[@"widthSegmentCount"] intValue];
+    int heightSegmentCount = [call.arguments[@"heightSegmentCount"] intValue];
     
     SCNPlane* geometry = [SCNPlane planeWithWidth:width height:height];
     geometry.widthSegmentCount = widthSegmentCount;
     geometry.heightSegmentCount = heightSegmentCount;
-    
     geometry.materials = [self getMaterials: call.arguments[@"materials"]];
-    SCNNode* node = [SCNNode nodeWithGeometry:geometry];
-    node.position = SCNVector3Make([x floatValue], [y floatValue],[z floatValue]);
+    
+    SCNNode* node = [self getNodeWithGeometry:geometry fromDict:call.arguments];
+    [self.sceneView.scene.rootNode addChildNode:node];
+    result(nil);
+}
+
+- (void)onAddText:(FlutterMethodCall*)call result:(FlutterResult)result {
+    float extrusionDepth = [call.arguments[@"extrusionDepth"] floatValue];
+    SCNText* geometry = [SCNText textWithString:call.arguments[@"text"] extrusionDepth:extrusionDepth];
+    geometry.materials = [self getMaterials: call.arguments[@"materials"]];
+    
+    SCNNode* node = [self getNodeWithGeometry:geometry fromDict:call.arguments];
     [self.sceneView.scene.rootNode addChildNode:node];
     result(nil);
 }
@@ -258,6 +259,22 @@
         default:
             return SCNColorMaskAll;
     }
+}
+
+- (SCNNode *) getNodeWithGeometry:(SCNGeometry *)geometry fromDict:(NSDictionary *)dict {
+    SCNNode* node = [SCNNode nodeWithGeometry:geometry];
+    node.position = [self parseVector3:dict[@"position"]];
+    if (dict[@"scale"] != nil) {
+        node.scale = [self parseVector3:dict[@"scale"]];
+    }
+    return node;
+}
+
+- (SCNVector3) parseVector3:(NSDictionary*) vector {
+    NSNumber* x = vector[@"x"];
+    NSNumber* y = vector[@"y"];
+    NSNumber* z = vector[@"z"];
+    return SCNVector3Make([x floatValue], [y floatValue],[z floatValue]);
 }
 
 
