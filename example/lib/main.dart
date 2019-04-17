@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Earth',
-        'Sphere with an image texture.',
+        'Sphere with an image texture and rotation animation.',
         Icons.language,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => EarthPage())),

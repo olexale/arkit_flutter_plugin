@@ -119,16 +119,19 @@ class ARKitController {
 
   Future<void> addSphere(ARKitSphere sphere) {
     assert(sphere != null);
+    _subsribeToChanges(sphere);
     return _channel.invokeMethod('addSphere', sphere.toMap());
   }
 
   Future<void> addPlane(ARKitPlane plane) {
     assert(plane != null);
+    _subsribeToChanges(plane);
     return _channel.invokeMethod('addPlane', plane.toMap());
   }
 
   Future<void> addText(ARKitText text) {
     assert(text != null);
+    _subsribeToChanges(text);
     return _channel.invokeMethod('addText', text.toMap());
   }
 
@@ -149,5 +152,27 @@ class ARKitController {
         print('Unknowm method ${call.method} ');
     }
     return Future.value();
+  }
+
+  void _subsribeToChanges(ARKitGeometry geometry) {
+    geometry.position.addListener(() => _handlePositionChanged(geometry));
+    geometry.rotation.addListener(() => _handleRotationChanged(geometry));
+  }
+
+  void _handlePositionChanged(ARKitGeometry geometry) {
+    _channel.invokeMethod<void>('positionChanged',
+        _getHandlerParams(geometry, geometry.position.value.toMap()));
+  }
+
+  void _handleRotationChanged(ARKitGeometry geometry) {
+    _channel.invokeMethod<void>('rotationChanged',
+        _getHandlerParams(geometry, geometry.rotation.value.toMap()));
+  }
+
+  Map<String, dynamic> _getHandlerParams(
+      ARKitGeometry geometry, Map<String, dynamic> params) {
+    final Map<String, dynamic> values = <String, dynamic>{'name': geometry.name}
+      ..addAll(params);
+    return values;
   }
 }

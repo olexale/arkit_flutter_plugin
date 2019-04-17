@@ -67,6 +67,10 @@
       [self onAddPlane:call result:result];
   } else if ([[call method] isEqualToString:@"addText"]) {
       [self onAddText:call result:result];
+  } else if ([[call method] isEqualToString:@"positionChanged"]) {
+      [self updatePosition:call andResult:result];
+  } else if ([[call method] isEqualToString:@"rotationChanged"]) {
+      [self updateRotation:call andResult:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -94,12 +98,10 @@
 
 - (void)onAddSphere:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSNumber* radius = call.arguments[@"radius"];
-    SCNSphere* sphereGeometry = [SCNSphere sphereWithRadius:[radius doubleValue]];
-    sphereGeometry.materials = [self getMaterials: call.arguments[@"materials"]];
+    SCNSphere* geometry = [SCNSphere sphereWithRadius:[radius doubleValue]];
+    geometry.materials = [self getMaterials: call.arguments[@"materials"]];
     
-    SCNNode* node = [self getNodeWithGeometry:sphereGeometry fromDict:call.arguments];
-    [self.sceneView.scene.rootNode addChildNode:node];
-    result(nil);
+    [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
 }
 
 - (void)onAddPlane:(FlutterMethodCall*)call result:(FlutterResult)result {
@@ -113,9 +115,7 @@
     geometry.heightSegmentCount = heightSegmentCount;
     geometry.materials = [self getMaterials: call.arguments[@"materials"]];
     
-    SCNNode* node = [self getNodeWithGeometry:geometry fromDict:call.arguments];
-    [self.sceneView.scene.rootNode addChildNode:node];
-    result(nil);
+    [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
 }
 
 - (void)onAddText:(FlutterMethodCall*)call result:(FlutterResult)result {
@@ -123,9 +123,7 @@
     SCNText* geometry = [SCNText textWithString:call.arguments[@"text"] extrusionDepth:extrusionDepth];
     geometry.materials = [self getMaterials: call.arguments[@"materials"]];
     
-    SCNNode* node = [self getNodeWithGeometry:geometry fromDict:call.arguments];
-    [self.sceneView.scene.rootNode addChildNode:node];
-    result(nil);
+    [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
 }
 
 #pragma mark - ARSCNViewDelegate
@@ -181,6 +179,21 @@
         SCNNode *node = hitResults[0].node;
         [_channel invokeMethod: @"onTap" arguments: node.name];
     }
+}
+
+#pragma mark - Parameters
+- (void) updatePosition:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    NSString* name = call.arguments[@"name"];
+    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:NO];
+    node.position = [self parseVector3:call.arguments];
+    result(nil);
+}
+
+- (void) updateRotation:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    NSString* name = call.arguments[@"name"];
+    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:NO];
+    node.rotation = [self parseVector4:call.arguments];
+    result(nil);
 }
 
 #pragma mark - Utils
@@ -311,6 +324,12 @@
     NSNumber* z = vector[@"z"];
     NSNumber* w = vector[@"w"];
     return SCNVector4Make([x floatValue], [y floatValue],[z floatValue],[w floatValue]);
+}
+
+- (void) addNodeToSceneWithGeometry:(SCNGeometry*)geometry andCall: (FlutterMethodCall*)call andResult:(FlutterResult)result{
+    SCNNode* node = [self getNodeWithGeometry:geometry fromDict:call.arguments];
+    [self.sceneView.scene.rootNode addChildNode:node];
+    result(nil);
 }
 
 
