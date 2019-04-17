@@ -2,6 +2,8 @@
 
 ## 0.0.3
 
+* Add debug options: world origin, feature points
+
 ## 0.0.2
 
 * Plane detection enum implemented
