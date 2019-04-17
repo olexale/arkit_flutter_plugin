@@ -91,6 +91,8 @@
         [self.sceneView addGestureRecognizer:tapGestureRecognizer];
     }
     
+    self.sceneView.debugOptions = [self getDebugOptions:call.arguments];
+    
     ARConfiguration* configuration = self.configuration;
     [self.sceneView.session runWithConfiguration:configuration];
     result(nil);
@@ -330,6 +332,17 @@
     SCNNode* node = [self getNodeWithGeometry:geometry fromDict:call.arguments];
     [self.sceneView.scene.rootNode addChildNode:node];
     result(nil);
+}
+
+- (SCNDebugOptions) getDebugOptions:(NSDictionary*)arguments{
+    SCNDebugOptions debugOptions = SCNDebugOptionNone;
+    if ([arguments[@"showFeaturePoints"] boolValue]) {
+        debugOptions += ARSCNDebugOptionShowFeaturePoints;
+    }
+    if ([arguments[@"showWorldOrigin"] boolValue]) {
+        debugOptions += ARSCNDebugOptionShowWorldOrigin;
+    }
+    return debugOptions;
 }
 
 

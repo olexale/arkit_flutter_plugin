@@ -19,6 +19,8 @@ class ARKitSceneView extends StatefulWidget {
     this.showStatistics = false,
     this.autoenablesDefaultLighting = true,
     this.enableTapRecognizer = false,
+    this.showFeaturePoints = false,
+    this.showWorldOrigin = false,
     this.planeDetection = ARPlaneDetection.none,
   }) : super(key: key);
 
@@ -45,6 +47,14 @@ class ARKitSceneView extends StatefulWidget {
   /// In the event that two planes are merged, the newer plane will be removed.
   /// Defaults to ARPlaneDetection.none.
   final ARPlaneDetection planeDetection;
+
+  /// Show detected 3D feature points in the world.
+  /// The default is false.
+  final bool showFeaturePoints;
+
+  /// Show the world origin in the scene.
+  /// The default is false.
+  final bool showWorldOrigin;
 
   @override
   _ARKitSceneViewState createState() => _ARKitSceneViewState();
@@ -73,6 +83,8 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.showStatistics,
       widget.autoenablesDefaultLighting,
       widget.enableTapRecognizer,
+      widget.showFeaturePoints,
+      widget.showWorldOrigin,
       widget.planeDetection,
     ));
   }
@@ -84,6 +96,8 @@ class ARKitController {
     bool showStatistics,
     bool autoenablesDefaultLighting,
     bool enableTapRecognizer,
+    bool showFeaturePoints,
+    bool showWorldOrigin,
     ARPlaneDetection planeDetection,
   ) {
     _channel = MethodChannel('arkit_$id');
@@ -93,6 +107,8 @@ class ARKitController {
       'autoenablesDefaultLighting': autoenablesDefaultLighting,
       'enableTapRecognizer': enableTapRecognizer,
       'planeDetection': planeDetection.index,
+      'showFeaturePoints': showFeaturePoints,
+      'showWorldOrigin': showWorldOrigin,
     });
   }
 
