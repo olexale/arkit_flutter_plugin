@@ -1,6 +1,6 @@
 name: arkit_plugin
 description: ARKit Flutter Plugin 
-version: 0.0.2
+version: 0.0.3
 author: Oleksandr Leuschenko <olexa.le@gmail.com>
 homepage: https://github.com/olexale/arkit_flutter_plugin
 
