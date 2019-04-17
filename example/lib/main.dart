@@ -1,5 +1,6 @@
 import 'package:arkit_plugin_example/earth_page.dart';
 import 'package:arkit_plugin_example/hello_world.dart';
+import 'package:arkit_plugin_example/plane_detection_page.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,13 @@ class MyApp extends StatelessWidget {
         Icons.touch_app,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => TapPage())),
+      ),
+      Sample(
+        'Plane Detection',
+        'Detects plane and handles tap.',
+        Icons.blur_on,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => PlaneDetectionPage())),
       ),
     ];
 
