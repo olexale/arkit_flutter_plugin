@@ -6,9 +6,9 @@
 * ARKitSceneView.autoenablesDefaultLighting property implemented
 * Documentation added
 * Materials implementation
-* Plane added
-* Text added
+* Plane and text geometries
 * Basic tap gesture recognizer added
+* Position and rotation change handling
 
 ## 0.0.1
 
