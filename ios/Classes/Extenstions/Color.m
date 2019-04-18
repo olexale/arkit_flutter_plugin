@@ -1,6 +1,6 @@
 #import "Color.h"
 
-@implementation UIColor (Color)
+@implementation UIColor (FromRGB)
 
 + (UIColor *)fromRGB:(NSInteger)rgbValue {
   return [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0
