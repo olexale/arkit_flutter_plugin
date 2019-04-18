@@ -1,5 +1,6 @@
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 
 class HelloWorldPage extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
       ),
     );
     final sphere = ARKitSphere(
-      position: const ARKitVector3(0, 0, -0.5),
+      position: vector.Vector3(0, 0, -0.5),
       materials: [material],
       radius: 0.1,
     );
@@ -54,7 +55,7 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
     final plane = ARKitPlane(
       width: 1,
       height: 1,
-      position: const ARKitVector3(0.4, 0.4, -1.5),
+      position: vector.Vector3(0.4, 0.4, -1.5),
       materials: [
         ARKitMaterial(
           transparency: 0.5,
@@ -69,8 +70,8 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
     final text = ARKitText(
       text: 'Flutter',
       extrusionDepth: 1,
-      position: const ARKitVector3(0, 0, -0.5),
-      scale: const ARKitVector3(0.02, 0.02, 0.02),
+      position: vector.Vector3(0, 0, -0.5),
+      scale: vector.Vector3(0.02, 0.02, 0.02),
       materials: [
         ARKitMaterial(
           diffuse: ARKitMaterialProperty(color: Colors.blue),

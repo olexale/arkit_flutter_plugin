@@ -1,5 +1,6 @@
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 
 class TapPage extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _TapPageState extends State<TapPage> {
     ));
     final sphere = ARKitSphere(
       name: 'yellow sphere',
-      position: const ARKitVector3(0, 0, -0.5),
+      position: vector.Vector3(0, 0, -0.5),
       materials: [material],
       radius: 0.1,
     );

@@ -20,6 +20,8 @@ import 'package:arkit_plugin/arkit_position.dart';
 import 'package:arkit_plugin/arkit_sphere.dart';
 import 'package:flutter/material.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
+import 'package:vector_math/vector_math_64.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -54,7 +56,7 @@ class _MyAppState extends State<MyApp> {
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
     this.arkitController.addSphere(ARKitSphere(
-          position: ARKitVector3(0, 0, -0.5),
+          position: Vector3(0, 0, -0.5),
           radius: 0.1,
         ));
   }

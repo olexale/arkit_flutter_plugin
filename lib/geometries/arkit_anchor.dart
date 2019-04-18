@@ -1,6 +1,7 @@
-import 'package:arkit_plugin/geometries/arkit_vector3.dart';
 import 'package:arkit_plugin/utils/matrix4_utils.dart';
+import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:flutter/widgets.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 /// Object representing a physical location and orientation in 3D space.
 class ARKitAnchor {
@@ -42,14 +43,14 @@ class ARKitPlaneAnchor extends ARKitAnchor {
         );
 
   /// The center of the plane in the anchor’s coordinate space.
-  final ARKitVector3 center;
+  final Vector3 center;
 
   /// The extent of the plane in the anchor’s coordinate space.
-  final ARKitVector3 extent;
+  final Vector3 extent;
 
   static ARKitPlaneAnchor fromMap(Map<String, String> map) => ARKitPlaneAnchor(
-        ARKitVector3.fromString(map['center']),
-        ARKitVector3.fromString(map['extent']),
+        createVector3FromString(map['center']),
+        createVector3FromString(map['extent']),
         map['node_name'],
         map['identifier'],
         getMatrixFromString(map['transform']),

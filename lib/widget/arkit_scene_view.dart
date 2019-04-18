@@ -5,6 +5,7 @@ import 'package:arkit_plugin/geometries/arkit_plane.dart';
 import 'package:arkit_plugin/geometries/arkit_sphere.dart';
 import 'package:arkit_plugin/geometries/arkit_text.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
+import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -197,13 +198,17 @@ class ARKitController {
   }
 
   void _handlePositionChanged(ARKitGeometry geometry) {
-    _channel.invokeMethod<void>('positionChanged',
-        _getHandlerParams(geometry, geometry.position.value.toMap()));
+    _channel.invokeMethod<void>(
+        'positionChanged',
+        _getHandlerParams(
+            geometry, convertVector3ToMap(geometry.position.value)));
   }
 
   void _handleRotationChanged(ARKitGeometry geometry) {
-    _channel.invokeMethod<void>('rotationChanged',
-        _getHandlerParams(geometry, geometry.rotation.value.toMap()));
+    _channel.invokeMethod<void>(
+        'rotationChanged',
+        _getHandlerParams(
+            geometry, convertVector4ToMap(geometry.rotation.value)));
   }
 
   void _updateSingleProperty(

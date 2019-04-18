@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 
 class PlaneDetectionPage extends StatefulWidget {
   @override
@@ -49,7 +50,7 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
     }
     final ARKitPlaneAnchor planeAnchor = anchor;
     plane.position.value =
-        ARKitVector3(planeAnchor.center.x, 0, planeAnchor.center.z);
+        vector.Vector3(planeAnchor.center.x, 0, planeAnchor.center.z);
     plane.width.value = planeAnchor.extent.x;
     plane.height.value = planeAnchor.extent.z;
   }
@@ -59,8 +60,8 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
     plane = ARKitPlane(
       width: anchor.extent.x,
       height: anchor.extent.z,
-      position: ARKitVector3(anchor.center.x, 0, anchor.center.z),
-      rotation: const ARKitVector4(1, 0, 0, -math.pi / 2),
+      position: vector.Vector3(anchor.center.x, 0, anchor.center.z),
+      rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
       materials: [
         ARKitMaterial(
           transparency: 0.5,
