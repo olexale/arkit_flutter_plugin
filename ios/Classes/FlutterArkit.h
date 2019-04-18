@@ -1,22 +1,22 @@
-#import <Flutter/Flutter.h>
-#import <ARKit/ARKit.h>
-#import <SceneKit/SceneKit.h>
+@import Flutter;
+@import ARKit;
+@import SceneKit;
 
-API_AVAILABLE(ios(11.0))
-@interface FlutterArkitController : NSObject <FlutterPlatformView, ARSCNViewDelegate>
+API_AVAILABLE(ios(11.3))
+@interface FlutterArkitController : NSObject <FlutterPlatformView>
 
-- (instancetype)initWithWithFrame:(CGRect)frame
-                   viewIdentifier:(int64_t)viewId
-                        arguments:(id _Nullable)args
-                  binaryMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;
+- (nonnull instancetype)initWithWithFrame:(CGRect)frame
+                           viewIdentifier:(int64_t)viewId
+                                arguments:(id _Nullable)args
+                          binaryMessenger:(nonnull NSObject<FlutterBinaryMessenger>*)messenger;
 
-- (UIView*)view;
+- (nonnull UIView*)view;
 
-@property (nonatomic, strong) IBOutlet ARSCNView *sceneView;
-@property (nonatomic, strong) ARWorldTrackingConfiguration *configuration;
+@property (readonly, nonatomic, strong, nonnull) ARSCNView *sceneView;
+@property (readonly, nonatomic, strong, nonnull) ARWorldTrackingConfiguration *configuration;
 
 @end
 
 @interface FlutterArkitFactory : NSObject <FlutterPlatformViewFactory>
-- (instancetype)initWithMessenger:(NSObject<FlutterBinaryMessenger>*)messenger;
+- (nonnull instancetype)initWithMessenger:(nonnull NSObject<FlutterBinaryMessenger>*)messenger;
 @end

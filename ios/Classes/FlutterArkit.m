@@ -1,13 +1,17 @@
 #import "FlutterArkit.h"
+#import "Color.h"
+#import "SceneViewDelegate.h"
 
-@implementation FlutterArkitFactory {
-  NSObject<FlutterBinaryMessenger>* _messenger;
-}
+@interface FlutterArkitFactory()
+@property NSObject<FlutterBinaryMessenger>* messenger;
+@end
+
+@implementation FlutterArkitFactory
 
 - (instancetype)initWithMessenger:(NSObject<FlutterBinaryMessenger>*)messenger {
   self = [super init];
   if (self) {
-    _messenger = messenger;
+    self.messenger = messenger;
   }
   return self;
 }
@@ -21,20 +25,23 @@
                                         arguments:(id _Nullable)args {
   FlutterArkitController* arkitController =
       [[FlutterArkitController alloc] initWithWithFrame:frame
-                                       viewIdentifier:viewId
-                                            arguments:args
-                                      binaryMessenger:_messenger];
+                                         viewIdentifier:viewId
+                                              arguments:args
+                                        binaryMessenger:self.messenger];
   return arkitController;
 }
 
 @end
 
-@implementation FlutterArkitController {
-  ARSCNView* _sceneView;
-  ARPlaneDetection planeDetection;
-  int64_t _viewId;
-  FlutterMethodChannel* _channel;
-}
+@interface FlutterArkitController()
+@property ARPlaneDetection planeDetection;
+@property int64_t viewId;
+@property FlutterMethodChannel* channel;
+@property (strong) SceneViewDelegate* delegate;
+@property (readwrite) ARWorldTrackingConfiguration *configuration;
+@end
+
+@implementation FlutterArkitController
 
 - (instancetype)initWithWithFrame:(CGRect)frame
                    viewIdentifier:(int64_t)viewId
@@ -49,7 +56,8 @@
     [_channel setMethodCallHandler:^(FlutterMethodCall* call, FlutterResult result) {
       [weakSelf onMethodCall:call result:result];
     }];
-    _sceneView.delegate = self;
+    self.delegate = [[SceneViewDelegate alloc] initWithChannel: _channel];
+    _sceneView.delegate = self.delegate;
   }
   return self;
 }
@@ -80,13 +88,13 @@
 
 - (void)init:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSNumber* showStatistics = call.arguments[@"showStatistics"];
-    _sceneView.showsStatistics = [showStatistics boolValue];
+    self.sceneView.showsStatistics = [showStatistics boolValue];
   
     NSNumber* autoenablesDefaultLighting = call.arguments[@"autoenablesDefaultLighting"];
-    _sceneView.autoenablesDefaultLighting = [autoenablesDefaultLighting boolValue];
+    self.sceneView.autoenablesDefaultLighting = [autoenablesDefaultLighting boolValue];
   
     NSNumber* requestedPlaneDetection = call.arguments[@"planeDetection"];
-    planeDetection = [self getPlaneFromNumber:[requestedPlaneDetection intValue]];
+    self.planeDetection = [self getPlaneFromNumber:[requestedPlaneDetection intValue]];
     
     if ([call.arguments[@"enableTapRecognizer"] boolValue]) {
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
@@ -130,48 +138,6 @@
     [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
 }
 
-#pragma mark - ARSCNViewDelegate
-
-/*
-// Override to create and configure nodes for anchors added to the view's session.
-- (SCNNode *)renderer:(id<SCNSceneRenderer>)renderer nodeForAnchor:(ARAnchor *)anchor {
-    SCNNode *node = [SCNNode new];
- 
-    // Add geometry to the node...
- 
-    return node;
-}
-*/
-
-- (void)session:(ARSession *)session didFailWithError:(NSError *)error {
-    [_channel invokeMethod: @"onError" arguments: @"Error"];
-    // Present an error message to the user
-    
-}
-
-- (void)sessionWasInterrupted:(ARSession *)session {
-    // Inform the user that the session has been interrupted, for example, by presenting an overlay
-    
-}
-
-- (void)sessionInterruptionEnded:(ARSession *)session {
-    // Reset tracking and/or remove existing anchors if consistent tracking is required
-    
-}
-
-- (void)renderer:(id <SCNSceneRenderer>)renderer didAddNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
-    if (node.name == nil) {
-        node.name = [NSUUID UUID].UUIDString;
-    }
-    NSDictionary* params = [self prepareParamsForAnchorEventwithNode:node andAnchor:anchor];
-    [_channel invokeMethod: @"didAddNodeForAnchor" arguments: params];
-}
-
-- (void)renderer:(id <SCNSceneRenderer>)renderer didUpdateNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
-    NSDictionary* params = [self prepareParamsForAnchorEventwithNode:node andAnchor:anchor];
-    [_channel invokeMethod: @"didUpdateNodeForAnchor" arguments: params];
-}
-
 #pragma mark - Lazy loads
 
 -(ARWorldTrackingConfiguration *)configuration {
@@ -182,7 +148,7 @@
     if (!ARWorldTrackingConfiguration.isSupported) {}
     
     _configuration = [ARWorldTrackingConfiguration new];
-    _configuration.planeDetection = planeDetection;
+    _configuration.planeDetection = self.planeDetection;
     return _configuration;
 }
 
@@ -274,17 +240,10 @@
         
     } else if (propertyString[@"color"] != nil) {
         NSNumber* color = propertyString[@"color"];
-        return [self UIColorFromRGB:([color integerValue])];
+        return [UIColor fromRGB: [color integerValue]];
     }
     
     return nil;
-}
-
-- (UIColor *)UIColorFromRGB:(NSInteger)rgbValue {
-    return [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0
-                           green:((float)((rgbValue & 0xFF00) >> 8))/255.0
-                            blue:((float)(rgbValue & 0xFF))/255.0
-                           alpha:((float)((rgbValue & 0xFF000000) >> 24))/255.0];
 }
 
 - (SCNLightingModel) getLightingMode:(NSInteger) mode {
@@ -370,34 +329,6 @@
         debugOptions += ARSCNDebugOptionShowWorldOrigin;
     }
     return debugOptions;
-}
-
-- (NSString*) convertSimdFloat4x4ToString: (simd_float4x4) matrix {
-    NSMutableString* ret = [NSMutableString stringWithCapacity:0];
-    for (int i = 0; i< 4; i++) {
-        for (int j = 0; j< 4; j++) {
-            [ret appendString:[NSString stringWithFormat:@"%f ", matrix.columns[i][j]]];
-        }
-    }
-    return ret;
-}
-
-- (NSString*) convertSimdFloat3ToString: (simd_float3) vector {
-    return [NSString stringWithFormat:@"%f %f %f", vector[0], vector[1], vector[2]];
-}
-
-- (NSDictionary<NSString*, NSString*>*) prepareParamsForAnchorEventwithNode: (SCNNode*) node andAnchor: (ARAnchor*) anchor {
-    NSMutableDictionary<NSString*, NSString*>* params = [@{@"node_name": node.name,
-                                                           @"identifier": [anchor.identifier UUIDString],
-                                                           @"transform": [self convertSimdFloat4x4ToString:anchor.transform]
-                                                           } mutableCopy];
-    if ([anchor isMemberOfClass:[ARPlaneAnchor class]]) {
-        ARPlaneAnchor *plane = (ARPlaneAnchor*)anchor;
-        [params setObject:@"planeAnchor" forKey:@"anchorType"];
-        [params setObject:[self convertSimdFloat3ToString:plane.center] forKey:@"center"];
-        [params setObject:[self convertSimdFloat3ToString:plane.extent] forKey:@"extent"];
-    }
-    return params;
 }
 
 @end
