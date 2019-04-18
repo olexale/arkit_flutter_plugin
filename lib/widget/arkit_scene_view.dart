@@ -187,6 +187,13 @@ class ARKitController {
   void _subsribeToChanges(ARKitGeometry geometry) {
     geometry.position.addListener(() => _handlePositionChanged(geometry));
     geometry.rotation.addListener(() => _handleRotationChanged(geometry));
+    if (geometry is ARKitPlane) {
+      final ARKitPlane plane = geometry;
+      plane.width.addListener(
+          () => _updateSingleProperty(plane, 'width', plane.width.value));
+      plane.height.addListener(
+          () => _updateSingleProperty(plane, 'height', plane.height.value));
+    }
   }
 
   void _handlePositionChanged(ARKitGeometry geometry) {
@@ -197,6 +204,16 @@ class ARKitController {
   void _handleRotationChanged(ARKitGeometry geometry) {
     _channel.invokeMethod<void>('rotationChanged',
         _getHandlerParams(geometry, geometry.rotation.value.toMap()));
+  }
+
+  void _updateSingleProperty(
+      ARKitGeometry geometry, String propertyName, dynamic value) {
+    _channel.invokeMethod<void>(
+        'updateSingleGeometryProperty',
+        _getHandlerParams(geometry, <String, dynamic>{
+          'propertyName': propertyName,
+          'propertyValue': value,
+        }));
   }
 
   Map<String, dynamic> _getHandlerParams(

@@ -71,6 +71,8 @@
       [self updatePosition:call andResult:result];
   } else if ([[call method] isEqualToString:@"rotationChanged"]) {
       [self updateRotation:call andResult:result];
+  } else if ([[call method] isEqualToString:@"updateSingleGeometryProperty"]) {
+      [self updateSingleProperty:call andResult:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -199,15 +201,22 @@
 #pragma mark - Parameters
 - (void) updatePosition:(FlutterMethodCall*)call andResult:(FlutterResult)result{
     NSString* name = call.arguments[@"name"];
-    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:NO];
+    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
     node.position = [self parseVector3:call.arguments];
     result(nil);
 }
 
 - (void) updateRotation:(FlutterMethodCall*)call andResult:(FlutterResult)result{
     NSString* name = call.arguments[@"name"];
-    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:NO];
+    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
     node.rotation = [self parseVector4:call.arguments];
+    result(nil);
+}
+
+- (void) updateSingleProperty:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    NSString* name = call.arguments[@"name"];
+    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
+    [node.geometry setValue:call.arguments[@"propertyValue"] forKey:call.arguments[@"propertyName"]];
     result(nil);
 }
 

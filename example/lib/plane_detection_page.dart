@@ -50,6 +50,8 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
     final ARKitPlaneAnchor planeAnchor = anchor;
     plane.position.value =
         ARKitVector3(planeAnchor.center.x, 0, planeAnchor.center.z);
+    plane.width.value = planeAnchor.extent.x;
+    plane.height.value = planeAnchor.extent.z;
   }
 
   void _addPlane(ARKitController controller, ARKitPlaneAnchor anchor) {
