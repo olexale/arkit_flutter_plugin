@@ -30,6 +30,14 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
+    this.arkitController.onAddNodeForAnchor = handleAddAnchor;
     //TODO: not finished yet
+  }
+
+  void handleAddAnchor(ARKitAnchor anchor) {
+    if (!(anchor is ARKitPlaneAnchor)) {
+      return;
+    }
+    print(anchor);
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
 import 'package:arkit_plugin/geometries/arkit_sphere.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 
 typedef ARKitPluginCreatedCallback = void Function(ARKitController controller);
 typedef StringResultHandler = void Function(String text);
+typedef AnchorEventHandler = void Function(ARKitAnchor anchor);
 
 /// A widget that wraps ARSCNView from ARKit.
 class ARKitSceneView extends StatefulWidget {
@@ -116,6 +118,9 @@ class ARKitController {
   StringResultHandler onError;
   StringResultHandler onTap;
 
+  AnchorEventHandler onAddNodeForAnchor;
+  AnchorEventHandler onUpdateNodeForAnchor;
+
   void dispose() {
     _channel?.invokeMethod<void>('dispose');
   }
@@ -164,6 +169,18 @@ class ARKitController {
           onTap(call.arguments);
         }
         break;
+      case 'didAddNodeForAnchor':
+        if (onAddNodeForAnchor != null) {
+          final anchor = _buildAnchor(call.arguments);
+          onAddNodeForAnchor(anchor);
+        }
+        break;
+      case 'didUpdateNodeForAnchor':
+        if (onUpdateNodeForAnchor != null) {
+          final anchor = _buildAnchor(call.arguments);
+          onUpdateNodeForAnchor(anchor);
+        }
+        break;
       default:
         print('Unknowm method ${call.method} ');
     }
@@ -190,5 +207,15 @@ class ARKitController {
     final Map<String, dynamic> values = <String, dynamic>{'name': geometry.name}
       ..addAll(params);
     return values;
+  }
+
+  ARKitAnchor _buildAnchor(Map arguments) {
+    final type = arguments['anchorType'].toString();
+    final map = arguments.cast<String, String>();
+    switch (type) {
+      case 'planeAnchor':
+        return ARKitPlaneAnchor.fromMap(map);
+    }
+    return ARKitAnchor.fromMap(map);
   }
 }
