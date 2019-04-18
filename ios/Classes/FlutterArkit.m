@@ -343,7 +343,12 @@
 
 - (void) addNodeToSceneWithGeometry:(SCNGeometry*)geometry andCall: (FlutterMethodCall*)call andResult:(FlutterResult)result{
     SCNNode* node = [self getNodeWithGeometry:geometry fromDict:call.arguments];
-    [self.sceneView.scene.rootNode addChildNode:node];
+    if (call.arguments[@"parentNodeName"] != nil) {
+        SCNNode *parentNode = [self.sceneView.scene.rootNode childNodeWithName:call.arguments[@"parentNodeName"] recursively:YES];
+        [parentNode addChildNode:node];
+    } else {
+        [self.sceneView.scene.rootNode addChildNode:node];
+    }
     result(nil);
 }
 

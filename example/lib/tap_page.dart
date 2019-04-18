@@ -40,7 +40,7 @@ class _TapPageState extends State<TapPage> {
       materials: [material],
       radius: 0.1,
     );
-    this.arkitController.add(sphere);
+    this.arkitController.addSphere(sphere);
   }
 
   void onTapHandler(String name) {

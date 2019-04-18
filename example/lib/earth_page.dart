@@ -42,7 +42,7 @@ class _EarthPageState extends State<EarthPage> {
       materials: [material],
       radius: 0.1,
     );
-    this.arkitController.add(sphere);
+    this.arkitController.addSphere(sphere);
 
     timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
       final old = sphere.rotation.value;

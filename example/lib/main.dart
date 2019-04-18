@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Plane Detection',
-        'Detects plane and handles tap.',
+        'Detects horizontal planes.',
         Icons.blur_on,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => PlaneDetectionPage())),

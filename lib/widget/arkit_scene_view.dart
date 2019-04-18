@@ -125,35 +125,32 @@ class ARKitController {
     _channel?.invokeMethod<void>('dispose');
   }
 
-  Future<void> add(ARKitGeometry geometry) {
-    assert(geometry != null);
-    switch (geometry.runtimeType) {
-      case ARKitPlane:
-        return addPlane(geometry);
-      case ARKitSphere:
-        return addSphere(geometry);
-      case ARKitText:
-        return addText(geometry);
-    }
-    throw ArgumentError('Not supported geometry');
-  }
-
-  Future<void> addSphere(ARKitSphere sphere) {
+  Future<void> addSphere(ARKitSphere sphere, {String parentNodeName}) {
     assert(sphere != null);
     _subsribeToChanges(sphere);
-    return _channel.invokeMethod('addSphere', sphere.toMap());
+    return _channel.invokeMethod(
+        'addSphere', _prepareAddGeometryParams(sphere.toMap(), parentNodeName));
   }
 
-  Future<void> addPlane(ARKitPlane plane) {
+  Future<void> addPlane(ARKitPlane plane, {String parentNodeName}) {
     assert(plane != null);
     _subsribeToChanges(plane);
-    return _channel.invokeMethod('addPlane', plane.toMap());
+    return _channel.invokeMethod(
+        'addPlane', _prepareAddGeometryParams(plane.toMap(), parentNodeName));
   }
 
-  Future<void> addText(ARKitText text) {
+  Future<void> addText(ARKitText text, {String parentNodeName}) {
     assert(text != null);
     _subsribeToChanges(text);
-    return _channel.invokeMethod('addText', text.toMap());
+    return _channel.invokeMethod(
+        'addText', _prepareAddGeometryParams(text.toMap(), parentNodeName));
+  }
+
+  Map<String, dynamic> _prepareAddGeometryParams(
+      Map geometryMap, String parentNodeName) {
+    if (parentNodeName?.isNotEmpty ?? false)
+      geometryMap['parentNodeName'] = parentNodeName;
+    return geometryMap;
   }
 
   Future<void> _platformCallHandler(MethodCall call) {
