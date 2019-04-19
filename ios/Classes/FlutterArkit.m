@@ -1,7 +1,9 @@
 #import "FlutterArkit.h"
 #import "Color.h"
+#import "GeometryBuilder.h"
 #import "SceneViewDelegate.h"
-#import "Utils.h"
+#import "CodableUtils.h"
+#import "DecodableUtils.h"
 
 @interface FlutterArkitFactory()
 @property NSObject<FlutterBinaryMessenger>* messenger;
@@ -107,7 +109,7 @@
 
 - (void)onAddNode:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSDictionary* geometryArguments = call.arguments[@"geometry"];
-    SCNGeometry* geometry = [self getGeometry:geometryArguments];
+    SCNGeometry* geometry = [GeometryBuilder createGeometry:geometryArguments];
     [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
 }
 
@@ -137,7 +139,7 @@
     }
     NSArray<ARHitTestResult *> *arHitResults = [sceneView hitTest:touchLocation types:ARHitTestResultTypeExistingPlaneUsingExtent];
     if ([arHitResults count] != 0) {
-        [_channel invokeMethod: @"onPlaneTap" arguments: [Utils convertSimdFloat4x4ToString:arHitResults[0].worldTransform]];
+        [_channel invokeMethod: @"onPlaneTap" arguments: [CodableUtils convertSimdFloat4x4ToString:arHitResults[0].worldTransform]];
     }
 }
 
@@ -145,14 +147,14 @@
 - (void) updatePosition:(FlutterMethodCall*)call andResult:(FlutterResult)result{
     NSString* name = call.arguments[@"name"];
     SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
-    node.position = [self parseVector3:call.arguments];
+    node.position = [DecodableUtils parseVector3:call.arguments];
     result(nil);
 }
 
 - (void) updateRotation:(FlutterMethodCall*)call andResult:(FlutterResult)result{
     NSString* name = call.arguments[@"name"];
     SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
-    node.rotation = [self parseVector4:call.arguments];
+    node.rotation = [DecodableUtils parseVector4:call.arguments];
     result(nil);
 }
 
@@ -173,97 +175,15 @@
   return ARPlaneDetectionVertical;
 }
 
--(NSArray<SCNMaterial*>*) getMaterials: (NSArray*) materialsString {
-    if (materialsString == nil || [materialsString count] == 0)
-        return nil;
-    NSMutableArray *materials = [NSMutableArray arrayWithCapacity:[materialsString count]];
-    for (NSDictionary* material in materialsString) {
-        [materials addObject:[self getMaterial:material]];
-    }
-    return materials;
-}
-
--(SCNMaterial*) getMaterial: (NSDictionary*) materialString {
-    SCNMaterial* material = [SCNMaterial material];
-    for(NSString* property in @[@"diffuse", @"ambient", @"specular", @"emission", @"transparent", @"reflective", @"multiply" , @"normal", @"displacement", @"ambientOcclusion", @"selfIllumination", @"metalness", @"roughness"]) {
-        [self applyMaterialProperty:property withPropertyDictionary:materialString and:material];
-    }
-    
-    material.shininess = [materialString[@"shininess"] doubleValue];
-    material.transparency = [materialString[@"transparency"] doubleValue];
-    material.lightingModelName = [self getLightingMode: [materialString[@"lightingModelName"] integerValue]];
-    material.fillMode = [materialString[@"fillMode"] integerValue];
-    material.cullMode = [materialString[@"cullMode"] integerValue];
-    material.transparencyMode = [materialString[@"transparencyMode"] integerValue];
-    material.locksAmbientWithDiffuse = [materialString[@"locksAmbientWithDiffuse"] boolValue];
-    material.writesToDepthBuffer =[materialString[@"writesToDepthBuffer"] boolValue];
-    material.colorBufferWriteMask = [self getColorMask:[materialString[@"colorBufferWriteMask"] integerValue]];
-    material.blendMode = [materialString[@"blendMode"] integerValue];
-    
-    return material;
-}
-
--(void) applyMaterialProperty: (NSString*) propertyName withPropertyDictionary: (NSDictionary*) dict and:(SCNMaterial *) material {
-    if (dict[propertyName] != nil) {
-        SCNMaterialProperty *property = [material valueForKey: propertyName];
-        property.contents = [self getMaterialProperty:dict[propertyName]];
-    }
-}
-
--(id) getMaterialProperty: (NSDictionary*) propertyString {
-    if (propertyString[@"image"] != nil) {
-        UIImage* img = [UIImage imageNamed:propertyString[@"image"]];
-        return img;
-        
-    } else if (propertyString[@"color"] != nil) {
-        NSNumber* color = propertyString[@"color"];
-        return [UIColor fromRGB: [color integerValue]];
-    }
-    
-    return nil;
-}
-
-- (SCNLightingModel) getLightingMode:(NSInteger) mode {
-    switch (mode) {
-        case 0:
-            return SCNLightingModelPhong;
-        case 1:
-            return SCNLightingModelBlinn;
-        case 2:
-            return SCNLightingModelLambert;
-        case 3:
-            return SCNLightingModelConstant;
-        default:
-            return SCNLightingModelPhysicallyBased;
-    }
-}
-
-- (SCNColorMask) getColorMask:(NSInteger) mode {
-    switch (mode) {
-        case 0:
-            return SCNColorMaskNone;
-        case 1:
-            return SCNColorMaskRed;
-        case 2:
-            return SCNColorMaskGreen;
-        case 3:
-            return SCNColorMaskBlue;
-        case 4:
-            return SCNColorMaskAlpha;
-        default:
-            return SCNColorMaskAll;
-    }
-}
-
 - (SCNNode *) getNodeWithGeometry:(SCNGeometry *)geometry fromDict:(NSDictionary *)dict {
     SCNNode* node = [SCNNode nodeWithGeometry:geometry];
-    node.position = [self parseVector3:dict[@"position"]];
+    node.position = [DecodableUtils parseVector3:dict[@"position"]];
     
     if (dict[@"scale"] != nil) {
-        node.scale = [self parseVector3:dict[@"scale"]];
+        node.scale = [DecodableUtils parseVector3:dict[@"scale"]];
     }
     if (dict[@"rotation"] != nil) {
-        node.rotation = [self parseVector4:dict[@"rotation"]];
+        node.rotation = [DecodableUtils parseVector4:dict[@"rotation"]];
     }
     if (dict[@"name"] != nil) {
         node.name = dict[@"name"];
@@ -275,34 +195,6 @@
     return node;
 }
 
-- (SCNGeometry *) getGeometry:(NSDictionary *) geometryArguments {
-    SCNGeometry *geometry;
-    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitSphere"]) {
-        NSNumber* radius = geometryArguments[@"radius"];
-        geometry = [SCNSphere sphereWithRadius:[radius doubleValue]];
-    }
-    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitPlane"]) {
-        float width = [geometryArguments[@"width"] floatValue];
-        float height = [geometryArguments[@"height"] floatValue];
-        int widthSegmentCount = [geometryArguments[@"widthSegmentCount"] intValue];
-        int heightSegmentCount = [geometryArguments[@"heightSegmentCount"] intValue];
-        
-        SCNPlane* plane = [SCNPlane planeWithWidth:width height:height];
-        plane.widthSegmentCount = widthSegmentCount;
-        plane.heightSegmentCount = heightSegmentCount;
-        geometry = plane;
-    }
-    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitText"]) {
-        float extrusionDepth = [geometryArguments[@"extrusionDepth"] floatValue];
-        geometry = [SCNText textWithString:geometryArguments[@"text"] extrusionDepth:extrusionDepth];
-    }
-    
-    if (geometry != nil) {
-        geometry.materials = [self getMaterials: geometryArguments[@"materials"]];
-    }
-    return geometry;
-}
-
 - (SCNPhysicsBody *) getPhysicsBodyFromDict:(NSDictionary *)dict {
     NSNumber* type = dict[@"type"];
     
@@ -310,7 +202,7 @@
     if (dict[@"shape"] != nil) {
         NSDictionary* shapeDict = dict[@"shape"];
         if (shapeDict[@"geometry"] != nil) {
-            shape = [SCNPhysicsShape shapeWithGeometry:[self getGeometry:shapeDict[@"geometry"]] options:nil];
+            shape = [SCNPhysicsShape shapeWithGeometry:[GeometryBuilder createGeometry:shapeDict[@"geometry"]] options:nil];
         }
     }
     
@@ -321,21 +213,6 @@
     }
     
     return physicsBody;
-}
-
-- (SCNVector3) parseVector3:(NSDictionary*) vector {
-    NSNumber* x = vector[@"x"];
-    NSNumber* y = vector[@"y"];
-    NSNumber* z = vector[@"z"];
-    return SCNVector3Make([x floatValue], [y floatValue],[z floatValue]);
-}
-
-- (SCNVector4) parseVector4:(NSDictionary*) vector {
-    NSNumber* x = vector[@"x"];
-    NSNumber* y = vector[@"y"];
-    NSNumber* z = vector[@"z"];
-    NSNumber* w = vector[@"w"];
-    return SCNVector4Make([x floatValue], [y floatValue],[z floatValue],[w floatValue]);
 }
 
 - (void) addNodeToSceneWithGeometry:(SCNGeometry*)geometry andCall: (FlutterMethodCall*)call andResult:(FlutterResult)result{
