@@ -294,7 +294,35 @@
     if (dict[@"name"] != nil) {
         node.name = dict[@"name"];
     }
+    if (dict[@"physicsBody"] != nil) {
+        NSDictionary *physics = dict[@"physicsBody"];
+        node.physicsBody = [self getPhysicsBodyFromDict:physics];
+    }
     return node;
+}
+
+- (SCNGeometry *) getGeometry:(NSDictionary *) dict {
+    return nil;
+}
+
+- (SCNPhysicsBody *) getPhysicsBodyFromDict:(NSDictionary *)dict {
+    NSNumber* type = dict[@"type"];
+    
+    SCNPhysicsShape* shape;
+    if (dict[@"shape"] != nil) {
+        NSDictionary* shapeDict = dict[@"shape"];
+        if (shapeDict[@"geometry"] != nil) {
+            shape = [SCNPhysicsShape shapeWithGeometry:[self getGeometry:shapeDict[@"geometry"]] options:nil];
+        }
+    }
+    
+    SCNPhysicsBody* physicsBody = [SCNPhysicsBody bodyWithType:[type intValue] shape:shape];
+    if (dict[@"categoryBitMask"] != nil) {
+        NSNumber* mask = dict[@"categoryBitMask"];
+        physicsBody.categoryBitMask = [mask unsignedIntegerValue];
+    }
+    
+    return physicsBody;
 }
 
 - (SCNVector3) parseVector3:(NSDictionary*) vector {

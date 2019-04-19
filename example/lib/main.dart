@@ -1,5 +1,6 @@
 import 'package:arkit_plugin_example/earth_page.dart';
 import 'package:arkit_plugin_example/hello_world.dart';
+import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,13 @@ class MyApp extends StatelessWidget {
         Icons.blur_on,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => PlaneDetectionPage())),
+      ),
+      Sample(
+        'Physics',
+        'A sphere and a plane with dynamic and static physics',
+        Icons.file_download,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => PhysicsPage())),
       ),
     ];
 

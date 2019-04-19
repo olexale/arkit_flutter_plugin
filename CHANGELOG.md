@@ -5,6 +5,8 @@
 * ARKitNode added
 * Add debug options: world origin, feature points
 * ARPlaneAnchor added
+* Physics added
+* Plane tap event handler added
 
 ## 0.0.2
 
