@@ -1,6 +1,7 @@
 #import "FlutterArkit.h"
 #import "Color.h"
 #import "SceneViewDelegate.h"
+#import "Utils.h"
 
 @interface FlutterArkitFactory()
 @property NSObject<FlutterBinaryMessenger>* messenger;
@@ -158,12 +159,16 @@
 #pragma mark - Scene tap event
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer
 {
-    SCNView* sceneView = (SCNView *)recognizer.view;
+    ARSCNView* sceneView = (ARSCNView *)recognizer.view;
     CGPoint touchLocation = [recognizer locationInView:sceneView];
     NSArray<SCNHitTestResult *> * hitResults = [sceneView hitTest:touchLocation options:@{}];
     if ([hitResults count] != 0) {
         SCNNode *node = hitResults[0].node;
         [_channel invokeMethod: @"onTap" arguments: node.name];
+    }
+    NSArray<ARHitTestResult *> *arHitResults = [sceneView hitTest:touchLocation types:ARHitTestResultTypeExistingPlaneUsingExtent];
+    if ([arHitResults count] != 0) {
+        [_channel invokeMethod: @"onPlaneTap" arguments: [Utils convertSimdFloat4x4ToString:arHitResults[0].worldTransform]];
     }
 }
 
