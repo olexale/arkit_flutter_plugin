@@ -4,7 +4,7 @@ import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:meta/meta.dart';
 import 'package:vector_math/vector_math_64.dart';
 
-/// Represents a sphere with controllable radius
+/// Represents a line between 2 vectors
 class ARKitLine extends ARKitGeometry {
   ARKitLine({
     @required this.fromVector,
@@ -14,7 +14,10 @@ class ARKitLine extends ARKitGeometry {
           materials: materials,
         );
 
+  /// Line initial vector position
   final Vector3 fromVector;
+
+  /// Line final vector positon
   final Vector3 toVector;
 
   @override
