@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
+import 'package:arkit_plugin/utils/matrix4_utils.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 typedef ARKitPluginCreatedCallback = void Function(ARKitController controller);
 typedef StringResultHandler = void Function(String text);
 typedef AnchorEventHandler = void Function(ARKitAnchor anchor);
+typedef Matrix4ResultHandler = void Function(Matrix4 point);
 
 /// A widget that wraps ARSCNView from ARKit.
 class ARKitSceneView extends StatefulWidget {
@@ -116,6 +118,7 @@ class ARKitController {
   MethodChannel _channel;
   StringResultHandler onError;
   StringResultHandler onTap;
+  Matrix4ResultHandler onPlaneTap;
 
   AnchorEventHandler onAddNodeForAnchor;
   AnchorEventHandler onUpdateNodeForAnchor;
@@ -150,6 +153,11 @@ class ARKitController {
       case 'onTap':
         if (onTap != null) {
           onTap(call.arguments);
+        }
+        break;
+      case 'onPlaneTap':
+        if (onPlaneTap != null) {
+          onPlaneTap(getMatrixFromString(call.arguments));
         }
         break;
       case 'didAddNodeForAnchor':
