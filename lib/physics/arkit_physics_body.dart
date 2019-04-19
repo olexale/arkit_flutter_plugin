@@ -23,5 +23,5 @@ class ARKitPhysicsBody {
         'type': type.index,
         'shape': shape?.toMap(),
         'categoryBitMask': categoryBitMask,
-      };
+      }..removeWhere((String k, dynamic v) => v == null);
 }
