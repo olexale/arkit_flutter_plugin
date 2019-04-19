@@ -70,12 +70,8 @@
 - (void)onMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([[call method] isEqualToString:@"init"]) {
     [self init:call result:result];
-  } else if ([[call method] isEqualToString:@"addARKitSphere"]) {
-    [self onAddSphere:call result:result];
-  } else if ([[call method] isEqualToString:@"addARKitPlane"]) {
-      [self onAddPlane:call result:result];
-  } else if ([[call method] isEqualToString:@"addARKitText"]) {
-      [self onAddText:call result:result];
+  } else if ([[call method] isEqualToString:@"addARKitNode"]) {
+      [self onAddNode:call result:result];
   } else if ([[call method] isEqualToString:@"positionChanged"]) {
       [self updatePosition:call andResult:result];
   } else if ([[call method] isEqualToString:@"rotationChanged"]) {
@@ -109,36 +105,9 @@
     result(nil);
 }
 
-- (void)onAddSphere:(FlutterMethodCall*)call result:(FlutterResult)result {
+- (void)onAddNode:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSDictionary* geometryArguments = call.arguments[@"geometry"];
-    NSNumber* radius = geometryArguments[@"radius"];
-    SCNSphere* geometry = [SCNSphere sphereWithRadius:[radius doubleValue]];
-    geometry.materials = [self getMaterials: geometryArguments[@"materials"]];
-    
-    [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
-}
-
-- (void)onAddPlane:(FlutterMethodCall*)call result:(FlutterResult)result {
-    NSDictionary* geometryArguments = call.arguments[@"geometry"];
-    float width = [geometryArguments[@"width"] floatValue];
-    float height = [geometryArguments[@"height"] floatValue];
-    int widthSegmentCount = [geometryArguments[@"widthSegmentCount"] intValue];
-    int heightSegmentCount = [geometryArguments[@"heightSegmentCount"] intValue];
-    
-    SCNPlane* geometry = [SCNPlane planeWithWidth:width height:height];
-    geometry.widthSegmentCount = widthSegmentCount;
-    geometry.heightSegmentCount = heightSegmentCount;
-    geometry.materials = [self getMaterials: geometryArguments[@"materials"]];
-    
-    [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
-}
-
-- (void)onAddText:(FlutterMethodCall*)call result:(FlutterResult)result {
-    NSDictionary* geometryArguments = call.arguments[@"geometry"];
-    float extrusionDepth = [geometryArguments[@"extrusionDepth"] floatValue];
-    SCNText* geometry = [SCNText textWithString:geometryArguments[@"text"] extrusionDepth:extrusionDepth];
-    geometry.materials = [self getMaterials: geometryArguments[@"materials"]];
-    
+    SCNGeometry* geometry = [self getGeometry:geometryArguments];
     [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
 }
 
@@ -306,8 +275,32 @@
     return node;
 }
 
-- (SCNGeometry *) getGeometry:(NSDictionary *) dict {
-    return nil;
+- (SCNGeometry *) getGeometry:(NSDictionary *) geometryArguments {
+    SCNGeometry *geometry;
+    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitSphere"]) {
+        NSNumber* radius = geometryArguments[@"radius"];
+        geometry = [SCNSphere sphereWithRadius:[radius doubleValue]];
+    }
+    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitPlane"]) {
+        float width = [geometryArguments[@"width"] floatValue];
+        float height = [geometryArguments[@"height"] floatValue];
+        int widthSegmentCount = [geometryArguments[@"widthSegmentCount"] intValue];
+        int heightSegmentCount = [geometryArguments[@"heightSegmentCount"] intValue];
+        
+        SCNPlane* plane = [SCNPlane planeWithWidth:width height:height];
+        plane.widthSegmentCount = widthSegmentCount;
+        plane.heightSegmentCount = heightSegmentCount;
+        geometry = plane;
+    }
+    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitText"]) {
+        float extrusionDepth = [geometryArguments[@"extrusionDepth"] floatValue];
+        geometry = [SCNText textWithString:geometryArguments[@"text"] extrusionDepth:extrusionDepth];
+    }
+    
+    if (geometry != nil) {
+        geometry.materials = [self getMaterials: geometryArguments[@"materials"]];
+    }
+    return geometry;
 }
 
 - (SCNPhysicsBody *) getPhysicsBodyFromDict:(NSDictionary *)dict {

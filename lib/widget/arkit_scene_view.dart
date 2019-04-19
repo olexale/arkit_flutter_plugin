@@ -129,10 +129,9 @@ class ARKitController {
 
   Future<void> add(ARKitNode node, {String parentNodeName}) {
     assert(node != null);
-    final geometryType = node.geometry.runtimeType.toString();
     final params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
     _subsribeToChanges(node);
-    return _channel.invokeMethod('add$geometryType', params);
+    return _channel.invokeMethod('addARKitNode', params);
   }
 
   Map<String, dynamic> _addParentNodeNameToParams(
