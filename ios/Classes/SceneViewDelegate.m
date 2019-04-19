@@ -1,5 +1,5 @@
 #import "SceneViewDelegate.h"
-#import "Utils.h"
+#import "CodableUtils.h"
 
 @interface SceneViewDelegate()
 @property FlutterMethodChannel* channel;
@@ -61,13 +61,13 @@
 - (NSDictionary<NSString*, NSString*>*) prepareParamsForAnchorEventwithNode: (SCNNode*) node andAnchor: (ARAnchor*) anchor {
   NSMutableDictionary<NSString*, NSString*>* params = [@{@"node_name": node.name,
                                                          @"identifier": [anchor.identifier UUIDString],
-                                                         @"transform": [Utils convertSimdFloat4x4ToString:anchor.transform]
+                                                         @"transform": [CodableUtils convertSimdFloat4x4ToString:anchor.transform]
                                                          } mutableCopy];
   if ([anchor isMemberOfClass:[ARPlaneAnchor class]]) {
     ARPlaneAnchor *plane = (ARPlaneAnchor*)anchor;
     [params setObject:@"planeAnchor" forKey:@"anchorType"];
-    [params setObject:[Utils convertSimdFloat3ToString:plane.center] forKey:@"center"];
-    [params setObject:[Utils convertSimdFloat3ToString:plane.extent] forKey:@"extent"];
+    [params setObject:[CodableUtils convertSimdFloat3ToString:plane.center] forKey:@"center"];
+    [params setObject:[CodableUtils convertSimdFloat3ToString:plane.extent] forKey:@"extent"];
   }
   return params;
 }
