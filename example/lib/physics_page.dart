@@ -38,9 +38,9 @@ class _PhysicsPageState extends State<PhysicsPage> {
         geometry: sphere,
         physicsBody: ARKitPhysicsBody(
           ARKitPhysicsBodyType.dynamicType,
-          categoryBitMask: BodyType.sphere.index,
+          categoryBitMask: BodyType.sphere.index + 1,
         ),
-        position: vector.Vector3(0, 0, -0.5));
+        position: vector.Vector3(0, 1, -1));
     controller.add(node);
   }
 
@@ -50,7 +50,7 @@ class _PhysicsPageState extends State<PhysicsPage> {
       height: 2,
       materials: [
         ARKitMaterial(
-          diffuse: ARKitMaterialProperty(color: Colors.white),
+          diffuse: ARKitMaterialProperty(color: Colors.green),
         )
       ],
     );
@@ -59,7 +59,7 @@ class _PhysicsPageState extends State<PhysicsPage> {
       physicsBody: ARKitPhysicsBody(
         ARKitPhysicsBodyType.staticType,
         shape: ARKitPhysicsShape.fromGeometry(plane),
-        categoryBitMask: BodyType.plane.index,
+        categoryBitMask: BodyType.plane.index + 1,
       ),
       rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
       position: vector.Vector3(0, -0.5, -1),
