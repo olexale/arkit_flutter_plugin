@@ -1,4 +1,5 @@
 #import "SceneViewDelegate.h"
+#import "Utils.h"
 
 @interface SceneViewDelegate()
 @property FlutterMethodChannel* channel;
@@ -60,29 +61,15 @@
 - (NSDictionary<NSString*, NSString*>*) prepareParamsForAnchorEventwithNode: (SCNNode*) node andAnchor: (ARAnchor*) anchor {
   NSMutableDictionary<NSString*, NSString*>* params = [@{@"node_name": node.name,
                                                          @"identifier": [anchor.identifier UUIDString],
-                                                         @"transform": [self convertSimdFloat4x4ToString:anchor.transform]
+                                                         @"transform": [Utils convertSimdFloat4x4ToString:anchor.transform]
                                                          } mutableCopy];
   if ([anchor isMemberOfClass:[ARPlaneAnchor class]]) {
     ARPlaneAnchor *plane = (ARPlaneAnchor*)anchor;
     [params setObject:@"planeAnchor" forKey:@"anchorType"];
-    [params setObject:[self convertSimdFloat3ToString:plane.center] forKey:@"center"];
-    [params setObject:[self convertSimdFloat3ToString:plane.extent] forKey:@"extent"];
+    [params setObject:[Utils convertSimdFloat3ToString:plane.center] forKey:@"center"];
+    [params setObject:[Utils convertSimdFloat3ToString:plane.extent] forKey:@"extent"];
   }
   return params;
-}
-
-- (NSString*) convertSimdFloat3ToString: (simd_float3) vector {
-  return [NSString stringWithFormat:@"%f %f %f", vector[0], vector[1], vector[2]];
-}
-
-- (NSString*) convertSimdFloat4x4ToString: (simd_float4x4) matrix {
-  NSMutableString* ret = [NSMutableString stringWithCapacity:0];
-  for (int i = 0; i< 4; i++) {
-    for (int j = 0; j< 4; j++) {
-      [ret appendString:[NSString stringWithFormat:@"%f ", matrix.columns[i][j]]];
-    }
-  }
-  return ret;
 }
 
 @end

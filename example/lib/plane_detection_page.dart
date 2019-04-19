@@ -28,6 +28,7 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
             showFeaturePoints: true,
             planeDetection: ARPlaneDetection.horizontal,
             onARKitViewCreated: onARKitViewCreated,
+            enableTapRecognizer: true,
           ),
         ),
       );
@@ -36,6 +37,8 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
     this.arkitController = arkitController;
     this.arkitController.onAddNodeForAnchor = handleAddAnchor;
     this.arkitController.onUpdateNodeForAnchor = handleUpdateAnchor;
+    this.arkitController.onPlaneTap =
+        (transform) => onPlaneTapHandler(transform);
   }
 
   void handleAddAnchor(ARKitAnchor anchor) {
@@ -75,5 +78,27 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
       rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
     );
     controller.add(node, parentNodeName: anchor.nodeName);
+  }
+
+  void onPlaneTapHandler(Matrix4 transform) {
+    final position = vector.Vector3(
+      transform.getColumn(3).x,
+      transform.getColumn(3).y,
+      transform.getColumn(3).z,
+    );
+    final material = ARKitMaterial(
+      lightingModelName: ARKitLightingModel.constant,
+      diffuse:
+          ARKitMaterialProperty(color: const Color.fromRGBO(255, 153, 83, 1)),
+    );
+    final sphere = ARKitSphere(
+      radius: 0.003,
+      materials: [material],
+    );
+    final node = ARKitNode(
+      geometry: sphere,
+      position: position,
+    );
+    arkitController.add(node);
   }
 }
