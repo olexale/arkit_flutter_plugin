@@ -31,7 +31,7 @@
         SCNVector3 vertices[] = {fromVector, toVector};
         SCNGeometrySource *source =  [SCNGeometrySource geometrySourceWithVertices: vertices
                                                                              count: 2];
-        int indexes[] = { 0, 1, 2 };
+        int indexes[] = { 0, 1 };
         NSData *dataIndexes = [NSData dataWithBytes:indexes length:sizeof(indexes)];
         SCNGeometryElement *element = [SCNGeometryElement geometryElementWithData:dataIndexes
                                                                     primitiveType:SCNGeometryPrimitiveTypeLine
