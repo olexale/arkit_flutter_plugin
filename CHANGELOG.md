@@ -2,6 +2,7 @@
 
 ## 0.0.3
 
+* ARKitNode added
 * Add debug options: world origin, feature points
 * ARPlaneAnchor added
 

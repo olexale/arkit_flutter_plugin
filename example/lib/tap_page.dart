@@ -36,20 +36,23 @@ class _TapPageState extends State<TapPage> {
       color: Colors.yellow,
     ));
     final sphere = ARKitSphere(
-      name: 'yellow sphere',
-      position: vector.Vector3(0, 0, -0.5),
       materials: [material],
       radius: 0.1,
     );
-    this.arkitController.addSphere(sphere);
+
+    final node = ARKitNode(
+      name: 'yellow sphere',
+      geometry: sphere,
+      position: vector.Vector3(0, 0, -0.5),
+    );
+    this.arkitController.add(node);
   }
 
   void onTapHandler(String name) {
     showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(content: Text('You tapped on $name'));
-      },
+      builder: (BuildContext context) =>
+          AlertDialog(content: Text('You tapped on $name')),
     );
   }
 }

@@ -1,9 +1,7 @@
 import 'dart:async';
+import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
-import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
-import 'package:arkit_plugin/geometries/arkit_sphere.dart';
-import 'package:arkit_plugin/geometries/arkit_text.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:flutter/foundation.dart';
@@ -126,28 +124,15 @@ class ARKitController {
     _channel?.invokeMethod<void>('dispose');
   }
 
-  Future<void> addSphere(ARKitSphere sphere, {String parentNodeName}) {
-    assert(sphere != null);
-    _subsribeToChanges(sphere);
-    return _channel.invokeMethod(
-        'addSphere', _prepareAddGeometryParams(sphere.toMap(), parentNodeName));
+  Future<void> add(ARKitNode node, {String parentNodeName}) {
+    assert(node != null);
+    final geometryType = node.geometry.runtimeType.toString();
+    final params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
+    _subsribeToChanges(node);
+    return _channel.invokeMethod('add$geometryType', params);
   }
 
-  Future<void> addPlane(ARKitPlane plane, {String parentNodeName}) {
-    assert(plane != null);
-    _subsribeToChanges(plane);
-    return _channel.invokeMethod(
-        'addPlane', _prepareAddGeometryParams(plane.toMap(), parentNodeName));
-  }
-
-  Future<void> addText(ARKitText text, {String parentNodeName}) {
-    assert(text != null);
-    _subsribeToChanges(text);
-    return _channel.invokeMethod(
-        'addText', _prepareAddGeometryParams(text.toMap(), parentNodeName));
-  }
-
-  Map<String, dynamic> _prepareAddGeometryParams(
+  Map<String, dynamic> _addParentNodeNameToParams(
       Map geometryMap, String parentNodeName) {
     if (parentNodeName?.isNotEmpty ?? false)
       geometryMap['parentNodeName'] = parentNodeName;
@@ -185,45 +170,41 @@ class ARKitController {
     return Future.value();
   }
 
-  void _subsribeToChanges(ARKitGeometry geometry) {
-    geometry.position.addListener(() => _handlePositionChanged(geometry));
-    geometry.rotation.addListener(() => _handleRotationChanged(geometry));
-    if (geometry is ARKitPlane) {
-      final ARKitPlane plane = geometry;
+  void _subsribeToChanges(ARKitNode node) {
+    node.position.addListener(() => _handlePositionChanged(node));
+    node.rotation.addListener(() => _handleRotationChanged(node));
+    if (node.geometry is ARKitPlane) {
+      final ARKitPlane plane = node.geometry;
       plane.width.addListener(
-          () => _updateSingleProperty(plane, 'width', plane.width.value));
+          () => _updateSingleProperty(node, 'width', plane.width.value));
       plane.height.addListener(
-          () => _updateSingleProperty(plane, 'height', plane.height.value));
+          () => _updateSingleProperty(node, 'height', plane.height.value));
     }
   }
 
-  void _handlePositionChanged(ARKitGeometry geometry) {
-    _channel.invokeMethod<void>(
-        'positionChanged',
-        _getHandlerParams(
-            geometry, convertVector3ToMap(geometry.position.value)));
+  void _handlePositionChanged(ARKitNode node) {
+    _channel.invokeMethod<void>('positionChanged',
+        _getHandlerParams(node, convertVector3ToMap(node.position.value)));
   }
 
-  void _handleRotationChanged(ARKitGeometry geometry) {
-    _channel.invokeMethod<void>(
-        'rotationChanged',
-        _getHandlerParams(
-            geometry, convertVector4ToMap(geometry.rotation.value)));
+  void _handleRotationChanged(ARKitNode node) {
+    _channel.invokeMethod<void>('rotationChanged',
+        _getHandlerParams(node, convertVector4ToMap(node.rotation.value)));
   }
 
   void _updateSingleProperty(
-      ARKitGeometry geometry, String propertyName, dynamic value) {
+      ARKitNode node, String propertyName, dynamic value) {
     _channel.invokeMethod<void>(
         'updateSingleGeometryProperty',
-        _getHandlerParams(geometry, <String, dynamic>{
+        _getHandlerParams(node, <String, dynamic>{
           'propertyName': propertyName,
           'propertyValue': value,
         }));
   }
 
   Map<String, dynamic> _getHandlerParams(
-      ARKitGeometry geometry, Map<String, dynamic> params) {
-    final Map<String, dynamic> values = <String, dynamic>{'name': geometry.name}
+      ARKitNode node, Map<String, dynamic> params) {
+    final Map<String, dynamic> values = <String, dynamic>{'name': node.name}
       ..addAll(params);
     return values;
   }

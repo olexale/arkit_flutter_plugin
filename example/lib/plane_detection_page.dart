@@ -11,6 +11,7 @@ class PlaneDetectionPage extends StatefulWidget {
 class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
   ARKitController arkitController;
   ARKitPlane plane;
+  ARKitNode node;
   String anchorId;
 
   @override
@@ -49,7 +50,7 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
       return;
     }
     final ARKitPlaneAnchor planeAnchor = anchor;
-    plane.position.value =
+    node.position.value =
         vector.Vector3(planeAnchor.center.x, 0, planeAnchor.center.z);
     plane.width.value = planeAnchor.extent.x;
     plane.height.value = planeAnchor.extent.z;
@@ -60,8 +61,6 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
     plane = ARKitPlane(
       width: anchor.extent.x,
       height: anchor.extent.z,
-      position: vector.Vector3(anchor.center.x, 0, anchor.center.z),
-      rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
       materials: [
         ARKitMaterial(
           transparency: 0.5,
@@ -69,6 +68,12 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
         )
       ],
     );
-    controller.addPlane(plane, parentNodeName: anchor.nodeName);
+
+    node = ARKitNode(
+      geometry: plane,
+      position: vector.Vector3(anchor.center.x, 0, anchor.center.z),
+      rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
+    );
+    controller.add(node, parentNodeName: anchor.nodeName);
   }
 }

@@ -44,18 +44,20 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
       ),
     );
     final sphere = ARKitSphere(
-      position: vector.Vector3(0, 0, -0.5),
       materials: [material],
       radius: 0.1,
     );
-    controller.addSphere(sphere);
+    final node = ARKitNode(
+      geometry: sphere,
+      position: vector.Vector3(0, 0, -0.5),
+    );
+    controller.add(node);
   }
 
   void _addPlane(ARKitController controller) {
     final plane = ARKitPlane(
       width: 1,
       height: 1,
-      position: vector.Vector3(0.4, 0.4, -1.5),
       materials: [
         ARKitMaterial(
           transparency: 0.5,
@@ -63,21 +65,28 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
         )
       ],
     );
-    controller.addPlane(plane);
+    final node = ARKitNode(
+      geometry: plane,
+      position: vector.Vector3(0.4, 0.4, -1.5),
+    );
+    controller.add(node);
   }
 
   void _addText(ARKitController controller) {
     final text = ARKitText(
       text: 'Flutter',
       extrusionDepth: 1,
-      position: vector.Vector3(0, 0, -0.5),
-      scale: vector.Vector3(0.02, 0.02, 0.02),
       materials: [
         ARKitMaterial(
           diffuse: ARKitMaterialProperty(color: Colors.blue),
         )
       ],
     );
-    controller.addText(text);
+    final node = ARKitNode(
+      geometry: text,
+      position: vector.Vector3(0, 0, -0.5),
+      scale: vector.Vector3(0.02, 0.02, 0.02),
+    );
+    controller.add(node);
   }
 }

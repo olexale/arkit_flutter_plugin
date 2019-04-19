@@ -38,17 +38,21 @@ class _EarthPageState extends State<EarthPage> {
       diffuse: ARKitMaterialProperty(image: 'earth.jpg'),
     );
     final sphere = ARKitSphere(
-      position: Vector3(0, 0, -0.5),
-      rotation: Vector4(0, 0, 0, 0),
       materials: [material],
       radius: 0.1,
     );
-    this.arkitController.addSphere(sphere);
+
+    final node = ARKitNode(
+      geometry: sphere,
+      position: Vector3(0, 0, -0.5),
+      rotation: Vector4(0, 0, 0, 0),
+    );
+    this.arkitController.add(node);
 
     timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
-      final old = sphere.rotation.value;
+      final old = node.rotation.value;
       final rotation = Vector4(old.x, old.y + 1, old.z, old.w + 0.05);
-      sphere.rotation.value = rotation;
+      node.rotation.value = rotation;
     });
   }
 }
