@@ -1,5 +1,6 @@
 import 'package:arkit_plugin_example/earth_page.dart';
 import 'package:arkit_plugin_example/hello_world.dart';
+import 'package:arkit_plugin_example/image_detection_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
@@ -45,6 +46,13 @@ class MyApp extends StatelessWidget {
         Icons.file_download,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => PhysicsPage())),
+      ),
+      Sample(
+        'Image Detection',
+        'Detects an earth image and puts a 3D object near it.',
+        Icons.collections,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => ImageDetectionPage())),
       ),
     ];
 

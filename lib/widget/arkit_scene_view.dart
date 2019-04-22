@@ -25,6 +25,7 @@ class ARKitSceneView extends StatefulWidget {
     this.showFeaturePoints = false,
     this.showWorldOrigin = false,
     this.planeDetection = ARPlaneDetection.none,
+    this.detectionImagesGroupName,
   }) : super(key: key);
 
   /// This function will be fired when ARKit view is created.
@@ -59,6 +60,11 @@ class ARKitSceneView extends StatefulWidget {
   /// The default is false.
   final bool showWorldOrigin;
 
+  /// Images to detect in the scene.
+  /// If set the session will attempt to detect the specified images.
+  /// When an image is detected an ARImageAnchor will be added to the session.
+  final String detectionImagesGroupName;
+
   @override
   _ARKitSceneViewState createState() => _ARKitSceneViewState();
 }
@@ -89,6 +95,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.showFeaturePoints,
       widget.showWorldOrigin,
       widget.planeDetection,
+      widget.detectionImagesGroupName,
     ));
   }
 }
@@ -102,6 +109,7 @@ class ARKitController {
     bool showFeaturePoints,
     bool showWorldOrigin,
     ARPlaneDetection planeDetection,
+    String detectionImagesGroupName,
   ) {
     _channel = MethodChannel('arkit_$id');
     _channel.setMethodCallHandler(_platformCallHandler);
@@ -112,6 +120,7 @@ class ARKitController {
       'planeDetection': planeDetection.index,
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
+      'detectionImagesGroupName': detectionImagesGroupName,
     });
   }
 
@@ -229,6 +238,8 @@ class ARKitController {
     switch (type) {
       case 'planeAnchor':
         return ARKitPlaneAnchor.fromMap(map);
+      case 'imageAnchor':
+        return ARKitImageAnchor.fromMap(map);
     }
     return ARKitAnchor.fromMap(map);
   }

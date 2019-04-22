@@ -104,7 +104,11 @@
     
     self.sceneView.debugOptions = [self getDebugOptions:call.arguments];
     
-    ARConfiguration* configuration = self.configuration;
+    ARWorldTrackingConfiguration* configuration = self.configuration;
+    NSString* detectionImages = call.arguments[@"detectionImagesGroupName"];
+    if ([detectionImages isKindOfClass:[NSString class]]) {
+        configuration.detectionImages = [ARReferenceImage referenceImagesInGroupNamed:detectionImages bundle:nil];
+    }
     [self.sceneView.session runWithConfiguration:configuration];
     result(nil);
 }

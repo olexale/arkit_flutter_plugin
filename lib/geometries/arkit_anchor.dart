@@ -56,3 +56,27 @@ class ARKitPlaneAnchor extends ARKitAnchor {
         getMatrixFromString(map['transform']),
       );
 }
+
+/// An anchor representing an image in the world.
+class ARKitImageAnchor extends ARKitAnchor {
+  ARKitImageAnchor(
+    this.referenceImageName,
+    String nodeName,
+    String identifier,
+    Matrix4 transorm,
+  ) : super(
+          nodeName,
+          identifier,
+          transorm,
+        );
+
+  /// Name of the detected image.
+  final String referenceImageName;
+
+  static ARKitImageAnchor fromMap(Map<String, String> map) => ARKitImageAnchor(
+        map['referenceImageName'],
+        map['node_name'],
+        map['identifier'],
+        getMatrixFromString(map['transform']),
+      );
+}
