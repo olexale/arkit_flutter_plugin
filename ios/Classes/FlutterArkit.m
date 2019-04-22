@@ -206,6 +206,10 @@
         NSDictionary *physics = dict[@"physicsBody"];
         node.physicsBody = [self getPhysicsBodyFromDict:physics];
     }
+    if (dict[@"light"] != nil) {
+        NSDictionary *light = dict[@"light"];
+        node.light = [self getLightFromDict: light];
+    }
     return node;
 }
 
@@ -227,6 +231,58 @@
     }
     
     return physicsBody;
+}
+
+- (SCNLight *) getLightFromDict:(NSDictionary *)dict {
+    SCNLight* light = [SCNLight light];
+    if (dict[@"type"] != nil) {
+        SCNLightType lightType;
+        int type = [dict[@"type"] intValue];
+        switch (type) {
+            case 0:
+                lightType = SCNLightTypeAmbient;
+                break;
+            case 1:
+                lightType = SCNLightTypeOmni;
+                break;
+            case 2:
+                lightType =SCNLightTypeDirectional;
+                break;
+            case 3:
+                lightType =SCNLightTypeSpot;
+                break;
+            case 4:
+                lightType =SCNLightTypeIES;
+                break;
+            case 5:
+                lightType =SCNLightTypeProbe;
+                break;
+            default:
+                break;
+        }
+        light.type = lightType;
+    }
+    if (dict[@"temperature"] != nil) {
+        NSNumber* temperature = dict[@"temperature"];
+        light.temperature = [temperature floatValue];
+    }
+    if (dict[@"intensity"] != nil) {
+        NSNumber* intensity = dict[@"intensity"];
+        light.intensity = [intensity floatValue];
+    }
+    if (dict[@"spotInnerAngle"] != nil) {
+        NSNumber* spotInnerAngle = dict[@"spotInnerAngle"];
+        light.spotInnerAngle = [spotInnerAngle floatValue];
+    }
+    if (dict[@"spotOuterAngle"] != nil) {
+        NSNumber* spotOuterAngle = dict[@"spotOuterAngle"];
+        light.spotOuterAngle = [spotOuterAngle floatValue];
+    }
+    if (dict[@"color"] != nil) {
+        NSNumber* color = dict[@"color"];
+        light.color = [UIColor fromRGB: [color integerValue]];
+    }
+    return light;
 }
 
 - (void) addNodeToSceneWithGeometry:(SCNGeometry*)geometry andCall: (FlutterMethodCall*)call andResult:(FlutterResult)result{

@@ -1,3 +1,4 @@
+import 'package:arkit_plugin_example/custom_light_page.dart';
 import 'package:arkit_plugin_example/earth_page.dart';
 import 'package:arkit_plugin_example/hello_world.dart';
 import 'package:arkit_plugin_example/image_detection_page.dart';
@@ -53,6 +54,13 @@ class MyApp extends StatelessWidget {
         Icons.collections,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => ImageDetectionPage())),
+      ),
+      Sample(
+        'Custom Light',
+        'Hello World scene with a custom light spot.',
+        Icons.lightbulb_outline,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => CustomLightPage())),
       ),
     ];
 
