@@ -9,6 +9,7 @@ class TapPage extends StatefulWidget {
 
 class _TapPageState extends State<TapPage> {
   ARKitController arkitController;
+  ARKitSphere sphere;
 
   @override
   void dispose() {
@@ -35,13 +36,13 @@ class _TapPageState extends State<TapPage> {
         diffuse: ARKitMaterialProperty(
       color: Colors.yellow,
     ));
-    final sphere = ARKitSphere(
+    sphere = ARKitSphere(
       materials: [material],
       radius: 0.1,
     );
 
     final node = ARKitNode(
-      name: 'yellow sphere',
+      name: 'sphere',
       geometry: sphere,
       position: vector.Vector3(0, 0, -0.5),
     );
@@ -49,6 +50,12 @@ class _TapPageState extends State<TapPage> {
   }
 
   void onTapHandler(String name) {
+    final color = sphere.materials.value.first.diffuse.color == Colors.yellow
+        ? Colors.blue
+        : Colors.yellow;
+    sphere.materials.value = [
+      ARKitMaterial(diffuse: ARKitMaterialProperty(color: color))
+    ];
     showDialog<void>(
       context: context,
       builder: (BuildContext context) =>

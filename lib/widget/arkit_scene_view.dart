@@ -180,12 +180,14 @@ class ARKitController {
   void _subsribeToChanges(ARKitNode node) {
     node.position.addListener(() => _handlePositionChanged(node));
     node.rotation.addListener(() => _handleRotationChanged(node));
+
+    node.geometry.materials.addListener(() => _updateMaterials(node));
     if (node.geometry is ARKitPlane) {
       final ARKitPlane plane = node.geometry;
-      plane.width.addListener(
-          () => _updateSingleProperty(node, 'width', plane.width.value));
-      plane.height.addListener(
-          () => _updateSingleProperty(node, 'height', plane.height.value));
+      plane.width.addListener(() =>
+          _updateSingleGeometryProperty(node, 'width', plane.width.value));
+      plane.height.addListener(() =>
+          _updateSingleGeometryProperty(node, 'height', plane.height.value));
     }
   }
 
@@ -199,7 +201,12 @@ class ARKitController {
         _getHandlerParams(node, convertVector4ToMap(node.rotation.value)));
   }
 
-  void _updateSingleProperty(
+  void _updateMaterials(ARKitNode node) {
+    _channel.invokeMethod<void>(
+        'updateMaterials', _getHandlerParams(node, node.geometry.toMap()));
+  }
+
+  void _updateSingleGeometryProperty(
       ARKitNode node, String propertyName, dynamic value) {
     _channel.invokeMethod<void>(
         'updateSingleGeometryProperty',
