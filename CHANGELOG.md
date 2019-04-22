@@ -2,6 +2,9 @@
 
 ## 0.0.4
 
+* Image detection
+* ARKitLine
+
 ## 0.0.3
 
 * ARKitNode added
