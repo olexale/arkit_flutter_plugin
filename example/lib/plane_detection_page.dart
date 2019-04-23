@@ -37,20 +37,20 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
-    this.arkitController.onAddNodeForAnchor = handleAddAnchor;
-    this.arkitController.onUpdateNodeForAnchor = handleUpdateAnchor;
+    this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
+    this.arkitController.onUpdateNodeForAnchor = _handleUpdateAnchor;
     this.arkitController.onPlaneTap =
-        (transform) => onPlaneTapHandler(transform);
+        (transform) => _onPlaneTapHandler(transform);
   }
 
-  void handleAddAnchor(ARKitAnchor anchor) {
+  void _handleAddAnchor(ARKitAnchor anchor) {
     if (!(anchor is ARKitPlaneAnchor)) {
       return;
     }
     _addPlane(arkitController, anchor);
   }
 
-  void handleUpdateAnchor(ARKitAnchor anchor) {
+  void _handleUpdateAnchor(ARKitAnchor anchor) {
     if (anchor.identifier != anchorId) {
       return;
     }
@@ -82,7 +82,7 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
     controller.add(node, parentNodeName: anchor.nodeName);
   }
 
-  void onPlaneTapHandler(Matrix4 transform) {
+  void _onPlaneTapHandler(Matrix4 transform) {
     final position = vector.Vector3(
       transform.getColumn(3).x,
       transform.getColumn(3).y,
@@ -109,7 +109,42 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
       );
       final lineNode = ARKitNode(geometry: line);
       arkitController.add(lineNode);
+
+      final distance = _calculateDistanceBetweenPoints(position, lastPosition);
+      final point = _getMiddleVector(position, lastPosition);
+      _drawText(distance, point);
     }
     lastPosition = position;
+  }
+
+  String _calculateDistanceBetweenPoints(vector.Vector3 A, vector.Vector3 B) {
+    final length = math.sqrt(math.pow(A.x - B.x, 2) +
+        math.pow(A.y - B.y, 2) +
+        math.pow(A.z - B.z, 2));
+    return '${(length * 100).toStringAsFixed(2)} cm';
+  }
+
+  vector.Vector3 _getMiddleVector(vector.Vector3 A, vector.Vector3 B) {
+    return vector.Vector3((A.x + B.x) / 2, (A.y + B.y) / 2, (A.z + B.z) / 2);
+  }
+
+  void _drawText(String text, vector.Vector3 point) {
+    final textGeometry = ARKitText(
+      text: text,
+      extrusionDepth: 1,
+      materials: [
+        ARKitMaterial(
+          diffuse: ARKitMaterialProperty(color: Colors.red),
+        )
+      ],
+    );
+    const scale = 0.001;
+    final vectorScale = vector.Vector3(scale, scale, scale);
+    final node = ARKitNode(
+      geometry: textGeometry,
+      position: point,
+      scale: vectorScale,
+    );
+    arkitController.add(node);
   }
 }
