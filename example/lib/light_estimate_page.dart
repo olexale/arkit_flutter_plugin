@@ -22,7 +22,7 @@ class _LightEstimatePageState extends State<LightEstimatePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('Earth Sample')),
+        appBar: AppBar(title: const Text('Light Estimation Sample')),
         body: Container(
           child: ARKitSceneView(
             onARKitViewCreated: onARKitViewCreated,
