@@ -150,12 +150,13 @@ class ARKitController {
   }
 
   /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
-  Future<List<Vector3>> getNodeBoundingBox(ARKitNode node) {
+  Future<List<Vector3>> getNodeBoundingBox(ARKitNode node) async {
     final params = _addParentNodeNameToParams(node.toMap(), null);
-    final Future<List<String>> result =
-        _channel.invokeListMethod<String>('getNodeBoundingBox', params);
-    return result.then((List<String> result) => Future.value(
-        result.map((String value) => createVector3FromString(value)).toList()));
+    final List<String> result =
+        await _channel.invokeListMethod<String>('getNodeBoundingBox', params);
+    return result
+        .map((String value) => createVector3FromString(value))
+        .toList();
   }
 
   Future<ARKitLightEstimate> getLightEstimate() async {
