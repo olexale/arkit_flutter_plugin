@@ -78,7 +78,7 @@
       [self updatePosition:call andResult:result];
   } else if ([[call method] isEqualToString:@"rotationChanged"]) {
       [self updateRotation:call andResult:result];
-  } else if ([[call method] isEqualToString:@"updateSingleGeometryProperty"]) {
+  } else if ([[call method] isEqualToString:@"updateSingleProperty"]) {
       [self updateSingleProperty:call andResult:result];
   } else if ([[call method] isEqualToString:@"updateMaterials"]) {
       [self updateMaterials:call andResult:result];
@@ -167,7 +167,11 @@
 - (void) updateSingleProperty:(FlutterMethodCall*)call andResult:(FlutterResult)result{
     NSString* name = call.arguments[@"name"];
     SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
-    [node.geometry setValue:call.arguments[@"propertyValue"] forKey:call.arguments[@"propertyName"]];
+    
+    NSString* keyProperty = call.arguments[@"keyProperty"];
+    id object = [node valueForKey:keyProperty];
+    
+    [object setValue:call.arguments[@"propertyValue"] forKey:call.arguments[@"propertyName"]];
     result(nil);
 }
 

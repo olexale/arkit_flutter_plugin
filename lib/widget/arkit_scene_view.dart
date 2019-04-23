@@ -100,6 +100,10 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
   }
 }
 
+/// Controls an [ARKitSceneView].
+///
+/// An [ARKitController] instance can be obtained by setting the [ARKitSceneView.onARKitViewCreated]
+/// callback for an [ARKitSceneView] widget.
 class ARKitController {
   ARKitController._init(
     int id,
@@ -194,11 +198,15 @@ class ARKitController {
       node.geometry.materials.addListener(() => _updateMaterials(node));
       if (node.geometry is ARKitPlane) {
         final ARKitPlane plane = node.geometry;
-        plane.width.addListener(() =>
-            _updateSingleGeometryProperty(node, 'width', plane.width.value));
-        plane.height.addListener(() =>
-            _updateSingleGeometryProperty(node, 'height', plane.height.value));
+        plane.width.addListener(() => _updateSingleProperty(
+            node, 'width', plane.width.value, 'geometry'));
+        plane.height.addListener(() => _updateSingleProperty(
+            node, 'height', plane.height.value, 'geometry'));
       }
+    }
+    if (node.light != null) {
+      node.light.intensity.addListener(() => _updateSingleProperty(
+          node, 'intensity', node.light.intensity.value, 'light'));
     }
   }
 
@@ -217,13 +225,14 @@ class ARKitController {
         'updateMaterials', _getHandlerParams(node, node.geometry.toMap()));
   }
 
-  void _updateSingleGeometryProperty(
-      ARKitNode node, String propertyName, dynamic value) {
+  void _updateSingleProperty(
+      ARKitNode node, String propertyName, dynamic value, String keyProperty) {
     _channel.invokeMethod<void>(
-        'updateSingleGeometryProperty',
+        'updateSingleProperty',
         _getHandlerParams(node, <String, dynamic>{
           'propertyName': propertyName,
           'propertyValue': value,
+          'keyProperty': keyProperty,
         }));
   }
 
