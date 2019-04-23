@@ -9,6 +9,7 @@ import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 typedef ARKitPluginCreatedCallback = void Function(ARKitController controller);
 typedef StringResultHandler = void Function(String text);
@@ -146,6 +147,16 @@ class ARKitController {
     final params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
     _subsribeToChanges(node);
     return _channel.invokeMethod('addARKitNode', params);
+  }
+
+  /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
+  Future<List<Vector3>> getNodeBoundingBox(ARKitNode node) async {
+    final params = _addParentNodeNameToParams(node.toMap(), null);
+    final List<String> result =
+        await _channel.invokeListMethod<String>('getNodeBoundingBox', params);
+    return result
+        .map((String value) => createVector3FromString(value))
+        .toList();
   }
 
   Future<ARKitLightEstimate> getLightEstimate() async {
