@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'package:arkit_plugin/arkit_plugin.dart';
-import 'package:arkit_plugin/geometries/arkit_line.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
@@ -14,7 +13,6 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
   ARKitPlane plane;
   ARKitNode node;
   String anchorId;
-  vector.Vector3 lastPosition;
 
   @override
   void dispose() {
@@ -30,7 +28,6 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
             showFeaturePoints: true,
             planeDetection: ARPlaneDetection.horizontal,
             onARKitViewCreated: onARKitViewCreated,
-            enableTapRecognizer: true,
           ),
         ),
       );
@@ -39,8 +36,6 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
     this.arkitController = arkitController;
     this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
     this.arkitController.onUpdateNodeForAnchor = _handleUpdateAnchor;
-    this.arkitController.onPlaneTap =
-        (transform) => _onPlaneTapHandler(transform);
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
@@ -80,71 +75,5 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
       rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
     );
     controller.add(node, parentNodeName: anchor.nodeName);
-  }
-
-  void _onPlaneTapHandler(Matrix4 transform) {
-    final position = vector.Vector3(
-      transform.getColumn(3).x,
-      transform.getColumn(3).y,
-      transform.getColumn(3).z,
-    );
-    final material = ARKitMaterial(
-      lightingModelName: ARKitLightingModel.constant,
-      diffuse:
-          ARKitMaterialProperty(color: const Color.fromRGBO(255, 153, 83, 1)),
-    );
-    final sphere = ARKitSphere(
-      radius: 0.003,
-      materials: [material],
-    );
-    final node = ARKitNode(
-      geometry: sphere,
-      position: position,
-    );
-    arkitController.add(node);
-    if (lastPosition != null) {
-      final line = ARKitLine(
-        fromVector: lastPosition,
-        toVector: position,
-      );
-      final lineNode = ARKitNode(geometry: line);
-      arkitController.add(lineNode);
-
-      final distance = _calculateDistanceBetweenPoints(position, lastPosition);
-      final point = _getMiddleVector(position, lastPosition);
-      _drawText(distance, point);
-    }
-    lastPosition = position;
-  }
-
-  String _calculateDistanceBetweenPoints(vector.Vector3 A, vector.Vector3 B) {
-    final length = math.sqrt(math.pow(A.x - B.x, 2) +
-        math.pow(A.y - B.y, 2) +
-        math.pow(A.z - B.z, 2));
-    return '${(length * 100).toStringAsFixed(2)} cm';
-  }
-
-  vector.Vector3 _getMiddleVector(vector.Vector3 A, vector.Vector3 B) {
-    return vector.Vector3((A.x + B.x) / 2, (A.y + B.y) / 2, (A.z + B.z) / 2);
-  }
-
-  void _drawText(String text, vector.Vector3 point) {
-    final textGeometry = ARKitText(
-      text: text,
-      extrusionDepth: 1,
-      materials: [
-        ARKitMaterial(
-          diffuse: ARKitMaterialProperty(color: Colors.red),
-        )
-      ],
-    );
-    const scale = 0.001;
-    final vectorScale = vector.Vector3(scale, scale, scale);
-    final node = ARKitNode(
-      geometry: textGeometry,
-      position: point,
-      scale: vectorScale,
-    );
-    arkitController.add(node);
   }
 }
