@@ -8,10 +8,10 @@ class ARKitLight {
     this.type = ARKitLightType.omni,
     this.color = Colors.white,
     this.temperature = 6500,
-    this.intensity = 1000,
+    double intensity,
     this.spotInnerAngle = 0,
     this.spotOuterAngle = 45,
-  });
+  }) : intensity = ValueNotifier(intensity ?? 1000);
 
   /// Light type.
   /// Defaults to ARKitLightType.omni.
@@ -27,9 +27,10 @@ class ARKitLight {
   /// Defaults to 6500 (pure white).
   final double temperature;
 
-  /// This intensity is used to modulate the light color. When used with a physically-based material, this corresponds to the luminous flux of the light, expressed in lumens (lm).
+  /// This intensity is used to modulate the light color.
+  /// When used with a physically-based material, this corresponds to the luminous flux of the light, expressed in lumens (lm).
   /// Defaults to 1000.
-  final double intensity;
+  final ValueNotifier<double> intensity;
 
   /// The angle in degrees between the spot direction and the lit element below which the lighting is at full strength.
   /// Defaults to 0.
