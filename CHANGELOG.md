@@ -4,6 +4,8 @@
 
 * Image detection
 * ARKitLine
+* Custom light
+* Light estimation
 
 ## 0.0.3
 

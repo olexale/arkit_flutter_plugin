@@ -1,4 +1,5 @@
 import 'package:arkit_plugin/geometries/arkit_geometry.dart';
+import 'package:arkit_plugin/light/arkit_light.dart';
 import 'package:arkit_plugin/physics/arkit_physics_body.dart';
 import 'package:flutter/widgets.dart';
 import 'package:arkit_plugin/utils/random_string.dart' as random_string;
@@ -12,6 +13,7 @@ class ARKitNode {
   ARKitNode({
     this.geometry,
     this.physicsBody,
+    this.light,
     Vector3 position,
     Vector3 scale,
     Vector4 rotation,
@@ -42,12 +44,16 @@ class ARKitNode {
   /// The description of the physics body of the receiver.
   final ARKitPhysicsBody physicsBody;
 
+  /// Determines the light attached to the receiver.
+  final ARKitLight light;
+
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'geometry': geometry.toMap(),
+        'geometry': geometry?.toMap(),
         'position': convertVector3ToMap(position.value),
         'scale': convertVector3ToMap(scale.value),
         'rotation': convertVector4ToMap(rotation.value),
         'physicsBody': physicsBody?.toMap(),
+        'light': light?.toMap(),
         'name': name,
       }..removeWhere((String k, dynamic v) => v == null);
 }
