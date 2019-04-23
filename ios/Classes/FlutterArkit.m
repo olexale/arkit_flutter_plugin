@@ -82,6 +82,8 @@
       [self updateSingleProperty:call andResult:result];
   } else if ([[call method] isEqualToString:@"updateMaterials"]) {
       [self updateMaterials:call andResult:result];
+  } else if ([[call method] isEqualToString:@"getLightEstimate"]) {
+      [self onGetLightEstimate:call andResult:result];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -180,6 +182,18 @@
     SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
     SCNGeometry* geometry = [GeometryBuilder createGeometry:call.arguments];
     node.geometry = geometry;
+    result(nil);
+}
+
+- (void) onGetLightEstimate:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    ARFrame* frame = self.sceneView.session.currentFrame;
+    if (frame != nil && frame.lightEstimate != nil) {
+        NSDictionary* res = @{
+                              @"ambientIntensity": @(frame.lightEstimate.ambientIntensity),
+                              @"ambientColorTemperature": @(frame.lightEstimate.ambientColorTemperature)
+                              };
+        result(res);
+    }
     result(nil);
 }
 

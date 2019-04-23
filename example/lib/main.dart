@@ -2,6 +2,7 @@ import 'package:arkit_plugin_example/custom_light_page.dart';
 import 'package:arkit_plugin_example/earth_page.dart';
 import 'package:arkit_plugin_example/hello_world.dart';
 import 'package:arkit_plugin_example/image_detection_page.dart';
+import 'package:arkit_plugin_example/light_estimate_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
@@ -61,6 +62,13 @@ class MyApp extends StatelessWidget {
         Icons.lightbulb_outline,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => CustomLightPage())),
+      ),
+      Sample(
+        'Light Estimation',
+        'Estimates and applies the light around you.',
+        Icons.brightness_6,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => LightEstimatePage())),
       ),
     ];
 

@@ -12,3 +12,4 @@ export 'package:arkit_plugin/physics/arkit_physics_body.dart';
 export 'package:arkit_plugin/physics/arkit_physics_shape.dart';
 export 'package:arkit_plugin/light/arkit_light.dart';
 export 'package:arkit_plugin/light/arkit_light_type.dart';
+export 'package:arkit_plugin/light/arkit_light_estimate.dart';

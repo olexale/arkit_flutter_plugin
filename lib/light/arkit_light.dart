@@ -44,7 +44,7 @@ class ARKitLight {
         'type': type.index,
         'color': color.value,
         'temperature': temperature,
-        'intensity': intensity,
+        'intensity': intensity.value,
         'spotInnerAngle': spotInnerAngle,
         'spotOuterAngle': spotOuterAngle,
       };

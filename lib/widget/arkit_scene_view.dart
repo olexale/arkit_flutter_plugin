@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
+import 'package:arkit_plugin/light/arkit_light_estimate.dart';
 import 'package:arkit_plugin/utils/matrix4_utils.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
@@ -145,6 +146,14 @@ class ARKitController {
     final params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
     _subsribeToChanges(node);
     return _channel.invokeMethod('addARKitNode', params);
+  }
+
+  Future<ARKitLightEstimate> getLightEstimate() async {
+    final estimate =
+        await _channel.invokeMethod<Map<dynamic, dynamic>>('getLightEstimate');
+    return estimate != null
+        ? ARKitLightEstimate.fromMap(estimate.cast<String, double>())
+        : null;
   }
 
   Map<String, dynamic> _addParentNodeNameToParams(
