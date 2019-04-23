@@ -149,6 +149,7 @@ class ARKitController {
     return _channel.invokeMethod('addARKitNode', params);
   }
 
+  /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
   Future<List<Vector3>> getNodeBoundingBox(ARKitNode node) {
     final params = _addParentNodeNameToParams(node.toMap(), null);
     final Future<List<String>> result =
