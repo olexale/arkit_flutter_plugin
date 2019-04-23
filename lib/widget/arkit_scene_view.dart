@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
+import 'package:arkit_plugin/light/arkit_light_estimate.dart';
 import 'package:arkit_plugin/utils/matrix4_utils.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
@@ -100,6 +101,10 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
   }
 }
 
+/// Controls an [ARKitSceneView].
+///
+/// An [ARKitController] instance can be obtained by setting the [ARKitSceneView.onARKitViewCreated]
+/// callback for an [ARKitSceneView] widget.
 class ARKitController {
   ARKitController._init(
     int id,
@@ -141,6 +146,14 @@ class ARKitController {
     final params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
     _subsribeToChanges(node);
     return _channel.invokeMethod('addARKitNode', params);
+  }
+
+  Future<ARKitLightEstimate> getLightEstimate() async {
+    final estimate =
+        await _channel.invokeMethod<Map<dynamic, dynamic>>('getLightEstimate');
+    return estimate != null
+        ? ARKitLightEstimate.fromMap(estimate.cast<String, double>())
+        : null;
   }
 
   Map<String, dynamic> _addParentNodeNameToParams(
@@ -190,13 +203,19 @@ class ARKitController {
     node.position.addListener(() => _handlePositionChanged(node));
     node.rotation.addListener(() => _handleRotationChanged(node));
 
-    node.geometry.materials.addListener(() => _updateMaterials(node));
-    if (node.geometry is ARKitPlane) {
-      final ARKitPlane plane = node.geometry;
-      plane.width.addListener(() =>
-          _updateSingleGeometryProperty(node, 'width', plane.width.value));
-      plane.height.addListener(() =>
-          _updateSingleGeometryProperty(node, 'height', plane.height.value));
+    if (node.geometry != null) {
+      node.geometry.materials.addListener(() => _updateMaterials(node));
+      if (node.geometry is ARKitPlane) {
+        final ARKitPlane plane = node.geometry;
+        plane.width.addListener(() => _updateSingleProperty(
+            node, 'width', plane.width.value, 'geometry'));
+        plane.height.addListener(() => _updateSingleProperty(
+            node, 'height', plane.height.value, 'geometry'));
+      }
+    }
+    if (node.light != null) {
+      node.light.intensity.addListener(() => _updateSingleProperty(
+          node, 'intensity', node.light.intensity.value, 'light'));
     }
   }
 
@@ -215,13 +234,14 @@ class ARKitController {
         'updateMaterials', _getHandlerParams(node, node.geometry.toMap()));
   }
 
-  void _updateSingleGeometryProperty(
-      ARKitNode node, String propertyName, dynamic value) {
+  void _updateSingleProperty(
+      ARKitNode node, String propertyName, dynamic value, String keyProperty) {
     _channel.invokeMethod<void>(
-        'updateSingleGeometryProperty',
+        'updateSingleProperty',
         _getHandlerParams(node, <String, dynamic>{
           'propertyName': propertyName,
           'propertyValue': value,
+          'keyProperty': keyProperty,
         }));
   }
 
