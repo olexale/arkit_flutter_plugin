@@ -1,3 +1,4 @@
+import 'package:arkit_plugin_example/distance_tracking_page.dart';
 import 'package:arkit_plugin_example/custom_light_page.dart';
 import 'package:arkit_plugin_example/earth_page.dart';
 import 'package:arkit_plugin_example/hello_world.dart';
@@ -37,10 +38,17 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Plane Detection',
-        'Detects horizontal plane and handle tap on it.',
+        'Detects horizontal plane.',
         Icons.blur_on,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => PlaneDetectionPage())),
+      ),
+      Sample(
+        'Distance tracking',
+        'Detects horizontal plane and track distance on it.',
+        Icons.blur_on,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => DistanceTrackingPage())),
       ),
       Sample(
         'Physics',

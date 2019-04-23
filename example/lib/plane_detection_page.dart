@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'package:arkit_plugin/arkit_plugin.dart';
-import 'package:arkit_plugin/geometries/arkit_line.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
@@ -14,7 +13,6 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
   ARKitPlane plane;
   ARKitNode node;
   String anchorId;
-  vector.Vector3 lastPosition;
 
   @override
   void dispose() {
@@ -30,27 +28,24 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
             showFeaturePoints: true,
             planeDetection: ARPlaneDetection.horizontal,
             onARKitViewCreated: onARKitViewCreated,
-            enableTapRecognizer: true,
           ),
         ),
       );
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
-    this.arkitController.onAddNodeForAnchor = handleAddAnchor;
-    this.arkitController.onUpdateNodeForAnchor = handleUpdateAnchor;
-    this.arkitController.onPlaneTap =
-        (transform) => onPlaneTapHandler(transform);
+    this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
+    this.arkitController.onUpdateNodeForAnchor = _handleUpdateAnchor;
   }
 
-  void handleAddAnchor(ARKitAnchor anchor) {
+  void _handleAddAnchor(ARKitAnchor anchor) {
     if (!(anchor is ARKitPlaneAnchor)) {
       return;
     }
     _addPlane(arkitController, anchor);
   }
 
-  void handleUpdateAnchor(ARKitAnchor anchor) {
+  void _handleUpdateAnchor(ARKitAnchor anchor) {
     if (anchor.identifier != anchorId) {
       return;
     }
@@ -80,36 +75,5 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
       rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
     );
     controller.add(node, parentNodeName: anchor.nodeName);
-  }
-
-  void onPlaneTapHandler(Matrix4 transform) {
-    final position = vector.Vector3(
-      transform.getColumn(3).x,
-      transform.getColumn(3).y,
-      transform.getColumn(3).z,
-    );
-    final material = ARKitMaterial(
-      lightingModelName: ARKitLightingModel.constant,
-      diffuse:
-          ARKitMaterialProperty(color: const Color.fromRGBO(255, 153, 83, 1)),
-    );
-    final sphere = ARKitSphere(
-      radius: 0.003,
-      materials: [material],
-    );
-    final node = ARKitNode(
-      geometry: sphere,
-      position: position,
-    );
-    arkitController.add(node);
-    if (lastPosition != null) {
-      final line = ARKitLine(
-        fromVector: lastPosition,
-        toVector: position,
-      );
-      final lineNode = ARKitNode(geometry: line);
-      arkitController.add(lineNode);
-    }
-    lastPosition = position;
   }
 }
