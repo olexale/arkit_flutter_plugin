@@ -118,9 +118,7 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
   }
 
   String _calculateDistanceBetweenPoints(vector.Vector3 A, vector.Vector3 B) {
-    final length = math.sqrt(math.pow(A.x - B.x, 2) +
-        math.pow(A.y - B.y, 2) +
-        math.pow(A.z - B.z, 2));
+    final length = A.distanceTo(B);
     return '${(length * 100).toStringAsFixed(2)} cm';
   }
 
@@ -145,6 +143,20 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
       position: point,
       scale: vectorScale,
     );
+    arkitController
+        .getNodeBoundingBox(node)
+        .then((List<vector.Vector3> result) {
+      final minVector = result[0];
+      final maxVector = result[1];
+      final dx = (maxVector.x - minVector.x) / 2 * scale;
+      final dy = (maxVector.y - minVector.y) / 2 * scale;
+      final position = vector.Vector3(
+        node.position.value.x - dx,
+        node.position.value.y - dy,
+        node.position.value.z,
+      );
+      node.position.value = position;
+    });
     arkitController.add(node);
   }
 }

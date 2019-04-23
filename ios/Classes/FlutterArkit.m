@@ -74,6 +74,8 @@
     [self init:call result:result];
   } else if ([[call method] isEqualToString:@"addARKitNode"]) {
       [self onAddNode:call result:result];
+  } else if ([[call method] isEqualToString:@"getNodeBoundingBox"]) {
+      [self onGetNodeBoundingBox:call result:result];
   } else if ([[call method] isEqualToString:@"positionChanged"]) {
       [self updatePosition:call andResult:result];
   } else if ([[call method] isEqualToString:@"rotationChanged"]) {
@@ -117,6 +119,18 @@
     NSDictionary* geometryArguments = call.arguments[@"geometry"];
     SCNGeometry* geometry = [GeometryBuilder createGeometry:geometryArguments];
     [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
+}
+
+- (void)onGetNodeBoundingBox:(FlutterMethodCall*)call result:(FlutterResult)result {
+    NSDictionary* geometryArguments = call.arguments[@"geometry"];
+    SCNGeometry* geometry = [GeometryBuilder createGeometry:geometryArguments];
+    SCNNode* node = [self getNodeWithGeometry:geometry fromDict:call.arguments];
+    SCNVector3 minVector, maxVector;
+    [node getBoundingBoxMin:&minVector max:&maxVector];
+    
+    result(@[[CodableUtils convertSimdFloat3ToString:SCNVector3ToFloat3(minVector)],
+             [CodableUtils convertSimdFloat3ToString:SCNVector3ToFloat3(maxVector)]]
+           );
 }
 
 #pragma mark - Lazy loads
