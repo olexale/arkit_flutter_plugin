@@ -9,7 +9,6 @@ import 'package:vector_math/vector_math_64.dart';
 class ARKitReferenceNode extends ARKitNode {
   ARKitReferenceNode({
     @required this.url,
-    ARKitGeometry geometry,
     ARKitPhysicsBody physicsBody,
     ARKitLight light,
     Vector3 position,
@@ -17,7 +16,6 @@ class ARKitReferenceNode extends ARKitNode {
     Vector4 rotation,
     String name,
   }) : super(
-          geometry: geometry,
           physicsBody: physicsBody,
           light: light,
           position: position,
