@@ -6,6 +6,7 @@ export 'package:arkit_plugin/geometries/arkit_geometry.dart';
 export 'package:arkit_plugin/geometries/arkit_material.dart';
 export 'package:arkit_plugin/geometries/arkit_sphere.dart';
 export 'package:arkit_plugin/geometries/arkit_plane.dart';
+export 'package:arkit_plugin/geometries/arkit_line.dart';
 export 'package:arkit_plugin/geometries/arkit_text.dart';
 export 'package:arkit_plugin/physics/arkit_physics_body_type.dart';
 export 'package:arkit_plugin/physics/arkit_physics_body.dart';
