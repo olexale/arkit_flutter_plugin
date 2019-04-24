@@ -1,3 +1,4 @@
+import 'package:arkit_plugin_example/custom_object_page.dart';
 import 'package:arkit_plugin_example/distance_tracking_page.dart';
 import 'package:arkit_plugin_example/custom_light_page.dart';
 import 'package:arkit_plugin_example/earth_page.dart';
@@ -77,6 +78,13 @@ class MyApp extends StatelessWidget {
         Icons.brightness_6,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => LightEstimatePage())),
+      ),
+      Sample(
+        'Custom Object',
+        'Place custom object on plane.',
+        Icons.nature,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => CustomObjectPage())),
       ),
     ];
 
