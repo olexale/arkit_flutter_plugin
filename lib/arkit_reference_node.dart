@@ -1,5 +1,4 @@
 import 'package:arkit_plugin/arkit_node.dart';
-import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/light/arkit_light.dart';
 import 'package:arkit_plugin/physics/arkit_physics_body.dart';
 import 'package:flutter/widgets.dart';
