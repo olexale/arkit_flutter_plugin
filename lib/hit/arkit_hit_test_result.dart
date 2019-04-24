@@ -33,7 +33,7 @@ class ARKitTestResult {
 
   static ARKitTestResult fromMap(Map<dynamic, dynamic> map) {
     return ARKitTestResult(
-      ARKitHitTestResultType.fromNumber(map['type']),
+      aRKitHitTestResultTypeFromInt(map['type']),
       map['distance'],
       getMatrixFromString(map['localTransform']),
       getMatrixFromString(map['worldTransform']),

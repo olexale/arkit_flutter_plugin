@@ -32,7 +32,8 @@ class _MeasurePageState extends State<MeasurePage> {
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
     this.arkitController.onARTap = (ar) {
-      final point = ar.firstWhere((o) => o.type.featurePoint);
+      final point =
+          ar.firstWhere((o) => o.type == ARKitHitTestResultType.featurePoint);
       if (point != null) {
         _onARTapHandler(point);
       }
