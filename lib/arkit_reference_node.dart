@@ -5,7 +5,7 @@ import 'package:arkit_plugin/physics/arkit_physics_body.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vector_math/vector_math_64.dart';
 
-/// Node for working with DAE objects
+///  Node that references an external serialized node graph.
 class ARKitReferenceNode extends ARKitNode {
   ARKitReferenceNode({
     @required this.url,
