@@ -3,6 +3,7 @@
 ## 0.1.1
 
 * Tap Gesture refactored to onNodeTap and onARTap
+* SKReferenceNode wrapped
 
 ## 0.1.0
 
