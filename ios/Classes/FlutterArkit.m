@@ -143,11 +143,22 @@
     NSArray<SCNHitTestResult *> * hitResults = [sceneView hitTest:touchLocation options:@{}];
     if ([hitResults count] != 0) {
         SCNNode *node = hitResults[0].node;
-        [_channel invokeMethod: @"onTap" arguments: node.name];
+        [_channel invokeMethod: @"onNodeTap" arguments: node.name];
     }
-    NSArray<ARHitTestResult *> *arHitResults = [sceneView hitTest:touchLocation types:ARHitTestResultTypeExistingPlaneUsingExtent];
+
+    NSArray<ARHitTestResult *> *arHitResults = [sceneView hitTest:touchLocation types:ARHitTestResultTypeFeaturePoint
+                                                + ARHitTestResultTypeEstimatedHorizontalPlane
+                                                + ARHitTestResultTypeEstimatedVerticalPlane
+                                                + ARHitTestResultTypeExistingPlane
+                                                + ARHitTestResultTypeExistingPlaneUsingExtent
+                                                + ARHitTestResultTypeExistingPlaneUsingGeometry
+                                                ];
     if ([arHitResults count] != 0) {
-        [_channel invokeMethod: @"onPlaneTap" arguments: [CodableUtils convertSimdFloat4x4ToString:arHitResults[0].worldTransform]];
+        NSMutableArray<NSDictionary*>* results = [NSMutableArray arrayWithCapacity:[arHitResults count]];
+        for (ARHitTestResult* r in arHitResults) {
+            [results addObject:[self getDictFromHitResult:r]];
+        }
+        [_channel invokeMethod: @"onARTap" arguments: results];
     }
 }
 
@@ -323,6 +334,19 @@
         debugOptions += ARSCNDebugOptionShowWorldOrigin;
     }
     return debugOptions;
+}
+
+- (NSDictionary*) getDictFromHitResult: (ARHitTestResult*) result {
+    NSMutableDictionary* dict = [@{
+             @"type": @(result.type),
+             @"distance": @(result.distance),
+             @"localTransform": [CodableUtils convertSimdFloat4x4ToString:result.localTransform],
+             @"worldTransform": [CodableUtils convertSimdFloat4x4ToString:result.worldTransform]
+             } mutableCopy];
+    if (result.anchor != nil) {
+        [dict setValue:[CodableUtils convertARAnchorToDictionary:result.anchor] forKey:@"anchor"];
+    }
+    return dict;
 }
 
 @end

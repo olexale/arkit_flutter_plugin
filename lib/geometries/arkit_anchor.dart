@@ -20,7 +20,7 @@ class ARKitAnchor {
   /// The transformation matrix that defines the anchor’s rotation, translation and scale in world coordinates.
   final Matrix4 transform;
 
-  static ARKitAnchor fromMap(Map<String, String> map) => ARKitAnchor(
+  static ARKitAnchor fromMap(Map<dynamic, dynamic> map) => ARKitAnchor(
         map['node_name'],
         map['identifier'],
         getMatrixFromString(map['transform']),

@@ -16,4 +16,22 @@
     return ret;
 }
 
++ (NSDictionary*) convertARAnchorToDictionary: (ARAnchor*) anchor {
+    NSMutableDictionary<NSString*, NSString*>* params = [@{@"identifier": [anchor.identifier UUIDString],
+                                                           @"transform": [CodableUtils convertSimdFloat4x4ToString:anchor.transform]
+                                                           } mutableCopy];
+    if ([anchor isMemberOfClass:[ARPlaneAnchor class]]) {
+        ARPlaneAnchor *plane = (ARPlaneAnchor*)anchor;
+        [params setObject:@"planeAnchor" forKey:@"anchorType"];
+        [params setObject:[CodableUtils convertSimdFloat3ToString:plane.center] forKey:@"center"];
+        [params setObject:[CodableUtils convertSimdFloat3ToString:plane.extent] forKey:@"extent"];
+    }
+    if ([anchor isMemberOfClass:[ARImageAnchor class]]) {
+        ARImageAnchor *image = (ARImageAnchor*)anchor;
+        [params setObject:@"imageAnchor" forKey:@"anchorType"];
+        [params setObject:image.referenceImage.name forKey:@"referenceImageName"];
+    }
+    return params;
+}
+
 @end

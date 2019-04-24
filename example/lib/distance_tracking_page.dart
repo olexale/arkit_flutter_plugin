@@ -39,8 +39,13 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
     this.arkitController = arkitController;
     this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
     this.arkitController.onUpdateNodeForAnchor = _handleUpdateAnchor;
-    this.arkitController.onPlaneTap =
-        (transform) => _onPlaneTapHandler(transform);
+    this.arkitController.onARTap = (List<ARKitTestResult> ar) {
+      final planeTap =
+          ar.firstWhere((tap) => tap.type.existingPlaneUsingExtent);
+      if (planeTap != null) {
+        _onPlaneTapHandler(planeTap.worldTransform);
+      }
+    };
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {

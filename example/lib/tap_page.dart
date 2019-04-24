@@ -30,7 +30,7 @@ class _TapPageState extends State<TapPage> {
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
-    this.arkitController.onTap = (name) => onTapHandler(name);
+    this.arkitController.onNodeTap = (name) => onNodeTapHandler(name);
 
     final material = ARKitMaterial(
         diffuse: ARKitMaterialProperty(
@@ -49,7 +49,7 @@ class _TapPageState extends State<TapPage> {
     this.arkitController.add(node);
   }
 
-  void onTapHandler(String name) {
+  void onNodeTapHandler(String name) {
     final color = sphere.materials.value.first.diffuse.color == Colors.yellow
         ? Colors.blue
         : Colors.yellow;
