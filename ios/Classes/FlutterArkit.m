@@ -222,7 +222,17 @@
 }
 
 - (SCNNode *) getNodeWithGeometry:(SCNGeometry *)geometry fromDict:(NSDictionary *)dict {
-    SCNNode* node = [SCNNode nodeWithGeometry:geometry];
+    SCNNode* node;
+    if ([dict[@"dartType"] isEqualToString:@"ARKitNode"]) {
+        node = [SCNNode nodeWithGeometry:geometry];
+    } else if ([dict[@"dartType"] isEqualToString:@"ARKitReferenceNode"]) {
+        NSString* url = dict[@"url"];
+        NSURL* referenceURL = [[NSBundle mainBundle] URLForResource:url withExtension:nil];
+        node = [SCNReferenceNode referenceNodeWithURL:referenceURL];
+        [(SCNReferenceNode*)node load];
+    } else {
+        return nil;
+    }
     node.position = [DecodableUtils parseVector3:dict[@"position"]];
     
     if (dict[@"scale"] != nil) {
