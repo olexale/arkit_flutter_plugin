@@ -3,9 +3,9 @@ import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
 import 'package:arkit_plugin/light/arkit_light_estimate.dart';
-import 'package:arkit_plugin/utils/matrix4_utils.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
+import 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ import 'package:vector_math/vector_math_64.dart';
 typedef ARKitPluginCreatedCallback = void Function(ARKitController controller);
 typedef StringResultHandler = void Function(String text);
 typedef AnchorEventHandler = void Function(ARKitAnchor anchor);
-typedef Matrix4ResultHandler = void Function(Matrix4 point);
+typedef ARKitHitResultHandler = void Function(List<ARKitTestResult> hits);
 
 /// A widget that wraps ARSCNView from ARKit.
 class ARKitSceneView extends StatefulWidget {
@@ -132,8 +132,8 @@ class ARKitController {
 
   MethodChannel _channel;
   StringResultHandler onError;
-  StringResultHandler onTap;
-  Matrix4ResultHandler onPlaneTap;
+  StringResultHandler onNodeTap;
+  ARKitHitResultHandler onARTap;
 
   AnchorEventHandler onAddNodeForAnchor;
   AnchorEventHandler onUpdateNodeForAnchor;
@@ -187,14 +187,20 @@ class ARKitController {
           onError(call.arguments);
         }
         break;
-      case 'onTap':
-        if (onTap != null) {
-          onTap(call.arguments);
+      case 'onNodeTap':
+        if (onNodeTap != null) {
+          onNodeTap(call.arguments);
         }
         break;
-      case 'onPlaneTap':
-        if (onPlaneTap != null) {
-          onPlaneTap(getMatrixFromString(call.arguments));
+      case 'onARTap':
+        if (onARTap != null) {
+          final List<dynamic> input = call.arguments;
+          final objects = input
+              .cast<Map<dynamic, dynamic>>()
+              .map<ARKitTestResult>(
+                  (Map<dynamic, dynamic> r) => ARKitTestResult.fromMap(r))
+              .toList();
+          onARTap(objects);
         }
         break;
       case 'didAddNodeForAnchor':

@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'package:arkit_plugin/arkit_plugin.dart';
-import 'package:arkit_plugin/geometries/arkit_line.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
@@ -39,8 +38,13 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
     this.arkitController = arkitController;
     this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
     this.arkitController.onUpdateNodeForAnchor = _handleUpdateAnchor;
-    this.arkitController.onPlaneTap =
-        (transform) => _onPlaneTapHandler(transform);
+    this.arkitController.onARTap = (List<ARKitTestResult> ar) {
+      final planeTap = ar.firstWhere(
+          (tap) => tap.type == ARKitHitTestResultType.existingPlaneUsingExtent);
+      if (planeTap != null) {
+        _onPlaneTapHandler(planeTap.worldTransform);
+      }
+    };
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {

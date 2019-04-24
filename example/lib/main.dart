@@ -5,6 +5,7 @@ import 'package:arkit_plugin_example/earth_page.dart';
 import 'package:arkit_plugin_example/hello_world.dart';
 import 'package:arkit_plugin_example/image_detection_page.dart';
 import 'package:arkit_plugin_example/light_estimate_page.dart';
+import 'package:arkit_plugin_example/measure_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
@@ -50,6 +51,13 @@ class MyApp extends StatelessWidget {
         Icons.blur_on,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => DistanceTrackingPage())),
+      ),
+      Sample(
+        'Measure',
+        'Measures distances',
+        Icons.linear_scale,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => MeasurePage())),
       ),
       Sample(
         'Physics',
