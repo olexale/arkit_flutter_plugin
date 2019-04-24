@@ -48,6 +48,7 @@ class ARKitNode {
   final ARKitLight light;
 
   Map<String, dynamic> toMap() => <String, dynamic>{
+        'dartType': runtimeType.toString(),
         'geometry': geometry?.toMap(),
         'position': convertVector3ToMap(position.value),
         'scale': convertVector3ToMap(scale.value),

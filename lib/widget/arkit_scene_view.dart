@@ -149,6 +149,11 @@ class ARKitController {
     return _channel.invokeMethod('addARKitNode', params);
   }
 
+  Future<void> removeNode({@required String nodeName}) {
+    assert(nodeName != null);
+    return _channel.invokeMethod('removeARKitNode', {'nodeName': nodeName});
+  }
+
   /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
   Future<List<Vector3>> getNodeBoundingBox(ARKitNode node) async {
     final params = _addParentNodeNameToParams(node.toMap(), null);

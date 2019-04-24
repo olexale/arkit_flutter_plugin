@@ -74,6 +74,8 @@
     [self init:call result:result];
   } else if ([[call method] isEqualToString:@"addARKitNode"]) {
       [self onAddNode:call result:result];
+  } else if ([[call method] isEqualToString:@"removeARKitNode"]) {
+      [self onRemoveNode:call result:result];
   } else if ([[call method] isEqualToString:@"getNodeBoundingBox"]) {
       [self onGetNodeBoundingBox:call result:result];
   } else if ([[call method] isEqualToString:@"positionChanged"]) {
@@ -121,6 +123,13 @@
     NSDictionary* geometryArguments = call.arguments[@"geometry"];
     SCNGeometry* geometry = [GeometryBuilder createGeometry:geometryArguments];
     [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
+}
+
+- (void)onRemoveNode:(FlutterMethodCall*)call result:(FlutterResult)result {
+    NSString* nodeName = call.arguments[@"nodeName"];
+    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:nodeName recursively:YES];
+    [node removeFromParentNode];
+    result(nil);
 }
 
 - (void)onGetNodeBoundingBox:(FlutterMethodCall*)call result:(FlutterResult)result {
@@ -233,7 +242,17 @@
 }
 
 - (SCNNode *) getNodeWithGeometry:(SCNGeometry *)geometry fromDict:(NSDictionary *)dict {
-    SCNNode* node = [SCNNode nodeWithGeometry:geometry];
+    SCNNode* node;
+    if ([dict[@"dartType"] isEqualToString:@"ARKitNode"]) {
+        node = [SCNNode nodeWithGeometry:geometry];
+    } else if ([dict[@"dartType"] isEqualToString:@"ARKitReferenceNode"]) {
+        NSString* url = dict[@"url"];
+        NSURL* referenceURL = [[NSBundle mainBundle] URLForResource:url withExtension:nil];
+        node = [SCNReferenceNode referenceNodeWithURL:referenceURL];
+        [(SCNReferenceNode*)node load];
+    } else {
+        return nil;
+    }
     node.position = [DecodableUtils parseVector3:dict[@"position"]];
     
     if (dict[@"scale"] != nil) {
