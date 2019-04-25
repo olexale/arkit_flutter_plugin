@@ -26,7 +26,7 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
         body: Container(
           child: ARKitSceneView(
             showFeaturePoints: true,
-            planeDetection: ARPlaneDetection.horizontalAndVertical,
+            planeDetection: ARPlaneDetection.horizontal,
             onARKitViewCreated: onARKitViewCreated,
           ),
         ),
