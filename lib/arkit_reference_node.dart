@@ -14,6 +14,7 @@ class ARKitReferenceNode extends ARKitNode {
     Vector3 scale,
     Vector4 rotation,
     String name,
+    int renderingOrder,
   }) : super(
           physicsBody: physicsBody,
           light: light,
@@ -21,6 +22,7 @@ class ARKitReferenceNode extends ARKitNode {
           scale: scale,
           rotation: rotation,
           name: name,
+          renderingOrder: renderingOrder,
         );
 
   /// Node url at bundle.
