@@ -292,7 +292,26 @@ class ARKitMaterial {
         'transparencyMode': transparencyMode.index,
         'locksAmbientWithDiffuse': locksAmbientWithDiffuse,
         'writesToDepthBuffer': writesToDepthBuffer,
-        'colorBufferWriteMask': colorBufferWriteMask.index,
+        'colorBufferWriteMask': _colorMaskToInt(colorBufferWriteMask),
         'blendMode': blendMode.index,
       }..removeWhere((String k, dynamic v) => v == null);
+
+  int _colorMaskToInt(ARKitColorMask mask) {
+    switch (mask) {
+      case ARKitColorMask.none:
+        return 0;
+        break;
+      case ARKitColorMask.red:
+        return 8;
+      case ARKitColorMask.green:
+        return 4;
+      case ARKitColorMask.blue:
+        return 2;
+      case ARKitColorMask.alpha:
+        return 1;
+      case ARKitColorMask.all:
+      default:
+        return 15;
+    }
+  }
 }
