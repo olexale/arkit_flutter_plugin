@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Occlusion',
-        'Sphere which is not visible after horizontal and vertical planes.',
+        'Spheres which are not visible after horizontal and vertical planes.',
         Icons.blur_circular,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => OcclusionPage())),

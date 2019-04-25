@@ -27,7 +27,7 @@ class _OcclusionPageState extends State<OcclusionPage> {
           child: ARKitSceneView(
             showFeaturePoints: true,
             enableTapRecognizer: true,
-            planeDetection: ARPlaneDetection.vertical,
+            planeDetection: ARPlaneDetection.horizontalAndVertical,
             onARKitViewCreated: onARKitViewCreated,
           ),
         ),
