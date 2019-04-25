@@ -6,6 +6,7 @@ import 'package:arkit_plugin_example/hello_world.dart';
 import 'package:arkit_plugin_example/image_detection_page.dart';
 import 'package:arkit_plugin_example/light_estimate_page.dart';
 import 'package:arkit_plugin_example/measure_page.dart';
+import 'package:arkit_plugin_example/occlusion_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
@@ -93,6 +94,13 @@ class MyApp extends StatelessWidget {
         Icons.nature,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => CustomObjectPage())),
+      ),
+      Sample(
+        'Occlusion',
+        'Sphere which is not visible after horizontal and vertical planes.',
+        Icons.blur_circular,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => OcclusionPage())),
       ),
     ];
 

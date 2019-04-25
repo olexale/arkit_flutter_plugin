@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+* ARKitNode.renderingOrder
+* Both Horizontal and Vertical planes option
+
 ## 0.1.1
 
 * Tap Gesture refactored to onNodeTap and onARTap

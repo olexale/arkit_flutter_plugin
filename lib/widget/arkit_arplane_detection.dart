@@ -8,4 +8,7 @@ enum ARPlaneDetection {
 
   /// Plane detection determines vertical planes in the scene. (iOS >= 11.3)
   vertical,
+
+  /// Plane detection determines both horizontal and vertical planes in the scene. (iOS >= 11.3)
+  horizontalAndVertical,
 }

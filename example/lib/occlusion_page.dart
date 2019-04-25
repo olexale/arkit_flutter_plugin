@@ -3,12 +3,12 @@ import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
-class PlaneDetectionPage extends StatefulWidget {
+class OcclusionPage extends StatefulWidget {
   @override
-  _PlaneDetectionPageState createState() => _PlaneDetectionPageState();
+  _OcclusionPageState createState() => _OcclusionPageState();
 }
 
-class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
+class _OcclusionPageState extends State<OcclusionPage> {
   ARKitController arkitController;
   ARKitPlane plane;
   ARKitNode node;
@@ -22,7 +22,7 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('Plane Detection Sample')),
+        appBar: AppBar(title: const Text('Occlusion Sample')),
         body: Container(
           child: ARKitSceneView(
             showFeaturePoints: true,
@@ -63,17 +63,35 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
       height: anchor.extent.z,
       materials: [
         ARKitMaterial(
-          transparency: 0.5,
-          diffuse: ARKitMaterialProperty(color: Colors.white),
+          colorBufferWriteMask: ARKitColorMask.none,
+          // transparency: 0.5,
+          // diffuse: ARKitMaterialProperty(color: Colors.white),
         )
       ],
     );
 
     node = ARKitNode(
       geometry: plane,
+      renderingOrder: -1,
       position: vector.Vector3(anchor.center.x, 0, anchor.center.z),
       rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
     );
     controller.add(node, parentNodeName: anchor.nodeName);
+
+    final material = ARKitMaterial(
+      lightingModelName: ARKitLightingModel.physicallyBased,
+      diffuse: ARKitMaterialProperty(
+        color: Colors.red,
+      ),
+    );
+    final sphere = ARKitSphere(
+      materials: [material],
+      radius: 0.1,
+    );
+    final sphereNode = ARKitNode(
+      geometry: sphere,
+      position: vector.Vector3(0, 0, 0.2),
+    );
+    controller.add(sphereNode, parentNodeName: node.name);
   }
 }
