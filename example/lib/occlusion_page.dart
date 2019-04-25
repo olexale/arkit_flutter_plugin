@@ -26,7 +26,8 @@ class _OcclusionPageState extends State<OcclusionPage> {
         body: Container(
           child: ARKitSceneView(
             showFeaturePoints: true,
-            planeDetection: ARPlaneDetection.horizontalAndVertical,
+            enableTapRecognizer: true,
+            planeDetection: ARPlaneDetection.vertical,
             onARKitViewCreated: onARKitViewCreated,
           ),
         ),
@@ -36,6 +37,13 @@ class _OcclusionPageState extends State<OcclusionPage> {
     this.arkitController = arkitController;
     this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
     this.arkitController.onUpdateNodeForAnchor = _handleUpdateAnchor;
+    this.arkitController.onARTap = (ar) {
+      final point =
+          ar.firstWhere((o) => o.type == ARKitHitTestResultType.featurePoint);
+      if (point != null) {
+        _onARTapHandler(point);
+      }
+    };
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
@@ -61,13 +69,7 @@ class _OcclusionPageState extends State<OcclusionPage> {
     plane = ARKitPlane(
       width: anchor.extent.x,
       height: anchor.extent.z,
-      materials: [
-        ARKitMaterial(
-          colorBufferWriteMask: ARKitColorMask.none,
-          // transparency: 0.5,
-          // diffuse: ARKitMaterialProperty(color: Colors.white),
-        )
-      ],
+      materials: [ARKitMaterial(colorBufferWriteMask: ARKitColorMask.none)],
     );
 
     node = ARKitNode(
@@ -77,21 +79,21 @@ class _OcclusionPageState extends State<OcclusionPage> {
       rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
     );
     controller.add(node, parentNodeName: anchor.nodeName);
+  }
 
-    final material = ARKitMaterial(
-      lightingModelName: ARKitLightingModel.physicallyBased,
-      diffuse: ARKitMaterialProperty(
-        color: Colors.red,
-      ),
+  void _onARTapHandler(ARKitTestResult point) {
+    final position = vector.Vector3(
+      point.worldTransform.getColumn(3).x,
+      point.worldTransform.getColumn(3).y,
+      point.worldTransform.getColumn(3).z,
     );
+    final material =
+        ARKitMaterial(diffuse: ARKitMaterialProperty(color: Colors.red));
     final sphere = ARKitSphere(
+      radius: 0.006,
       materials: [material],
-      radius: 0.1,
     );
-    final sphereNode = ARKitNode(
-      geometry: sphere,
-      position: vector.Vector3(0, 0, 0.2),
-    );
-    controller.add(sphereNode, parentNodeName: node.name);
+    final node = ARKitNode(geometry: sphere, position: position);
+    arkitController.add(node);
   }
 }
