@@ -28,6 +28,7 @@ class ARKitSceneView extends StatefulWidget {
     this.showWorldOrigin = false,
     this.planeDetection = ARPlaneDetection.none,
     this.detectionImagesGroupName,
+    this.forceUserTapOnCenter = false,
   }) : super(key: key);
 
   /// This function will be fired when ARKit view is created.
@@ -67,6 +68,10 @@ class ARKitSceneView extends StatefulWidget {
   /// When an image is detected an ARImageAnchor will be added to the session.
   final String detectionImagesGroupName;
 
+  /// When set every user tap will be processed like user tapped on the center of the screen.
+  /// The default is false.
+  final bool forceUserTapOnCenter;
+
   @override
   _ARKitSceneViewState createState() => _ARKitSceneViewState();
 }
@@ -98,6 +103,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.showWorldOrigin,
       widget.planeDetection,
       widget.detectionImagesGroupName,
+      widget.forceUserTapOnCenter,
     ));
   }
 }
@@ -116,6 +122,7 @@ class ARKitController {
     bool showWorldOrigin,
     ARPlaneDetection planeDetection,
     String detectionImagesGroupName,
+    bool forceUserTapOnCenter,
   ) {
     _channel = MethodChannel('arkit_$id');
     _channel.setMethodCallHandler(_platformCallHandler);
@@ -127,6 +134,7 @@ class ARKitController {
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
       'detectionImagesGroupName': detectionImagesGroupName,
+      'forceUserTapOnCenter': forceUserTapOnCenter,
     });
   }
 

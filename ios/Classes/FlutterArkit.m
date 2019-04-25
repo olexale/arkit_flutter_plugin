@@ -42,6 +42,7 @@
 @property FlutterMethodChannel* channel;
 @property (strong) SceneViewDelegate* delegate;
 @property (readwrite) ARWorldTrackingConfiguration *configuration;
+@property BOOL forceUserTapOnCenter;
 @end
 
 @implementation FlutterArkitController
@@ -99,6 +100,9 @@
   
     NSNumber* autoenablesDefaultLighting = call.arguments[@"autoenablesDefaultLighting"];
     self.sceneView.autoenablesDefaultLighting = [autoenablesDefaultLighting boolValue];
+    
+    NSNumber* forceUserTapOnCenter = call.arguments[@"forceUserTapOnCenter"];
+    self.forceUserTapOnCenter = [forceUserTapOnCenter boolValue];
   
     NSNumber* requestedPlaneDetection = call.arguments[@"planeDetection"];
     self.planeDetection = [self getPlaneFromNumber:[requestedPlaneDetection intValue]];
@@ -162,7 +166,9 @@
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer
 {
     ARSCNView* sceneView = (ARSCNView *)recognizer.view;
-    CGPoint touchLocation = [recognizer locationInView:sceneView];
+    CGPoint touchLocation = self.forceUserTapOnCenter
+        ? self.sceneView.center
+        : [recognizer locationInView:sceneView];
     NSArray<SCNHitTestResult *> * hitResults = [sceneView hitTest:touchLocation options:@{}];
     if ([hitResults count] != 0) {
         SCNNode *node = hitResults[0].node;
