@@ -272,6 +272,10 @@
         NSDictionary *light = dict[@"light"];
         node.light = [self getLightFromDict: light];
     }
+    
+    NSNumber* renderingOrder = dict[@"renderingOrder"];
+    node.renderingOrder = [renderingOrder integerValue];
+    
     return node;
 }
 

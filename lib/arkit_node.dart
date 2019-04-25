@@ -14,6 +14,7 @@ class ARKitNode {
     this.geometry,
     this.physicsBody,
     this.light,
+    this.renderingOrder = 0,
     Vector3 position,
     Vector3 scale,
     Vector4 rotation,
@@ -47,6 +48,11 @@ class ARKitNode {
   /// Determines the light attached to the receiver.
   final ARKitLight light;
 
+  /// Determines the rendering order of the receiver.
+  /// Nodes with greater rendering orders are rendered last.
+  /// Defaults to 0.
+  final int renderingOrder;
+
   Map<String, dynamic> toMap() => <String, dynamic>{
         'dartType': runtimeType.toString(),
         'geometry': geometry?.toMap(),
@@ -56,5 +62,6 @@ class ARKitNode {
         'physicsBody': physicsBody?.toMap(),
         'light': light?.toMap(),
         'name': name,
+        'renderingOrder': renderingOrder,
       }..removeWhere((String k, dynamic v) => v == null);
 }
