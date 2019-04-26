@@ -165,15 +165,6 @@ class ARKitController {
   Future<void> add(ARKitNode node, {String parentNodeName}) {
     assert(node != null);
     final params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
-
-    //     Map<String, dynamic> params;
-    // if (node is ARKitReferenceNode) {
-    //   final ARKitReferenceNode referenceNode = node;
-    //   params =
-    //       _addParentNodeNameToParams(referenceNode.toMap(), parentNodeName);
-    // } else {
-    //   params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
-    // }
     _subsribeToChanges(node);
     return _channel.invokeMethod('addARKitNode', params);
   }
