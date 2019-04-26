@@ -119,6 +119,11 @@
         [self.sceneView addGestureRecognizer:pinchGestureRecognizer];
     }
     
+    if ([call.arguments[@"enablePanRecognizer"] boolValue]) {
+        UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanFrom:)];
+        [self.sceneView addGestureRecognizer:panGestureRecognizer];
+    }
+    
     self.sceneView.debugOptions = [self getDebugOptions:call.arguments];
     
     ARWorldTrackingConfiguration* configuration = self.configuration;
@@ -221,6 +226,29 @@
             [_channel invokeMethod: @"onNodePinch" arguments: results];
         }
         recognizer.scale = 1;
+    }
+}
+
+- (void) handlePanFrom: (UIPanGestureRecognizer *) recognizer
+{
+    if (![recognizer.view isKindOfClass:[ARSCNView class]])
+        return;
+    
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        ARSCNView* sceneView = (ARSCNView *)recognizer.view;
+        CGPoint touchLocation = [recognizer locationInView:sceneView];
+        CGPoint translation = [recognizer translationInView:sceneView];
+        NSArray<SCNHitTestResult *> * hitResults = [sceneView hitTest:touchLocation options:@{}];
+        
+        NSMutableArray<NSDictionary*>* results = [NSMutableArray arrayWithCapacity:[hitResults count]];
+        for (SCNHitTestResult* r in hitResults) {
+            if (r.node.name != nil) {
+                [results addObject:@{@"name" : r.node.name, @"x" : @(translation.x), @"y":@(translation.y)}];
+            }
+        }
+        if ([results count] != 0) {
+            [_channel invokeMethod: @"onNodePan" arguments: results];
+        }
     }
 }
 

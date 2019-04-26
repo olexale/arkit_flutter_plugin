@@ -26,6 +26,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
             showFeaturePoints: true,
             enableTapRecognizer: true,
             enablePinchRecognizer: true,
+            enablePanRecognizer: true,
             planeDetection: ARPlaneDetection.horizontal,
             onARKitViewCreated: onARKitViewCreated,
           ),
@@ -41,9 +42,8 @@ class _ManipulationPageState extends State<ManipulationPage> {
         _onTapHandler(point);
       }
     };
-    this.arkitController.onNodePinch = (pinch) {
-      _onPinchHandler(pinch);
-    };
+    this.arkitController.onNodePinch = (pinch) => _onPinchHandler(pinch);
+    this.arkitController.onNodePan = (pan) => _onPanHandler(pan);
   }
 
   void _onTapHandler(ARKitTestResult point) {
@@ -65,7 +65,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
     final node = ARKitNode(
       geometry: box,
       scale: vector.Vector3.all(1),
-      rotation: vector.Vector4.all(1),
+      rotation: vector.Vector4.all(0),
       position: position,
     );
     arkitController.add(node);
@@ -82,6 +82,18 @@ class _ManipulationPageState extends State<ManipulationPage> {
           node.scale.value.z * pinchNode.scale,
         );
         node.scale.value = scale;
+      }
+    }
+  }
+
+  void _onPanHandler(List<ARKitNodePanResult> pan) {
+    for (var panNode in pan) {
+      final node = nodes.firstWhere((n) => n.name == panNode.nodeName);
+      if (node != null) {
+        final old = node.rotation.value;
+        final rotation = vector.Vector4(old.x + panNode.translation.x,
+            old.y + panNode.translation.y, old.z, old.w + 0.05);
+        node.rotation.value = rotation;
       }
     }
   }

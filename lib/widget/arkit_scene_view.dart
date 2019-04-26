@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
+import 'package:arkit_plugin/hit/arkit_node_pan_result.dart';
 import 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
 import 'package:arkit_plugin/light/arkit_light_estimate.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
@@ -16,6 +17,7 @@ typedef ARKitPluginCreatedCallback = void Function(ARKitController controller);
 typedef StringResultHandler = void Function(String text);
 typedef AnchorEventHandler = void Function(ARKitAnchor anchor);
 typedef ARKitHitResultHandler = void Function(List<ARKitTestResult> hits);
+typedef ARKitPanResultHandler = void Function(List<ARKitNodePanResult> pans);
 typedef ARKitPinchGestureHandler = void Function(
     List<ARKitNodePinchResult> pinch);
 
@@ -28,6 +30,7 @@ class ARKitSceneView extends StatefulWidget {
     this.autoenablesDefaultLighting = true,
     this.enableTapRecognizer = false,
     this.enablePinchRecognizer = false,
+    this.enablePanRecognizer = false,
     this.showFeaturePoints = false,
     this.showWorldOrigin = false,
     this.planeDetection = ARPlaneDetection.none,
@@ -55,6 +58,10 @@ class ARKitSceneView extends StatefulWidget {
   /// Determines whether the receiver should recognize pinch events.
   /// The default is false.
   final bool enablePinchRecognizer;
+
+  /// Determines whether the receiver should recognize pan events.
+  /// The default is false.
+  final bool enablePanRecognizer;
 
   /// Type of planes to detect in the scene.
   /// If set, new planes will continue to be detected and updated over time.
@@ -110,6 +117,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.showFeaturePoints,
       widget.showWorldOrigin,
       widget.enablePinchRecognizer,
+      widget.enablePanRecognizer,
       widget.planeDetection,
       widget.detectionImagesGroupName,
       widget.forceUserTapOnCenter,
@@ -130,6 +138,7 @@ class ARKitController {
     bool showFeaturePoints,
     bool showWorldOrigin,
     bool enablePinchRecognizer,
+    bool enablePanRecognizer,
     ARPlaneDetection planeDetection,
     String detectionImagesGroupName,
     bool forceUserTapOnCenter,
@@ -141,6 +150,7 @@ class ARKitController {
       'autoenablesDefaultLighting': autoenablesDefaultLighting,
       'enableTapRecognizer': enableTapRecognizer,
       'enablePinchRecognizer': enablePinchRecognizer,
+      'enablePanRecognizer': enablePanRecognizer,
       'planeDetection': planeDetection.index,
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
@@ -154,6 +164,7 @@ class ARKitController {
   StringResultHandler onNodeTap;
   ARKitHitResultHandler onARTap;
   ARKitPinchGestureHandler onNodePinch;
+  ARKitPanResultHandler onNodePan;
 
   AnchorEventHandler onAddNodeForAnchor;
   AnchorEventHandler onUpdateNodeForAnchor;
@@ -232,6 +243,17 @@ class ARKitController {
                   (Map<dynamic, dynamic> r) => ARKitNodePinchResult.fromMap(r))
               .toList();
           onNodePinch(objects);
+        }
+        break;
+      case 'onNodePan':
+        if (onNodePan != null) {
+          final List<dynamic> input = call.arguments;
+          final objects = input
+              .cast<Map<dynamic, dynamic>>()
+              .map<ARKitNodePanResult>(
+                  (Map<dynamic, dynamic> r) => ARKitNodePanResult.fromMap(r))
+              .toList();
+          onNodePan(objects);
         }
         break;
       case 'didAddNodeForAnchor':
