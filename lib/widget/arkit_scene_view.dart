@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
+import 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
 import 'package:arkit_plugin/light/arkit_light_estimate.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
@@ -15,6 +16,8 @@ typedef ARKitPluginCreatedCallback = void Function(ARKitController controller);
 typedef StringResultHandler = void Function(String text);
 typedef AnchorEventHandler = void Function(ARKitAnchor anchor);
 typedef ARKitHitResultHandler = void Function(List<ARKitTestResult> hits);
+typedef ARKitPinchGestureHandler = void Function(
+    List<ARKitNodePinchResult> pinch);
 
 /// A widget that wraps ARSCNView from ARKit.
 class ARKitSceneView extends StatefulWidget {
@@ -24,6 +27,7 @@ class ARKitSceneView extends StatefulWidget {
     this.showStatistics = false,
     this.autoenablesDefaultLighting = true,
     this.enableTapRecognizer = false,
+    this.enablePinchRecognizer = false,
     this.showFeaturePoints = false,
     this.showWorldOrigin = false,
     this.planeDetection = ARPlaneDetection.none,
@@ -47,6 +51,10 @@ class ARKitSceneView extends StatefulWidget {
   /// Determines whether the receiver should recognize taps.
   /// The default is false.
   final bool enableTapRecognizer;
+
+  /// Determines whether the receiver should recognize pinch events.
+  /// The default is false.
+  final bool enablePinchRecognizer;
 
   /// Type of planes to detect in the scene.
   /// If set, new planes will continue to be detected and updated over time.
@@ -101,6 +109,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.enableTapRecognizer,
       widget.showFeaturePoints,
       widget.showWorldOrigin,
+      widget.enablePinchRecognizer,
       widget.planeDetection,
       widget.detectionImagesGroupName,
       widget.forceUserTapOnCenter,
@@ -120,6 +129,7 @@ class ARKitController {
     bool enableTapRecognizer,
     bool showFeaturePoints,
     bool showWorldOrigin,
+    bool enablePinchRecognizer,
     ARPlaneDetection planeDetection,
     String detectionImagesGroupName,
     bool forceUserTapOnCenter,
@@ -130,6 +140,7 @@ class ARKitController {
       'showStatistics': showStatistics,
       'autoenablesDefaultLighting': autoenablesDefaultLighting,
       'enableTapRecognizer': enableTapRecognizer,
+      'enablePinchRecognizer': enablePinchRecognizer,
       'planeDetection': planeDetection.index,
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
@@ -142,6 +153,7 @@ class ARKitController {
   StringResultHandler onError;
   StringResultHandler onNodeTap;
   ARKitHitResultHandler onARTap;
+  ARKitPinchGestureHandler onNodePinch;
 
   AnchorEventHandler onAddNodeForAnchor;
   AnchorEventHandler onUpdateNodeForAnchor;
@@ -153,6 +165,15 @@ class ARKitController {
   Future<void> add(ARKitNode node, {String parentNodeName}) {
     assert(node != null);
     final params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
+
+    //     Map<String, dynamic> params;
+    // if (node is ARKitReferenceNode) {
+    //   final ARKitReferenceNode referenceNode = node;
+    //   params =
+    //       _addParentNodeNameToParams(referenceNode.toMap(), parentNodeName);
+    // } else {
+    //   params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
+    // }
     _subsribeToChanges(node);
     return _channel.invokeMethod('addARKitNode', params);
   }
@@ -211,6 +232,17 @@ class ARKitController {
           onARTap(objects);
         }
         break;
+      case 'onNodePinch':
+        if (onNodePinch != null) {
+          final List<dynamic> input = call.arguments;
+          final objects = input
+              .cast<Map<dynamic, dynamic>>()
+              .map<ARKitNodePinchResult>(
+                  (Map<dynamic, dynamic> r) => ARKitNodePinchResult.fromMap(r))
+              .toList();
+          onNodePinch(objects);
+        }
+        break;
       case 'didAddNodeForAnchor':
         if (onAddNodeForAnchor != null) {
           final anchor = _buildAnchor(call.arguments);
@@ -232,6 +264,7 @@ class ARKitController {
   void _subsribeToChanges(ARKitNode node) {
     node.position.addListener(() => _handlePositionChanged(node));
     node.rotation.addListener(() => _handleRotationChanged(node));
+    node.scale.addListener(() => _handleScaleChanged(node));
 
     if (node.geometry != null) {
       node.geometry.materials.addListener(() => _updateMaterials(node));
@@ -257,6 +290,11 @@ class ARKitController {
   void _handleRotationChanged(ARKitNode node) {
     _channel.invokeMethod<void>('rotationChanged',
         _getHandlerParams(node, convertVector4ToMap(node.rotation.value)));
+  }
+
+  void _handleScaleChanged(ARKitNode node) {
+    _channel.invokeMethod<void>('scaleChanged',
+        _getHandlerParams(node, convertVector3ToMap(node.scale.value)));
   }
 
   void _updateMaterials(ARKitNode node) {

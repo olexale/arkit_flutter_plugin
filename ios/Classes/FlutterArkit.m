@@ -83,6 +83,8 @@
       [self updatePosition:call andResult:result];
   } else if ([[call method] isEqualToString:@"rotationChanged"]) {
       [self updateRotation:call andResult:result];
+  } else if ([[call method] isEqualToString:@"scaleChanged"]) {
+      [self updateScale:call andResult:result];
   } else if ([[call method] isEqualToString:@"updateSingleProperty"]) {
       [self updateSingleProperty:call andResult:result];
   } else if ([[call method] isEqualToString:@"updateMaterials"]) {
@@ -110,6 +112,11 @@
     if ([call.arguments[@"enableTapRecognizer"] boolValue]) {
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
         [self.sceneView addGestureRecognizer:tapGestureRecognizer];
+    }
+    
+    if ([call.arguments[@"enablePinchRecognizer"] boolValue]) {
+        UIPinchGestureRecognizer *pinchGestureRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchFrom:)];
+        [self.sceneView addGestureRecognizer:pinchGestureRecognizer];
     }
     
     self.sceneView.debugOptions = [self getDebugOptions:call.arguments];
@@ -165,6 +172,9 @@
 #pragma mark - Scene tap event
 - (void) handleTapFrom: (UITapGestureRecognizer *)recognizer
 {
+    if (![recognizer.view isKindOfClass:[ARSCNView class]])
+        return;
+    
     ARSCNView* sceneView = (ARSCNView *)recognizer.view;
     CGPoint touchLocation = self.forceUserTapOnCenter
         ? self.sceneView.center
@@ -191,6 +201,29 @@
     }
 }
 
+- (void) handlePinchFrom: (UIPinchGestureRecognizer *) recognizer
+{
+    if (![recognizer.view isKindOfClass:[ARSCNView class]])
+        return;
+    
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        ARSCNView* sceneView = (ARSCNView *)recognizer.view;
+        CGPoint touchLocation = [recognizer locationInView:sceneView];
+        NSArray<SCNHitTestResult *> * hitResults = [sceneView hitTest:touchLocation options:@{}];
+        
+        NSMutableArray<NSDictionary*>* results = [NSMutableArray arrayWithCapacity:[hitResults count]];
+        for (SCNHitTestResult* r in hitResults) {
+            if (r.node.name != nil) {
+                [results addObject:@{@"name" : r.node.name, @"scale" : @(recognizer.scale)}];
+            }
+        }
+        if ([results count] != 0) {
+            [_channel invokeMethod: @"onNodePinch" arguments: results];
+        }
+        recognizer.scale = 1;
+    }
+}
+
 #pragma mark - Parameters
 - (void) updatePosition:(FlutterMethodCall*)call andResult:(FlutterResult)result{
     NSString* name = call.arguments[@"name"];
@@ -203,6 +236,13 @@
     NSString* name = call.arguments[@"name"];
     SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
     node.rotation = [DecodableUtils parseVector4:call.arguments];
+    result(nil);
+}
+
+- (void) updateScale:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    NSString* name = call.arguments[@"name"];
+    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
+    node.scale = [DecodableUtils parseVector3:call.arguments];
     result(nil);
 }
 

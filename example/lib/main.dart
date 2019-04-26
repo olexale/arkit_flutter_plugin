@@ -5,6 +5,7 @@ import 'package:arkit_plugin_example/earth_page.dart';
 import 'package:arkit_plugin_example/hello_world.dart';
 import 'package:arkit_plugin_example/image_detection_page.dart';
 import 'package:arkit_plugin_example/light_estimate_page.dart';
+import 'package:arkit_plugin_example/manipulation_page.dart';
 import 'package:arkit_plugin_example/measure_page.dart';
 import 'package:arkit_plugin_example/occlusion_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
@@ -101,6 +102,13 @@ class MyApp extends StatelessWidget {
         Icons.blur_circular,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => OcclusionPage())),
+      ),
+      Sample(
+        'Manipulation',
+        'Custom objects with pinch and move events.',
+        Icons.threed_rotation,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => ManipulationPage())),
       ),
     ];
 

@@ -25,6 +25,13 @@
         float extrusionDepth = [geometryArguments[@"extrusionDepth"] floatValue];
         geometry = [SCNText textWithString:geometryArguments[@"text"] extrusionDepth:extrusionDepth];
     }
+    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitBox"]) {
+        NSNumber* width = geometryArguments[@"width"];
+        NSNumber* height = geometryArguments[@"height"];
+        NSNumber* length = geometryArguments[@"length"];
+        NSNumber* chamferRadius = geometryArguments[@"chamferRadius"];
+        geometry = [SCNBox boxWithWidth:[width floatValue] height:[height floatValue] length:[length floatValue] chamferRadius:[chamferRadius floatValue]];
+    }
     if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitLine"]) {
         SCNVector3 fromVector =  [DecodableUtils parseVector3:geometryArguments[@"fromVector"]];
         SCNVector3 toVector = [DecodableUtils parseVector3:geometryArguments[@"toVector"]];
