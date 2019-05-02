@@ -83,6 +83,8 @@
       [self updatePosition:call andResult:result];
   } else if ([[call method] isEqualToString:@"rotationChanged"]) {
       [self updateRotation:call andResult:result];
+  } else if ([[call method] isEqualToString:@"eulerAnglesChanged"]) {
+      [self updateEulerAngles:call andResult:result];
   } else if ([[call method] isEqualToString:@"scaleChanged"]) {
       [self updateScale:call andResult:result];
   } else if ([[call method] isEqualToString:@"updateSingleProperty"]) {
@@ -264,6 +266,13 @@
     NSString* name = call.arguments[@"name"];
     SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
     node.rotation = [DecodableUtils parseVector4:call.arguments];
+    result(nil);
+}
+
+- (void) updateEulerAngles:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    NSString* name = call.arguments[@"name"];
+    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
+    node.eulerAngles = [DecodableUtils parseVector3:call.arguments];
     result(nil);
 }
 

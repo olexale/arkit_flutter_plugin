@@ -277,6 +277,7 @@ class ARKitController {
   void _subsribeToChanges(ARKitNode node) {
     node.position.addListener(() => _handlePositionChanged(node));
     node.rotation.addListener(() => _handleRotationChanged(node));
+    node.eulerAngles.addListener(() => _handleEulerAnglesChanged(node));
     node.scale.addListener(() => _handleScaleChanged(node));
 
     if (node.geometry != null) {
@@ -303,6 +304,11 @@ class ARKitController {
   void _handleRotationChanged(ARKitNode node) {
     _channel.invokeMethod<void>('rotationChanged',
         _getHandlerParams(node, convertVector4ToMap(node.rotation.value)));
+  }
+
+  void _handleEulerAnglesChanged(ARKitNode node) {
+    _channel.invokeMethod<void>('eulerAnglesChanged',
+        _getHandlerParams(node, convertVector3ToMap(node.eulerAngles.value)));
   }
 
   void _handleScaleChanged(ARKitNode node) {

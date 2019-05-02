@@ -12,7 +12,7 @@ class ARKitReferenceNode extends ARKitNode {
     ARKitLight light,
     Vector3 position,
     Vector3 scale,
-    Vector4 rotation,
+    Vector3 eulerAngles,
     String name,
     int renderingOrder,
   }) : super(
@@ -20,7 +20,7 @@ class ARKitReferenceNode extends ARKitNode {
           light: light,
           position: position,
           scale: scale,
-          rotation: rotation,
+          eulerAngles: eulerAngles,
           name: name,
           renderingOrder: renderingOrder,
         );

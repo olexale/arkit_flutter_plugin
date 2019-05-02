@@ -65,7 +65,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
     final node = ARKitNode(
       geometry: box,
       scale: vector.Vector3.all(1),
-      rotation: vector.Vector4.all(0),
+      eulerAngles: vector.Vector3.zero(),
       position: position,
     );
     arkitController.add(node);
@@ -90,10 +90,9 @@ class _ManipulationPageState extends State<ManipulationPage> {
     for (var panNode in pan) {
       final node = nodes.firstWhere((n) => n.name == panNode.nodeName);
       if (node != null) {
-        final old = node.rotation.value;
-        final rotation = vector.Vector4(old.x + panNode.translation.x,
-            old.y + panNode.translation.y, old.z, old.w + 0.05);
-        node.rotation.value = rotation;
+        final old = node.eulerAngles.value;
+        final newAngleY = panNode.translation.x * math.pi / 180;
+        node.eulerAngles.value = vector.Vector3(old.x, newAngleY, old.z);
       }
     }
   }

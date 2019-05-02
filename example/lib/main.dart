@@ -105,7 +105,7 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Manipulation',
-        'Custom objects with pinch and move events.',
+        'Custom objects with pinch and rotation events.',
         Icons.threed_rotation,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => ManipulationPage())),

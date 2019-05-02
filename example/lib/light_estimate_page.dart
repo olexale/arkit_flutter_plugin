@@ -44,7 +44,7 @@ class _LightEstimatePageState extends State<LightEstimatePage> {
     final node = ARKitNode(
       geometry: sphere,
       position: vector.Vector3(0, 0, -0.5),
-      rotation: vector.Vector4(0, 0, 0, 0),
+      eulerAngles: vector.Vector3.zero(),
     );
     this.arkitController.add(node);
 
@@ -54,9 +54,9 @@ class _LightEstimatePageState extends State<LightEstimatePage> {
     this.arkitController.add(lightNode);
 
     timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
-      final old = node.rotation.value;
-      final rotation = vector.Vector4(old.x, old.y + 1, old.z, old.w + 0.05);
-      node.rotation.value = rotation;
+      final old = node.eulerAngles.value;
+      final eulerAngles = vector.Vector3(old.x, old.y + 1, old.z);
+      node.eulerAngles.value = eulerAngles;
 
       this.arkitController.getLightEstimate().then((e) {
         if (e != null) {

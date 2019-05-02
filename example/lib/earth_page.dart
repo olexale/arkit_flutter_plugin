@@ -45,14 +45,14 @@ class _EarthPageState extends State<EarthPage> {
     final node = ARKitNode(
       geometry: sphere,
       position: Vector3(0, 0, -0.5),
-      rotation: Vector4(0, 0, 0, 0),
+      eulerAngles: Vector3.zero(),
     );
     this.arkitController.add(node);
 
     timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
-      final old = node.rotation.value;
-      final rotation = Vector4(old.x, old.y + 1, old.z, old.w + 0.05);
-      node.rotation.value = rotation;
+      final old = node.eulerAngles.value;
+      final rotation = Vector3(old.x, old.y + 0.1, old.z);
+      node.eulerAngles.value = rotation;
     });
   }
 }

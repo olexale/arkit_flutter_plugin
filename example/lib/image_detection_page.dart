@@ -72,14 +72,14 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
         geometry: sphere,
         position:
             vector.Vector3(earthPosition.x, earthPosition.y, earthPosition.z),
-        rotation: vector.Vector4(0, 0, 0, 0),
+        eulerAngles: vector.Vector3.zero(),
       );
       arkitController.add(node);
 
       timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
-        final old = node.rotation.value;
-        final rotation = vector.Vector4(old.x, old.y + 1, old.z, old.w + 0.05);
-        node.rotation.value = rotation;
+        final old = node.eulerAngles.value;
+        final eulerAngles = vector.Vector3(old.x, old.y + 0.1, old.z);
+        node.eulerAngles.value = eulerAngles;
       });
     }
   }
