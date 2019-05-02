@@ -55,7 +55,7 @@ class _LightEstimatePageState extends State<LightEstimatePage> {
 
     timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
       final old = node.eulerAngles.value;
-      final eulerAngles = vector.Vector3(old.x, old.y + 1, old.z);
+      final eulerAngles = vector.Vector3(old.x, old.y + 0.1, old.z);
       node.eulerAngles.value = eulerAngles;
 
       this.arkitController.getLightEstimate().then((e) {
