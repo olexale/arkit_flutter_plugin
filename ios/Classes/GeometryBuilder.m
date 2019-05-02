@@ -7,45 +7,19 @@
 + (SCNGeometry *) createGeometry:(NSDictionary *) geometryArguments {
     SCNGeometry *geometry;
     if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitSphere"]) {
-        NSNumber* radius = geometryArguments[@"radius"];
-        geometry = [SCNSphere sphereWithRadius:[radius doubleValue]];
+        geometry = [self getSphere:geometryArguments];
     }
     if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitPlane"]) {
-        float width = [geometryArguments[@"width"] floatValue];
-        float height = [geometryArguments[@"height"] floatValue];
-        int widthSegmentCount = [geometryArguments[@"widthSegmentCount"] intValue];
-        int heightSegmentCount = [geometryArguments[@"heightSegmentCount"] intValue];
-        
-        SCNPlane* plane = [SCNPlane planeWithWidth:width height:height];
-        plane.widthSegmentCount = widthSegmentCount;
-        plane.heightSegmentCount = heightSegmentCount;
-        geometry = plane;
+        geometry = [self getPlane:geometryArguments];
     }
     if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitText"]) {
-        float extrusionDepth = [geometryArguments[@"extrusionDepth"] floatValue];
-        geometry = [SCNText textWithString:geometryArguments[@"text"] extrusionDepth:extrusionDepth];
+        geometry = [self getText:geometryArguments];
     }
     if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitBox"]) {
-        NSNumber* width = geometryArguments[@"width"];
-        NSNumber* height = geometryArguments[@"height"];
-        NSNumber* length = geometryArguments[@"length"];
-        NSNumber* chamferRadius = geometryArguments[@"chamferRadius"];
-        geometry = [SCNBox boxWithWidth:[width floatValue] height:[height floatValue] length:[length floatValue] chamferRadius:[chamferRadius floatValue]];
+        geometry = [self getBox:geometryArguments];
     }
     if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitLine"]) {
-        SCNVector3 fromVector =  [DecodableUtils parseVector3:geometryArguments[@"fromVector"]];
-        SCNVector3 toVector = [DecodableUtils parseVector3:geometryArguments[@"toVector"]];
-        SCNVector3 vertices[] = {fromVector, toVector};
-        SCNGeometrySource *source =  [SCNGeometrySource geometrySourceWithVertices: vertices
-                                                                             count: 2];
-        int indexes[] = { 0, 1 };
-        NSData *dataIndexes = [NSData dataWithBytes:indexes length:sizeof(indexes)];
-        SCNGeometryElement *element = [SCNGeometryElement geometryElementWithData:dataIndexes
-                                                                    primitiveType:SCNGeometryPrimitiveTypeLine
-                                                                   primitiveCount:1
-                                                                    bytesPerIndex:sizeof(int)];
-        geometry = [SCNGeometry geometryWithSources: @[source]
-                                           elements: @[element]];
+        geometry = [self getLine:geometryArguments];
     }
     
     if (geometry != nil) {
@@ -137,5 +111,48 @@
     }
 }
 
++ (SCNSphere *) getSphere:(NSDictionary *) geometryArguments {
+    NSNumber* radius = geometryArguments[@"radius"];
+    return [SCNSphere sphereWithRadius:[radius doubleValue]];
+}
 
++ (SCNPlane *) getPlane:(NSDictionary *) geometryArguments {
+    float width = [geometryArguments[@"width"] floatValue];
+    float height = [geometryArguments[@"height"] floatValue];
+    int widthSegmentCount = [geometryArguments[@"widthSegmentCount"] intValue];
+    int heightSegmentCount = [geometryArguments[@"heightSegmentCount"] intValue];
+    
+    SCNPlane* plane = [SCNPlane planeWithWidth:width height:height];
+    plane.widthSegmentCount = widthSegmentCount;
+    plane.heightSegmentCount = heightSegmentCount;
+    return plane;
+}
+
++ (SCNText *) getText:(NSDictionary *) geometryArguments {
+    float extrusionDepth = [geometryArguments[@"extrusionDepth"] floatValue];
+    return [SCNText textWithString:geometryArguments[@"text"] extrusionDepth:extrusionDepth];
+}
+
++ (SCNBox *) getBox:(NSDictionary *) geometryArguments {
+    NSNumber* width = geometryArguments[@"width"];
+    NSNumber* height = geometryArguments[@"height"];
+    NSNumber* length = geometryArguments[@"length"];
+    NSNumber* chamferRadius = geometryArguments[@"chamferRadius"];
+    return [SCNBox boxWithWidth:[width floatValue] height:[height floatValue] length:[length floatValue] chamferRadius:[chamferRadius floatValue]];
+}
+
++ (SCNGeometry *) getLine:(NSDictionary *) geometryArguments {
+    SCNVector3 fromVector =  [DecodableUtils parseVector3:geometryArguments[@"fromVector"]];
+    SCNVector3 toVector = [DecodableUtils parseVector3:geometryArguments[@"toVector"]];
+    SCNVector3 vertices[] = {fromVector, toVector};
+    SCNGeometrySource *source =  [SCNGeometrySource geometrySourceWithVertices: vertices
+                                                                         count: 2];
+    int indexes[] = { 0, 1 };
+    NSData *dataIndexes = [NSData dataWithBytes:indexes length:sizeof(indexes)];
+    SCNGeometryElement *element = [SCNGeometryElement geometryElementWithData:dataIndexes
+                                                                primitiveType:SCNGeometryPrimitiveTypeLine
+                                                                primitiveCount:1
+                                                                bytesPerIndex:sizeof(int)];
+    return [SCNGeometry geometryWithSources: @[source] elements: @[element]];
+}
 @end
