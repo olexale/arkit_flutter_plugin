@@ -5,22 +5,36 @@
 @implementation GeometryBuilder
 
 + (SCNGeometry *) createGeometry:(NSDictionary *) geometryArguments {
-    SCNGeometry *geometry;
+    SEL selector = NULL;
     if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitSphere"]) {
-        geometry = [self getSphere:geometryArguments];
+        selector = @selector(getSphere:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitPlane"]) {
+        selector = @selector(getPlane:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitText"]) {
+        selector = @selector(getText:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitBox"]) {
+        selector = @selector(getBox:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitLine"]) {
+        selector = @selector(getLine:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitCylinder"]) {
+        selector = @selector(getCylinder:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitCone"]) {
+        selector = @selector(getCone:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitPyramid"]) {
+        selector = @selector(getPyramid:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitTube"]) {
+        selector = @selector(getTube:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitTorus"]) {
+        selector = @selector(getTorus:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitCapsule"]) {
+        selector = @selector(getCapsule:);
     }
-    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitPlane"]) {
-        geometry = [self getPlane:geometryArguments];
-    }
-    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitText"]) {
-        geometry = [self getText:geometryArguments];
-    }
-    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitBox"]) {
-        geometry = [self getBox:geometryArguments];
-    }
-    if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitLine"]) {
-        geometry = [self getLine:geometryArguments];
-    }
+    if (selector == nil)
+        return nil;
+    
+    IMP imp = [self methodForSelector:selector];
+    SCNGeometry* (*func)(id, SEL, NSDictionary*) = (void *)imp;
+    SCNGeometry *geometry = func(self, selector, geometryArguments);
     
     if (geometry != nil) {
         geometry.materials = [self getMaterials: geometryArguments[@"materials"]];
@@ -155,4 +169,44 @@
                                                                 bytesPerIndex:sizeof(int)];
     return [SCNGeometry geometryWithSources: @[source] elements: @[element]];
 }
+
++ (SCNCylinder *) getCylinder:(NSDictionary *) geometryArguments {
+    NSNumber* radius = geometryArguments[@"radius"];
+    NSNumber* height = geometryArguments[@"height"];
+    return [SCNCylinder cylinderWithRadius:[radius floatValue] height:[height floatValue]];
+}
+
++ (SCNCone *) getCone:(NSDictionary *) geometryArguments {
+    NSNumber* topRadius = geometryArguments[@"topRadius"];
+    NSNumber* bottomRadius = geometryArguments[@"bottomRadius"];
+    NSNumber* height = geometryArguments[@"height"];
+    return [SCNCone coneWithTopRadius:[topRadius floatValue] bottomRadius:[bottomRadius floatValue] height:[height floatValue]];
+}
+
++ (SCNPyramid *) getPyramid:(NSDictionary *) geometryArguments {
+    NSNumber* width = geometryArguments[@"width"];
+    NSNumber* height = geometryArguments[@"height"];
+    NSNumber* length = geometryArguments[@"length"];
+    return [SCNPyramid pyramidWithWidth:[width floatValue] height:[height floatValue] length:[length floatValue]];
+}
+
++ (SCNTube *) getTube:(NSDictionary *) geometryArguments {
+    NSNumber* innerRadius = geometryArguments[@"innerRadius"];
+    NSNumber* outerRadius = geometryArguments[@"outerRadius"];
+    NSNumber* height = geometryArguments[@"height"];
+    return [SCNTube tubeWithInnerRadius:[innerRadius floatValue] outerRadius:[outerRadius floatValue] height:[height floatValue]];
+}
+
++ (SCNTorus *) getTorus:(NSDictionary *) geometryArguments {
+    NSNumber* ringRadius = geometryArguments[@"ringRadius"];
+    NSNumber* pipeRadius = geometryArguments[@"pipeRadius"];
+    return [SCNTorus torusWithRingRadius:[ringRadius floatValue] pipeRadius:[pipeRadius floatValue]];
+}
+
++ (SCNCapsule *) getCapsule:(NSDictionary *) geometryArguments {
+    NSNumber* capRadius = geometryArguments[@"capRadius"];
+    NSNumber* height = geometryArguments[@"height"];
+    return [SCNCapsule capsuleWithCapRadius:[capRadius floatValue] height:[height floatValue]];
+}
+
 @end
