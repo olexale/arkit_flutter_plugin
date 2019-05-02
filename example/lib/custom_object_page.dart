@@ -45,7 +45,7 @@ class _CustomObjectPageState extends State<CustomObjectPage> {
   void _addPlane(ARKitController controller, ARKitPlaneAnchor anchor) {
     anchorId = anchor.identifier;
     if (node != null) {
-      controller.removeNode(nodeName: node.name);
+      controller.remove(node.name);
     }
     node = ARKitReferenceNode(
       url: 'models.scnassets/eevee.dae',
