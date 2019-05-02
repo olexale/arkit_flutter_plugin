@@ -160,13 +160,33 @@ class ARKitController {
   }
 
   MethodChannel _channel;
+
+  /// This is called when a session fails.
+  /// On failure the session will be paused.
   StringResultHandler onError;
+
+  /// This is called when a session is interrupted.
+  /// A session will be interrupted and no longer able to track when
+  /// it fails to receive required sensor data. This happens when video capture is interrupted,
+  /// for example when the application is sent to the background or when there are
+  /// multiple foreground applications (see AVCaptureSessionInterruptionReason).
+  /// No additional frame updates will be delivered until the interruption has ended.
+  VoidCallback onSessionWasInterrupted;
+
+  /// This is called when a session interruption has ended.
+  /// A session will continue running from the last known state once
+  /// the interruption has ended. If the device has moved, anchors will be misaligned.
+  VoidCallback onSessionInterruptionEnded;
+
   StringResultHandler onNodeTap;
   ARKitHitResultHandler onARTap;
   ARKitPinchGestureHandler onNodePinch;
   ARKitPanResultHandler onNodePan;
 
+  /// Called when a new node has been mapped to the given anchor.
   AnchorEventHandler onAddNodeForAnchor;
+
+  /// Called when a node will be updated with data from the given anchor.
   AnchorEventHandler onUpdateNodeForAnchor;
 
   void dispose() {
@@ -180,7 +200,7 @@ class ARKitController {
     return _channel.invokeMethod('addARKitNode', params);
   }
 
-  Future<void> removeNode({@required String nodeName}) {
+  Future<void> remove(String nodeName) {
     assert(nodeName != null);
     return _channel.invokeMethod('removeARKitNode', {'nodeName': nodeName});
   }

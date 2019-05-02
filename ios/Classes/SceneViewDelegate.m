@@ -35,12 +35,12 @@
 
 - (void)sessionWasInterrupted:(ARSession *)session {
   // Inform the user that the session has been interrupted, for example, by presenting an overlay
-  
+  [_channel invokeMethod: @"onSessionWasInterrupted" arguments: nil];
 }
 
 - (void)sessionInterruptionEnded:(ARSession *)session {
   // Reset tracking and/or remove existing anchors if consistent tracking is required
-  
+  [_channel invokeMethod: @"onSessionInterruptionEnded" arguments: nil];
 }
 
 - (void)renderer:(id <SCNSceneRenderer>)renderer didAddNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {

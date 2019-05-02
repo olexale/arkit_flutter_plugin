@@ -6,6 +6,7 @@
 * Both Horizontal and Vertical planes option
 * Option to handle taps not in real position, but at the center of the widget.
 * Rotation improved
+* onSessionWasInterrupted and onSessionInterruptionEnded handlers added
 
 ## 0.1.1
 
