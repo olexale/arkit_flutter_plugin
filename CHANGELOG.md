@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+
+* Cover all ARKit geometries
+* Made all core properties of all geometries ValueNotifiers
+
 ## 0.1.2
 
 * ARKitNode.renderingOrder
