@@ -1,7 +1,16 @@
 import 'dart:async';
 import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
+import 'package:arkit_plugin/geometries/arkit_box.dart';
+import 'package:arkit_plugin/geometries/arkit_capsule.dart';
+import 'package:arkit_plugin/geometries/arkit_cone.dart';
+import 'package:arkit_plugin/geometries/arkit_cylinder.dart';
 import 'package:arkit_plugin/geometries/arkit_plane.dart';
+import 'package:arkit_plugin/geometries/arkit_pyramid.dart';
+import 'package:arkit_plugin/geometries/arkit_sphere.dart';
+import 'package:arkit_plugin/geometries/arkit_text.dart';
+import 'package:arkit_plugin/geometries/arkit_torus.dart';
+import 'package:arkit_plugin/geometries/arkit_tube.dart';
 import 'package:arkit_plugin/hit/arkit_node_pan_result.dart';
 import 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
 import 'package:arkit_plugin/light/arkit_light_estimate.dart';
@@ -302,18 +311,127 @@ class ARKitController {
 
     if (node.geometry != null) {
       node.geometry.materials.addListener(() => _updateMaterials(node));
-      if (node.geometry is ARKitPlane) {
-        final ARKitPlane plane = node.geometry;
-        plane.width.addListener(() => _updateSingleProperty(
-            node, 'width', plane.width.value, 'geometry'));
-        plane.height.addListener(() => _updateSingleProperty(
-            node, 'height', plane.height.value, 'geometry'));
+      switch (node.geometry.runtimeType) {
+        case ARKitPlane:
+          _subscribeToPlaneGeometry(node);
+          break;
+        case ARKitSphere:
+          _subscribeToSphereGeometry(node);
+          break;
+        case ARKitText:
+          _subscribeToTextGeometry(node);
+          break;
+        case ARKitBox:
+          _subscribeToBoxGeometry(node);
+          break;
+        case ARKitCylinder:
+          _subscribeToCylinderGeometry(node);
+          break;
+        case ARKitCone:
+          _subscribeToConeGeometry(node);
+          break;
+        case ARKitPyramid:
+          _subscribeToPyramidGeometry(node);
+          break;
+        case ARKitTube:
+          _subscribeToTubeGeometry(node);
+          break;
+        case ARKitTorus:
+          _subscribeToTorusGeometry(node);
+          break;
+        case ARKitCapsule:
+          _subscribeToCapsuleGeometry(node);
+          break;
       }
     }
     if (node.light != null) {
       node.light.intensity.addListener(() => _updateSingleProperty(
           node, 'intensity', node.light.intensity.value, 'light'));
     }
+  }
+
+  void _subscribeToCapsuleGeometry(ARKitNode node) {
+    final ARKitCapsule capsule = node.geometry;
+    capsule.capRadius.addListener(() => _updateSingleProperty(
+        node, 'capRadius', capsule.capRadius.value, 'geometry'));
+    capsule.height.addListener(() => _updateSingleProperty(
+        node, 'height', capsule.height.value, 'geometry'));
+  }
+
+  void _subscribeToTorusGeometry(ARKitNode node) {
+    final ARKitTorus torus = node.geometry;
+    torus.pipeRadius.addListener(() => _updateSingleProperty(
+        node, 'pipeRadius', torus.pipeRadius.value, 'geometry'));
+    torus.ringRadius.addListener(() => _updateSingleProperty(
+        node, 'ringRadius', torus.ringRadius.value, 'geometry'));
+  }
+
+  void _subscribeToTubeGeometry(ARKitNode node) {
+    final ARKitTube tube = node.geometry;
+    tube.innerRadius.addListener(() => _updateSingleProperty(
+        node, 'innerRadius', tube.innerRadius.value, 'geometry'));
+    tube.outerRadius.addListener(() => _updateSingleProperty(
+        node, 'outerRadius', tube.outerRadius.value, 'geometry'));
+    tube.height.addListener(() =>
+        _updateSingleProperty(node, 'height', tube.height.value, 'geometry'));
+  }
+
+  void _subscribeToPyramidGeometry(ARKitNode node) {
+    final ARKitPyramid pyramid = node.geometry;
+    pyramid.width.addListener(() =>
+        _updateSingleProperty(node, 'width', pyramid.width.value, 'geometry'));
+    pyramid.height.addListener(() => _updateSingleProperty(
+        node, 'height', pyramid.height.value, 'geometry'));
+    pyramid.length.addListener(() => _updateSingleProperty(
+        node, 'length', pyramid.length.value, 'geometry'));
+  }
+
+  void _subscribeToConeGeometry(ARKitNode node) {
+    final ARKitCone cone = node.geometry;
+    cone.topRadius.addListener(() => _updateSingleProperty(
+        node, 'topRadius', cone.topRadius.value, 'geometry'));
+    cone.bottomRadius.addListener(() => _updateSingleProperty(
+        node, 'bottomRadius', cone.bottomRadius.value, 'geometry'));
+    cone.height.addListener(() =>
+        _updateSingleProperty(node, 'height', cone.height.value, 'geometry'));
+  }
+
+  void _subscribeToCylinderGeometry(ARKitNode node) {
+    final ARKitCylinder cylinder = node.geometry;
+    cylinder.radius.addListener(() => _updateSingleProperty(
+        node, 'radius', cylinder.radius.value, 'geometry'));
+    cylinder.height.addListener(() => _updateSingleProperty(
+        node, 'height', cylinder.height.value, 'geometry'));
+  }
+
+  void _subscribeToBoxGeometry(ARKitNode node) {
+    final ARKitBox box = node.geometry;
+    box.width.addListener(() =>
+        _updateSingleProperty(node, 'width', box.width.value, 'geometry'));
+    box.height.addListener(() =>
+        _updateSingleProperty(node, 'height', box.height.value, 'geometry'));
+    box.length.addListener(() =>
+        _updateSingleProperty(node, 'length', box.length.value, 'geometry'));
+  }
+
+  void _subscribeToTextGeometry(ARKitNode node) {
+    final ARKitText text = node.geometry;
+    text.text.addListener(
+        () => _updateSingleProperty(node, 'text', text.text.value, 'geometry'));
+  }
+
+  void _subscribeToSphereGeometry(ARKitNode node) {
+    final ARKitSphere sphere = node.geometry;
+    sphere.radius.addListener(() =>
+        _updateSingleProperty(node, 'radius', sphere.radius.value, 'geometry'));
+  }
+
+  void _subscribeToPlaneGeometry(ARKitNode node) {
+    final ARKitPlane plane = node.geometry;
+    plane.width.addListener(() =>
+        _updateSingleProperty(node, 'width', plane.width.value, 'geometry'));
+    plane.height.addListener(() =>
+        _updateSingleProperty(node, 'height', plane.height.value, 'geometry'));
   }
 
   void _handlePositionChanged(ARKitNode node) {
