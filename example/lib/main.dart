@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     final samples = [
       Sample(
         'Hello World',
-        'The simplest scene with only 3 AR objects.',
+        'The simplest scene with all geometries.',
         Icons.home,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => HelloWorldPage())),
