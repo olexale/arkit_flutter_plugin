@@ -28,12 +28,9 @@ ARKit uses the device camera, so do not forget to provide the `NSCameraUsageDesc
 The simplest code example:
 
 ```dart
-import 'package:arkit_plugin/arkit_position.dart';
-import 'package:arkit_plugin/arkit_sphere.dart';
 import 'package:flutter/material.dart';
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:vector_math/vector_math_64.dart';
-
 
 void main() => runApp(MyApp());
 
@@ -53,24 +50,16 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-              title: const Text('ARKit in Flutter'),
-            ),
-            body: Container(
-              child: ARKitSceneView(
-                showStatistics: true,
-                onARKitViewCreated: onARKitViewCreated,
-              ),
-            )),
-      );
+      home: Scaffold(
+          appBar: AppBar(title: const Text('ARKit in Flutter')),
+          body: Container(
+              child: ARKitSceneView(onARKitViewCreated: onARKitViewCreated))));
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
-    this.arkitController.addSphere(ARKitSphere(
-          position: Vector3(0, 0, -0.5),
-          radius: 0.1,
-        ));
+    final node = ARKitNode(
+        geometry: ARKitSphere(radius: 0.1), position: Vector3(0, 0, -0.5));
+    this.arkitController.add(node);
   }
 }
 ```
