@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+* Add ARWorldAlignment
+
 ## 0.2.0
 
 * Cover all ARKit geometries
