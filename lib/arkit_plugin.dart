@@ -1,5 +1,6 @@
 export 'package:arkit_plugin/widget/arkit_scene_view.dart';
 export 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
+export 'package:arkit_plugin/widget/arkit_world_alignment.dart';
 export 'package:arkit_plugin/arkit_node.dart';
 export 'package:arkit_plugin/arkit_reference_node.dart';
 export 'package:arkit_plugin/geometries/arkit_anchor.dart';

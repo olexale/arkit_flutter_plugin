@@ -17,6 +17,7 @@ import 'package:arkit_plugin/light/arkit_light_estimate.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
+import 'package:arkit_plugin/widget/arkit_world_alignment.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,7 @@ class ARKitSceneView extends StatefulWidget {
     this.planeDetection = ARPlaneDetection.none,
     this.detectionImagesGroupName,
     this.forceUserTapOnCenter = false,
+    this.worldAlignment = ARWorldAlignment.gravity,
   }) : super(key: key);
 
   /// This function will be fired when ARKit view is created.
@@ -78,6 +80,10 @@ class ARKitSceneView extends StatefulWidget {
   /// In the event that two planes are merged, the newer plane will be removed.
   /// Defaults to ARPlaneDetection.none.
   final ARPlaneDetection planeDetection;
+
+  /// Determines how the coordinate system should be aligned with the world.
+  /// The default is ARWorldAlignment.gravity.
+  final ARWorldAlignment worldAlignment;
 
   /// Show detected 3D feature points in the world.
   /// The default is false.
@@ -128,6 +134,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.enablePinchRecognizer,
       widget.enablePanRecognizer,
       widget.planeDetection,
+      widget.worldAlignment,
       widget.detectionImagesGroupName,
       widget.forceUserTapOnCenter,
     ));
@@ -149,6 +156,7 @@ class ARKitController {
     bool enablePinchRecognizer,
     bool enablePanRecognizer,
     ARPlaneDetection planeDetection,
+    ARWorldAlignment worldAlignment,
     String detectionImagesGroupName,
     bool forceUserTapOnCenter,
   ) {
@@ -165,6 +173,7 @@ class ARKitController {
       'showWorldOrigin': showWorldOrigin,
       'detectionImagesGroupName': detectionImagesGroupName,
       'forceUserTapOnCenter': forceUserTapOnCenter,
+      'worldAlignment': worldAlignment.index,
     });
   }
 

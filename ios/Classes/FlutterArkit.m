@@ -129,6 +129,10 @@
     self.sceneView.debugOptions = [self getDebugOptions:call.arguments];
     
     ARWorldTrackingConfiguration* configuration = self.configuration;
+    
+    NSNumber* worldAlignment = call.arguments[@"worldAlignment"];
+    configuration.worldAlignment = [self getWorldAlignmentFromNumber:[worldAlignment intValue]];
+    
     NSString* detectionImages = call.arguments[@"detectionImagesGroupName"];
     if ([detectionImages isKindOfClass:[NSString class]]) {
         configuration.detectionImages = [ARReferenceImage referenceImagesInGroupNamed:detectionImages bundle:nil];
@@ -322,6 +326,15 @@
     return ARPlaneDetectionHorizontal;
   }
   return ARPlaneDetectionVertical;
+}
+
+-(ARWorldAlignment) getWorldAlignmentFromNumber: (int) number {
+    if (number == 0) {
+        return ARWorldAlignmentGravity;
+    } else if (number == 1) {
+        return ARWorldAlignmentGravityAndHeading;
+    }
+    return ARWorldAlignmentCamera;
 }
 
 - (SCNNode *) getNodeWithGeometry:(SCNGeometry *)geometry fromDict:(NSDictionary *)dict {
