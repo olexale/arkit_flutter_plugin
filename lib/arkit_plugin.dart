@@ -5,6 +5,7 @@ export 'package:arkit_plugin/widget/arkit_configuration.dart';
 export 'package:arkit_plugin/arkit_node.dart';
 export 'package:arkit_plugin/arkit_reference_node.dart';
 export 'package:arkit_plugin/geometries/arkit_anchor.dart';
+export 'package:arkit_plugin/geometries/arkit_face.dart';
 export 'package:arkit_plugin/geometries/arkit_geometry.dart';
 export 'package:arkit_plugin/geometries/arkit_material.dart';
 export 'package:arkit_plugin/geometries/arkit_sphere.dart';

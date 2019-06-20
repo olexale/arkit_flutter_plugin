@@ -91,6 +91,8 @@
       [self updateSingleProperty:call andResult:result];
   } else if ([[call method] isEqualToString:@"updateMaterials"]) {
       [self updateMaterials:call andResult:result];
+  } else if ([[call method] isEqualToString:@"updateFaceGeometry"]) {
+      [self updateFaceGeometry:call andResult:result];
   } else if ([[call method] isEqualToString:@"getLightEstimate"]) {
       [self onGetLightEstimate:call andResult:result];
   } else if ([[call method] isEqualToString:@"dispose"]) {
@@ -163,7 +165,7 @@
 
 - (void)onAddNode:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSDictionary* geometryArguments = call.arguments[@"geometry"];
-    SCNGeometry* geometry = [GeometryBuilder createGeometry:geometryArguments];
+    SCNGeometry* geometry = [GeometryBuilder createGeometry:geometryArguments withDevice: _sceneView.device];
     [self addNodeToSceneWithGeometry:geometry andCall:call andResult:result];
 }
 
@@ -176,7 +178,7 @@
 
 - (void)onGetNodeBoundingBox:(FlutterMethodCall*)call result:(FlutterResult)result {
     NSDictionary* geometryArguments = call.arguments[@"geometry"];
-    SCNGeometry* geometry = [GeometryBuilder createGeometry:geometryArguments];
+    SCNGeometry* geometry = [GeometryBuilder createGeometry:geometryArguments withDevice: _sceneView.device];
     SCNNode* node = [self getNodeWithGeometry:geometry fromDict:call.arguments];
     SCNVector3 minVector, maxVector;
     [node getBoundingBoxMin:&minVector max:&maxVector];
@@ -313,9 +315,28 @@
 - (void) updateMaterials:(FlutterMethodCall*)call andResult:(FlutterResult)result{
     NSString* name = call.arguments[@"name"];
     SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
-    SCNGeometry* geometry = [GeometryBuilder createGeometry:call.arguments];
+    SCNGeometry* geometry = [GeometryBuilder createGeometry:call.arguments withDevice: _sceneView.device];
     node.geometry = geometry;
     result(nil);
+}
+
+- (void) updateFaceGeometry:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    NSString* name = call.arguments[@"name"];
+    SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:name recursively:YES];
+    ARSCNFaceGeometry* geometry = (ARSCNFaceGeometry*)node.geometry;
+    ARFaceAnchor* faceAnchor = [self findAnchor:call.arguments[@"fromAnchorId"] inArray:self.sceneView.session.currentFrame.anchors];
+    
+    [geometry updateFromFaceGeometry:faceAnchor.geometry];
+    
+    result(nil);
+}
+
+-(ARFaceAnchor*)findAnchor:(NSString*)searchUUID inArray:(NSArray<ARAnchor *>*)array{
+    for (ARAnchor* obj in array){
+        if([[obj.identifier UUIDString] isEqualToString:searchUUID])
+            return (ARFaceAnchor*)obj;
+    }
+    return NULL;
 }
 
 - (void) onGetLightEstimate:(FlutterMethodCall*)call andResult:(FlutterResult)result{
@@ -394,7 +415,7 @@
     if (dict[@"shape"] != nil) {
         NSDictionary* shapeDict = dict[@"shape"];
         if (shapeDict[@"geometry"] != nil) {
-            shape = [SCNPhysicsShape shapeWithGeometry:[GeometryBuilder createGeometry:shapeDict[@"geometry"]] options:nil];
+            shape = [SCNPhysicsShape shapeWithGeometry:[GeometryBuilder createGeometry:shapeDict[@"geometry"] withDevice:_sceneView.device] options:nil];
         }
     }
     

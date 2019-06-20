@@ -250,6 +250,14 @@ class ARKitController {
         : null;
   }
 
+  /// Updates the geometry with the vertices of a face geometry.
+  void updateFaceGeometry(ARKitNode node, String fromAnchorId) {
+    _channel.invokeMethod<void>(
+        'updateFaceGeometry',
+        _getHandlerParams(
+            node, <String, dynamic>{'fromAnchorId': fromAnchorId}));
+  }
+
   Map<String, dynamic> _addParentNodeNameToParams(
       Map geometryMap, String parentNodeName) {
     if (parentNodeName?.isNotEmpty ?? false)
@@ -503,6 +511,8 @@ class ARKitController {
         return ARKitPlaneAnchor.fromMap(map);
       case 'imageAnchor':
         return ARKitImageAnchor.fromMap(map);
+      case 'faceAnchor':
+        return ARKitFaceAnchor.fromMap(map);
     }
     return ARKitAnchor.fromMap(map);
   }

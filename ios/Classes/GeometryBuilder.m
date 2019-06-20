@@ -4,7 +4,7 @@
 
 @implementation GeometryBuilder
 
-+ (SCNGeometry *) createGeometry:(NSDictionary *) geometryArguments {
++ (SCNGeometry *) createGeometry:(NSDictionary *) geometryArguments withDevice: (NSObject*) device {
     SEL selector = NULL;
     if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitSphere"]) {
         selector = @selector(getSphere:);
@@ -28,13 +28,16 @@
         selector = @selector(getTorus:);
     } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitCapsule"]) {
         selector = @selector(getCapsule:);
+    } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitFace"]) {
+        selector = @selector(getFace:withDeivce:);
     }
+    
     if (selector == nil)
         return nil;
     
     IMP imp = [self methodForSelector:selector];
-    SCNGeometry* (*func)(id, SEL, NSDictionary*) = (void *)imp;
-    SCNGeometry *geometry = func(self, selector, geometryArguments);
+    SCNGeometry* (*func)(id, SEL, NSDictionary*, id) = (void *)imp;
+    SCNGeometry *geometry = func(self, selector, geometryArguments, device);
     
     if (geometry != nil) {
         geometry.materials = [self getMaterials: geometryArguments[@"materials"]];
@@ -207,6 +210,10 @@
     NSNumber* capRadius = geometryArguments[@"capRadius"];
     NSNumber* height = geometryArguments[@"height"];
     return [SCNCapsule capsuleWithCapRadius:[capRadius floatValue] height:[height floatValue]];
+}
+
++ (ARSCNFaceGeometry *) getFace:(NSDictionary *) geometryArguments withDeivce:(id) device{
+    return [ARSCNFaceGeometry faceGeometryWithDevice:device];
 }
 
 @end

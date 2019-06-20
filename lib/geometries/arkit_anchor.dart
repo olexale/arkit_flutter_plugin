@@ -1,3 +1,5 @@
+import 'package:arkit_plugin/geometries/arkit_face.dart';
+import 'package:arkit_plugin/geometries/arkit_material.dart';
 import 'package:arkit_plugin/utils/matrix4_utils.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:flutter/widgets.dart';
@@ -75,6 +77,30 @@ class ARKitImageAnchor extends ARKitAnchor {
 
   static ARKitImageAnchor fromMap(Map<String, String> map) => ARKitImageAnchor(
         map['referenceImageName'],
+        map['node_name'],
+        map['identifier'],
+        getMatrixFromString(map['transform']),
+      );
+}
+
+/// An anchor representing a face and its geometry.
+class ARKitFaceAnchor extends ARKitAnchor {
+  ARKitFaceAnchor(
+    this.geometry,
+    String nodeName,
+    String identifier,
+    Matrix4 transorm,
+  ) : super(
+          nodeName,
+          identifier,
+          transorm,
+        );
+
+  /// The face geometry updated based on the computed blend shapes.
+  final ARKitFace geometry;
+
+  static ARKitFaceAnchor fromMap(Map<String, String> map) => ARKitFaceAnchor(
+        ARKitFace(materials: [ARKitMaterial()]),
         map['node_name'],
         map['identifier'],
         getMatrixFromString(map['transform']),

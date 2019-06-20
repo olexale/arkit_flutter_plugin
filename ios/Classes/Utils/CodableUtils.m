@@ -31,6 +31,9 @@
         [params setObject:@"imageAnchor" forKey:@"anchorType"];
         [params setObject:image.referenceImage.name forKey:@"referenceImageName"];
     }
+    if ([anchor isMemberOfClass:[ARFaceAnchor class]]) {
+        [params setObject:@"faceAnchor" forKey:@"anchorType"];
+    }
     return params;
 }
 
