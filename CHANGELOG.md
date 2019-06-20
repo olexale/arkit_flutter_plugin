@@ -2,6 +2,7 @@
 
 ## 0.2.1
 
+* Basic Face Tracking functionality
 * Add ARWorldAlignment
 
 ## 0.2.0
