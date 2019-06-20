@@ -11,6 +11,7 @@ import 'package:arkit_plugin_example/occlusion_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
+import 'package:arkit_plugin_example/face_detection_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
@@ -109,6 +110,13 @@ class MyApp extends StatelessWidget {
         Icons.threed_rotation,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => ManipulationPage())),
+      ),
+      Sample(
+        'Face Tracking',
+        'Face mask sample.',
+        Icons.face,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => FaceDetectionPage())),
       ),
     ];
 

@@ -41,7 +41,7 @@
 @property int64_t viewId;
 @property FlutterMethodChannel* channel;
 @property (strong) SceneViewDelegate* delegate;
-@property (readwrite) ARWorldTrackingConfiguration *configuration;
+@property (readwrite) ARConfiguration *configuration;
 @property BOOL forceUserTapOnCenter;
 @end
 
@@ -93,6 +93,8 @@
       [self updateMaterials:call andResult:result];
   } else if ([[call method] isEqualToString:@"getLightEstimate"]) {
       [self onGetLightEstimate:call andResult:result];
+  } else if ([[call method] isEqualToString:@"dispose"]) {
+      [self.sceneView.session pause];
   } else {
     result(FlutterMethodNotImplemented);
   }
@@ -128,17 +130,35 @@
     
     self.sceneView.debugOptions = [self getDebugOptions:call.arguments];
     
-    ARWorldTrackingConfiguration* configuration = self.configuration;
-    
-    NSNumber* worldAlignment = call.arguments[@"worldAlignment"];
-    configuration.worldAlignment = [self getWorldAlignmentFromNumber:[worldAlignment intValue]];
-    
-    NSString* detectionImages = call.arguments[@"detectionImagesGroupName"];
-    if ([detectionImages isKindOfClass:[NSString class]]) {
-        configuration.detectionImages = [ARReferenceImage referenceImagesInGroupNamed:detectionImages bundle:nil];
-    }
-    [self.sceneView.session runWithConfiguration:configuration];
+    _configuration = [self buildConfiguration: call.arguments];
+
+    [self.sceneView.session runWithConfiguration:[self configuration]];
     result(nil);
+}
+
+- (ARConfiguration*) buildConfiguration: (NSDictionary*)params {
+    int configurationType = [params[@"configuration"] intValue];
+    ARConfiguration* _configuration;
+    
+    if (configurationType == 0) {
+        if (ARWorldTrackingConfiguration.isSupported) {
+            ARWorldTrackingConfiguration* worldTrackingConfiguration = [ARWorldTrackingConfiguration new];
+            worldTrackingConfiguration.planeDetection = self.planeDetection;
+            NSString* detectionImages = params[@"detectionImagesGroupName"];
+            if ([detectionImages isKindOfClass:[NSString class]]) {
+                worldTrackingConfiguration.detectionImages = [ARReferenceImage referenceImagesInGroupNamed:detectionImages bundle:nil];
+            }
+            _configuration = worldTrackingConfiguration;
+        }
+    } else if (configurationType == 1) {
+        if (ARFaceTrackingConfiguration.isSupported) {
+            ARFaceTrackingConfiguration* faceTrackingConfiguration = [ARFaceTrackingConfiguration new];
+            _configuration = faceTrackingConfiguration;
+        }
+    }
+    NSNumber* worldAlignment = params[@"worldAlignment"];
+    _configuration.worldAlignment = [self getWorldAlignmentFromNumber:[worldAlignment intValue]];
+    return _configuration;
 }
 
 - (void)onAddNode:(FlutterMethodCall*)call result:(FlutterResult)result {
@@ -168,15 +188,7 @@
 
 #pragma mark - Lazy loads
 
--(ARWorldTrackingConfiguration *)configuration {
-    if (_configuration) {
-        return _configuration;
-    }
-    
-    if (!ARWorldTrackingConfiguration.isSupported) {}
-    
-    _configuration = [ARWorldTrackingConfiguration new];
-    _configuration.planeDetection = self.planeDetection;
+-(ARConfiguration *)configuration {
     return _configuration;
 }
 

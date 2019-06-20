@@ -13,7 +13,7 @@ API_AVAILABLE(ios(11.3))
 - (nonnull UIView*)view;
 
 @property (readonly, nonatomic, strong, nonnull) ARSCNView *sceneView;
-@property (readonly, nonatomic, strong, nonnull) ARWorldTrackingConfiguration *configuration;
+@property (readonly, nonatomic, strong, nonnull) ARConfiguration *configuration;
 
 @end
 

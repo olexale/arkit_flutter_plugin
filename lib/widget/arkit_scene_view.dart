@@ -17,6 +17,7 @@ import 'package:arkit_plugin/light/arkit_light_estimate.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
+import 'package:arkit_plugin/widget/arkit_configuration.dart';
 import 'package:arkit_plugin/widget/arkit_world_alignment.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +37,7 @@ class ARKitSceneView extends StatefulWidget {
   const ARKitSceneView({
     Key key,
     @required this.onARKitViewCreated,
+    this.configuration = ARKitConfiguration.worldTracking,
     this.showStatistics = false,
     this.autoenablesDefaultLighting = true,
     this.enableTapRecognizer = false,
@@ -51,6 +53,10 @@ class ARKitSceneView extends StatefulWidget {
 
   /// This function will be fired when ARKit view is created.
   final ARKitPluginCreatedCallback onARKitViewCreated;
+
+  /// The configuration to use.
+  /// Defaults to World Tracking.
+  final ARKitConfiguration configuration;
 
   /// Determines whether the receiver should display statistics info like FPS.
   /// When set to true, statistics are displayed in a overlay on top of the rendered scene.
@@ -126,6 +132,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
     }
     widget.onARKitViewCreated(ARKitController._init(
       id,
+      widget.configuration,
       widget.showStatistics,
       widget.autoenablesDefaultLighting,
       widget.enableTapRecognizer,
@@ -148,6 +155,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
 class ARKitController {
   ARKitController._init(
     int id,
+    ARKitConfiguration configuration,
     bool showStatistics,
     bool autoenablesDefaultLighting,
     bool enableTapRecognizer,
@@ -163,6 +171,7 @@ class ARKitController {
     _channel = MethodChannel('arkit_$id');
     _channel.setMethodCallHandler(_platformCallHandler);
     _channel.invokeMethod<void>('init', {
+      'configuration': configuration.index,
       'showStatistics': showStatistics,
       'autoenablesDefaultLighting': autoenablesDefaultLighting,
       'enableTapRecognizer': enableTapRecognizer,
