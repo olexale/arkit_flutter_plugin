@@ -87,9 +87,12 @@ class ARKitImageAnchor extends ARKitAnchor {
 class ARKitFaceAnchor extends ARKitAnchor {
   ARKitFaceAnchor(
     this.geometry,
+    this.blendShapes,
     String nodeName,
     String identifier,
     Matrix4 transorm,
+    this.leftEyeTransform,
+    this.rightEyeTransform,
   ) : super(
           nodeName,
           identifier,
@@ -99,10 +102,23 @@ class ARKitFaceAnchor extends ARKitAnchor {
   /// The face geometry updated based on the computed blend shapes.
   final ARKitFace geometry;
 
-  static ARKitFaceAnchor fromMap(Map<String, String> map) => ARKitFaceAnchor(
+  /// The left eye’s rotation and translation relative to the anchor’s origin.
+  final Matrix4 leftEyeTransform;
+
+  /// The right eye’s rotation and translation relative to the anchor’s origin.
+  final Matrix4 rightEyeTransform;
+
+  /// A dictionary of blend shape coefficients for each blend shape location.
+  /// Blend shapes coefficients define the amount of displacement of a neutral shape at a specific location on the face.
+  final Map<String, double> blendShapes;
+
+  static ARKitFaceAnchor fromMap(Map<String, dynamic> map) => ARKitFaceAnchor(
         ARKitFace(materials: [ARKitMaterial()]),
+        map.cast<String, Map>()['blendShapes'].cast<String, double>(),
         map['node_name'],
         map['identifier'],
         getMatrixFromString(map['transform']),
+        getMatrixFromString(map['leftEyeTransform']),
+        getMatrixFromString(map['rightEyeTransform']),
       );
 }

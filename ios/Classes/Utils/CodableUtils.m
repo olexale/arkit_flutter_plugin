@@ -33,6 +33,10 @@
     }
     if ([anchor isMemberOfClass:[ARFaceAnchor class]]) {
         [params setObject:@"faceAnchor" forKey:@"anchorType"];
+        ARFaceAnchor *faceAnchor = (ARFaceAnchor*)anchor;
+        [params setObject:[CodableUtils convertSimdFloat4x4ToString:faceAnchor.leftEyeTransform] forKey:@"leftEyeTransform"];
+        [params setObject:[CodableUtils convertSimdFloat4x4ToString:faceAnchor.rightEyeTransform] forKey:@"rightEyeTransform"];
+        [params setObject:faceAnchor.blendShapes forKey:@"blendShapes"];
     }
     return params;
 }
