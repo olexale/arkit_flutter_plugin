@@ -28,7 +28,7 @@
  */
 
 - (void)session:(ARSession *)session didFailWithError:(NSError *)error {
-  [_channel invokeMethod: @"onError" arguments: @"Error"];
+  [_channel invokeMethod: @"onError" arguments: error.localizedDescription];
   // Present an error message to the user
   
 }
