@@ -4,6 +4,7 @@
 
 * Basic Face Tracking functionality
 * Add ARWorldAlignment
+* doubleSided property is added to material
 
 ## 0.2.0
 

@@ -169,6 +169,7 @@ class ARKitMaterial {
     this.locksAmbientWithDiffuse = true,
     this.writesToDepthBuffer = true,
     this.colorBufferWriteMask = ARKitColorMask.all,
+    this.doubleSided = false,
     this.blendMode = ARKitBlendMode.alpha,
   });
 
@@ -270,6 +271,9 @@ class ARKitMaterial {
   /// Specifies the receiver's blend mode. Defaults to ARKitBlendMode.alpha.
   final ARKitBlendMode blendMode;
 
+  /// Determines whether the receiver is double sided. Defaults to false.
+  final bool doubleSided;
+
   Map<String, dynamic> toMap() => <String, dynamic>{
         'diffuse': diffuse?.toMap(),
         'ambient': ambient?.toMap(),
@@ -293,6 +297,7 @@ class ARKitMaterial {
         'locksAmbientWithDiffuse': locksAmbientWithDiffuse,
         'writesToDepthBuffer': writesToDepthBuffer,
         'colorBufferWriteMask': _colorMaskToInt(colorBufferWriteMask),
+        'doubleSided': doubleSided,
         'blendMode': blendMode.index,
       }..removeWhere((String k, dynamic v) => v == null);
 

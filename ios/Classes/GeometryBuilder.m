@@ -72,6 +72,7 @@
     material.writesToDepthBuffer =[materialString[@"writesToDepthBuffer"] boolValue];
     material.colorBufferWriteMask = [self getColorMask:[materialString[@"colorBufferWriteMask"] integerValue]];
     material.blendMode = [materialString[@"blendMode"] integerValue];
+    material.doubleSided = [materialString[@"doubleSided"] boolValue];
     
     return material;
 }
