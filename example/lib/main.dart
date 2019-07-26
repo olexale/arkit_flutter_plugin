@@ -12,6 +12,7 @@ import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
 import 'package:arkit_plugin_example/face_detection_page.dart';
+import 'package:arkit_plugin_example/panorama_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
@@ -117,6 +118,13 @@ class MyApp extends StatelessWidget {
         Icons.face,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => FaceDetectionPage())),
+      ),
+      Sample(
+        'Panorama',
+        '360 photo sample.',
+        Icons.face,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => PanoramaPage())),
       ),
     ];
 
