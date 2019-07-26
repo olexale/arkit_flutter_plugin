@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.2.2
+
 ## 0.2.1
 
 * Basic Face Tracking functionality
