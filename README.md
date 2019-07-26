@@ -85,6 +85,7 @@ I would highly recommend to review the [sample](https://github.com/olexale/arkit
 | Occlusion | Spheres which are not visible after horizontal and vertical planes. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/occlusion_page.dart)|[twitter](https://twitter.com/OlexaLe/status/1121421315364274177) |
 | Manipulation | Custom objects with pinch and rotation events. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/manipulation_page.dart)|[twitter](https://twitter.com/OlexaLe/status/1123893412279791616) |
 | Face Tracking | Face mask sample. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/face_detection_page.dart)|[twitter](https://twitter.com/OlexaLe/status/1143483440278454277) |
+| Panorama | 360 photo. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/panorama_page.dart)|[twitter](https://twitter.com/OlexaLe/status/1154665277654781952) |
 
 ## Contributing
 
