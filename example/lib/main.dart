@@ -122,7 +122,7 @@ class MyApp extends StatelessWidget {
       Sample(
         'Panorama',
         '360 photo sample.',
-        Icons.face,
+        Icons.panorama,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => PanoramaPage())),
       ),
