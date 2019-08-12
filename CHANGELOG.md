@@ -2,6 +2,8 @@
 
 ## 0.2.2
 
+* Material property network image
+
 ## 0.2.1
 
 * Basic Face Tracking functionality

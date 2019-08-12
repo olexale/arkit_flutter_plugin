@@ -88,10 +88,11 @@
     if (propertyString[@"image"] != nil) {
         UIImage* img = [UIImage imageNamed:propertyString[@"image"]];
         return img;
-        
     } else if (propertyString[@"color"] != nil) {
         NSNumber* color = propertyString[@"color"];
         return [UIColor fromRGB: [color integerValue]];
+    } else if (propertyString[@"url"] != nil) {
+        return propertyString[@"url"];
     }
     
     return nil;
