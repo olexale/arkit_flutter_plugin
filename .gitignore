@@ -11,7 +11,6 @@
 .svn/
 
 # IntelliJ related
-*.iml
 *.ipr
 *.iws
 .idea/
@@ -41,6 +40,8 @@ lcov.info
 **/android/gradlew.bat
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
+**/android/.project
+**/android/.settings/org.eclipse.buildship.core.prefs
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
