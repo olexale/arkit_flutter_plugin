@@ -30,9 +30,7 @@ class _PanoramaPageState extends State<PanoramaPage> {
     this.arkitController = arkitController;
 
     final material = ARKitMaterial(
-      diffuse: ARKitMaterialProperty(
-          url:
-              'https://images.unsplash.com/photo-1500622944204-b135684e99fd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'),
+      diffuse: ARKitMaterialProperty(image: 'photo360.jpg'),
       doubleSided: true,
     );
     final sphere = ARKitSphere(
