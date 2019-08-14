@@ -3,6 +3,7 @@
 ## 0.2.2
 
 * Material property network image
+* Material property image might be loaded from Flutter project (by @Topazoo)
 
 ## 0.2.1
 
