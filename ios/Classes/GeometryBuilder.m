@@ -1,4 +1,5 @@
 #import "GeometryBuilder.h"
+#import "ArkitPlugin.h"
 #import "Color.h"
 #import "DecodableUtils.h"
 
@@ -87,6 +88,14 @@
 + (id) getMaterialProperty: (NSDictionary*) propertyString {
     if (propertyString[@"image"] != nil) {
         UIImage* img = [UIImage imageNamed:propertyString[@"image"]];
+        
+        if(img == nil)
+        {
+            NSString* asset_path = [@"assets/images/" stringByAppendingString:propertyString[@"image"]];
+            NSString* path = [[NSBundle mainBundle] pathForResource:[[ArkitPlugin registrar] lookupKeyForAsset:asset_path] ofType:nil];
+            img = [UIImage imageNamed: path];
+        }
+        
         return img;
     } else if (propertyString[@"color"] != nil) {
         NSNumber* color = propertyString[@"color"];
