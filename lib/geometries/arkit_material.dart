@@ -9,6 +9,7 @@ class ARKitMaterialProperty {
   final Color color;
 
   /// Specifies the receiver's image.
+  /// It might be either an image stored in native iOS project or file from /assets/images/ folder.
   final String image;
 
   /// Specifies the location of an image file
