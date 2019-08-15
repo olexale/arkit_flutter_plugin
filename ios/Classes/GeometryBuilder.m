@@ -91,7 +91,7 @@
         
         if(img == nil)
         {
-            NSString* asset_path = [@"assets/images/" stringByAppendingString:propertyString[@"image"]];
+            NSString* asset_path = propertyString[@"image"];
             NSString* path = [[NSBundle mainBundle] pathForResource:[[ArkitPlugin registrar] lookupKeyForAsset:asset_path] ofType:nil];
             img = [UIImage imageNamed: path];
         }
