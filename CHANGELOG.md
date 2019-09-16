@@ -2,6 +2,7 @@
 
 ## 0.2.2
 
+* Custom animations
 * Material property network image
 * Material property image might be loaded from Flutter project (by @Topazoo)
 

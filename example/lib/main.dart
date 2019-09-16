@@ -1,3 +1,4 @@
+import 'package:arkit_plugin_example/custom_animation_page.dart';
 import 'package:arkit_plugin_example/custom_object_page.dart';
 import 'package:arkit_plugin_example/distance_tracking_page.dart';
 import 'package:arkit_plugin_example/custom_light_page.dart';
@@ -125,6 +126,13 @@ class MyApp extends StatelessWidget {
         Icons.panorama,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => PanoramaPage())),
+      ),
+      Sample(
+        'Custom Animation',
+        'Custom object animation. Port of https://github.com/eh3rrera/ARKitAnimation',
+        Icons.accessibility_new,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => CustomAnimationPage())),
       ),
     ];
 

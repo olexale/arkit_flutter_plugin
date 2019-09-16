@@ -264,6 +264,31 @@ class ARKitController {
     return projectPoint != null ? createVector3FromString(projectPoint) : null;
   }
 
+  Future<void> playAnimation(
+      {@required String key,
+      @required String sceneName,
+      @required String animationIdentifier}) {
+    assert(key != null);
+    assert(sceneName != null);
+    assert(animationIdentifier != null);
+
+    return _channel.invokeMethod('playAnimation', {
+      'key': key,
+      'sceneName': sceneName,
+      'animationIdentifier': animationIdentifier,
+    });
+  }
+
+  Future<void> stopAnimation({
+    @required String key,
+  }) {
+    assert(key != null);
+
+    return _channel.invokeMethod('stopAnimation', {
+      'key': key,
+    });
+  }
+
   Map<String, dynamic> _addParentNodeNameToParams(
       Map geometryMap, String parentNodeName) {
     if (parentNodeName?.isNotEmpty ?? false)

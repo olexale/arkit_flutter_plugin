@@ -97,6 +97,10 @@
       [self onGetLightEstimate:call andResult:result];
   } else if ([[call method] isEqualToString:@"projectPoint"]) {
       [self onProjectPoint:call andResult:result];
+  } else if ([[call method] isEqualToString:@"playAnimation"]) {
+      [self onPlayAnimation:call andResult:result];
+  } else if ([[call method] isEqualToString:@"stopAnimation"]) {
+      [self onStopAnimation:call andResult:result];
   } else if ([[call method] isEqualToString:@"dispose"]) {
       [self.sceneView.session pause];
   } else {
@@ -358,6 +362,29 @@
     SCNVector3 projectedPoint = [_sceneView projectPoint:point];
     NSString* coded = [CodableUtils convertSimdFloat3ToString:SCNVector3ToFloat3(projectedPoint)];
     result(coded);
+}
+
+- (void) onPlayAnimation:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    NSString* key = call.arguments[@"key"];
+    NSString* sceneName = call.arguments[@"sceneName"];
+    NSString* animationIdentifier = call.arguments[@"animationIdentifier"];
+    
+    NSURL* sceneURL = [NSBundle.mainBundle URLForResource:sceneName withExtension:@"dae"];
+    SCNSceneSource* sceneSource = [SCNSceneSource sceneSourceWithURL:sceneURL options:nil];
+    
+    CAAnimation* animationObject = [sceneSource entryWithIdentifier:animationIdentifier withClass:[CAAnimation self]];
+    animationObject.repeatCount = 1;
+    animationObject.fadeInDuration = 1;
+    animationObject.fadeOutDuration = 0.5;
+    [_sceneView.scene.rootNode addAnimation:animationObject forKey:key];
+    
+    result(nil);
+}
+
+- (void) onStopAnimation:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    NSString* key = call.arguments[@"key"];
+    [_sceneView.scene.rootNode removeAnimationForKey:key blendOutDuration:0.5];
+    result(nil);
 }
 
 #pragma mark - Utils
