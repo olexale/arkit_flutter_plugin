@@ -95,6 +95,8 @@
       [self updateFaceGeometry:call andResult:result];
   } else if ([[call method] isEqualToString:@"getLightEstimate"]) {
       [self onGetLightEstimate:call andResult:result];
+  } else if ([[call method] isEqualToString:@"projectPoint"]) {
+      [self onProjectPoint:call andResult:result];
   } else if ([[call method] isEqualToString:@"dispose"]) {
       [self.sceneView.session pause];
   } else {
@@ -349,6 +351,13 @@
         result(res);
     }
     result(nil);
+}
+
+- (void) onProjectPoint:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    SCNVector3 point =  [DecodableUtils parseVector3:call.arguments[@"point"]];
+    SCNVector3 projectedPoint = [_sceneView projectPoint:point];
+    NSString* coded = [CodableUtils convertSimdFloat3ToString:SCNVector3ToFloat3(projectedPoint)];
+    result(coded);
 }
 
 #pragma mark - Utils

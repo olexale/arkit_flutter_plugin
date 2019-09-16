@@ -258,6 +258,12 @@ class ARKitController {
             node, <String, dynamic>{'fromAnchorId': fromAnchorId}));
   }
 
+  Future<Vector3> projectPoint(Vector3 point) async {
+    final projectPoint = await _channel.invokeMethod<String>(
+        'projectPoint', {'point': convertVector3ToMap(point)});
+    return projectPoint != null ? createVector3FromString(projectPoint) : null;
+  }
+
   Map<String, dynamic> _addParentNodeNameToParams(
       Map geometryMap, String parentNodeName) {
     if (parentNodeName?.isNotEmpty ?? false)
