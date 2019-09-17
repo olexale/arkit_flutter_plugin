@@ -11,4 +11,8 @@ enum ARKitConfiguration {
   /// A detected face will be added to the session as an ARFaceAnchor object which contains information about head pose, mesh, eye pose, and blend shape
   /// coefficients. If light estimation is enabled the detected face will be treated as a light probe and used to estimate the direction of incoming light.
   faceTracking,
+
+  /// A configuration for running image tracking.
+  /// Image tracking provides 6 degrees of freedom tracking of known images. Four images may be tracked simultaneously.
+  imageTracking,
 }

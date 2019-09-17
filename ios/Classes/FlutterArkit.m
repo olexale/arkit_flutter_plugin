@@ -163,6 +163,15 @@
             ARFaceTrackingConfiguration* faceTrackingConfiguration = [ARFaceTrackingConfiguration new];
             _configuration = faceTrackingConfiguration;
         }
+    } else if (configurationType == 2) {
+        if (ARImageTrackingConfiguration.isSupported) {
+            ARImageTrackingConfiguration* imageTrackingConfiguration = [ARImageTrackingConfiguration new];
+            NSString* trackingImages = params[@"trackingImagesGroupName"];
+            if ([trackingImages isKindOfClass:[NSString class]]) {
+                imageTrackingConfiguration.trackingImages = [ARReferenceImage referenceImagesInGroupNamed:trackingImages bundle:nil];
+            }
+            _configuration = imageTrackingConfiguration;
+        }
     }
     NSNumber* worldAlignment = params[@"worldAlignment"];
     _configuration.worldAlignment = [self getWorldAlignmentFromNumber:[worldAlignment intValue]];

@@ -47,6 +47,7 @@ class ARKitSceneView extends StatefulWidget {
     this.showWorldOrigin = false,
     this.planeDetection = ARPlaneDetection.none,
     this.detectionImagesGroupName,
+    this.trackingImagesGroupName,
     this.forceUserTapOnCenter = false,
     this.worldAlignment = ARWorldAlignment.gravity,
   }) : super(key: key);
@@ -104,6 +105,11 @@ class ARKitSceneView extends StatefulWidget {
   /// When an image is detected an ARImageAnchor will be added to the session.
   final String detectionImagesGroupName;
 
+  /// Images to detect in the scene.
+  /// If set the session will attempt to detect the specified images.
+  /// When an image is detected an ARImageAnchor will be added to the session.
+  final String trackingImagesGroupName;
+
   /// When set every user tap will be processed like user tapped on the center of the screen.
   /// The default is false.
   final bool forceUserTapOnCenter;
@@ -143,6 +149,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.planeDetection,
       widget.worldAlignment,
       widget.detectionImagesGroupName,
+      widget.trackingImagesGroupName,
       widget.forceUserTapOnCenter,
     ));
   }
@@ -166,6 +173,7 @@ class ARKitController {
     ARPlaneDetection planeDetection,
     ARWorldAlignment worldAlignment,
     String detectionImagesGroupName,
+    String trackingImagesGroupName,
     bool forceUserTapOnCenter,
   ) {
     _channel = MethodChannel('arkit_$id');
@@ -181,6 +189,7 @@ class ARKitController {
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
       'detectionImagesGroupName': detectionImagesGroupName,
+      'trackingImagesGroupName': trackingImagesGroupName,
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
     });
