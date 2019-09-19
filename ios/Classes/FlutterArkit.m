@@ -97,6 +97,8 @@
       [self onGetLightEstimate:call andResult:result];
   } else if ([[call method] isEqualToString:@"projectPoint"]) {
       [self onProjectPoint:call andResult:result];
+  } else if ([[call method] isEqualToString:@"cameraProjectionMatrix"]) {
+      [self onCameraProjectionMatrix:call andResult:result];
   } else if ([[call method] isEqualToString:@"playAnimation"]) {
       [self onPlayAnimation:call andResult:result];
   } else if ([[call method] isEqualToString:@"stopAnimation"]) {
@@ -370,6 +372,11 @@
     SCNVector3 point =  [DecodableUtils parseVector3:call.arguments[@"point"]];
     SCNVector3 projectedPoint = [_sceneView projectPoint:point];
     NSString* coded = [CodableUtils convertSimdFloat3ToString:SCNVector3ToFloat3(projectedPoint)];
+    result(coded);
+}
+
+- (void) onCameraProjectionMatrix:(FlutterMethodCall*)call andResult:(FlutterResult)result{
+    NSString* coded = [CodableUtils convertSimdFloat4x4ToString:_sceneView.session.currentFrame.camera.projectionMatrix];
     result(coded);
 }
 

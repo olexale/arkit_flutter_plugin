@@ -14,6 +14,7 @@ import 'package:arkit_plugin/geometries/arkit_tube.dart';
 import 'package:arkit_plugin/hit/arkit_node_pan_result.dart';
 import 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
 import 'package:arkit_plugin/light/arkit_light_estimate.dart';
+import 'package:arkit_plugin/utils/matrix4_utils.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
@@ -50,6 +51,7 @@ class ARKitSceneView extends StatefulWidget {
     this.trackingImagesGroupName,
     this.forceUserTapOnCenter = false,
     this.worldAlignment = ARWorldAlignment.gravity,
+    this.debug = false,
   }) : super(key: key);
 
   /// This function will be fired when ARKit view is created.
@@ -114,6 +116,10 @@ class ARKitSceneView extends StatefulWidget {
   /// The default is false.
   final bool forceUserTapOnCenter;
 
+  /// When true prints all communication between the plugin and the framework.
+  /// The default is false;
+  final bool debug;
+
   @override
   _ARKitSceneViewState createState() => _ARKitSceneViewState();
 }
@@ -151,6 +157,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.detectionImagesGroupName,
       widget.trackingImagesGroupName,
       widget.forceUserTapOnCenter,
+      widget.debug,
     ));
   }
 }
@@ -175,6 +182,7 @@ class ARKitController {
     String detectionImagesGroupName,
     String trackingImagesGroupName,
     bool forceUserTapOnCenter,
+    this.debug,
   ) {
     _channel = MethodChannel('arkit_$id');
     _channel.setMethodCallHandler(_platformCallHandler);
@@ -225,6 +233,8 @@ class ARKitController {
   /// Called when a node will be updated with data from the given anchor.
   AnchorEventHandler onUpdateNodeForAnchor;
 
+  final bool debug;
+
   void dispose() {
     _channel?.invokeMethod<void>('dispose');
   }
@@ -273,6 +283,14 @@ class ARKitController {
     return projectPoint != null ? createVector3FromString(projectPoint) : null;
   }
 
+  Future<Matrix4> cameraProjectionMatrix() async {
+    final cameraProjectionMatrix =
+        await _channel.invokeMethod<String>('cameraProjectionMatrix');
+    return cameraProjectionMatrix != null
+        ? getMatrixFromString(cameraProjectionMatrix)
+        : null;
+  }
+
   Future<void> playAnimation(
       {@required String key,
       @required String sceneName,
@@ -306,7 +324,9 @@ class ARKitController {
   }
 
   Future<void> _platformCallHandler(MethodCall call) {
-    print('_platformCallHandler call ${call.method} ${call.arguments}');
+    if (debug) {
+      print('_platformCallHandler call ${call.method} ${call.arguments}');
+    }
     switch (call.method) {
       case 'onError':
         if (onError != null) {
@@ -364,7 +384,9 @@ class ARKitController {
         }
         break;
       default:
-        print('Unknowm method ${call.method} ');
+        if (debug) {
+          print('Unknowm method ${call.method} ');
+        }
     }
     return Future.value();
   }

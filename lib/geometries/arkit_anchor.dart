@@ -63,6 +63,7 @@ class ARKitPlaneAnchor extends ARKitAnchor {
 class ARKitImageAnchor extends ARKitAnchor {
   ARKitImageAnchor(
     this.referenceImageName,
+    this.referenceImagePhysicalSize,
     String nodeName,
     String identifier,
     Matrix4 transorm,
@@ -74,9 +75,11 @@ class ARKitImageAnchor extends ARKitAnchor {
 
   /// Name of the detected image.
   final String referenceImageName;
+  final Vector2 referenceImagePhysicalSize;
 
   static ARKitImageAnchor fromMap(Map<String, String> map) => ARKitImageAnchor(
         map['referenceImageName'],
+        createVector2FromString(map['referenceImagePhysicalSize']),
         map['node_name'],
         map['identifier'],
         getMatrixFromString(map['transform']),
