@@ -2,6 +2,10 @@
 
 @implementation CodableUtils
 
++ (NSString*) convertSimdFloat2ToString: (simd_float2) vector {
+    return [NSString stringWithFormat:@"%f %f", vector[0], vector[1]];
+}
+
 + (NSString*) convertSimdFloat3ToString: (simd_float3) vector {
     return [NSString stringWithFormat:@"%f %f %f", vector[0], vector[1], vector[2]];
 }
@@ -30,6 +34,8 @@
         ARImageAnchor *image = (ARImageAnchor*)anchor;
         [params setObject:@"imageAnchor" forKey:@"anchorType"];
         [params setObject:image.referenceImage.name forKey:@"referenceImageName"];
+        simd_float2 size = simd_make_float2(image.referenceImage.physicalSize.width, image.referenceImage.physicalSize.height);
+        [params setObject:[CodableUtils convertSimdFloat2ToString:size] forKey:@"referenceImagePhysicalSize"];
     }
     if ([anchor isMemberOfClass:[ARFaceAnchor class]]) {
         [params setObject:@"faceAnchor" forKey:@"anchorType"];

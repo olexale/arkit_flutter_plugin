@@ -7,6 +7,11 @@ Map<String, double> convertVector4ToMap(Vector4 vector) => vector == null
     ? null
     : {'x': vector.x, 'y': vector.y, 'z': vector.z, 'w': vector.w};
 
+Vector2 createVector2FromString(String str) {
+  final coords = _getCoordsList(str);
+  return Vector2.array(coords);
+}
+
 Vector3 createVector3FromString(String str) {
   final coords = _getCoordsList(str);
   return Vector3.array(coords);
