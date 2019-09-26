@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0
+
+* Flutter Widgets in AR
+
 ## 0.2.2
 
 * Custom animations

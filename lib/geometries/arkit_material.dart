@@ -9,7 +9,7 @@ class ARKitMaterialProperty {
   final Color color;
 
   /// Specifies the receiver's image.
-  /// It might be either a name of an image stored in native iOS project or 
+  /// It might be either a name of an image stored in native iOS project or
   /// a full path to the file in the Flutter folder (/assets/image/img.jpg).
   final String image;
 
