@@ -575,6 +575,8 @@ class ARKitController {
         return ARKitImageAnchor.fromMap(map);
       case 'faceAnchor':
         return ARKitFaceAnchor.fromMap(map);
+      case 'bodyAnchor':
+        return ARKitBodyAnchor.fromMap(map);
     }
     return ARKitAnchor.fromMap(map);
   }

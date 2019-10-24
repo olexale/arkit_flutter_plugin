@@ -174,6 +174,10 @@
             }
             _configuration = imageTrackingConfiguration;
         }
+    } else if (configurationType == 3) {
+        if (ARBodyTrackingConfiguration.isSupported) {
+            _configuration = [ARBodyTrackingConfiguration new];
+        }
     }
     NSNumber* worldAlignment = params[@"worldAlignment"];
     _configuration.worldAlignment = [self getWorldAlignmentFromNumber:[worldAlignment intValue]];

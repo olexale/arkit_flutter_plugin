@@ -30,19 +30,52 @@
         [params setObject:[CodableUtils convertSimdFloat3ToString:plane.center] forKey:@"center"];
         [params setObject:[CodableUtils convertSimdFloat3ToString:plane.extent] forKey:@"extent"];
     }
-    if ([anchor isMemberOfClass:[ARImageAnchor class]]) {
+    else if ([anchor isMemberOfClass:[ARImageAnchor class]]) {
         ARImageAnchor *image = (ARImageAnchor*)anchor;
         [params setObject:@"imageAnchor" forKey:@"anchorType"];
         [params setObject:image.referenceImage.name forKey:@"referenceImageName"];
         simd_float2 size = simd_make_float2(image.referenceImage.physicalSize.width, image.referenceImage.physicalSize.height);
         [params setObject:[CodableUtils convertSimdFloat2ToString:size] forKey:@"referenceImagePhysicalSize"];
     }
-    if ([anchor isMemberOfClass:[ARFaceAnchor class]]) {
+    else if ([anchor isMemberOfClass:[ARFaceAnchor class]]) {
         [params setObject:@"faceAnchor" forKey:@"anchorType"];
         ARFaceAnchor *faceAnchor = (ARFaceAnchor*)anchor;
         [params setObject:[CodableUtils convertSimdFloat4x4ToString:faceAnchor.leftEyeTransform] forKey:@"leftEyeTransform"];
         [params setObject:[CodableUtils convertSimdFloat4x4ToString:faceAnchor.rightEyeTransform] forKey:@"rightEyeTransform"];
         [params setObject:faceAnchor.blendShapes forKey:@"blendShapes"];
+    }
+    else if ([anchor isMemberOfClass:[ARBodyAnchor class]]) {
+        [params setObject:@"bodyAnchor" forKey:@"anchorType"];
+        
+        ARBodyAnchor *body = (ARBodyAnchor*)anchor;
+        
+        NSDictionary* modelTransforms = @{
+            @"root": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton modelTransformForJointName:ARSkeletonJointNameRoot]],
+            @"head": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton modelTransformForJointName:ARSkeletonJointNameHead]],
+            @"leftHand": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton modelTransformForJointName:ARSkeletonJointNameLeftHand]],
+            @"rightHand": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton modelTransformForJointName:ARSkeletonJointNameRightHand]],
+            @"leftFoot": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton modelTransformForJointName:ARSkeletonJointNameLeftFoot]],
+            @"rightFoot": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton modelTransformForJointName:ARSkeletonJointNameRightFoot]],
+            @"leftShoulder": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton modelTransformForJointName:ARSkeletonJointNameLeftShoulder]],
+            @"rightShoulder": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton modelTransformForJointName:ARSkeletonJointNameRightShoulder]]
+        };
+        
+        NSDictionary* localTransforms = @{
+            @"root": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton localTransformForJointName:ARSkeletonJointNameRoot]],
+            @"head": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton localTransformForJointName:ARSkeletonJointNameHead]],
+            @"leftHand": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton localTransformForJointName:ARSkeletonJointNameLeftHand]],
+            @"rightHand": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton localTransformForJointName:ARSkeletonJointNameRightHand]],
+            @"leftFoot": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton localTransformForJointName:ARSkeletonJointNameLeftFoot]],
+            @"rightFoot": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton localTransformForJointName:ARSkeletonJointNameRightFoot]],
+            @"leftShoulder": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton localTransformForJointName:ARSkeletonJointNameLeftShoulder]],
+            @"rightShoulder": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton localTransformForJointName:ARSkeletonJointNameRightShoulder]]
+        };
+        
+        NSDictionary<NSString*, NSDictionary*>* skeleton = @{
+            @"modelTransforms":modelTransforms,
+            @"localTransforms":localTransforms
+        };
+        [params setObject:skeleton forKey:@"skeleton"];
     }
     return params;
 }

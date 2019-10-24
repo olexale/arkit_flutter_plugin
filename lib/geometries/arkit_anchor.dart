@@ -1,5 +1,6 @@
 import 'package:arkit_plugin/geometries/arkit_face.dart';
 import 'package:arkit_plugin/geometries/arkit_material.dart';
+import 'package:arkit_plugin/geometries/arkit_skeleton.dart';
 import 'package:arkit_plugin/utils/matrix4_utils.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:flutter/widgets.dart';
@@ -123,5 +124,31 @@ class ARKitFaceAnchor extends ARKitAnchor {
         getMatrixFromString(map['transform']),
         getMatrixFromString(map['leftEyeTransform']),
         getMatrixFromString(map['rightEyeTransform']),
+      );
+}
+
+/// An anchor representing a body in the world.
+class ARKitBodyAnchor extends ARKitAnchor {
+  ARKitBodyAnchor(
+    this.skeleton,
+    String nodeName,
+    String identifier,
+    Matrix4 transorm,
+  ) : super(
+          nodeName,
+          identifier,
+          transorm,
+        );
+
+  /// The tracked skeleton in 3D.
+  /// The default height of this skeleton, measured from lowest to highest joint in standing position, is defined to be 1.71 meters.
+  final ARKitSkeleton skeleton;
+
+  static ARKitBodyAnchor fromMap(Map<String, dynamic> map) => ARKitBodyAnchor(
+        ARKitSkeleton.fromMap(
+            map.cast<String, Map>()['skeleton'].cast<String, dynamic>()),
+        map['node_name'],
+        map['identifier'],
+        getMatrixFromString(map['transform']),
       );
 }

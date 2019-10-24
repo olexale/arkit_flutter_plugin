@@ -15,4 +15,8 @@ enum ARKitConfiguration {
   /// A configuration for running image tracking.
   /// Image tracking provides 6 degrees of freedom tracking of known images. Four images may be tracked simultaneously.
   imageTracking,
+
+  /// A configuration for running body tracking.
+  /// Body tracking provides 6 degrees of freedom tracking of a detected body in the scene.
+  bodyTracking,
 }
