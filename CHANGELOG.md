@@ -1,8 +1,13 @@
 # Changelog
 
+## 0.3.1
+
+* Body tracking
+
 ## 0.3.0
 
 * Flutter Widgets in AR
+* Bug fixes
 
 ## 0.2.2
 
