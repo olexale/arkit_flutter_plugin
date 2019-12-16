@@ -89,6 +89,9 @@ I would highly recommend to review the [sample](https://github.com/olexale/arkit
 | Custom Animation | Custom object animation. Port of https://github.com/eh3rrera/ARKitAnimation | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/custom_animation_page.dart)|[twitter](https://twitter.com/OlexaLe/status/1173587705206366209) |
 | Widget Projection | Flutter widgets in AR | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/widget_projection.dart)|[twitter](https://twitter.com/OlexaLe/status/1174678765592567814) |
 
+## UX advice
+You might want to check the device capabilities before establishing an AR session. To do that the [device_info](https://pub.dev/packages/device_info) plugin will be in hand. Check the documentation about AR functionality you want to add and implement some fallback logic for users with older OSes.
+
 ## Contributing
 
 If you find a bug or would like to request a new feature, just [open an issue](https://github.com/olexale/arkit_flutter_plugin/issues/new). Your contributions are always welcome!
