@@ -1,6 +1,6 @@
 import 'package:arkit_plugin/geometries/arkit_face.dart';
-import 'package:arkit_plugin/geometries/arkit_material.dart';
 import 'package:arkit_plugin/geometries/arkit_skeleton.dart';
+import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:arkit_plugin/utils/matrix4_utils.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:flutter/widgets.dart';

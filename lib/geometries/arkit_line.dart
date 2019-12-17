@@ -1,5 +1,5 @@
 import 'package:arkit_plugin/geometries/arkit_geometry.dart';
-import 'package:arkit_plugin/geometries/arkit_material.dart';
+import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:meta/meta.dart';
 import 'package:vector_math/vector_math_64.dart';

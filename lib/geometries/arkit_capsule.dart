@@ -1,5 +1,5 @@
 import 'package:arkit_plugin/geometries/arkit_geometry.dart';
-import 'package:arkit_plugin/geometries/arkit_material.dart';
+import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:flutter/widgets.dart';
 
 /// ARKitCapsule represents a capsule with controllable height and cap radius.

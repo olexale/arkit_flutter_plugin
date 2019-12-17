@@ -1,4 +1,4 @@
-import 'package:arkit_plugin/geometries/arkit_material.dart';
+import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 
@@ -15,7 +15,7 @@ abstract class ARKitGeometry {
   Map<String, dynamic> toMap() => <String, dynamic>{
         'dartType': runtimeType.toString(),
         'materials': materials != null
-            ? materials?.value?.map((m) => m.toMap())?.toList()
+            ? materials?.value?.map((m) => m.toJson())?.toList()
             : null,
       }..removeWhere((String k, dynamic v) => v == null);
 }
