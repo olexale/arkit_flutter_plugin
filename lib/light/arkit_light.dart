@@ -1,8 +1,13 @@
 import 'package:arkit_plugin/light/arkit_light_type.dart';
+import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'arkit_light.g.dart';
 
 /// ARKitLight represents a light that can be attached to a ARKitNode.
+@JsonSerializable()
 class ARKitLight {
   ARKitLight({
     this.type = ARKitLightType.omni,
@@ -15,11 +20,13 @@ class ARKitLight {
 
   /// Light type.
   /// Defaults to ARKitLightType.omni.
+  @ARKitLightTypeConverter()
   final ARKitLightType type;
 
   /// Specifies the receiver's color.
   /// Defaults to white.
   /// The renderer multiplies the light's color is by the color derived from the light's temperature.
+  @ColorConverter()
   final Color color;
 
   /// This specifies the temperature of the light in Kelvin.
@@ -30,6 +37,8 @@ class ARKitLight {
   /// This intensity is used to modulate the light color.
   /// When used with a physically-based material, this corresponds to the luminous flux of the light, expressed in lumens (lm).
   /// Defaults to 1000.
+//  @JsonKey(fromJson: _intensityFromJson, toJson: _intensityToJson)
+  @ValueNotifierConverter()
   final ValueNotifier<double> intensity;
 
   /// The angle in degrees between the spot direction and the lit element below which the lighting is at full strength.
@@ -40,12 +49,5 @@ class ARKitLight {
   /// Defaults to 45 degrees.
   final double spotOuterAngle;
 
-  Map<String, dynamic> toMap() => <String, dynamic>{
-        'type': type.index,
-        'color': color.value,
-        'temperature': temperature,
-        'intensity': intensity.value,
-        'spotInnerAngle': spotInnerAngle,
-        'spotOuterAngle': spotOuterAngle,
-      };
+  Map<String, dynamic> toMap() => _$ARKitLightToJson(this);
 }

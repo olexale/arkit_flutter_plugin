@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0
+
+* Major serialization/deserialization enhancement
+
 ## 0.3.1
 
 * Body tracking
