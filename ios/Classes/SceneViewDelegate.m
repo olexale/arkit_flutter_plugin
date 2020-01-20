@@ -56,6 +56,11 @@
   [_channel invokeMethod: @"didUpdateNodeForAnchor" arguments: params];
 }
 
+- (void)renderer:(id <SCNSceneRenderer>)renderer didRemoveNode:(SCNNode *)node forAnchor:(ARAnchor *)anchor {
+  NSDictionary* params = [self prepareParamsForAnchorEventwithNode:node andAnchor:anchor];
+  [_channel invokeMethod: @"didRemoveNodeForAnchor" arguments: params];
+}
+
 #pragma mark - Helpers
 
 - (NSDictionary<NSString*, NSString*>*) prepareParamsForAnchorEventwithNode: (SCNNode*) node andAnchor: (ARAnchor*) anchor {

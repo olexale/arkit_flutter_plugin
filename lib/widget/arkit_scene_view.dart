@@ -233,6 +233,9 @@ class ARKitController {
   /// Called when a node will be updated with data from the given anchor.
   AnchorEventHandler onUpdateNodeForAnchor;
 
+  /// Called when a mapped node has been removed from the scene graph for the given anchor.
+  AnchorEventHandler onDidRemoveNodeForAnchor;
+
   final bool debug;
 
   void dispose() {
@@ -381,6 +384,12 @@ class ARKitController {
         if (onUpdateNodeForAnchor != null) {
           final anchor = _buildAnchor(call.arguments);
           onUpdateNodeForAnchor(anchor);
+        }
+        break;
+      case 'didRemoveNodeForAnchor':
+        if (onDidRemoveNodeForAnchor != null) {
+          final anchor = _buildAnchor(call.arguments);
+          onDidRemoveNodeForAnchor(anchor);
         }
         break;
       default:
