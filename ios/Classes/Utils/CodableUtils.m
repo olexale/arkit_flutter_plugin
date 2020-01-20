@@ -34,12 +34,14 @@
         ARImageAnchor *image = (ARImageAnchor*)anchor;
         [params setObject:@"imageAnchor" forKey:@"anchorType"];
         [params setObject:image.referenceImage.name forKey:@"referenceImageName"];
+        [params setObject:image.isTracked ? @"1" : @"0" forKey:@"isTracked"];
         simd_float2 size = simd_make_float2(image.referenceImage.physicalSize.width, image.referenceImage.physicalSize.height);
         [params setObject:[CodableUtils convertSimdFloat2ToString:size] forKey:@"referenceImagePhysicalSize"];
     }
     else if ([anchor isMemberOfClass:[ARFaceAnchor class]]) {
         [params setObject:@"faceAnchor" forKey:@"anchorType"];
         ARFaceAnchor *faceAnchor = (ARFaceAnchor*)anchor;
+        [params setObject:faceAnchor.isTracked ? @"1" : @"0" forKey:@"isTracked"];
         [params setObject:[CodableUtils convertSimdFloat4x4ToString:faceAnchor.leftEyeTransform] forKey:@"leftEyeTransform"];
         [params setObject:[CodableUtils convertSimdFloat4x4ToString:faceAnchor.rightEyeTransform] forKey:@"rightEyeTransform"];
         [params setObject:faceAnchor.blendShapes forKey:@"blendShapes"];
@@ -48,6 +50,8 @@
         [params setObject:@"bodyAnchor" forKey:@"anchorType"];
         
         ARBodyAnchor *body = (ARBodyAnchor*)anchor;
+      
+        [params setObject:body.isTracked ? @"1" : @"0" forKey:@"isTracked"];
         
         NSDictionary* modelTransforms = @{
             @"root": [CodableUtils convertSimdFloat4x4ToString:[body.skeleton modelTransformForJointName:ARSkeletonJointNameRoot]],

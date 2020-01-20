@@ -65,6 +65,7 @@ class ARKitImageAnchor extends ARKitAnchor {
   ARKitImageAnchor(
     this.referenceImageName,
     this.referenceImagePhysicalSize,
+    this.isTracked,
     String nodeName,
     String identifier,
     Matrix4 transorm,
@@ -78,9 +79,15 @@ class ARKitImageAnchor extends ARKitAnchor {
   final String referenceImageName;
   final Vector2 referenceImagePhysicalSize;
 
+  /// Tracking state of the anchor
+  /// The isTracked value is used to determine the anchor transform’s validity. When the object being tracked is no longer detected in the
+  /// camera image, its anchor will return NO for isTracked.
+  final bool isTracked;
+
   static ARKitImageAnchor fromMap(Map<String, String> map) => ARKitImageAnchor(
         map['referenceImageName'],
         createVector2FromString(map['referenceImagePhysicalSize']),
+        map['isTracked'] == '1',
         map['node_name'],
         map['identifier'],
         getMatrixFromString(map['transform']),
@@ -92,6 +99,7 @@ class ARKitFaceAnchor extends ARKitAnchor {
   ARKitFaceAnchor(
     this.geometry,
     this.blendShapes,
+    this.isTracked,
     String nodeName,
     String identifier,
     Matrix4 transorm,
@@ -116,9 +124,15 @@ class ARKitFaceAnchor extends ARKitAnchor {
   /// Blend shapes coefficients define the amount of displacement of a neutral shape at a specific location on the face.
   final Map<String, double> blendShapes;
 
+  /// Tracking state of the anchor
+  /// The isTracked value is used to determine the anchor transform’s validity. When the object being tracked is no longer detected in the
+  /// camera image, its anchor will return NO for isTracked.
+  final bool isTracked;
+
   static ARKitFaceAnchor fromMap(Map<String, dynamic> map) => ARKitFaceAnchor(
         ARKitFace(materials: [ARKitMaterial()]),
         map.cast<String, Map>()['blendShapes'].cast<String, double>(),
+        map['isTracked'] == '1',
         map['node_name'],
         map['identifier'],
         getMatrixFromString(map['transform']),
@@ -131,6 +145,7 @@ class ARKitFaceAnchor extends ARKitAnchor {
 class ARKitBodyAnchor extends ARKitAnchor {
   ARKitBodyAnchor(
     this.skeleton,
+    this.isTracked,
     String nodeName,
     String identifier,
     Matrix4 transorm,
@@ -144,9 +159,15 @@ class ARKitBodyAnchor extends ARKitAnchor {
   /// The default height of this skeleton, measured from lowest to highest joint in standing position, is defined to be 1.71 meters.
   final ARKitSkeleton skeleton;
 
+  /// Tracking state of the anchor
+  /// The isTracked value is used to determine the anchor transform’s validity. When the object being tracked is no longer detected in the
+  /// camera image, its anchor will return NO for isTracked.
+  final bool isTracked;
+
   static ARKitBodyAnchor fromMap(Map<String, dynamic> map) => ARKitBodyAnchor(
         ARKitSkeleton.fromMap(
             map.cast<String, Map>()['skeleton'].cast<String, dynamic>()),
+        map['isTracked'] == '1',
         map['node_name'],
         map['identifier'],
         getMatrixFromString(map['transform']),
