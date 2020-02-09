@@ -2,6 +2,8 @@
 @import ARKit;
 @import SceneKit;
 
+#import "ArkitDefines.h"
+
 API_AVAILABLE(ios(11.3))
 @interface FlutterArkitController : NSObject <FlutterPlatformView>
 
