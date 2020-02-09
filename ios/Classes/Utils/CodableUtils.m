@@ -1,4 +1,5 @@
 #import "CodableUtils.h"
+#import "../ArkitDefines.h"
 
 @implementation CodableUtils
 
