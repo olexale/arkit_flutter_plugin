@@ -29,9 +29,12 @@
         selector = @selector(getTorus:);
     } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitCapsule"]) {
         selector = @selector(getCapsule:);
+#if REQUIRE_TRUEDEPTH_API
     } else if ([geometryArguments[@"dartType"] isEqualToString:@"ARKitFace"]) {
         selector = @selector(getFace:withDeivce:);
+#endif
     }
+
     
     if (selector == nil)
         return nil;
@@ -223,8 +226,10 @@
     return [SCNCapsule capsuleWithCapRadius:[capRadius floatValue] height:[height floatValue]];
 }
 
+#if REQUIRE_TRUEDEPTH_API
 + (ARSCNFaceGeometry *) getFace:(NSDictionary *) geometryArguments withDeivce:(id) device{
     return [ARSCNFaceGeometry faceGeometryWithDevice:device];
 }
+#endif
 
 @end

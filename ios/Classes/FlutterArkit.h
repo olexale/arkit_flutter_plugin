@@ -2,6 +2,10 @@
 @import ARKit;
 @import SceneKit;
 
+#ifndef REQUIRE_TRUEDEPTH_API
+    #define REQUIRE_TRUEDEPTH_API 1
+#endif
+
 API_AVAILABLE(ios(11.3))
 @interface FlutterArkitController : NSObject <FlutterPlatformView>
 

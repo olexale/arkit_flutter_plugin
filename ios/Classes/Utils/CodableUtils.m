@@ -38,6 +38,7 @@
         simd_float2 size = simd_make_float2(image.referenceImage.physicalSize.width, image.referenceImage.physicalSize.height);
         [params setObject:[CodableUtils convertSimdFloat2ToString:size] forKey:@"referenceImagePhysicalSize"];
     }
+#if REQUIRE_TRUEDEPTH_API
     else if ([anchor isMemberOfClass:[ARFaceAnchor class]]) {
         [params setObject:@"faceAnchor" forKey:@"anchorType"];
         ARFaceAnchor *faceAnchor = (ARFaceAnchor*)anchor;
@@ -46,6 +47,7 @@
         [params setObject:[CodableUtils convertSimdFloat4x4ToString:faceAnchor.rightEyeTransform] forKey:@"rightEyeTransform"];
         [params setObject:faceAnchor.blendShapes forKey:@"blendShapes"];
     }
+#endif
     else if ([anchor isMemberOfClass:[ARBodyAnchor class]]) {
         [params setObject:@"bodyAnchor" forKey:@"anchorType"];
         
