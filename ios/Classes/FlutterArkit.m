@@ -91,6 +91,8 @@
       [self updateSingleProperty:call andResult:result];
   } else if ([[call method] isEqualToString:@"updateMaterials"]) {
       [self updateMaterials:call andResult:result];
+  } else if ([[call method] isEqualToString:@"performHitTest"]) {
+      [self performHitTest:call andResult:result];
 #if REQUIRE_TRUEDEPTH_API
   } else if ([[call method] isEqualToString:@"updateFaceGeometry"]) {
       [self updateFaceGeometry:call andResult:result];
@@ -234,20 +236,12 @@
         SCNNode *node = hitResults[0].node;
         [_channel invokeMethod: @"onNodeTap" arguments: node.name];
     }
-
-    NSArray<ARHitTestResult *> *arHitResults = [sceneView hitTest:touchLocation types:ARHitTestResultTypeFeaturePoint
-                                                + ARHitTestResultTypeEstimatedHorizontalPlane
-                                                + ARHitTestResultTypeEstimatedVerticalPlane
-                                                + ARHitTestResultTypeExistingPlane
-                                                + ARHitTestResultTypeExistingPlaneUsingExtent
-                                                + ARHitTestResultTypeExistingPlaneUsingGeometry
-                                                ];
-    if ([arHitResults count] != 0) {
-        NSMutableArray<NSDictionary*>* results = [NSMutableArray arrayWithCapacity:[arHitResults count]];
-        for (ARHitTestResult* r in arHitResults) {
-            [results addObject:[self getDictFromHitResult:r]];
-        }
-        [_channel invokeMethod: @"onARTap" arguments: results];
+    
+    NSArray<ARHitTestResult *> *arHitResults = [self getARHitResults:sceneView atLocation:touchLocation];
+    NSMutableArray<NSDictionary*>* resultsArray = [self ARHitResultsToArray:arHitResults];
+    
+    if(resultsArray != nil){
+        [_channel invokeMethod: @"onARTap" arguments: resultsArray];
     }
 }
 
@@ -413,6 +407,25 @@
     result(nil);
 }
 
+- (void) performHitTest:(FlutterMethodCall*)call andResult:(FlutterResult)result {
+    NSNumber* x = call.arguments[@"x"];
+    NSNumber* y = call.arguments[@"y"];
+    
+    double viewHeight = self.sceneView.bounds.size.height;
+    double viewWidth = self.sceneView.bounds.size.width;
+    
+    CGPoint location;
+    if ([x isKindOfClass:[NSNull class]] || [y isKindOfClass:[NSNull class]]){
+        location = self.sceneView.center;
+    }else{
+        location = CGPointMake(viewWidth * [x doubleValue], viewHeight * [y doubleValue]);
+    }
+    
+    NSArray<ARHitTestResult *> *arHitResults = [self getARHitResults:self.sceneView atLocation:location];
+    NSMutableArray<NSDictionary*>* resultsArray = [self ARHitResultsToArray:arHitResults];
+    result(resultsArray);
+}
+
 #pragma mark - Utils
 -(ARPlaneDetection) getPlaneFromNumber: (int) number {
   if (number == 0) {
@@ -575,6 +588,29 @@
         [dict setValue:[CodableUtils convertARAnchorToDictionary:result.anchor] forKey:@"anchor"];
     }
     return dict;
+}
+
+- (NSArray*) getARHitResults:(ARSCNView*)sceneView atLocation:(CGPoint)location{
+    NSArray<ARHitTestResult *> *arHitResults = [sceneView hitTest:location types:ARHitTestResultTypeFeaturePoint
+    + ARHitTestResultTypeEstimatedHorizontalPlane
+    + ARHitTestResultTypeEstimatedVerticalPlane
+    + ARHitTestResultTypeExistingPlane
+    + ARHitTestResultTypeExistingPlaneUsingExtent
+    + ARHitTestResultTypeExistingPlaneUsingGeometry
+    ];
+    return arHitResults;
+}
+
+- (NSMutableArray*) ARHitResultsToArray:(NSArray*)arHitResults{
+    if ([arHitResults count] != 0) {
+        NSMutableArray<NSDictionary*>* results = [NSMutableArray arrayWithCapacity:[arHitResults count]];
+        for (ARHitTestResult* r in arHitResults) {
+            [results addObject:[self getDictFromHitResult:r]];
+        }
+        return results;
+    }else{
+        return nil;
+    }
 }
 
 @end

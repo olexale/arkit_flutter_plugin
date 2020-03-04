@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1
+
+* Added updateAtTime function, enables real-time updates.
+* Added performHitTest function.
+
 ## 0.4.0
 
 * Major serialization/deserialization enhancement
