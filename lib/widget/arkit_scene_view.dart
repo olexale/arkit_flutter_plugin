@@ -236,6 +236,9 @@ class ARKitController {
   /// Called when a mapped node has been removed from the scene graph for the given anchor.
   AnchorEventHandler onDidRemoveNodeForAnchor;
 
+  /// Called once per frame
+  Function(double time) updateAtTime;
+
   final bool debug;
 
   void dispose() {
@@ -252,6 +255,24 @@ class ARKitController {
   Future<void> remove(String nodeName) {
     assert(nodeName != null);
     return _channel.invokeMethod('removeARKitNode', {'nodeName': nodeName});
+  }
+
+  /// Perform Hit Test
+  /// defaults to center of the screen.
+  /// x and y values are between 0 and 1
+  Future<List<ARKitTestResult>> performHitTest({double x, double y}) async {
+    final List<dynamic> results =
+        await _channel.invokeMethod('performHitTest', {'x': x, 'y': y});
+    if (results == null) {
+      return [];
+    } else {
+      final objects = results
+          .cast<Map<dynamic, dynamic>>()
+          .map<ARKitTestResult>(
+              (Map<dynamic, dynamic> r) => ARKitTestResult.fromMap(r))
+          .toList();
+      return objects;
+    }
   }
 
   /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
@@ -390,6 +411,12 @@ class ARKitController {
         if (onDidRemoveNodeForAnchor != null) {
           final anchor = _buildAnchor(call.arguments);
           onDidRemoveNodeForAnchor(anchor);
+        }
+        break;
+      case 'updateAtTime':
+        if (updateAtTime != null) {
+          final double time = call.arguments['time'];
+          updateAtTime(time);
         }
         break;
       default:
