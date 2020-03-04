@@ -20,6 +20,7 @@ import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
 import 'package:arkit_plugin/widget/arkit_configuration.dart';
 import 'package:arkit_plugin/widget/arkit_world_alignment.dart';
+import 'package:arkit_plugin/widget/arkit_reference_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,9 @@ class ARKitSceneView extends StatefulWidget {
     this.showWorldOrigin = false,
     this.planeDetection = ARPlaneDetection.none,
     this.detectionImagesGroupName,
+    this.detectionImages,
     this.trackingImagesGroupName,
+    this.trackingImages,
     this.forceUserTapOnCenter = false,
     this.worldAlignment = ARWorldAlignment.gravity,
     this.debug = false,
@@ -108,9 +111,19 @@ class ARKitSceneView extends StatefulWidget {
   final String detectionImagesGroupName;
 
   /// Images to detect in the scene.
+  /// If set the session will attempt to detect the specified images (bundle name or url)
+  /// When an image is detected an ARImageAnchor will be added to the session.
+  final List<ARKitReferenceImage> detectionImages;
+
+  /// Images to detect in the scene.
   /// If set the session will attempt to detect the specified images.
   /// When an image is detected an ARImageAnchor will be added to the session.
   final String trackingImagesGroupName;
+
+  /// Images to detect in the scene.
+  /// If set the session will attempt to detect the specified images.
+  /// When an image is detected an ARImageAnchor will be added to the session.
+  final List<ARKitReferenceImage> trackingImages;
 
   /// When set every user tap will be processed like user tapped on the center of the screen.
   /// The default is false.
@@ -155,7 +168,9 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.planeDetection,
       widget.worldAlignment,
       widget.detectionImagesGroupName,
+      widget.detectionImages,
       widget.trackingImagesGroupName,
+      widget.trackingImages,
       widget.forceUserTapOnCenter,
       widget.debug,
     ));
@@ -180,7 +195,9 @@ class ARKitController {
     ARPlaneDetection planeDetection,
     ARWorldAlignment worldAlignment,
     String detectionImagesGroupName,
+    List<ARKitReferenceImage> detectionImages,
     String trackingImagesGroupName,
+    List<ARKitReferenceImage> trackingImages,
     bool forceUserTapOnCenter,
     this.debug,
   ) {
@@ -197,7 +214,9 @@ class ARKitController {
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
       'detectionImagesGroupName': detectionImagesGroupName,
+      'detectionImages': detectionImages.map((i) => i.toMap()),
       'trackingImagesGroupName': trackingImagesGroupName,
+      'trackingImages': trackingImages.map((i) => i.toMap()),
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
     });
