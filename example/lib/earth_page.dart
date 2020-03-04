@@ -49,9 +49,9 @@ class _EarthPageState extends State<EarthPage> {
     );
     this.arkitController.add(node);
 
-    timer = Timer.periodic(Duration(milliseconds: 50), (timer) {
+    timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
       final old = node.eulerAngles.value;
-      final rotation = Vector3(old.x, old.y + 0.1, old.z);
+      final rotation = Vector3(old.x, old.y + 0.05, old.z);
       node.eulerAngles.value = rotation;
     });
   }
