@@ -1,6 +1,6 @@
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
-import 'package:vector_math/vector_math_64.dart';
+import 'package:vector_math/vector_math_64.dart' as vector;
 
 class RealTimeUpdatesPage extends StatefulWidget {
   @override
@@ -26,7 +26,6 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
       ),
       body: Container(
         child: ARKitSceneView(
-          enableTapRecognizer: true,
           onARKitViewCreated: _onARKitViewCreated,
         ),
       ),
@@ -35,8 +34,7 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
 
   void _onARKitViewCreated(ARKitController arkitController) {
     final ARKitMaterial material = ARKitMaterial(
-      diffuse:
-          ARKitMaterialProperty(color: const Color.fromRGBO(255, 255, 255, 1)),
+      diffuse: ARKitMaterialProperty(color: Colors.white),
     );
 
     final sphere = ARKitSphere(
@@ -46,7 +44,7 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
 
     movingNode = ARKitNode(
       geometry: sphere,
-      position: Vector3(0, 0, -0.25),
+      position: vector.Vector3(0, 0, -0.25),
     );
 
     this.arkitController = arkitController;
@@ -54,10 +52,10 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
       if (busy == false) {
         busy = true;
         this.arkitController.performHitTest(x: 0.25, y: 0.75).then((results) {
-          if (results.length > 0) {
+          if (results.isNotEmpty) {
             final ARKitTestResult point = results.firstWhere(
                 (o) => o.type == ARKitHitTestResultType.featurePoint);
-            final Vector3 position = Vector3(
+            final position = vector.Vector3(
               point.worldTransform.getColumn(3).x,
               point.worldTransform.getColumn(3).y,
               point.worldTransform.getColumn(3).z,

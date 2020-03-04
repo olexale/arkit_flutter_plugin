@@ -261,6 +261,7 @@ class ARKitController {
   /// defaults to center of the screen.
   /// x and y values are between 0 and 1
   Future<List<ARKitTestResult>> performHitTest({double x, double y}) async {
+    assert(x > 0 && y > 0);
     final List<dynamic> results =
         await _channel.invokeMethod('performHitTest', {'x': x, 'y': y});
     if (results == null) {
