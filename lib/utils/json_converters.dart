@@ -153,3 +153,15 @@ class ARKitMaterialPropertyConverter
   @override
   Map<String, dynamic> toJson(ARKitMaterialProperty object) => object?.toJson();
 }
+
+class SizeTypeConverter implements JsonConverter<Size, Map<String, double>> {
+  const SizeTypeConverter();
+
+  @override
+  Size fromJson(Map<String, double> json) =>
+      Size(json['width'], json['height']);
+
+  @override
+  Map<String, double> toJson(Size object) =>
+      {'width': object.width, 'height': object.height};
+}
