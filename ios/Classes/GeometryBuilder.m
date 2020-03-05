@@ -98,6 +98,9 @@
             NSString* path = [[NSBundle mainBundle] pathForResource:[[ArkitPlugin registrar] lookupKeyForAsset:asset_path] ofType:nil];
             img = [UIImage imageNamed: path];
         }
+        if (img == nil) {
+            img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:propertyString[@"image"]]]];
+        }
         
         return img;
     } else if (propertyString[@"color"] != nil) {

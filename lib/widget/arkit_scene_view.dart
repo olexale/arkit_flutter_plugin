@@ -214,9 +214,9 @@ class ARKitController {
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
       'detectionImagesGroupName': detectionImagesGroupName,
-      'detectionImages': detectionImages.map((i) => i.toMap()),
+      'detectionImages': detectionImages?.map((i) => i.toMap())?.toList(),
       'trackingImagesGroupName': trackingImagesGroupName,
-      'trackingImages': trackingImages.map((i) => i.toMap()),
+      'trackingImages': trackingImages?.map((i) => i.toMap())?.toList(),
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
     });

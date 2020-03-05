@@ -8,6 +8,7 @@ import 'package:arkit_plugin_example/image_detection_page.dart';
 import 'package:arkit_plugin_example/light_estimate_page.dart';
 import 'package:arkit_plugin_example/manipulation_page.dart';
 import 'package:arkit_plugin_example/measure_page.dart';
+import 'package:arkit_plugin_example/network_image_detection.dart';
 import 'package:arkit_plugin_example/occlusion_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
@@ -75,10 +76,17 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Image Detection',
-        'Detects an earth image and puts a 3D object near it.',
+        'Detects Earth photo and puts a 3D object near it.',
         Icons.collections,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => ImageDetectionPage())),
+      ),
+      Sample(
+        'Network Image Detection',
+        'Detects Mars photo and puts a 3D object near it.',
+        Icons.collections,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => NetworkImageDetectionPage())),
       ),
       Sample(
         'Custom Light',

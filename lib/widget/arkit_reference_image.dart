@@ -1,26 +1,20 @@
-import 'package:arkit_plugin/utils/json_converters.dart';
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'arkit_reference_image.g.dart';
 
+/// A reference image to be detected in the scene.
 @JsonSerializable()
 class ARKitReferenceImage {
   const ARKitReferenceImage({
     this.name,
-    this.url,
-    this.physicalSize,
+    this.physicalWidth,
   });
 
-  /// An image name for local images (optional)
+  /// An image name for local images (bundle, asset, or url)
   final String name;
 
-  /// An URI to the image (optional)
-  final String url;
-
-  /// The physical size of the image in meters.
-  @SizeTypeConverter()
-  final Size physicalSize;
+  /// The physical width of the image in meters.
+  final double physicalWidth;
 
   static ARKitReferenceImage fromMap(Map<String, double> map) =>
       _$ARKitReferenceImageFromJson(map);
