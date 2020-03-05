@@ -34,7 +34,9 @@
     else if ([anchor isMemberOfClass:[ARImageAnchor class]]) {
         ARImageAnchor *image = (ARImageAnchor*)anchor;
         [params setObject:@"imageAnchor" forKey:@"anchorType"];
-        [params setObject:image.referenceImage.name forKey:@"referenceImageName"];
+        if (image.referenceImage.name != nil) {
+            [params setObject:image.referenceImage.name forKey:@"referenceImageName"];
+        }
         [params setObject:image.isTracked ? @"1" : @"0" forKey:@"isTracked"];
         simd_float2 size = simd_make_float2(image.referenceImage.physicalSize.width, image.referenceImage.physicalSize.height);
         [params setObject:[CodableUtils convertSimdFloat2ToString:size] forKey:@"referenceImagePhysicalSize"];

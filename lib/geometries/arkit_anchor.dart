@@ -75,8 +75,9 @@ class ARKitImageAnchor extends ARKitAnchor {
           transorm,
         );
 
-  /// Name of the detected image.
+  /// Name of the detected image (might be null).
   final String referenceImageName;
+
   final Vector2 referenceImagePhysicalSize;
 
   /// Tracking state of the anchor
