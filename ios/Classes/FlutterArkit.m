@@ -184,8 +184,8 @@
             if ([trackingImagesGroupName isKindOfClass:[NSString class]]) {
                 imageTrackingConfiguration.trackingImages = [self extractReferenceImagesFromGroup: trackingImagesGroupName];
             }
-            NSDictionary* trackingImages = params[@"trackingImages"];
-            if ([trackingImages isKindOfClass:[NSDictionary class]]) {
+            NSArray<NSDictionary*>* trackingImages = params[@"trackingImages"];
+            if ([trackingImages isKindOfClass:[NSArray class]]) {
                 _referenceImages = [DecodableUtils parseARReferenceImagesSet:trackingImages];
                 imageTrackingConfiguration.trackingImages = [self referenceImages];
             }
