@@ -10,6 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (simd_float4x4) parseFloat4x4: (NSDictionary*) matrix;
 + (NSSet<ARReferenceImage *>*) parseARReferenceImagesSet: (NSSet*) images;
 + (ARReferenceImage *) parseARReferenceImage: (NSDictionary*) dict;
++ (UIImage *) getImageByName: (NSString*) name;
 
 @end
 

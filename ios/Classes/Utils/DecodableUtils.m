@@ -42,11 +42,13 @@
 
 + (ARReferenceImage *) parseARReferenceImage: (NSDictionary*) dict {
     NSNumber* width = dict[@"physicalWidth"];
-    NSString* name = dict[@"name"];
-    UIImage* img;
-    ARReferenceImage* referenceImage;
-    
-    img = [UIImage imageNamed:name];
+    UIImage* img = [DecodableUtils getImageByName:dict[@"name"]];
+    ARReferenceImage* referenceImage = [[ARReferenceImage alloc] initWithCGImage:img.CGImage orientation:kCGImagePropertyOrientationUp physicalWidth:[width floatValue]];
+    return referenceImage;
+}
+
++ (UIImage *) getImageByName: (NSString*) name {
+    UIImage* img = [UIImage imageNamed:name];
     if(img == nil)
     {
         NSString* asset_path = name;
@@ -56,8 +58,7 @@
     if (img == nil) {
         img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:name]]];
     }
-    referenceImage = [[ARReferenceImage alloc] initWithCGImage:img.CGImage orientation:kCGImagePropertyOrientationUp physicalWidth:[width floatValue]];
-    return referenceImage;
+    return img;
 }
 
 

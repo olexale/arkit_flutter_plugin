@@ -90,18 +90,7 @@
 
 + (id) getMaterialProperty: (NSDictionary*) propertyString {
     if (propertyString[@"image"] != nil) {
-        UIImage* img = [UIImage imageNamed:propertyString[@"image"]];
-        
-        if(img == nil)
-        {
-            NSString* asset_path = propertyString[@"image"];
-            NSString* path = [[NSBundle mainBundle] pathForResource:[[ArkitPlugin registrar] lookupKeyForAsset:asset_path] ofType:nil];
-            img = [UIImage imageNamed: path];
-        }
-        if (img == nil) {
-            img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:propertyString[@"image"]]]];
-        }
-        
+        UIImage* img = [DecodableUtils getImageByName:propertyString[@"image"]];
         return img;
     } else if (propertyString[@"color"] != nil) {
         NSNumber* color = propertyString[@"color"];
