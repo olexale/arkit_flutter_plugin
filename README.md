@@ -78,7 +78,8 @@ I would highly recommend to review the [sample](https://github.com/olexale/arkit
 | Distance tracking | Detects horizontal plane and track distance on it. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/distance_tracking_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1121022506180149248) |
 | Measure | Measures distances | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/measure_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1121022506180149248) |
 | Physics | A sphere and a plane with dynamic and static physics                      | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/physics_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1119233047851884547) |
-| Image Detection | Detects an earth image and puts a 3D object near it. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/image_detection_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1120287361974378496) |
+| Image Detection | Detects Earth photo and puts a 3D object near it. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/image_detection_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1120287361974378496) |
+| Network Image Detection | Detects Mars photo and puts a 3D object near it. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/network_image_detection_page.dart) | |
 | Custom Light | Hello World scene with a custom light spot. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/custom_light_page.dart) | |
 | Light Estimation | Estimates and applies the light around you. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/light_estimate_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1120671744426221573) |
 | Custom Object | Place custom object on plane. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/custom_object_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1121037162852569090) |
@@ -88,6 +89,9 @@ I would highly recommend to review the [sample](https://github.com/olexale/arkit
 | Panorama | 360 photo. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/panorama_page.dart)|[twitter](https://twitter.com/OlexaLe/status/1154665277654781952) |
 | Custom Animation | Custom object animation. Port of https://github.com/eh3rrera/ARKitAnimation | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/custom_animation_page.dart)|[twitter](https://twitter.com/OlexaLe/status/1173587705206366209) |
 | Widget Projection | Flutter widgets in AR | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/widget_projection.dart)|[twitter](https://twitter.com/OlexaLe/status/1174678765592567814) |
+
+If you prefer video here is a playlist with "AR in Flutter" videos:
+[![AR in Flutter videos](https://img.youtube.com/vi/gOgCdl5_E7k/0.jpg)](https://www.youtube.com/watch?v=MaH4L6R8ZfQ&list=PLjaSBcAZ8TqGoWj3FE96uQ2gGPDGaXbDp "AR in Flutter videos")
 
 ## UX advice
 You might want to check the device capabilities before establishing an AR session. To do that the [device_info](https://pub.dev/packages/device_info) plugin will be in hand. Check the documentation about AR functionality you want to add and implement some fallback logic for users with older OSes.

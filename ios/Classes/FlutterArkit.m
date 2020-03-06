@@ -43,6 +43,7 @@
 @property (strong) SceneViewDelegate* delegate;
 @property (readwrite) ARConfiguration *configuration;
 @property BOOL forceUserTapOnCenter;
+@property (nonatomic, copy, null_resettable) NSSet<ARReferenceImage *> *referenceImages;
 @end
 
 @implementation FlutterArkitController
@@ -158,9 +159,14 @@
         if (ARWorldTrackingConfiguration.isSupported) {
             ARWorldTrackingConfiguration* worldTrackingConfiguration = [ARWorldTrackingConfiguration new];
             worldTrackingConfiguration.planeDetection = self.planeDetection;
-            NSString* detectionImages = params[@"detectionImagesGroupName"];
-            if ([detectionImages isKindOfClass:[NSString class]]) {
-                worldTrackingConfiguration.detectionImages = [ARReferenceImage referenceImagesInGroupNamed:detectionImages bundle:nil];
+            NSString* detectionImagesGroupName = params[@"detectionImagesGroupName"];
+            if ([detectionImagesGroupName isKindOfClass:[NSString class]]) {
+                worldTrackingConfiguration.detectionImages = [self extractReferenceImagesFromGroup: detectionImagesGroupName];
+            }
+            NSArray<NSDictionary*>* detectionImages = params[@"detectionImages"];
+            if ([detectionImages isKindOfClass:[NSArray class]]) {
+                _referenceImages = [DecodableUtils parseARReferenceImagesSet:detectionImages];
+                worldTrackingConfiguration.detectionImages = _referenceImages;
             }
             _configuration = worldTrackingConfiguration;
         }
@@ -174,9 +180,14 @@
     } else if (configurationType == 2) {
         if (ARImageTrackingConfiguration.isSupported) {
             ARImageTrackingConfiguration* imageTrackingConfiguration = [ARImageTrackingConfiguration new];
-            NSString* trackingImages = params[@"trackingImagesGroupName"];
-            if ([trackingImages isKindOfClass:[NSString class]]) {
-                imageTrackingConfiguration.trackingImages = [ARReferenceImage referenceImagesInGroupNamed:trackingImages bundle:nil];
+            NSString* trackingImagesGroupName = params[@"trackingImagesGroupName"];
+            if ([trackingImagesGroupName isKindOfClass:[NSString class]]) {
+                imageTrackingConfiguration.trackingImages = [self extractReferenceImagesFromGroup: trackingImagesGroupName];
+            }
+            NSArray<NSDictionary*>* trackingImages = params[@"trackingImages"];
+            if ([trackingImages isKindOfClass:[NSArray class]]) {
+                _referenceImages = [DecodableUtils parseARReferenceImagesSet:trackingImages];
+                imageTrackingConfiguration.trackingImages = [self referenceImages];
             }
             _configuration = imageTrackingConfiguration;
         }
@@ -201,6 +212,10 @@
     SCNNode* node = [self.sceneView.scene.rootNode childNodeWithName:nodeName recursively:YES];
     [node removeFromParentNode];
     result(nil);
+}
+
+- (NSSet<ARReferenceImage *>*) extractReferenceImagesFromGroup:(NSString*) groupName {
+    return [ARReferenceImage referenceImagesInGroupNamed:groupName bundle:nil];
 }
 
 - (void)onGetNodeBoundingBox:(FlutterMethodCall*)call result:(FlutterResult)result {

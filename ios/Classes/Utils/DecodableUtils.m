@@ -1,4 +1,5 @@
 #import "DecodableUtils.h"
+#import "ArkitPlugin.h"
 
 @implementation DecodableUtils
 
@@ -29,6 +30,35 @@
     simd_float4 d_float = simd_make_float4(d.x, d.y, d.z, d.w);
     simd_float4x4 m = simd_matrix(a_float, b_float, c_float, d_float);
     return m;
+}
+
++ (NSSet<ARReferenceImage *>*) parseARReferenceImagesSet: (NSSet*) images {
+    NSMutableSet<ARReferenceImage*>* results = [NSMutableSet setWithCapacity:[images count]];
+    for (NSDictionary* image in images) {
+        [results addObject:[DecodableUtils parseARReferenceImage:image]];
+    }
+    return results;
+}
+
++ (ARReferenceImage *) parseARReferenceImage: (NSDictionary*) dict {
+    NSNumber* width = dict[@"physicalWidth"];
+    UIImage* img = [DecodableUtils getImageByName:dict[@"name"]];
+    ARReferenceImage* referenceImage = [[ARReferenceImage alloc] initWithCGImage:img.CGImage orientation:kCGImagePropertyOrientationUp physicalWidth:[width floatValue]];
+    return referenceImage;
+}
+
++ (UIImage *) getImageByName: (NSString*) name {
+    UIImage* img = [UIImage imageNamed:name];
+    if(img == nil)
+    {
+        NSString* asset_path = name;
+        NSString* path = [[NSBundle mainBundle] pathForResource:[[ArkitPlugin registrar] lookupKeyForAsset:asset_path] ofType:nil];
+        img = [UIImage imageNamed: path];
+    }
+    if (img == nil) {
+        img = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:name]]];
+    }
+    return img;
 }
 
 
