@@ -38,7 +38,7 @@ class ARKitLight {
   /// When used with a physically-based material, this corresponds to the luminous flux of the light, expressed in lumens (lm).
   /// Defaults to 1000.
 //  @JsonKey(fromJson: _intensityFromJson, toJson: _intensityToJson)
-  @ValueNotifierConverter()
+  @DoubleValueNotifierConverter()
   final ValueNotifier<double> intensity;
 
   /// The angle in degrees between the spot direction and the lit element below which the lighting is at full strength.

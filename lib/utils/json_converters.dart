@@ -11,15 +11,18 @@ import 'package:arkit_plugin/light/arkit_light_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-class ValueNotifierConverter
-    implements JsonConverter<ValueNotifier<double>, double> {
+class DoubleValueNotifierConverter extends ValueNotifierConverter<double> {
+  const DoubleValueNotifierConverter() : super();
+}
+
+class ValueNotifierConverter<T> implements JsonConverter<ValueNotifier<T>, T> {
   const ValueNotifierConverter();
 
   @override
-  ValueNotifier<double> fromJson(double json) => ValueNotifier<double>(json);
+  ValueNotifier<T> fromJson(T json) => ValueNotifier<T>(json);
 
   @override
-  double toJson(ValueNotifier<double> object) => object?.value;
+  T toJson(ValueNotifier<T> object) => object?.value;
 }
 
 class ColorConverter implements JsonConverter<Color, int> {
