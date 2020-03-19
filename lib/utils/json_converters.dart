@@ -5,14 +5,21 @@ import 'package:arkit_plugin/geometries/material/arkit_color_mask.dart';
 import 'package:arkit_plugin/geometries/material/arkit_cull_mode.dart';
 import 'package:arkit_plugin/geometries/material/arkit_fill_mode.dart';
 import 'package:arkit_plugin/geometries/material/arkit_lighting_model.dart';
+import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:arkit_plugin/geometries/material/arkit_material_property.dart';
 import 'package:arkit_plugin/geometries/material/arkit_transparency_mode.dart';
 import 'package:arkit_plugin/light/arkit_light_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 class DoubleValueNotifierConverter extends ValueNotifierConverter<double> {
   const DoubleValueNotifierConverter() : super();
+}
+
+class ListMaterialsValueNotifierConverter
+    extends ValueNotifierConverter<List<ARKitMaterial>> {
+  const ListMaterialsValueNotifierConverter() : super();
 }
 
 class ValueNotifierConverter<T> implements JsonConverter<ValueNotifier<T>, T> {
@@ -155,4 +162,52 @@ class ARKitMaterialPropertyConverter
 
   @override
   Map<String, dynamic> toJson(ARKitMaterialProperty object) => object?.toJson();
+}
+
+class Matrix4Converter implements JsonConverter<Matrix4, List<double>> {
+  const Matrix4Converter();
+
+  @override
+  Matrix4 fromJson(List<double> json) {
+    return Matrix4.fromList(json);
+  }
+
+  @override
+  List<double> toJson(Matrix4 matrix) {
+    final list = <double>[];
+    matrix.copyIntoArray(list);
+    return list;
+  }
+}
+
+class Vector2Converter implements JsonConverter<Vector2, List<double>> {
+  const Vector2Converter();
+
+  @override
+  Vector2 fromJson(List<double> json) {
+    return Vector2.fromFloat64List(json);
+  }
+
+  @override
+  List<double> toJson(Vector2 object) {
+    final list = <double>[];
+    object.copyIntoArray(list);
+    return list;
+  }
+}
+
+class Vector3Converter implements JsonConverter<Vector3, List<double>> {
+  const Vector3Converter();
+
+  @override
+  Vector3 fromJson(List<double> json) {
+    return Vector3.fromFloat64List(json);
+  }
+
+  @override
+  List<double> toJson(Vector3 object) {
+    final list = <double>[];
+    object.copyIntoArray(list);
+    return list;
+  }
 }

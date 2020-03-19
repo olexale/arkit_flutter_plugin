@@ -1,4 +1,5 @@
 import 'package:arkit_plugin/geometries/material/arkit_material.dart';
+import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 
@@ -10,12 +11,6 @@ abstract class ARKitGeometry {
   /// Specifies the receiver's materials array.
   /// Each geometry element can be rendered using a different material.
   /// The index of the material used for a geometry element is equal to the index of that element modulo the number of materials.
+  @ListMaterialsValueNotifierConverter()
   final ValueNotifier<List<ARKitMaterial>> materials;
-
-  Map<String, dynamic> toMap() => <String, dynamic>{
-        'dartType': runtimeType.toString(),
-        'materials': materials != null
-            ? materials?.value?.map((m) => m.toJson())?.toList()
-            : null,
-      }..removeWhere((String k, dynamic v) => v == null);
 }

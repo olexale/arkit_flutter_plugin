@@ -376,19 +376,19 @@ class ARKitController {
         break;
       case 'didAddNodeForAnchor':
         if (onAddNodeForAnchor != null) {
-          final anchor = _buildAnchor(call.arguments);
+          final anchor = ARKitAnchor.fromJson(call.arguments);
           onAddNodeForAnchor(anchor);
         }
         break;
       case 'didUpdateNodeForAnchor':
         if (onUpdateNodeForAnchor != null) {
-          final anchor = _buildAnchor(call.arguments);
+          final anchor = ARKitAnchor.fromJson(call.arguments);
           onUpdateNodeForAnchor(anchor);
         }
         break;
       case 'didRemoveNodeForAnchor':
         if (onDidRemoveNodeForAnchor != null) {
-          final anchor = _buildAnchor(call.arguments);
+          final anchor = ARKitAnchor.fromJson(call.arguments);
           onDidRemoveNodeForAnchor(anchor);
         }
         break;
@@ -572,21 +572,5 @@ class ARKitController {
     final Map<String, dynamic> values = <String, dynamic>{'name': node.name}
       ..addAll(params);
     return values;
-  }
-
-  ARKitAnchor _buildAnchor(Map arguments) {
-    final type = arguments['anchorType'].toString();
-    final map = arguments.cast<String, String>();
-    switch (type) {
-      case 'planeAnchor':
-        return ARKitPlaneAnchor.fromMap(map);
-      case 'imageAnchor':
-        return ARKitImageAnchor.fromMap(map);
-      case 'faceAnchor':
-        return ARKitFaceAnchor.fromMap(map);
-      case 'bodyAnchor':
-        return ARKitBodyAnchor.fromMap(map);
-    }
-    return ARKitAnchor.fromMap(map);
   }
 }
