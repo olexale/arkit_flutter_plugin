@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
+import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/material/arkit_blend_mode.dart';
 import 'package:arkit_plugin/geometries/material/arkit_color_mask.dart';
 import 'package:arkit_plugin/geometries/material/arkit_cull_mode.dart';
@@ -10,6 +11,7 @@ import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:arkit_plugin/geometries/material/arkit_transparency_mode.dart';
 import 'package:arkit_plugin/hit/arkit_hit_test_result_type.dart';
 import 'package:arkit_plugin/light/arkit_light_type.dart';
+import 'package:arkit_plugin/physics/arkit_physics_body_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -55,6 +57,29 @@ class ARKitLightTypeConverter implements JsonConverter<ARKitLightType, int> {
 
   @override
   int toJson(ARKitLightType object) => object?.index;
+}
+
+class ARKitGeometryConverter
+    implements JsonConverter<ARKitGeometry, Map<String, dynamic>> {
+  const ARKitGeometryConverter();
+
+  @override
+  ARKitGeometry fromJson(Map<String, dynamic> json) =>
+      ARKitGeometry.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(ARKitGeometry object) => object?.toJson();
+}
+
+class ARKitPhysicsBodyTypeConverter
+    implements JsonConverter<ARKitPhysicsBodyType, int> {
+  const ARKitPhysicsBodyTypeConverter();
+
+  @override
+  ARKitPhysicsBodyType fromJson(int json) => ARKitPhysicsBodyType.values[json];
+
+  @override
+  int toJson(ARKitPhysicsBodyType object) => object?.index;
 }
 
 class ARKitLightingModelConverter

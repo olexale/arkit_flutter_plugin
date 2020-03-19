@@ -74,7 +74,7 @@ class ARKitNode {
         'scale': convertVector3ToMap(scale.value),
         'rotation': convertVector4ToMap(rotation.value),
         'eulerAngles': convertVector3ToMap(eulerAngles.value),
-        'physicsBody': physicsBody?.toMap(),
+        'physicsBody': physicsBody?.toJson(),
         'light': light?.toMap(),
         'name': name,
         'renderingOrder': renderingOrder,
