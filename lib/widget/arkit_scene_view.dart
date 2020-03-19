@@ -14,7 +14,7 @@ import 'package:arkit_plugin/geometries/arkit_tube.dart';
 import 'package:arkit_plugin/hit/arkit_node_pan_result.dart';
 import 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
 import 'package:arkit_plugin/light/arkit_light_estimate.dart';
-import 'package:arkit_plugin/utils/matrix4_utils.dart';
+import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
@@ -328,10 +328,11 @@ class ARKitController {
   }
 
   Future<Matrix4> cameraProjectionMatrix() async {
+    const converter = MatrixConverter();
     final cameraProjectionMatrix =
-        await _channel.invokeMethod<String>('cameraProjectionMatrix');
+        await _channel.invokeMethod<List<double>>('cameraProjectionMatrix');
     return cameraProjectionMatrix != null
-        ? getMatrixFromString(cameraProjectionMatrix)
+        ? converter.fromJson(cameraProjectionMatrix)
         : null;
   }
 
