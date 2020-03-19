@@ -20,6 +20,7 @@ import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
 import 'package:arkit_plugin/widget/arkit_configuration.dart';
 import 'package:arkit_plugin/widget/arkit_world_alignment.dart';
+import 'package:arkit_plugin/widget/arkit_reference_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,9 @@ class ARKitSceneView extends StatefulWidget {
     this.showWorldOrigin = false,
     this.planeDetection = ARPlaneDetection.none,
     this.detectionImagesGroupName,
+    this.detectionImages,
     this.trackingImagesGroupName,
+    this.trackingImages,
     this.forceUserTapOnCenter = false,
     this.worldAlignment = ARWorldAlignment.gravity,
     this.debug = false,
@@ -108,9 +111,19 @@ class ARKitSceneView extends StatefulWidget {
   final String detectionImagesGroupName;
 
   /// Images to detect in the scene.
+  /// If set the session will attempt to detect the specified images (bundle name or url)
+  /// When an image is detected an ARImageAnchor will be added to the session.
+  final List<ARKitReferenceImage> detectionImages;
+
+  /// Images to detect in the scene.
   /// If set the session will attempt to detect the specified images.
   /// When an image is detected an ARImageAnchor will be added to the session.
   final String trackingImagesGroupName;
+
+  /// Images to detect in the scene.
+  /// If set the session will attempt to detect the specified images.
+  /// When an image is detected an ARImageAnchor will be added to the session.
+  final List<ARKitReferenceImage> trackingImages;
 
   /// When set every user tap will be processed like user tapped on the center of the screen.
   /// The default is false.
@@ -155,7 +168,9 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.planeDetection,
       widget.worldAlignment,
       widget.detectionImagesGroupName,
+      widget.detectionImages,
       widget.trackingImagesGroupName,
+      widget.trackingImages,
       widget.forceUserTapOnCenter,
       widget.debug,
     ));
@@ -180,7 +195,9 @@ class ARKitController {
     ARPlaneDetection planeDetection,
     ARWorldAlignment worldAlignment,
     String detectionImagesGroupName,
+    List<ARKitReferenceImage> detectionImages,
     String trackingImagesGroupName,
+    List<ARKitReferenceImage> trackingImages,
     bool forceUserTapOnCenter,
     this.debug,
   ) {
@@ -197,7 +214,9 @@ class ARKitController {
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
       'detectionImagesGroupName': detectionImagesGroupName,
+      'detectionImages': detectionImages?.map((i) => i.toMap())?.toList(),
       'trackingImagesGroupName': trackingImagesGroupName,
+      'trackingImages': trackingImages?.map((i) => i.toMap())?.toList(),
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
     });
@@ -236,6 +255,9 @@ class ARKitController {
   /// Called when a mapped node has been removed from the scene graph for the given anchor.
   AnchorEventHandler onDidRemoveNodeForAnchor;
 
+  /// Called once per frame
+  Function(double time) updateAtTime;
+
   final bool debug;
 
   void dispose() {
@@ -252,6 +274,25 @@ class ARKitController {
   Future<void> remove(String nodeName) {
     assert(nodeName != null);
     return _channel.invokeMethod('removeARKitNode', {'nodeName': nodeName});
+  }
+
+  /// Perform Hit Test
+  /// defaults to center of the screen.
+  /// x and y values are between 0 and 1
+  Future<List<ARKitTestResult>> performHitTest({double x, double y}) async {
+    assert(x > 0 && y > 0);
+    final List<dynamic> results =
+        await _channel.invokeMethod('performHitTest', {'x': x, 'y': y});
+    if (results == null) {
+      return [];
+    } else {
+      final objects = results
+          .cast<Map<dynamic, dynamic>>()
+          .map<ARKitTestResult>(
+              (Map<dynamic, dynamic> r) => ARKitTestResult.fromMap(r))
+          .toList();
+      return objects;
+    }
   }
 
   /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
@@ -390,6 +431,12 @@ class ARKitController {
         if (onDidRemoveNodeForAnchor != null) {
           final anchor = ARKitAnchor.fromJson(call.arguments);
           onDidRemoveNodeForAnchor(anchor);
+        }
+        break;
+      case 'updateAtTime':
+        if (updateAtTime != null) {
+          final double time = call.arguments['time'];
+          updateAtTime(time);
         }
         break;
       default:

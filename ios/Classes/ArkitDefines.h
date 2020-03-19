@@ -1,0 +1,3 @@
+#ifndef REQUIRE_TRUEDEPTH_API
+    #define REQUIRE_TRUEDEPTH_API 1
+#endif

@@ -107,7 +107,7 @@ class ARKitImageAnchor extends ARKitAnchor {
           transform,
         );
 
-  /// Name of the detected image.
+  /// Name of the detected image (might be null).
   final String referenceImageName;
 
   @Vector2Converter()

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.2
+
+* Images load via network
+* ARKitReferenceImages load from Flutter assets and network
+
+## 0.4.1
+
+* Added updateAtTime function, enables real-time updates.
+* Added performHitTest function.
+
 ## 0.4.0
 
 * Major serialization/deserialization enhancement

@@ -35,4 +35,5 @@ export 'package:arkit_plugin/physics/arkit_physics_shape.dart';
 export 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
 export 'package:arkit_plugin/widget/arkit_configuration.dart';
 export 'package:arkit_plugin/widget/arkit_scene_view.dart';
+export 'package:arkit_plugin/widget/arkit_reference_image.dart';
 export 'package:arkit_plugin/widget/arkit_world_alignment.dart';

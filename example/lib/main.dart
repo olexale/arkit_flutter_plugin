@@ -8,6 +8,7 @@ import 'package:arkit_plugin_example/image_detection_page.dart';
 import 'package:arkit_plugin_example/light_estimate_page.dart';
 import 'package:arkit_plugin_example/manipulation_page.dart';
 import 'package:arkit_plugin_example/measure_page.dart';
+import 'package:arkit_plugin_example/network_image_detection.dart';
 import 'package:arkit_plugin_example/occlusion_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
@@ -15,6 +16,7 @@ import 'package:arkit_plugin_example/tap_page.dart';
 import 'package:arkit_plugin_example/face_detection_page.dart';
 import 'package:arkit_plugin_example/panorama_page.dart';
 import 'package:arkit_plugin_example/widget_projection.dart';
+import 'package:arkit_plugin_example/real_time_updates.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
@@ -74,10 +76,17 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Image Detection',
-        'Detects an earth image and puts a 3D object near it.',
+        'Detects Earth photo and puts a 3D object near it.',
         Icons.collections,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => ImageDetectionPage())),
+      ),
+      Sample(
+        'Network Image Detection',
+        'Detects Mars photo and puts a 3D object near it.',
+        Icons.collections,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => NetworkImageDetectionPage())),
       ),
       Sample(
         'Custom Light',
@@ -141,6 +150,13 @@ class MyApp extends StatelessWidget {
         Icons.widgets,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => WidgetProjectionPage())),
+      ),
+      Sample(
+        'Real Time Updates',
+        'Calls a function once per frame',
+        Icons.timer,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => RealTimeUpdatesPage())),
       ),
     ];
 

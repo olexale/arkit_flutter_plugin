@@ -61,6 +61,13 @@
   [_channel invokeMethod: @"didRemoveNodeForAnchor" arguments: params];
 }
 
+- (void)renderer:(id <SCNSceneRenderer>)renderer updateAtTime:(NSTimeInterval)time {
+    NSDictionary *params = @{
+           @"time" : [NSNumber numberWithDouble:time ]
+    };
+  [_channel invokeMethod: @"updateAtTime" arguments: params];
+}
+
 #pragma mark - Helpers
 
 - (NSDictionary<NSString*, NSString*>*) prepareParamsForAnchorEventwithNode: (SCNNode*) node andAnchor: (ARAnchor*) anchor {
