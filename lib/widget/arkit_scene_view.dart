@@ -289,7 +289,7 @@ class ARKitController {
       final objects = results
           .cast<Map<dynamic, dynamic>>()
           .map<ARKitTestResult>(
-              (Map<dynamic, dynamic> r) => ARKitTestResult.fromMap(r))
+              (Map<dynamic, dynamic> r) => ARKitTestResult.fromJson(r))
           .toList();
       return objects;
     }
@@ -388,7 +388,7 @@ class ARKitController {
           final objects = input
               .cast<Map<dynamic, dynamic>>()
               .map<ARKitTestResult>(
-                  (Map<dynamic, dynamic> r) => ARKitTestResult.fromMap(r))
+                  (Map<dynamic, dynamic> r) => ARKitTestResult.fromJson(r))
               .toList();
           onARTap(objects);
         }
@@ -399,7 +399,7 @@ class ARKitController {
           final objects = input
               .cast<Map<dynamic, dynamic>>()
               .map<ARKitNodePinchResult>(
-                  (Map<dynamic, dynamic> r) => ARKitNodePinchResult.fromMap(r))
+                  (Map<dynamic, dynamic> r) => ARKitNodePinchResult.fromJson(r))
               .toList();
           onNodePinch(objects);
         }
@@ -410,7 +410,7 @@ class ARKitController {
           final objects = input
               .cast<Map<dynamic, dynamic>>()
               .map<ARKitNodePanResult>(
-                  (Map<dynamic, dynamic> r) => ARKitNodePanResult.fromMap(r))
+                  (Map<dynamic, dynamic> r) => ARKitNodePanResult.fromJson(r))
               .toList();
           onNodePan(objects);
         }
@@ -600,7 +600,7 @@ class ARKitController {
 
   void _updateMaterials(ARKitNode node) {
     _channel.invokeMethod<void>(
-        'updateMaterials', _getHandlerParams(node, node.geometry.toMap()));
+        'updateMaterials', _getHandlerParams(node, node.geometry.toJson()));
   }
 
   void _updateSingleProperty(

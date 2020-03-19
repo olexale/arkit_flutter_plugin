@@ -1,7 +1,5 @@
 import 'package:arkit_plugin/geometries/arkit_face.dart';
 import 'package:arkit_plugin/geometries/arkit_skeleton.dart';
-import 'package:arkit_plugin/geometries/material/arkit_material.dart';
-import 'package:arkit_plugin/utils/matrix4_utils.dart';
 import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -25,9 +23,9 @@ abstract class ARKitAnchor {
       case 'imageAnchor':
         return ARKitImageAnchor.fromJson(map);
       case 'faceAnchor':
-        return ARKitFaceAnchor.fromMap(map);
+        return ARKitFaceAnchor.fromJson(map);
       case 'bodyAnchor':
-        return ARKitBodyAnchor.fromMap(map);
+        return ARKitBodyAnchor.fromJson(map);
     }
     return ARKitUnkownAnchor.fromJson(map);
   }
@@ -39,8 +37,10 @@ abstract class ARKitAnchor {
   final String identifier;
 
   /// The transformation matrix that defines the anchor’s rotation, translation and scale in world coordinates.
-  @Matrix4Converter()
+  @MatrixConverter()
   final Matrix4 transform;
+
+  Map<String, dynamic> toJson();
 }
 
 /// The anchor of this type is not supported by the plugin yet.
@@ -58,6 +58,7 @@ class ARKitUnkownAnchor extends ARKitAnchor {
   static ARKitUnkownAnchor fromJson(Map<String, dynamic> json) =>
       _$ARKitUnkownAnchorFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ARKitUnkownAnchorToJson(this);
 }
 
@@ -88,6 +89,7 @@ class ARKitPlaneAnchor extends ARKitAnchor {
   static ARKitPlaneAnchor fromJson(Map<String, dynamic> json) =>
       _$ARKitPlaneAnchorFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ARKitPlaneAnchorToJson(this);
 }
 
@@ -121,33 +123,37 @@ class ARKitImageAnchor extends ARKitAnchor {
   static ARKitImageAnchor fromJson(Map<String, dynamic> json) =>
       _$ARKitImageAnchorFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$ARKitImageAnchorToJson(this);
 }
 
 /// An anchor representing a face and its geometry.
+@JsonSerializable()
 class ARKitFaceAnchor extends ARKitAnchor {
-  ARKitFaceAnchor(
+  const ARKitFaceAnchor(
     this.geometry,
     this.blendShapes,
     this.isTracked,
     String nodeName,
     String identifier,
-    Matrix4 transorm,
+    Matrix4 transform,
     this.leftEyeTransform,
     this.rightEyeTransform,
   ) : super(
           nodeName,
           identifier,
-          transorm,
+          transform,
         );
 
   /// The face geometry updated based on the computed blend shapes.
   final ARKitFace geometry;
 
   /// The left eye’s rotation and translation relative to the anchor’s origin.
+  @MatrixConverter()
   final Matrix4 leftEyeTransform;
 
   /// The right eye’s rotation and translation relative to the anchor’s origin.
+  @MatrixConverter()
   final Matrix4 rightEyeTransform;
 
   /// A dictionary of blend shape coefficients for each blend shape location.
@@ -159,30 +165,26 @@ class ARKitFaceAnchor extends ARKitAnchor {
   /// camera image, its anchor will return NO for isTracked.
   final bool isTracked;
 
-  static ARKitFaceAnchor fromMap(Map<String, dynamic> map) => ARKitFaceAnchor(
-        ARKitFace(materials: [ARKitMaterial()]),
-        map.cast<String, Map>()['blendShapes'].cast<String, double>(),
-        map['isTracked'] == '1',
-        map['node_name'],
-        map['identifier'],
-        getMatrixFromString(map['transform']),
-        getMatrixFromString(map['leftEyeTransform']),
-        getMatrixFromString(map['rightEyeTransform']),
-      );
+  static ARKitFaceAnchor fromJson(Map<String, dynamic> json) =>
+      _$ARKitFaceAnchorFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$ARKitFaceAnchorToJson(this);
 }
 
 /// An anchor representing a body in the world.
+@JsonSerializable()
 class ARKitBodyAnchor extends ARKitAnchor {
   ARKitBodyAnchor(
     this.skeleton,
     this.isTracked,
     String nodeName,
     String identifier,
-    Matrix4 transorm,
+    Matrix4 transform,
   ) : super(
           nodeName,
           identifier,
-          transorm,
+          transform,
         );
 
   /// The tracked skeleton in 3D.
@@ -194,12 +196,9 @@ class ARKitBodyAnchor extends ARKitAnchor {
   /// camera image, its anchor will return NO for isTracked.
   final bool isTracked;
 
-  static ARKitBodyAnchor fromMap(Map<String, dynamic> map) => ARKitBodyAnchor(
-        ARKitSkeleton.fromMap(
-            map.cast<String, Map>()['skeleton'].cast<String, dynamic>()),
-        map['isTracked'] == '1',
-        map['node_name'],
-        map['identifier'],
-        getMatrixFromString(map['transform']),
-      );
+  static ARKitBodyAnchor fromJson(Map<String, dynamic> json) =>
+      _$ARKitBodyAnchorFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$ARKitBodyAnchorToJson(this);
 }

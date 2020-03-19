@@ -8,6 +8,6 @@ class ARKitPhysicsShape {
   final ARKitGeometry _geometry;
 
   Map<String, dynamic> toMap() => <String, dynamic>{
-        'geometry': _geometry?.toMap(),
+        'geometry': _geometry?.toJson(),
       }..removeWhere((String k, dynamic v) => v == null);
 }

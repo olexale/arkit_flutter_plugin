@@ -69,7 +69,7 @@ class ARKitNode {
 
   Map<String, dynamic> toMap() => <String, dynamic>{
         'dartType': runtimeType.toString(),
-        'geometry': geometry?.toMap(),
+        'geometry': geometry?.toJson(),
         'position': convertVector3ToMap(position.value),
         'scale': convertVector3ToMap(scale.value),
         'rotation': convertVector4ToMap(rotation.value),

@@ -1,13 +1,14 @@
 import 'dart:ui';
 
+import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/material/arkit_blend_mode.dart';
 import 'package:arkit_plugin/geometries/material/arkit_color_mask.dart';
 import 'package:arkit_plugin/geometries/material/arkit_cull_mode.dart';
 import 'package:arkit_plugin/geometries/material/arkit_fill_mode.dart';
 import 'package:arkit_plugin/geometries/material/arkit_lighting_model.dart';
 import 'package:arkit_plugin/geometries/material/arkit_material.dart';
-import 'package:arkit_plugin/geometries/material/arkit_material_property.dart';
 import 'package:arkit_plugin/geometries/material/arkit_transparency_mode.dart';
+import 'package:arkit_plugin/hit/arkit_hit_test_result_type.dart';
 import 'package:arkit_plugin/light/arkit_light_type.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -15,6 +16,10 @@ import 'package:vector_math/vector_math_64.dart';
 
 class DoubleValueNotifierConverter extends ValueNotifierConverter<double> {
   const DoubleValueNotifierConverter() : super();
+}
+
+class StringValueNotifierConverter extends ValueNotifierConverter<String> {
+  const StringValueNotifierConverter() : super();
 }
 
 class ListMaterialsValueNotifierConverter
@@ -152,20 +157,65 @@ class ARKitBlendModeConverter implements JsonConverter<ARKitBlendMode, int> {
   int toJson(ARKitBlendMode object) => object?.index;
 }
 
-class ARKitMaterialPropertyConverter
-    implements JsonConverter<ARKitMaterialProperty, Map<String, dynamic>> {
-  const ARKitMaterialPropertyConverter();
+class ARKitHitTestResultTypeConverter
+    implements JsonConverter<ARKitHitTestResultType, int> {
+  const ARKitHitTestResultTypeConverter();
 
   @override
-  ARKitMaterialProperty fromJson(Map<String, dynamic> json) =>
-      ARKitMaterialProperty.fromJson(json);
+  ARKitHitTestResultType fromJson(int json) {
+    switch (json) {
+      case 1:
+        return ARKitHitTestResultType.featurePoint;
+      case 2:
+        return ARKitHitTestResultType.estimatedHorizontalPlane;
+      case 4:
+        return ARKitHitTestResultType.estimatedVerticalPlane;
+      case 8:
+        return ARKitHitTestResultType.existingPlane;
+      case 16:
+        return ARKitHitTestResultType.existingPlaneUsingExtent;
+      case 32:
+        return ARKitHitTestResultType.existingPlaneUsingGeometry;
+      default:
+        return ARKitHitTestResultType.unknown;
+    }
+  }
 
   @override
-  Map<String, dynamic> toJson(ARKitMaterialProperty object) => object?.toJson();
+  int toJson(ARKitHitTestResultType object) {
+    switch (object) {
+      case ARKitHitTestResultType.featurePoint:
+        return 1;
+      case ARKitHitTestResultType.estimatedHorizontalPlane:
+        return 2;
+      case ARKitHitTestResultType.estimatedVerticalPlane:
+        return 4;
+      case ARKitHitTestResultType.existingPlane:
+        return 8;
+      case ARKitHitTestResultType.existingPlaneUsingExtent:
+        return 16;
+      case ARKitHitTestResultType.existingPlaneUsingGeometry:
+        return 32;
+      case ARKitHitTestResultType.unknown:
+      default:
+        return 0;
+    }
+  }
 }
 
-class Matrix4Converter implements JsonConverter<Matrix4, List<double>> {
-  const Matrix4Converter();
+class ARKitAnchorConverter
+    implements JsonConverter<ARKitAnchor, Map<String, dynamic>> {
+  const ARKitAnchorConverter();
+
+  @override
+  ARKitAnchor fromJson(Map<String, dynamic> json) => ARKitAnchor.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(ARKitAnchor object) => object?.toJson();
+}
+
+class MatrixConverter implements JsonConverter<Matrix4, List<double>> {
+  const MatrixConverter();
 
   @override
   Matrix4 fromJson(List<double> json) {
@@ -177,6 +227,23 @@ class Matrix4Converter implements JsonConverter<Matrix4, List<double>> {
     final list = <double>[];
     matrix.copyIntoArray(list);
     return list;
+  }
+}
+
+class MapOfMatrixConverter
+    implements JsonConverter<Map<String, Matrix4>, Map<String, List<double>>> {
+  const MapOfMatrixConverter();
+
+  @override
+  Map<String, Matrix4> fromJson(Map<String, List<double>> json) {
+    const converter = MatrixConverter();
+    return json.map((k, v) => MapEntry(k, converter.fromJson(v)));
+  }
+
+  @override
+  Map<String, List<double>> toJson(Map<String, Matrix4> matrix) {
+    const converter = MatrixConverter();
+    return matrix.map((k, v) => MapEntry(k, converter.toJson(v)));
   }
 }
 

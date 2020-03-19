@@ -13,4 +13,6 @@ abstract class ARKitGeometry {
   /// The index of the material used for a geometry element is equal to the index of that element modulo the number of materials.
   @ListMaterialsValueNotifierConverter()
   final ValueNotifier<List<ARKitMaterial>> materials;
+
+  Map<String, dynamic> toJson();
 }

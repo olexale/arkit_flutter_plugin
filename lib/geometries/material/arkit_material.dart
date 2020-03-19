@@ -45,78 +45,65 @@ class ARKitMaterial {
   /// The diffuse property specifies the amount of light diffusely reflected
   /// from the surface. The diffuse light is reflected equally in all directions and is
   /// therefore independent of the point of view.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty diffuse;
 
   /// Specifies the receiver's ambient property.
   /// The ambient property specifies the amount of ambient light to reflect.
   /// This property has no visual impact on scenes that have no ambient light.
   /// Setting the ambient has no effect if locksAmbientWithDiffuse is set to YES.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty ambient;
 
   /// Specifies the receiver's specular property.
   /// The specular property specifies the amount of light to reflect in a mirror-like manner.
   /// The specular intensity increases when the point of view lines up with the direction of the reflected light.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty specular;
 
   /// The emission property specifies the amount of light the material emits.
   /// This emission does not light up other surfaces in the scene.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty emission;
 
   /// The transparent property specifies the transparent areas of the material.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty transparent;
 
   /// The reflective property specifies the reflectivity of the surface.
   /// The surface will not actually reflect other objects in the scene.
   /// This property may be used as a sphere mapping to reflect a precomputed environment.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty reflective;
 
   /// The multiply property specifies a color or an image used to multiply the output fragments with.
   /// The computed fragments are multiplied with the multiply value to produce the final fragments.
   /// This property may be used for shadow maps, to fade out or tint 3d objects.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty multiply;
 
   /// The normal property specifies the surface orientation.
   /// When an image is set on the normal property the material is automatically lit per pixel.
   /// Setting a color has no effect.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty normal;
 
   /// The displacement property specifies how vertex are translated in tangent space.
   /// Pass a grayscale image for a simple 'elevation' or rgb image for a vector displacement.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty displacement;
 
   /// The ambientOcclusion property specifies the ambient occlusion of the surface.
   /// The ambient occlusion is multiplied with the ambient light, then the result is added to the lighting contribution.
   /// This property has no visual impact on scenes that have no ambient light.
   /// When an ambient occlusion map is set, the ambient property is ignored.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty ambientOcclusion;
 
   /// The selfIllumination property specifies a texture or a color that is added to the lighting contribution of the surface.
   /// When a selfIllumination is set, the emission property is ignored.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty selfIllumination;
 
   /// The metalness property specifies how metallic the material's surface appears.
   /// Lower values (darker colors) cause the material to appear more like a dielectric surface.
   /// Higher values (brighter colors) cause the surface to appear more metallic.
   /// This property is only used when 'lightingModelName' is 'SCNLightingModelPhysicallyBased'.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty metalness;
 
   /// The roughness property specifies the apparent smoothness of the surface.
   /// Lower values (darker colors) cause the material to appear shiny, with well-defined specular highlights.
   /// Higher values (brighter colors) cause specular highlights to spread out and the diffuse property of the material to become more retroreflective.
   /// This property is only used when 'lightingModelName' is 'SCNLightingModelPhysicallyBased'.
-  @ARKitMaterialPropertyConverter()
   final ARKitMaterialProperty roughness;
 
   /// Specifies the receiver's shininess value. Defaults to 1.0.

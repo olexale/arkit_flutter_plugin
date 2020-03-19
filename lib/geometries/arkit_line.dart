@@ -1,10 +1,14 @@
 import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/material/arkit_material.dart';
-import 'package:arkit_plugin/utils/vector_utils.dart';
+import 'package:arkit_plugin/utils/json_converters.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:vector_math/vector_math_64.dart';
 
+part 'arkit_line.g.dart';
+
 /// Represents a line between 2 vectors
+@JsonSerializable()
 class ARKitLine extends ARKitGeometry {
   ARKitLine({
     @required this.fromVector,
@@ -15,14 +19,16 @@ class ARKitLine extends ARKitGeometry {
         );
 
   /// Line initial vector position
+  @Vector3Converter()
   final Vector3 fromVector;
 
   /// Line final vector positon
+  @Vector3Converter()
   final Vector3 toVector;
 
+  static ARKitLine fromJson(Map<String, dynamic> json) =>
+      _$ARKitLineFromJson(json);
+
   @override
-  Map<String, dynamic> toMap() => <String, dynamic>{
-        'fromVector': convertVector3ToMap(fromVector),
-        'toVector': convertVector3ToMap(toVector),
-      }..addAll(super.toMap());
+  Map<String, dynamic> toJson() => _$ARKitLineToJson(this);
 }
