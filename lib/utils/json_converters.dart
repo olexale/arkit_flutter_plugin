@@ -303,3 +303,43 @@ class Vector3Converter implements JsonConverter<Vector3, List<double>> {
     return list;
   }
 }
+
+class Vector3ValueNotifierConverter
+    implements JsonConverter<ValueNotifier<Vector3>, List<double>> {
+  const Vector3ValueNotifierConverter();
+
+  @override
+  ValueNotifier<Vector3> fromJson(List<double> json) {
+    return ValueNotifier(Vector3.fromFloat64List(json));
+  }
+
+  @override
+  List<double> toJson(ValueNotifier<Vector3> object) {
+    if (object.value == null) {
+      return null;
+    }
+    final list = <double>[];
+    object?.value?.copyIntoArray(list);
+    return list;
+  }
+}
+
+class Vector4ValueNotifierConverter
+    implements JsonConverter<ValueNotifier<Vector4>, List<double>> {
+  const Vector4ValueNotifierConverter();
+
+  @override
+  ValueNotifier<Vector4> fromJson(List<double> json) {
+    return ValueNotifier(Vector4.fromFloat64List(json));
+  }
+
+  @override
+  List<double> toJson(ValueNotifier<Vector4> object) {
+    if (object.value == null) {
+      return null;
+    }
+    final list = <double>[];
+    object?.value?.copyIntoArray(list);
+    return list;
+  }
+}
