@@ -214,9 +214,9 @@ class ARKitController {
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
       'detectionImagesGroupName': detectionImagesGroupName,
-      'detectionImages': detectionImages?.map((i) => i.toMap())?.toList(),
+      'detectionImages': detectionImages?.map((i) => i.toJson())?.toList(),
       'trackingImagesGroupName': trackingImagesGroupName,
-      'trackingImages': trackingImages?.map((i) => i.toMap())?.toList(),
+      'trackingImages': trackingImages?.map((i) => i.toJson())?.toList(),
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
     });
@@ -309,7 +309,7 @@ class ARKitController {
     final estimate =
         await _channel.invokeMethod<Map<dynamic, dynamic>>('getLightEstimate');
     return estimate != null
-        ? ARKitLightEstimate.fromMap(estimate.cast<String, double>())
+        ? ARKitLightEstimate.fromJson(estimate.cast<String, double>())
         : null;
   }
 
@@ -363,8 +363,9 @@ class ARKitController {
 
   Map<String, dynamic> _addParentNodeNameToParams(
       Map geometryMap, String parentNodeName) {
-    if (parentNodeName?.isNotEmpty ?? false)
+    if (parentNodeName?.isNotEmpty ?? false) {
       geometryMap['parentNodeName'] = parentNodeName;
+    }
     return geometryMap;
   }
 

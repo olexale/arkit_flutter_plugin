@@ -12,14 +12,6 @@ abstract class ARKitGeometry {
   ARKitGeometry({@required List<ARKitMaterial> materials})
       : materials = ValueNotifier(materials);
 
-  /// Specifies the receiver's materials array.
-  /// Each geometry element can be rendered using a different material.
-  /// The index of the material used for a geometry element is equal to the index of that element modulo the number of materials.
-  @ListMaterialsValueNotifierConverter()
-  final ValueNotifier<List<ARKitMaterial>> materials;
-
-  Map<String, dynamic> toJson();
-
   factory ARKitGeometry.fromJson(Map<String, dynamic> arguments) {
     final type = arguments['geometryType'].toString();
     switch (type) {
@@ -50,6 +42,14 @@ abstract class ARKitGeometry {
     }
     return ARKitUnkownGeometry.fromJson(arguments);
   }
+
+  /// Specifies the receiver's materials array.
+  /// Each geometry element can be rendered using a different material.
+  /// The index of the material used for a geometry element is equal to the index of that element modulo the number of materials.
+  @ListMaterialsValueNotifierConverter()
+  final ValueNotifier<List<ARKitMaterial>> materials;
+
+  Map<String, dynamic> toJson();
 }
 
 @JsonSerializable()

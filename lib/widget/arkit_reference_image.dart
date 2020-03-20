@@ -16,8 +16,8 @@ class ARKitReferenceImage {
   /// The physical width of the image in meters.
   final double physicalWidth;
 
-  static ARKitReferenceImage fromMap(Map<String, double> map) =>
+  static ARKitReferenceImage fromJson(Map<String, double> map) =>
       _$ARKitReferenceImageFromJson(map);
 
-  Map<String, dynamic> toMap() => _$ARKitReferenceImageToJson(this);
+  Map<String, dynamic> toJson() => _$ARKitReferenceImageToJson(this);
 }
