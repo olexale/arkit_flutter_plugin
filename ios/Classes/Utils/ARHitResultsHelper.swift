@@ -30,7 +30,7 @@ fileprivate func getDictFromHitResult(_ result: ARHitTestResult) -> Dictionary<S
     dict["localTransform"] = serializeMatrix(result.localTransform)
     dict["worldTransform"] = serializeMatrix(result.worldTransform)
     
-    if let anchor = result.anchor{
+    if let anchor = result.anchor {
         dict["anchor"] = serializeAnchor(anchor)
     }
     
