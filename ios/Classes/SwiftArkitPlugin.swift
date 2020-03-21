@@ -22,6 +22,4 @@ class FlutterArkitFactory :NSObject, FlutterPlatformViewFactory {
         let view = FlutterArkitView(withFrame: frame, viewIdentifier: viewId, messenger: self.messenger)
         return view
     }
-    
-
 }

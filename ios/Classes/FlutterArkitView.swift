@@ -31,7 +31,3 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
     }
     
 }
-
-extension FlutterArkitView: ARSCNViewDelegate {
-    
-}
