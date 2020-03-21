@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/material/arkit_blend_mode.dart';
@@ -25,8 +26,35 @@ class StringValueNotifierConverter extends ValueNotifierConverter<String> {
 }
 
 class ListMaterialsValueNotifierConverter
-    extends ValueNotifierConverter<List<ARKitMaterial>> {
-  const ListMaterialsValueNotifierConverter() : super();
+    implements
+        JsonConverter<ValueNotifier<List<ARKitMaterial>>,
+            List<Map<String, dynamic>>> {
+  const ListMaterialsValueNotifierConverter();
+
+  @override
+  ValueNotifier<List<ARKitMaterial>> fromJson(List<Map<String, dynamic>> json) {
+    return ValueNotifier(json.map((e) => ARKitMaterial.fromJson(e)));
+  }
+
+  @override
+  List<Map<String, dynamic>> toJson(ValueNotifier<List<ARKitMaterial>> object) {
+    if (object == null) {
+      return null;
+    }
+    return object.value.map((e) => e.toJson()).toList();
+  }
+}
+
+class ARKitMaterialPropertyConverter
+    implements JsonConverter<ARKitMaterialProperty, Map<String, dynamic>> {
+  const ARKitMaterialPropertyConverter();
+
+  @override
+  ARKitMaterialProperty fromJson(Map<String, dynamic> json) =>
+      ARKitMaterialProperty.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(ARKitMaterialProperty object) => object?.toJson();
 }
 
 class ValueNotifierConverter<T> implements JsonConverter<ValueNotifier<T>, T> {
@@ -249,7 +277,7 @@ class MatrixConverter implements JsonConverter<Matrix4, List<double>> {
 
   @override
   List<double> toJson(Matrix4 matrix) {
-    final list = <double>[];
+    final list = List<double>(16);
     matrix.copyIntoArray(list);
     return list;
   }
@@ -282,7 +310,7 @@ class Vector2Converter implements JsonConverter<Vector2, List<double>> {
 
   @override
   List<double> toJson(Vector2 object) {
-    final list = <double>[];
+    final list = List<double>(2);
     object.copyIntoArray(list);
     return list;
   }
@@ -298,7 +326,7 @@ class Vector3Converter implements JsonConverter<Vector3, List<double>> {
 
   @override
   List<double> toJson(Vector3 object) {
-    final list = <double>[];
+    final list = List<double>(3);
     object.copyIntoArray(list);
     return list;
   }
@@ -318,7 +346,7 @@ class Vector3ValueNotifierConverter
     if (object.value == null) {
       return null;
     }
-    final list = <double>[];
+    final list = List<double>(3);
     object?.value?.copyIntoArray(list);
     return list;
   }
@@ -338,7 +366,7 @@ class Vector4ValueNotifierConverter
     if (object.value == null) {
       return null;
     }
-    final list = <double>[];
+    final list = List<double>(4);
     object?.value?.copyIntoArray(list);
     return list;
   }
