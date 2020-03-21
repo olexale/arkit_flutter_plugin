@@ -19,6 +19,7 @@ class ARKitPhysicsBody {
   final ARKitPhysicsBodyType type;
 
   /// Specifies the shape of the receiver.
+  @ARKitPhysicsShapeConverter()
   final ARKitPhysicsShape shape;
 
   /// Defines what logical 'categories' this body belongs to.

@@ -8,11 +8,21 @@ part of 'arkit_physics_shape.dart';
 
 ARKitPhysicsShape _$ARKitPhysicsShapeFromJson(Map<String, dynamic> json) {
   return ARKitPhysicsShape(
-    ARKitGeometry.fromJson(json['geometry'] as Map<String, dynamic>),
+    const ARKitGeometryConverter()
+        .fromJson(json['geometry'] as Map<String, dynamic>),
   );
 }
 
-Map<String, dynamic> _$ARKitPhysicsShapeToJson(ARKitPhysicsShape instance) =>
-    <String, dynamic>{
-      'geometry': instance.geometry,
-    };
+Map<String, dynamic> _$ARKitPhysicsShapeToJson(ARKitPhysicsShape instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'geometry', const ARKitGeometryConverter().toJson(instance.geometry));
+  return val;
+}

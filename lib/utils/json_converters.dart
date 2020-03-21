@@ -110,6 +110,18 @@ class ARKitPhysicsBodyTypeConverter
   int toJson(ARKitPhysicsBodyType object) => object?.index;
 }
 
+class ARKitPhysicsShapeConverter
+    implements JsonConverter<ARKitPhysicsShape, Map<String, dynamic>> {
+  const ARKitPhysicsShapeConverter();
+
+  @override
+  ARKitPhysicsShape fromJson(Map<String, dynamic> json) =>
+      ARKitPhysicsShape.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(ARKitPhysicsShape object) => object?.toJson();
+}
+
 class ARKitLightingModelConverter
     implements JsonConverter<ARKitLightingModel, int> {
   const ARKitLightingModelConverter();

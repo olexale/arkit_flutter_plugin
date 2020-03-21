@@ -13,6 +13,7 @@ func createImageTrackingConfiguration(_ arguments: Dictionary<String, Any>) -> A
         if let trackingImages = arguments["trackingImages"] as? Array<Dictionary<String, Any>> {
             imageTrackingConfiguration.trackingImages = parseReferenceImagesSet(trackingImages)
         }
+        return imageTrackingConfiguration
     }
     return nil
 }
