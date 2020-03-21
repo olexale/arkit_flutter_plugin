@@ -3,13 +3,8 @@ import ARKit
 
 @available(iOS 11.3, *)
 func parseReferenceImagesSet(_ images: Array<Dictionary<String, Any>>) -> Set<ARReferenceImage> {
-    var results = Set<ARReferenceImage>(minimumCapacity: images.count)
-    for image in images {
-        if let parsed = parseReferenceImage(image) {
-            results.insert(parsed)
-        }
-    }
-    return results
+    let conv = images.compactMap { parseReferenceImage($0) }
+    return Set(conv)
 }
 
 @available(iOS 11.3, *)
