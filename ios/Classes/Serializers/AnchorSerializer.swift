@@ -55,6 +55,7 @@ fileprivate func serializeImageAnchor(_ anchor: ARImageAnchor, _ params:[String 
     return params
 }
 
+#if !DISABLE_TRUEDEPTH_API
 @available(iOS 12.0, *)
 fileprivate func serializeFaceAnchor(_ anchor: ARFaceAnchor, _ params:[String : Any]) -> [String : Any]{
     var params = params
@@ -64,6 +65,7 @@ fileprivate func serializeFaceAnchor(_ anchor: ARFaceAnchor, _ params:[String : 
     params["rightEyeTransform"] = serializeMatrix(anchor.rightEyeTransform)
     return params
 }
+#endif
 
 @available(iOS 13.0, *)
 fileprivate func serializeBodyAnchor(_ anchor: ARBodyAnchor, _ params:[String : Any]) -> [String : Any]{
