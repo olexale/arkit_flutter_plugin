@@ -35,5 +35,6 @@ class ARKitCylinder extends ARKitGeometry {
       _$ARKitCylinderFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitCylinderToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitCylinderToJson(this)..addAll({'dartType': 'ARKitCylinder'});
 }

@@ -47,5 +47,6 @@ class ARKitPlane extends ARKitGeometry {
       _$ARKitPlaneFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitPlaneToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitPlaneToJson(this)..addAll({'dartType': 'ARKitPlane'});
 }

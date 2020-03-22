@@ -27,5 +27,6 @@ class ARKitSphere extends ARKitGeometry {
       _$ARKitSphereFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitSphereToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitSphereToJson(this)..addAll({'dartType': 'ARKitSphere'});
 }

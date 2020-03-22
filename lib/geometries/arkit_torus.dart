@@ -35,5 +35,6 @@ class ARKitTorus extends ARKitGeometry {
       _$ARKitTorusFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitTorusToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitTorusToJson(this)..addAll({'dartType': 'ARKitTorus'});
 }

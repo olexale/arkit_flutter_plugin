@@ -30,5 +30,6 @@ class ARKitLine extends ARKitGeometry {
       _$ARKitLineFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitLineToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitLineToJson(this)..addAll({'dartType': 'ARKitLine'});
 }

@@ -43,5 +43,6 @@ class ARKitTube extends ARKitGeometry {
       _$ARKitTubeFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitTubeToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitTubeToJson(this)..addAll({'dartType': 'ARKitTube'});
 }

@@ -43,5 +43,6 @@ class ARKitPyramid extends ARKitGeometry {
       _$ARKitPyramidFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitPyramidToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitPyramidToJson(this)..addAll({'dartType': 'ARKitPyramid'});
 }

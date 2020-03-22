@@ -43,5 +43,6 @@ class ARKitCone extends ARKitGeometry {
       _$ARKitConeFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitConeToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitConeToJson(this)..addAll({'dartType': 'ARKitCone'});
 }

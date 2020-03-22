@@ -45,5 +45,6 @@ class ARKitBox extends ARKitGeometry {
       _$ARKitBoxFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitBoxToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitBoxToJson(this)..addAll({'dartType': 'ARKitBox'});
 }

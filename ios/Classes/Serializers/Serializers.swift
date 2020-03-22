@@ -1,4 +1,3 @@
-import Foundation
 import ARKit
 
 func serializeArray(_ array: simd_float2) -> Array<Float> {

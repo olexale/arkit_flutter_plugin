@@ -35,5 +35,6 @@ class ARKitCapsule extends ARKitGeometry {
       _$ARKitCapsuleFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitCapsuleToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitCapsuleToJson(this)..addAll({'dartType': 'ARKitCapsule'});
 }

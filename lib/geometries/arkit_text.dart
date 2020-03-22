@@ -31,5 +31,6 @@ class ARKitText extends ARKitGeometry {
       _$ARKitTextFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitTextToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitTextToJson(this)..addAll({'dartType': 'ARKitText'});
 }

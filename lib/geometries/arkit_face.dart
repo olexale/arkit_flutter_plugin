@@ -20,5 +20,6 @@ class ARKitFace extends ARKitGeometry {
       _$ARKitFaceFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ARKitFaceToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$ARKitFaceToJson(this)..addAll({'dartType': 'ARKitFace'});
 }
