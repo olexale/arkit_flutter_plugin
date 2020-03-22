@@ -7,7 +7,44 @@ func createGeometry(_ arguments: Dictionary<String, Any>, withDevice device: MTL
     
     switch dartType {
     case "ARKitSphere":
-        geometry = createSphere(arguments, device)
+        geometry = createSphere(arguments)
+        break
+    case "ARKitPlane":
+        geometry = createPlane(arguments)
+        break
+    case "ARKitText":
+        geometry = createText(arguments)
+        break
+    case "ARKitBox":
+        geometry = createBox(arguments)
+        break
+    case "ARKitLine":
+        geometry = createLine(arguments)
+        break
+    case "ARKitCylinder":
+        geometry = createCylinder(arguments)
+        break
+    case "ARKitCone":
+        geometry = createCone(arguments)
+        break
+    case "ARKitPyramid":
+        geometry = createPyramid(arguments)
+        break
+    case "ARKitTube":
+        geometry = createTube(arguments)
+        break
+    case "ARKitTorus":
+        geometry = createTorus(arguments)
+        break
+    case "ARKitCapsule":
+        geometry = createCapsule(arguments)
+        break
+    case "ARKitFace":
+        #if !DISABLE_TRUEDEPTH_API
+        geometry = createFace(device)
+        #else
+        // error
+        #endif
         break
     default:
         // error
