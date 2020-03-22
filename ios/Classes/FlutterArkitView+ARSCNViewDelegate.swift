@@ -3,7 +3,7 @@ import ARKit
 
 extension FlutterArkitView: ARSCNViewDelegate {
     func session(_ session: ARSession, didFailWithError error: Error) {
-        self.channel.invokeMethod("onError", arguments: error.localizedDescription)
+        logPluginError("sessionDidFailWithError: \(error.localizedDescription)", toChannel: channel)
     }
     
     func sessionWasInterrupted(_ session: ARSession) {
