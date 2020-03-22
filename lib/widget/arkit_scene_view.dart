@@ -373,83 +373,83 @@ class ARKitController {
     if (debug) {
       print('_platformCallHandler call ${call.method} ${call.arguments}');
     }
-    switch (call.method) {
-      case 'onError':
-        if (onError != null) {
-          onError(call.arguments);
-        }
-        break;
-      case 'onNodeTap':
-        if (onNodeTap != null) {
-          onNodeTap(call.arguments);
-        }
-        break;
-      case 'onARTap':
-        if (onARTap != null) {
-          final List<dynamic> input = call.arguments;
-          final objects = input
-              .cast<Map<dynamic, dynamic>>()
-              .map<ARKitTestResult>(
-                  (Map<dynamic, dynamic> r) => ARKitTestResult.fromJson(r))
-              .toList();
-          onARTap(objects);
-        }
-        break;
-      case 'onNodePinch':
-        if (onNodePinch != null) {
-          final List<dynamic> input = call.arguments;
-          final objects = input
-              .cast<Map<dynamic, dynamic>>()
-              .map<ARKitNodePinchResult>(
-                  (Map<dynamic, dynamic> r) => ARKitNodePinchResult.fromJson(r))
-              .toList();
-          onNodePinch(objects);
-        }
-        break;
-      case 'onNodePan':
-        if (onNodePan != null) {
-          final List<dynamic> input = call.arguments;
-          final objects = input
-              .cast<Map<dynamic, dynamic>>()
-              .map<ARKitNodePanResult>(
-                  (Map<dynamic, dynamic> r) => ARKitNodePanResult.fromJson(r))
-              .toList();
-          onNodePan(objects);
-        }
-        break;
-      case 'didAddNodeForAnchor':
-        if (onAddNodeForAnchor != null) {
-          try {
+    try {
+      switch (call.method) {
+        case 'onError':
+          if (onError != null) {
+            onError(call.arguments);
+          }
+          break;
+        case 'onNodeTap':
+          if (onNodeTap != null) {
+            onNodeTap(call.arguments);
+          }
+          break;
+        case 'onARTap':
+          if (onARTap != null) {
+            final List<dynamic> input = call.arguments;
+            final objects = input
+                .cast<Map<dynamic, dynamic>>()
+                .map<ARKitTestResult>(
+                    (Map<dynamic, dynamic> r) => ARKitTestResult.fromJson(r))
+                .toList();
+            onARTap(objects);
+          }
+          break;
+        case 'onNodePinch':
+          if (onNodePinch != null) {
+            final List<dynamic> input = call.arguments;
+            final objects = input
+                .cast<Map<dynamic, dynamic>>()
+                .map<ARKitNodePinchResult>((Map<dynamic, dynamic> r) =>
+                    ARKitNodePinchResult.fromJson(r))
+                .toList();
+            onNodePinch(objects);
+          }
+          break;
+        case 'onNodePan':
+          if (onNodePan != null) {
+            final List<dynamic> input = call.arguments;
+            final objects = input
+                .cast<Map<dynamic, dynamic>>()
+                .map<ARKitNodePanResult>(
+                    (Map<dynamic, dynamic> r) => ARKitNodePanResult.fromJson(r))
+                .toList();
+            onNodePan(objects);
+          }
+          break;
+        case 'didAddNodeForAnchor':
+          if (onAddNodeForAnchor != null) {
             final anchor =
                 ARKitAnchor.fromJson(Map<String, dynamic>.from(call.arguments));
             onAddNodeForAnchor(anchor);
-          } catch (e) {
-            print(e);
           }
-        }
-        break;
-      case 'didUpdateNodeForAnchor':
-        if (onUpdateNodeForAnchor != null) {
-          final anchor = ARKitAnchor.fromJson(call.arguments);
-          onUpdateNodeForAnchor(anchor);
-        }
-        break;
-      case 'didRemoveNodeForAnchor':
-        if (onDidRemoveNodeForAnchor != null) {
-          final anchor = ARKitAnchor.fromJson(call.arguments);
-          onDidRemoveNodeForAnchor(anchor);
-        }
-        break;
-      case 'updateAtTime':
-        if (updateAtTime != null) {
-          final double time = call.arguments['time'];
-          updateAtTime(time);
-        }
-        break;
-      default:
-        if (debug) {
-          print('Unknowm method ${call.method} ');
-        }
+          break;
+        case 'didUpdateNodeForAnchor':
+          if (onUpdateNodeForAnchor != null) {
+            final anchor = ARKitAnchor.fromJson(call.arguments);
+            onUpdateNodeForAnchor(anchor);
+          }
+          break;
+        case 'didRemoveNodeForAnchor':
+          if (onDidRemoveNodeForAnchor != null) {
+            final anchor = ARKitAnchor.fromJson(call.arguments);
+            onDidRemoveNodeForAnchor(anchor);
+          }
+          break;
+        case 'updateAtTime':
+          if (updateAtTime != null) {
+            final double time = call.arguments['time'];
+            updateAtTime(time);
+          }
+          break;
+        default:
+          if (debug) {
+            print('Unknowm method ${call.method} ');
+          }
+      }
+    } catch (e) {
+      print(e);
     }
     return Future.value();
   }

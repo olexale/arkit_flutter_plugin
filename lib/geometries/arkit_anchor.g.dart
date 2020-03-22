@@ -34,8 +34,8 @@ Map<String, dynamic> _$ARKitUnkownAnchorToJson(ARKitUnkownAnchor instance) {
 
 ARKitPlaneAnchor _$ARKitPlaneAnchorFromJson(Map<String, dynamic> json) {
   return ARKitPlaneAnchor(
-    const Vector3Converter().fromJson(json['center'] as List<double>),
-    const Vector3Converter().fromJson(json['extent'] as List<double>),
+    const Vector3Converter().fromJson(json['center'] as List),
+    const Vector3Converter().fromJson(json['extent'] as List),
     json['nodeName'] as String,
     json['identifier'] as String,
     const MatrixConverter().fromJson(json['transform'] as List),
@@ -64,7 +64,7 @@ ARKitImageAnchor _$ARKitImageAnchorFromJson(Map<String, dynamic> json) {
   return ARKitImageAnchor(
     json['referenceImageName'] as String,
     const Vector2Converter()
-        .fromJson(json['referenceImagePhysicalSize'] as List<double>),
+        .fromJson(json['referenceImagePhysicalSize'] as List),
     json['isTracked'] as bool,
     json['nodeName'] as String,
     json['identifier'] as String,

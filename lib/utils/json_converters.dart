@@ -320,7 +320,7 @@ class Vector2Converter implements JsonConverter<Vector2, List<dynamic>> {
 
   @override
   Vector2 fromJson(List<dynamic> json) {
-    return Vector2.fromFloat64List(json.cast<double>());
+    return Vector2(json[0], json[1]);
   }
 
   @override
@@ -336,7 +336,7 @@ class Vector3Converter implements JsonConverter<Vector3, List<dynamic>> {
 
   @override
   Vector3 fromJson(List<dynamic> json) {
-    return Vector3.fromFloat64List(json.cast<double>());
+    return Vector3(json[0], json[1], json[2]);
   }
 
   @override

@@ -8,10 +8,8 @@ part of 'arkit_line.dart';
 
 ARKitLine _$ARKitLineFromJson(Map<String, dynamic> json) {
   return ARKitLine(
-    fromVector:
-        const Vector3Converter().fromJson(json['fromVector'] as List<double>),
-    toVector:
-        const Vector3Converter().fromJson(json['toVector'] as List<double>),
+    fromVector: const Vector3Converter().fromJson(json['fromVector'] as List),
+    toVector: const Vector3Converter().fromJson(json['toVector'] as List),
     materials: (json['materials'] as List)
         .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),

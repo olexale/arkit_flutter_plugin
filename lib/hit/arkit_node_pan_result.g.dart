@@ -9,7 +9,7 @@ part of 'arkit_node_pan_result.dart';
 ARKitNodePanResult _$ARKitNodePanResultFromJson(Map<String, dynamic> json) {
   return ARKitNodePanResult(
     json['nodeName'] as String,
-    const Vector2Converter().fromJson(json['translation'] as List<double>),
+    const Vector2Converter().fromJson(json['translation'] as List),
   );
 }
 
