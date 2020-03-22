@@ -33,6 +33,9 @@ class ListMaterialsValueNotifierConverter
 
   @override
   ValueNotifier<List<ARKitMaterial>> fromJson(List<Map<String, dynamic>> json) {
+    if (json == null) {
+      return null;
+    }
     return ValueNotifier(json.map((e) => ARKitMaterial.fromJson(e)));
   }
 
@@ -279,16 +282,16 @@ class ARKitAnchorConverter
   Map<String, dynamic> toJson(ARKitAnchor object) => object?.toJson();
 }
 
-class MatrixConverter implements JsonConverter<Matrix4, List<double>> {
+class MatrixConverter implements JsonConverter<Matrix4, List<dynamic>> {
   const MatrixConverter();
 
   @override
-  Matrix4 fromJson(List<double> json) {
-    return Matrix4.fromList(json);
+  Matrix4 fromJson(List<dynamic> json) {
+    return Matrix4.fromList(json.cast<double>());
   }
 
   @override
-  List<double> toJson(Matrix4 matrix) {
+  List<dynamic> toJson(Matrix4 matrix) {
     final list = List<double>(16);
     matrix.copyIntoArray(list);
     return list;
@@ -296,28 +299,28 @@ class MatrixConverter implements JsonConverter<Matrix4, List<double>> {
 }
 
 class MapOfMatrixConverter
-    implements JsonConverter<Map<String, Matrix4>, Map<String, List<double>>> {
+    implements JsonConverter<Map<String, Matrix4>, Map<String, List<dynamic>>> {
   const MapOfMatrixConverter();
 
   @override
-  Map<String, Matrix4> fromJson(Map<String, List<double>> json) {
+  Map<String, Matrix4> fromJson(Map<String, List<dynamic>> json) {
     const converter = MatrixConverter();
     return json.map((k, v) => MapEntry(k, converter.fromJson(v)));
   }
 
   @override
-  Map<String, List<double>> toJson(Map<String, Matrix4> matrix) {
+  Map<String, List<dynamic>> toJson(Map<String, Matrix4> matrix) {
     const converter = MatrixConverter();
     return matrix.map((k, v) => MapEntry(k, converter.toJson(v)));
   }
 }
 
-class Vector2Converter implements JsonConverter<Vector2, List<double>> {
+class Vector2Converter implements JsonConverter<Vector2, List<dynamic>> {
   const Vector2Converter();
 
   @override
-  Vector2 fromJson(List<double> json) {
-    return Vector2.fromFloat64List(json);
+  Vector2 fromJson(List<dynamic> json) {
+    return Vector2.fromFloat64List(json.cast<double>());
   }
 
   @override
@@ -328,16 +331,16 @@ class Vector2Converter implements JsonConverter<Vector2, List<double>> {
   }
 }
 
-class Vector3Converter implements JsonConverter<Vector3, List<double>> {
+class Vector3Converter implements JsonConverter<Vector3, List<dynamic>> {
   const Vector3Converter();
 
   @override
-  Vector3 fromJson(List<double> json) {
-    return Vector3.fromFloat64List(json);
+  Vector3 fromJson(List<dynamic> json) {
+    return Vector3.fromFloat64List(json.cast<double>());
   }
 
   @override
-  List<double> toJson(Vector3 object) {
+  List<dynamic> toJson(Vector3 object) {
     final list = List<double>(3);
     object.copyIntoArray(list);
     return list;
@@ -345,16 +348,16 @@ class Vector3Converter implements JsonConverter<Vector3, List<double>> {
 }
 
 class Vector3ValueNotifierConverter
-    implements JsonConverter<ValueNotifier<Vector3>, List<double>> {
+    implements JsonConverter<ValueNotifier<Vector3>, List<dynamic>> {
   const Vector3ValueNotifierConverter();
 
   @override
-  ValueNotifier<Vector3> fromJson(List<double> json) {
-    return ValueNotifier(Vector3.fromFloat64List(json));
+  ValueNotifier<Vector3> fromJson(List<dynamic> json) {
+    return ValueNotifier(Vector3.fromFloat64List(json.cast<double>()));
   }
 
   @override
-  List<double> toJson(ValueNotifier<Vector3> object) {
+  List<dynamic> toJson(ValueNotifier<Vector3> object) {
     if (object.value == null) {
       return null;
     }
@@ -365,16 +368,16 @@ class Vector3ValueNotifierConverter
 }
 
 class Vector4ValueNotifierConverter
-    implements JsonConverter<ValueNotifier<Vector4>, List<double>> {
+    implements JsonConverter<ValueNotifier<Vector4>, List<dynamic>> {
   const Vector4ValueNotifierConverter();
 
   @override
-  ValueNotifier<Vector4> fromJson(List<double> json) {
-    return ValueNotifier(Vector4.fromFloat64List(json));
+  ValueNotifier<Vector4> fromJson(List<dynamic> json) {
+    return ValueNotifier(Vector4.fromFloat64List(json.cast<double>()));
   }
 
   @override
-  List<double> toJson(ValueNotifier<Vector4> object) {
+  List<dynamic> toJson(ValueNotifier<Vector4> object) {
     if (object.value == null) {
       return null;
     }

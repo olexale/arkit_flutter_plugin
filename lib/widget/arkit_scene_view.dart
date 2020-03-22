@@ -419,8 +419,13 @@ class ARKitController {
         break;
       case 'didAddNodeForAnchor':
         if (onAddNodeForAnchor != null) {
-          final anchor = ARKitAnchor.fromJson(call.arguments);
-          onAddNodeForAnchor(anchor);
+          try {
+            final anchor =
+                ARKitAnchor.fromJson(Map<String, dynamic>.from(call.arguments));
+            onAddNodeForAnchor(anchor);
+          } catch (e) {
+            print(e);
+          }
         }
         break;
       case 'didUpdateNodeForAnchor':

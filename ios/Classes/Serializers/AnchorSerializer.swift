@@ -63,6 +63,7 @@ fileprivate func serializeFaceAnchor(_ anchor: ARFaceAnchor, _ params:[String : 
     params["isTracked"] = anchor.isTracked
     params["leftEyeTransform"] = serializeMatrix(anchor.leftEyeTransform)
     params["rightEyeTransform"] = serializeMatrix(anchor.rightEyeTransform)
+    params["blendShapes"] = anchor.blendShapes
     return params
 }
 #endif

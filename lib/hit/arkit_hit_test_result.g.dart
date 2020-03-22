@@ -10,8 +10,8 @@ ARKitTestResult _$ARKitTestResultFromJson(Map<String, dynamic> json) {
   return ARKitTestResult(
     const ARKitHitTestResultTypeConverter().fromJson(json['type'] as int),
     (json['distance'] as num).toDouble(),
-    const MatrixConverter().fromJson(json['localTransform'] as List<double>),
-    const MatrixConverter().fromJson(json['worldTransform'] as List<double>),
+    const MatrixConverter().fromJson(json['localTransform'] as List),
+    const MatrixConverter().fromJson(json['worldTransform'] as List),
     const ARKitAnchorConverter()
         .fromJson(json['anchor'] as Map<String, dynamic>),
   );

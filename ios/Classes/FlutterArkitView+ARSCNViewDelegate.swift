@@ -39,7 +39,7 @@ extension FlutterArkitView: ARSCNViewDelegate {
     
     fileprivate func prepareParamsForAnchorEvent(_ node: SCNNode, _ anchor: ARAnchor) -> Dictionary<String, Any> {
         var serializedAnchor = serializeAnchor(anchor)
-        serializedAnchor["node_name"] = node.name
+        serializedAnchor["nodeName"] = node.name
         return serializedAnchor
     }
 }

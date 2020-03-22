@@ -42,13 +42,13 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
     if (!(anchor is ARKitFaceAnchor)) {
       return;
     }
-    final material = ARKitMaterial(fillMode: ARKitFillMode.lines);
+    // final material = ARKitMaterial(fillMode: ARKitFillMode.lines);
     final ARKitFaceAnchor faceAnchor = anchor;
-    faceAnchor.geometry.materials.value = [material];
+    // faceAnchor.geometry.materials.value = [material];
 
     anchorId = anchor.identifier;
-    node = ARKitNode(geometry: faceAnchor.geometry);
-    arkitController.add(node, parentNodeName: anchor.nodeName);
+    // node = ARKitNode(geometry: faceAnchor.geometry);
+    // arkitController.add(node, parentNodeName: anchor.nodeName);
 
     leftEye = _createEye(faceAnchor.leftEyeTransform);
     arkitController.add(leftEye, parentNodeName: anchor.nodeName);

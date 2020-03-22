@@ -16,18 +16,17 @@ abstract class ARKitAnchor {
 
   factory ARKitAnchor.fromJson(Map<String, dynamic> arguments) {
     final type = arguments['anchorType'].toString();
-    final map = arguments.cast<String, String>();
     switch (type) {
       case 'planeAnchor':
-        return ARKitPlaneAnchor.fromJson(map);
+        return ARKitPlaneAnchor.fromJson(arguments);
       case 'imageAnchor':
-        return ARKitImageAnchor.fromJson(map);
+        return ARKitImageAnchor.fromJson(arguments);
       case 'faceAnchor':
-        return ARKitFaceAnchor.fromJson(map);
+        return ARKitFaceAnchor.fromJson(arguments);
       case 'bodyAnchor':
-        return ARKitBodyAnchor.fromJson(map);
+        return ARKitBodyAnchor.fromJson(arguments);
     }
-    return ARKitUnkownAnchor.fromJson(map);
+    return ARKitUnkownAnchor.fromJson(arguments);
   }
 
   /// Represents the name of the node anchor attached to.
@@ -131,7 +130,7 @@ class ARKitImageAnchor extends ARKitAnchor {
 @JsonSerializable()
 class ARKitFaceAnchor extends ARKitAnchor {
   const ARKitFaceAnchor(
-    this.geometry,
+    // this.geometry,
     this.blendShapes,
     this.isTracked,
     String nodeName,
@@ -146,7 +145,7 @@ class ARKitFaceAnchor extends ARKitAnchor {
         );
 
   /// The face geometry updated based on the computed blend shapes.
-  final ARKitFace geometry;
+  // final ARKitFace geometry;
 
   /// The left eye’s rotation and translation relative to the anchor’s origin.
   @MatrixConverter()
