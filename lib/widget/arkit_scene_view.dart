@@ -260,6 +260,10 @@ class ARKitController {
 
   final bool debug;
 
+  static const _vector3Converter = Vector3Converter();
+  static const _vector4Converter = Vector4Converter();
+  static const _materialsConverter = ListMaterialsValueNotifierConverter();
+
   void dispose() {
     _channel?.invokeMethod<void>('dispose');
   }
@@ -318,13 +322,15 @@ class ARKitController {
     _channel.invokeMethod<void>(
         'updateFaceGeometry',
         _getHandlerParams(
-            node, <String, dynamic>{'fromAnchorId': fromAnchorId}));
+            node, 'geometry', <String, dynamic>{'fromAnchorId': fromAnchorId}));
   }
 
   Future<Vector3> projectPoint(Vector3 point) async {
-    final projectPoint = await _channel.invokeMethod<String>(
-        'projectPoint', {'point': convertVector3ToMap(point)});
-    return projectPoint != null ? createVector3FromString(projectPoint) : null;
+    final projectPoint = await _channel.invokeMethod<List<double>>(
+        'projectPoint', {'point': _vector3Converter.toJson(point)});
+    return projectPoint != null
+        ? _vector3Converter.fromJson(projectPoint)
+        : null;
   }
 
   Future<Matrix4> cameraProjectionMatrix() async {
@@ -586,35 +592,44 @@ class ARKitController {
   }
 
   void _handlePositionChanged(ARKitNode node) {
-    _channel.invokeMethod<void>('positionChanged',
-        _getHandlerParams(node, convertVector3ToMap(node.position.value)));
+    _channel.invokeMethod<void>(
+        'positionChanged',
+        _getHandlerParams(
+            node, 'position', _vector3Converter.toJson(node.position.value)));
   }
 
   void _handleRotationChanged(ARKitNode node) {
-    _channel.invokeMethod<void>('rotationChanged',
-        _getHandlerParams(node, convertVector4ToMap(node.rotation.value)));
+    _channel.invokeMethod<void>(
+        'rotationChanged',
+        _getHandlerParams(
+            node, 'rotation', _vector4Converter.toJson(node.rotation.value)));
   }
 
   void _handleEulerAnglesChanged(ARKitNode node) {
-    _channel.invokeMethod<void>('eulerAnglesChanged',
-        _getHandlerParams(node, convertVector3ToMap(node.eulerAngles.value)));
+    _channel.invokeMethod<void>(
+        'eulerAnglesChanged',
+        _getHandlerParams(node, 'eulerAngles',
+            _vector3Converter.toJson(node.eulerAngles.value)));
   }
 
   void _handleScaleChanged(ARKitNode node) {
-    _channel.invokeMethod<void>('scaleChanged',
-        _getHandlerParams(node, convertVector3ToMap(node.scale.value)));
+    _channel.invokeMethod<void>(
+        'scaleChanged',
+        _getHandlerParams(
+            node, 'scale', convertVector3ToMap(node.scale.value)));
   }
 
   void _updateMaterials(ARKitNode node) {
+    final materials = _materialsConverter.toJson(node.geometry.materials);
     _channel.invokeMethod<void>(
-        'updateMaterials', _getHandlerParams(node, node.geometry.toJson()));
+        'updateMaterials', _getHandlerParams(node, 'materials', materials));
   }
 
   void _updateSingleProperty(
       ARKitNode node, String propertyName, dynamic value, String keyProperty) {
     _channel.invokeMethod<void>(
         'updateSingleProperty',
-        _getHandlerParams(node, <String, dynamic>{
+        _getHandlerParams(node, 'property', <String, dynamic>{
           'propertyName': propertyName,
           'propertyValue': value,
           'keyProperty': keyProperty,
@@ -622,9 +637,9 @@ class ARKitController {
   }
 
   Map<String, dynamic> _getHandlerParams(
-      ARKitNode node, Map<String, dynamic> params) {
+      ARKitNode node, String paramName, dynamic params) {
     final Map<String, dynamic> values = <String, dynamic>{'name': node.name}
-      ..addAll(params);
+      ..addAll({paramName: params});
     return values;
   }
 }

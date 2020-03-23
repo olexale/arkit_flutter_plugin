@@ -12,7 +12,7 @@ func serializeArray(_ array: simd_float4) -> Array<Float> {
     return [array[0], array[1], array[2], array[3]]
 }
 
-func serlializeVector(_ vector: SCNVector3) -> Array<Float> {
+func serializeVector(_ vector: SCNVector3) -> Array<Float> {
     return [vector.x, vector.y, vector.z]
 }
 

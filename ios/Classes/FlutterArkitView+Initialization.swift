@@ -48,21 +48,21 @@ extension FlutterArkitView {
             #if !DISABLE_TRUEDEPTH_API
             configuration = createFaceTrackingConfiguration(arguments)
             #else
-            logPluginError("parseConfiguration: DISABLE_TRUEDEPTH_API disabled", toChannel: channel)
+            logPluginError("TRUEDEPTH_API disabled", toChannel: channel)
             #endif
             break
         case 2:
             if #available(iOS 12.0, *) {
                 configuration = createImageTrackingConfiguration(arguments)
             } else {
-                logPluginError("parseConfiguration: configuration is not supported on this device", toChannel: channel)
+                logPluginError("configuration is not supported on this device", toChannel: channel)
             }
             break
         case 3:
             if #available(iOS 13.0, *) {
                 configuration = createBodyTrackingConfiguration(arguments)
             } else {
-                logPluginError("parseConfiguration: configuration is not supported on this device", toChannel: channel)
+                logPluginError("configuration is not supported on this device", toChannel: channel)
             }
             break
         default:

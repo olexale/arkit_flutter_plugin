@@ -21,69 +21,76 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
     func view() -> UIView { return sceneView }
     
     func onMethodCalled(_ call :FlutterMethodCall, _ result:FlutterResult) {
-        guard let arguments = call.arguments as? Dictionary<String, Any> else {
-            logPluginError("onMethodCalled arguments deserialization failed", toChannel: channel)
-            result(nil)
-            return
-        }
+        let arguments = call.arguments as? Dictionary<String, Any>
         
         switch call.method {
         case "init":
-            initalize(arguments, result)
+            initalize(arguments!, result)
             result(nil)
             break
         case "addARKitNode":
-            onAddNode(arguments)
+            onAddNode(arguments!)
             result(nil)
             break
         case "removeARKitNode":
-            onRemoveNode(arguments)
+            onRemoveNode(arguments!)
             result(nil)
             break
         case "getNodeBoundingBox":
-            onGetNodeBoundingBox(arguments, result)
+            onGetNodeBoundingBox(arguments!, result)
             break
         case "positionChanged":
-//            onPositionChanged(arguments)
+            onPositionChanged(arguments!)
+            result(nil)
             break
         case "rotationChanged":
-//            onRotationChanged(arguments)
+            onRotationChanged(arguments!)
+            result(nil)
             break
         case "eulerAnglesChanged":
-//            onEulerAnglesChanged(arguments)
+            onEulerAnglesChanged(arguments!)
+            result(nil)
             break
         case "scaleChanged":
-//            onScaleChanged(arguments)
+            onScaleChanged(arguments!)
+            result(nil)
             break
         case "updateSingleProperty":
-//            onUpdateSingleProperty(arguments)
+            onUpdateSingleProperty(arguments!)
+            result(nil)
             break
         case "updateMaterials":
-//            onUpdateMaterials(arguments)
+            onUpdateMaterials(arguments!)
+            result(nil)
             break
         case "performHitTest":
-//            onPerformHitTest(arguments)
+            onPerformHitTest(arguments!, result)
             break
         case "updateFaceGeometry":
-//            onUpdateFaceGeometry(arguments)
+            onUpdateFaceGeometry(arguments!)
+            result(nil)
             break
         case "getLightEstimate":
-//            onGetLightEstimate(arguments)
+            onGetLightEstimate(result)
+            result(nil)
             break
         case "projectPoint":
-//            onProjectPoint(arguments)
+            onProjectPoint(arguments!, result)
             break
         case "cameraProjectionMatrix":
-//            onCameraProjectionMatrix(arguments)
+            onCameraProjectionMatrix(result)
             break
         case "playAnimation":
-//            onPlayAnimation(arguments)
+            onPlayAnimation(arguments!)
+            result(nil)
             break
         case "stopAnimation":
-//            onStopAnimation(arguments)
+            onStopAnimation(arguments!)
+            result(nil)
             break
         case "dispose":
             onDispose(result)
+            result(nil)
             break
         default:
             result(FlutterMethodNotImplemented)

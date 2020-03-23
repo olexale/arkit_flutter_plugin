@@ -58,7 +58,7 @@ func createGeometry(_ arguments: Dictionary<String, Any>, withDevice device: MTL
     return geometry!
 }
 
-fileprivate func parseMaterials(_ array: Array<Dictionary<String, Any>>) -> Array<SCNMaterial> {
+func parseMaterials(_ array: Array<Dictionary<String, Any>>) -> Array<SCNMaterial> {
     return array.map { parseMaterial($0) }
 }
 

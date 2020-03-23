@@ -347,6 +347,22 @@ class Vector3Converter implements JsonConverter<Vector3, List<dynamic>> {
   }
 }
 
+class Vector4Converter implements JsonConverter<Vector4, List<dynamic>> {
+  const Vector4Converter();
+
+  @override
+  Vector4 fromJson(List<dynamic> json) {
+    return Vector4(json[0], json[1], json[2], json[3]);
+  }
+
+  @override
+  List<dynamic> toJson(Vector4 object) {
+    final list = List<double>(4);
+    object.copyIntoArray(list);
+    return list;
+  }
+}
+
 class Vector3ValueNotifierConverter
     implements JsonConverter<ValueNotifier<Vector3>, List<dynamic>> {
   const Vector3ValueNotifierConverter();
