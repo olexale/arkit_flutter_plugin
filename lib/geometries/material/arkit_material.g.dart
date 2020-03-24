@@ -8,32 +8,32 @@ part of 'arkit_material.dart';
 
 ARKitMaterial _$ARKitMaterialFromJson(Map<String, dynamic> json) {
   return ARKitMaterial(
-    diffuse: const ARKitMaterialPropertyConverter()
-        .fromJson(json['diffuse'] as Map<String, dynamic>),
-    ambient: const ARKitMaterialPropertyConverter()
-        .fromJson(json['ambient'] as Map<String, dynamic>),
+    diffuse:
+        const ARKitMaterialPropertyConverter().fromJson(json['diffuse'] as Map),
+    ambient:
+        const ARKitMaterialPropertyConverter().fromJson(json['ambient'] as Map),
     specular: const ARKitMaterialPropertyConverter()
-        .fromJson(json['specular'] as Map<String, dynamic>),
+        .fromJson(json['specular'] as Map),
     emission: const ARKitMaterialPropertyConverter()
-        .fromJson(json['emission'] as Map<String, dynamic>),
+        .fromJson(json['emission'] as Map),
     transparent: const ARKitMaterialPropertyConverter()
-        .fromJson(json['transparent'] as Map<String, dynamic>),
+        .fromJson(json['transparent'] as Map),
     reflective: const ARKitMaterialPropertyConverter()
-        .fromJson(json['reflective'] as Map<String, dynamic>),
+        .fromJson(json['reflective'] as Map),
     multiply: const ARKitMaterialPropertyConverter()
-        .fromJson(json['multiply'] as Map<String, dynamic>),
-    normal: const ARKitMaterialPropertyConverter()
-        .fromJson(json['normal'] as Map<String, dynamic>),
+        .fromJson(json['multiply'] as Map),
+    normal:
+        const ARKitMaterialPropertyConverter().fromJson(json['normal'] as Map),
     displacement: const ARKitMaterialPropertyConverter()
-        .fromJson(json['displacement'] as Map<String, dynamic>),
+        .fromJson(json['displacement'] as Map),
     ambientOcclusion: const ARKitMaterialPropertyConverter()
-        .fromJson(json['ambientOcclusion'] as Map<String, dynamic>),
+        .fromJson(json['ambientOcclusion'] as Map),
     selfIllumination: const ARKitMaterialPropertyConverter()
-        .fromJson(json['selfIllumination'] as Map<String, dynamic>),
+        .fromJson(json['selfIllumination'] as Map),
     metalness: const ARKitMaterialPropertyConverter()
-        .fromJson(json['metalness'] as Map<String, dynamic>),
+        .fromJson(json['metalness'] as Map),
     roughness: const ARKitMaterialPropertyConverter()
-        .fromJson(json['roughness'] as Map<String, dynamic>),
+        .fromJson(json['roughness'] as Map),
     shininess: (json['shininess'] as num).toDouble(),
     transparency: (json['transparency'] as num).toDouble(),
     lightingModelName: const ARKitLightingModelConverter()

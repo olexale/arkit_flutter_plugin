@@ -14,9 +14,8 @@ import 'package:arkit_plugin/geometries/arkit_tube.dart';
 import 'package:arkit_plugin/hit/arkit_node_pan_result.dart';
 import 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
 import 'package:arkit_plugin/light/arkit_light_estimate.dart';
-import 'package:arkit_plugin/utils/matrix4_utils.dart';
+import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
-import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
 import 'package:arkit_plugin/widget/arkit_configuration.dart';
 import 'package:arkit_plugin/widget/arkit_world_alignment.dart';
@@ -214,9 +213,9 @@ class ARKitController {
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
       'detectionImagesGroupName': detectionImagesGroupName,
-      'detectionImages': detectionImages?.map((i) => i.toMap())?.toList(),
+      'detectionImages': detectionImages?.map((i) => i.toJson())?.toList(),
       'trackingImagesGroupName': trackingImagesGroupName,
-      'trackingImages': trackingImages?.map((i) => i.toMap())?.toList(),
+      'trackingImages': trackingImages?.map((i) => i.toJson())?.toList(),
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
     });
@@ -260,6 +259,10 @@ class ARKitController {
 
   final bool debug;
 
+  static const _vector3Converter = Vector3Converter();
+  static const _vector4Converter = Vector4Converter();
+  static const _materialsConverter = ListMaterialsValueNotifierConverter();
+
   void dispose() {
     _channel?.invokeMethod<void>('dispose');
   }
@@ -289,7 +292,7 @@ class ARKitController {
       final objects = results
           .cast<Map<dynamic, dynamic>>()
           .map<ARKitTestResult>(
-              (Map<dynamic, dynamic> r) => ARKitTestResult.fromMap(r))
+              (Map<dynamic, dynamic> r) => ARKitTestResult.fromJson(r))
           .toList();
       return objects;
     }
@@ -298,18 +301,16 @@ class ARKitController {
   /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
   Future<List<Vector3>> getNodeBoundingBox(ARKitNode node) async {
     final params = _addParentNodeNameToParams(node.toMap(), null);
-    final List<String> result =
-        await _channel.invokeListMethod<String>('getNodeBoundingBox', params);
-    return result
-        .map((String value) => createVector3FromString(value))
-        .toList();
+    final List<List<double>> result = await _channel
+        .invokeListMethod<List<double>>('getNodeBoundingBox', params);
+    return result.map((value) => _vector3Converter.fromJson(value)).toList();
   }
 
   Future<ARKitLightEstimate> getLightEstimate() async {
     final estimate =
         await _channel.invokeMethod<Map<dynamic, dynamic>>('getLightEstimate');
     return estimate != null
-        ? ARKitLightEstimate.fromMap(estimate.cast<String, double>())
+        ? ARKitLightEstimate.fromJson(estimate.cast<String, double>())
         : null;
   }
 
@@ -318,20 +319,23 @@ class ARKitController {
     _channel.invokeMethod<void>(
         'updateFaceGeometry',
         _getHandlerParams(
-            node, <String, dynamic>{'fromAnchorId': fromAnchorId}));
+            node, 'geometry', <String, dynamic>{'fromAnchorId': fromAnchorId}));
   }
 
   Future<Vector3> projectPoint(Vector3 point) async {
-    final projectPoint = await _channel.invokeMethod<String>(
-        'projectPoint', {'point': convertVector3ToMap(point)});
-    return projectPoint != null ? createVector3FromString(projectPoint) : null;
+    final projectPoint = await _channel.invokeMethod<List<double>>(
+        'projectPoint', {'point': _vector3Converter.toJson(point)});
+    return projectPoint != null
+        ? _vector3Converter.fromJson(projectPoint)
+        : null;
   }
 
   Future<Matrix4> cameraProjectionMatrix() async {
+    const converter = MatrixConverter();
     final cameraProjectionMatrix =
-        await _channel.invokeMethod<String>('cameraProjectionMatrix');
+        await _channel.invokeMethod<List<double>>('cameraProjectionMatrix');
     return cameraProjectionMatrix != null
-        ? getMatrixFromString(cameraProjectionMatrix)
+        ? converter.fromJson(cameraProjectionMatrix)
         : null;
   }
 
@@ -362,8 +366,9 @@ class ARKitController {
 
   Map<String, dynamic> _addParentNodeNameToParams(
       Map geometryMap, String parentNodeName) {
-    if (parentNodeName?.isNotEmpty ?? false)
+    if (parentNodeName?.isNotEmpty ?? false) {
       geometryMap['parentNodeName'] = parentNodeName;
+    }
     return geometryMap;
   }
 
@@ -371,78 +376,91 @@ class ARKitController {
     if (debug) {
       print('_platformCallHandler call ${call.method} ${call.arguments}');
     }
-    switch (call.method) {
-      case 'onError':
-        if (onError != null) {
-          onError(call.arguments);
-        }
-        break;
-      case 'onNodeTap':
-        if (onNodeTap != null) {
-          onNodeTap(call.arguments);
-        }
-        break;
-      case 'onARTap':
-        if (onARTap != null) {
-          final List<dynamic> input = call.arguments;
-          final objects = input
-              .cast<Map<dynamic, dynamic>>()
-              .map<ARKitTestResult>(
-                  (Map<dynamic, dynamic> r) => ARKitTestResult.fromMap(r))
-              .toList();
-          onARTap(objects);
-        }
-        break;
-      case 'onNodePinch':
-        if (onNodePinch != null) {
-          final List<dynamic> input = call.arguments;
-          final objects = input
-              .cast<Map<dynamic, dynamic>>()
-              .map<ARKitNodePinchResult>(
-                  (Map<dynamic, dynamic> r) => ARKitNodePinchResult.fromMap(r))
-              .toList();
-          onNodePinch(objects);
-        }
-        break;
-      case 'onNodePan':
-        if (onNodePan != null) {
-          final List<dynamic> input = call.arguments;
-          final objects = input
-              .cast<Map<dynamic, dynamic>>()
-              .map<ARKitNodePanResult>(
-                  (Map<dynamic, dynamic> r) => ARKitNodePanResult.fromMap(r))
-              .toList();
-          onNodePan(objects);
-        }
-        break;
-      case 'didAddNodeForAnchor':
-        if (onAddNodeForAnchor != null) {
-          final anchor = _buildAnchor(call.arguments);
-          onAddNodeForAnchor(anchor);
-        }
-        break;
-      case 'didUpdateNodeForAnchor':
-        if (onUpdateNodeForAnchor != null) {
-          final anchor = _buildAnchor(call.arguments);
-          onUpdateNodeForAnchor(anchor);
-        }
-        break;
-      case 'didRemoveNodeForAnchor':
-        if (onDidRemoveNodeForAnchor != null) {
-          final anchor = _buildAnchor(call.arguments);
-          onDidRemoveNodeForAnchor(anchor);
-        }
-        break;
-      case 'updateAtTime':
-        if (updateAtTime != null) {
-          final double time = call.arguments['time'];
-          updateAtTime(time);
-        }
-        break;
-      default:
-        if (debug) {
-          print('Unknowm method ${call.method} ');
-        }
+    try {
+      switch (call.method) {
+        case 'onError':
+          if (onError != null) {
+            onError(call.arguments);
+            print(call.arguments);
+          }
+          break;
+        case 'onNodeTap':
+          if (onNodeTap != null) {
+            onNodeTap(call.arguments);
+          }
+          break;
+        case 'onARTap':
+          if (onARTap != null) {
+            // final List<dynamic> input = call.arguments;
+            final input = call.arguments as List<dynamic>;
+            final map1 =
+                input.map((e) => Map<String, dynamic>.from(e)).toList();
+            final map2 = map1.map((e) {
+              return ARKitTestResult.fromJson(e);
+            }).toList();
+            // final objects = input
+            //     .map((e) => Map<String, dynamic>.from(e))
+            //     .map((r) => ARKitTestResult.fromJson(r));
+            // .toList();
+            onARTap(map2);
+          }
+          break;
+        case 'onNodePinch':
+          if (onNodePinch != null) {
+            final List<dynamic> input = call.arguments;
+            final objects = input
+                .cast<Map<dynamic, dynamic>>()
+                .map<ARKitNodePinchResult>((Map<dynamic, dynamic> r) =>
+                    ARKitNodePinchResult.fromJson(r))
+                .toList();
+            onNodePinch(objects);
+          }
+          break;
+        case 'onNodePan':
+          if (onNodePan != null) {
+            final List<dynamic> input = call.arguments;
+            final objects = input
+                .cast<Map<dynamic, dynamic>>()
+                .map<ARKitNodePanResult>(
+                    (Map<dynamic, dynamic> r) => ARKitNodePanResult.fromJson(r))
+                .toList();
+            onNodePan(objects);
+          }
+          break;
+        case 'didAddNodeForAnchor':
+          if (onAddNodeForAnchor != null) {
+            final anchor =
+                ARKitAnchor.fromJson(Map<String, dynamic>.from(call.arguments));
+            onAddNodeForAnchor(anchor);
+          }
+          break;
+        case 'didUpdateNodeForAnchor':
+          if (onUpdateNodeForAnchor != null) {
+            final anchor =
+                ARKitAnchor.fromJson(Map<String, dynamic>.from(call.arguments));
+            onUpdateNodeForAnchor(anchor);
+          }
+          break;
+        case 'didRemoveNodeForAnchor':
+          if (onDidRemoveNodeForAnchor != null) {
+            final anchor =
+                ARKitAnchor.fromJson(Map<String, dynamic>.from(call.arguments));
+            onDidRemoveNodeForAnchor(anchor);
+          }
+          break;
+        case 'updateAtTime':
+          if (updateAtTime != null) {
+            final double time = call.arguments['time'];
+            updateAtTime(time);
+          }
+          break;
+        default:
+          if (debug) {
+            print('Unknowm method ${call.method} ');
+          }
+      }
+    } catch (e) {
+      print(e);
     }
     return Future.value();
   }
@@ -579,35 +597,44 @@ class ARKitController {
   }
 
   void _handlePositionChanged(ARKitNode node) {
-    _channel.invokeMethod<void>('positionChanged',
-        _getHandlerParams(node, convertVector3ToMap(node.position.value)));
+    _channel.invokeMethod<void>(
+        'positionChanged',
+        _getHandlerParams(
+            node, 'position', _vector3Converter.toJson(node.position.value)));
   }
 
   void _handleRotationChanged(ARKitNode node) {
-    _channel.invokeMethod<void>('rotationChanged',
-        _getHandlerParams(node, convertVector4ToMap(node.rotation.value)));
+    _channel.invokeMethod<void>(
+        'rotationChanged',
+        _getHandlerParams(
+            node, 'rotation', _vector4Converter.toJson(node.rotation.value)));
   }
 
   void _handleEulerAnglesChanged(ARKitNode node) {
-    _channel.invokeMethod<void>('eulerAnglesChanged',
-        _getHandlerParams(node, convertVector3ToMap(node.eulerAngles.value)));
+    _channel.invokeMethod<void>(
+        'eulerAnglesChanged',
+        _getHandlerParams(node, 'eulerAngles',
+            _vector3Converter.toJson(node.eulerAngles.value)));
   }
 
   void _handleScaleChanged(ARKitNode node) {
-    _channel.invokeMethod<void>('scaleChanged',
-        _getHandlerParams(node, convertVector3ToMap(node.scale.value)));
+    _channel.invokeMethod<void>(
+        'scaleChanged',
+        _getHandlerParams(
+            node, 'scale', _vector3Converter.toJson(node.scale.value)));
   }
 
   void _updateMaterials(ARKitNode node) {
+    final materials = _materialsConverter.toJson(node.geometry.materials);
     _channel.invokeMethod<void>(
-        'updateMaterials', _getHandlerParams(node, node.geometry.toMap()));
+        'updateMaterials', _getHandlerParams(node, 'materials', materials));
   }
 
   void _updateSingleProperty(
       ARKitNode node, String propertyName, dynamic value, String keyProperty) {
     _channel.invokeMethod<void>(
         'updateSingleProperty',
-        _getHandlerParams(node, <String, dynamic>{
+        _getHandlerParams(node, 'property', <String, dynamic>{
           'propertyName': propertyName,
           'propertyValue': value,
           'keyProperty': keyProperty,
@@ -615,25 +642,9 @@ class ARKitController {
   }
 
   Map<String, dynamic> _getHandlerParams(
-      ARKitNode node, Map<String, dynamic> params) {
+      ARKitNode node, String paramName, dynamic params) {
     final Map<String, dynamic> values = <String, dynamic>{'name': node.name}
-      ..addAll(params);
+      ..addAll({paramName: params});
     return values;
-  }
-
-  ARKitAnchor _buildAnchor(Map arguments) {
-    final type = arguments['anchorType'].toString();
-    final map = arguments.cast<String, String>();
-    switch (type) {
-      case 'planeAnchor':
-        return ARKitPlaneAnchor.fromMap(map);
-      case 'imageAnchor':
-        return ARKitImageAnchor.fromMap(map);
-      case 'faceAnchor':
-        return ARKitFaceAnchor.fromMap(map);
-      case 'bodyAnchor':
-        return ARKitBodyAnchor.fromMap(map);
-    }
-    return ARKitAnchor.fromMap(map);
   }
 }

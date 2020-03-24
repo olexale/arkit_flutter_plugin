@@ -6,4 +6,5 @@ enum ARKitLightType {
   spot,
   ies,
   probe,
+  area,
 }

@@ -62,5 +62,10 @@ enum ARKitLightingModel {
   ///      <ambient> — The 'ambient' property of the SCNMaterial instance
   ///      <diffuse> — The 'diffuse' property of the SCNMaterial instance
   constant,
+
+  /// Shading based on a realistic abstraction of physical lights and materials.
   physicallyBased,
+
+  /// iOS 13 only (switches to blinn on older OSes)
+  shadowOnly,
 }

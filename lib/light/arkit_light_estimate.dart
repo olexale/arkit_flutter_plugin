@@ -19,6 +19,8 @@ class ARKitLightEstimate {
   /// This specifies the ambient color temperature of the lighting in Kelvin (6500 corresponds to pure white).
   final double ambientColorTemperature;
 
-  static ARKitLightEstimate fromMap(Map<String, double> map) =>
+  static ARKitLightEstimate fromJson(Map<String, double> map) =>
       _$ARKitLightEstimateFromJson(map);
+
+  Map<String, dynamic> toJson() => _$ARKitLightEstimateToJson(this);
 }

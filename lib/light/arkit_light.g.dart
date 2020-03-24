@@ -29,8 +29,8 @@ Map<String, dynamic> _$ARKitLightToJson(ARKitLight instance) {
   writeNotNull('type', const ARKitLightTypeConverter().toJson(instance.type));
   writeNotNull('color', const ColorConverter().toJson(instance.color));
   val['temperature'] = instance.temperature;
-  writeNotNull(
-      'intensity', const ValueNotifierConverter().toJson(instance.intensity));
+  writeNotNull('intensity',
+      const DoubleValueNotifierConverter().toJson(instance.intensity));
   val['spotInnerAngle'] = instance.spotInnerAngle;
   val['spotOuterAngle'] = instance.spotOuterAngle;
   return val;
