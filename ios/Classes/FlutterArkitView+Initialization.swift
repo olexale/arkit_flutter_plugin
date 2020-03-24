@@ -16,9 +16,11 @@ extension FlutterArkitView {
         
         initalizeGesutreRecognizers(arguments)
         
-        self.sceneView.debugOptions = parseDebugOptions(arguments)
-        self.configuration = parseConfiguration(arguments)
-        self.sceneView.session.run(self.configuration!)
+        sceneView.debugOptions = parseDebugOptions(arguments)
+        configuration = parseConfiguration(arguments)
+        if (configuration != nil) {
+            self.sceneView.session.run(self.configuration!)
+        }
     }
     
     func parseDebugOptions(_ arguments: Dictionary<String, Any>) -> SCNDebugOptions {

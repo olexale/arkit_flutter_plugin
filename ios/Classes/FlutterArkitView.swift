@@ -23,6 +23,12 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
     func onMethodCalled(_ call :FlutterMethodCall, _ result:FlutterResult) {
         let arguments = call.arguments as? Dictionary<String, Any>
         
+        if configuration == nil && call.method != "init" {
+            logPluginError("plugin is not initialized properly", toChannel: channel)
+            result(nil)
+            return
+        }
+        
         switch call.method {
         case "init":
             initalize(arguments!, result)
