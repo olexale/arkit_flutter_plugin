@@ -8,8 +8,7 @@ part of 'arkit_physics_shape.dart';
 
 ARKitPhysicsShape _$ARKitPhysicsShapeFromJson(Map<String, dynamic> json) {
   return ARKitPhysicsShape(
-    const ARKitGeometryConverter()
-        .fromJson(json['geometry'] as Map<String, dynamic>),
+    const ARKitGeometryConverter().fromJson(json['geometry'] as Map),
   );
 }
 

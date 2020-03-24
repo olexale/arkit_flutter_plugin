@@ -2,10 +2,7 @@ import ARKit
 
 extension FlutterArkitView {
     func onAddNode(_ arguments: Dictionary<String, Any>) {
-        guard let geometryArguments = arguments["geometry"] as? Dictionary<String, Any> else {
-            logPluginError("geometryArguments deserialization failed", toChannel: channel)
-            return
-        }
+        let geometryArguments = arguments["geometry"] as? Dictionary<String, Any>
         let geometry = createGeometry(geometryArguments, withDevice: sceneView.device)
         let node = createNode(geometry, fromDict: arguments, forDevice: sceneView.device)
         if let parentNodeName = arguments["parentNodeName"] as? String {

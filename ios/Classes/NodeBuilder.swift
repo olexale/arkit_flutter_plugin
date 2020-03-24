@@ -1,14 +1,15 @@
 import ARKit
 
-func createNode(_ geometry: SCNGeometry, fromDict dict: Dictionary<String, Any>, forDevice device: MTLDevice?) -> SCNNode {
+func createNode(_ geometry: SCNGeometry?, fromDict dict: Dictionary<String, Any>, forDevice device: MTLDevice?) -> SCNNode {
     let dartType = dict["dartType"] as! String
     
     let node = dartType == "ARKitReferenceNode"
         ? createReferenceNode(dict)
         : SCNNode(geometry: geometry)
     
-    let position = dict["position"] as! Array<Double>
-    node.position = deserizlieVector3(position)
+    if let position = dict["position"] as? Array<Double> {
+        node.position = deserizlieVector3(position)
+    }
     
     if let scale = dict["scale"] as? Array<Double> {
         node.scale = deserizlieVector3(scale)
@@ -30,7 +31,10 @@ func createNode(_ geometry: SCNGeometry, fromDict dict: Dictionary<String, Any>,
         node.light = createLight(light)
     }
     
-    node.renderingOrder = dict["renderingOrder"] as! Int
+    if let renderingOrder = dict["renderingOrder"] as? Int {
+        node.renderingOrder = renderingOrder
+    }
+    
     return node
 }
 
@@ -47,7 +51,7 @@ fileprivate func createPhysicsBody(_ dict: Dictionary<String, Any>, forDevice de
     if let shapeDict = dict["shape"] as? Dictionary<String, Any>,
         let shapeGeometry = shapeDict["geometry"] as? Dictionary<String, Any> {
         let geometry = createGeometry(shapeGeometry, withDevice: device)
-        shape = SCNPhysicsShape(geometry: geometry, options: nil)
+        shape = SCNPhysicsShape(geometry: geometry!, options: nil)
     }
     let type = dict["type"] as! Int
     let bodyType = SCNPhysicsBodyType(rawValue: type)

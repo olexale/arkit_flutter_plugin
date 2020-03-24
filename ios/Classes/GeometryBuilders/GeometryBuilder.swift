@@ -1,7 +1,8 @@
 import ARKit
 
-func createGeometry(_ arguments: Dictionary<String, Any>, withDevice device: MTLDevice?) -> SCNGeometry {
-
+func createGeometry(_ arguments: Dictionary<String, Any>?, withDevice device: MTLDevice?) -> SCNGeometry? {
+    if let arguments = arguments {
+    
     var geometry: SCNGeometry?
     let dartType = arguments["dartType"] as! String
     
@@ -55,7 +56,10 @@ func createGeometry(_ arguments: Dictionary<String, Any>, withDevice device: MTL
         geometry?.materials = parseMaterials(materials)
     }
     
-    return geometry!
+    return geometry
+    } else {
+        return nil
+    }
 }
 
 func parseMaterials(_ array: Array<Dictionary<String, Any>>) -> Array<SCNMaterial> {
@@ -122,14 +126,16 @@ fileprivate func parseColorBufferWriteMask(_ mode: Int?) -> SCNColorMask {
     switch mode {
     case 0:
         return .init()
-    case 1:
+    case 8:
         return .red
-    case 2:
-        return .green
-    case 3:
-        return .blue
     case 4:
+        return .green
+    case 2:
+        return .blue
+    case 1:
         return .alpha
+    case 15:
+        return .all
     default:
         return .all
     }

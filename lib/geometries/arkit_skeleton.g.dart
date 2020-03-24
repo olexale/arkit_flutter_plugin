@@ -9,9 +9,9 @@ part of 'arkit_skeleton.dart';
 ARKitSkeleton _$ARKitSkeletonFromJson(Map<String, dynamic> json) {
   return ARKitSkeleton(
     const MapOfMatrixConverter()
-        .fromJson(json['modelTransforms'] as Map<String, List<dynamic>>),
+        .fromJson(json['modelTransforms'] as Map<dynamic, List<dynamic>>),
     const MapOfMatrixConverter()
-        .fromJson(json['localTransforms'] as Map<String, List<dynamic>>),
+        .fromJson(json['localTransforms'] as Map<dynamic, List<dynamic>>),
   );
 }
 

@@ -16,7 +16,6 @@ import 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
 import 'package:arkit_plugin/light/arkit_light_estimate.dart';
 import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
-import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
 import 'package:arkit_plugin/widget/arkit_configuration.dart';
 import 'package:arkit_plugin/widget/arkit_world_alignment.dart';
@@ -302,11 +301,9 @@ class ARKitController {
   /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
   Future<List<Vector3>> getNodeBoundingBox(ARKitNode node) async {
     final params = _addParentNodeNameToParams(node.toMap(), null);
-    final List<String> result =
-        await _channel.invokeListMethod<String>('getNodeBoundingBox', params);
-    return result
-        .map((String value) => createVector3FromString(value))
-        .toList();
+    final List<List<double>> result = await _channel
+        .invokeListMethod<List<double>>('getNodeBoundingBox', params);
+    return result.map((value) => _vector3Converter.fromJson(value)).toList();
   }
 
   Future<ARKitLightEstimate> getLightEstimate() async {
@@ -384,6 +381,7 @@ class ARKitController {
         case 'onError':
           if (onError != null) {
             onError(call.arguments);
+            print(call.arguments);
           }
           break;
         case 'onNodeTap':
@@ -393,13 +391,18 @@ class ARKitController {
           break;
         case 'onARTap':
           if (onARTap != null) {
-            final List<dynamic> input = call.arguments;
-            final objects = input
-                .cast<Map<dynamic, dynamic>>()
-                .map<ARKitTestResult>(
-                    (Map<dynamic, dynamic> r) => ARKitTestResult.fromJson(r))
-                .toList();
-            onARTap(objects);
+            // final List<dynamic> input = call.arguments;
+            final input = call.arguments as List<dynamic>;
+            final map1 =
+                input.map((e) => Map<String, dynamic>.from(e)).toList();
+            final map2 = map1.map((e) {
+              return ARKitTestResult.fromJson(e);
+            }).toList();
+            // final objects = input
+            //     .map((e) => Map<String, dynamic>.from(e))
+            //     .map((r) => ARKitTestResult.fromJson(r));
+            // .toList();
+            onARTap(map2);
           }
           break;
         case 'onNodePinch':
@@ -433,13 +436,15 @@ class ARKitController {
           break;
         case 'didUpdateNodeForAnchor':
           if (onUpdateNodeForAnchor != null) {
-            final anchor = ARKitAnchor.fromJson(call.arguments);
+            final anchor =
+                ARKitAnchor.fromJson(Map<String, dynamic>.from(call.arguments));
             onUpdateNodeForAnchor(anchor);
           }
           break;
         case 'didRemoveNodeForAnchor':
           if (onDidRemoveNodeForAnchor != null) {
-            final anchor = ARKitAnchor.fromJson(call.arguments);
+            final anchor =
+                ARKitAnchor.fromJson(Map<String, dynamic>.from(call.arguments));
             onDidRemoveNodeForAnchor(anchor);
           }
           break;
@@ -616,7 +621,7 @@ class ARKitController {
     _channel.invokeMethod<void>(
         'scaleChanged',
         _getHandlerParams(
-            node, 'scale', convertVector3ToMap(node.scale.value)));
+            node, 'scale', _vector3Converter.toJson(node.scale.value)));
   }
 
   void _updateMaterials(ARKitNode node) {

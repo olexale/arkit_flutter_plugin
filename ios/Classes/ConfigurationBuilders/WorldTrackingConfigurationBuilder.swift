@@ -13,7 +13,11 @@ func createWorldTrackingConfiguration(_ arguments: Dictionary<String, Any>) -> A
                     worldTrackingConfiguration.planeDetection = .vertical
                 }
             }
-             
+             if planeDetection == 3 {
+                 if #available(iOS 11.3, *) {
+                    worldTrackingConfiguration.planeDetection = [.horizontal, .vertical]
+                 }
+             }
         }
         if #available(iOS 11.3, *) {
             if let detectionImagesGroupName = arguments["detectionImagesGroupName"] as? String {

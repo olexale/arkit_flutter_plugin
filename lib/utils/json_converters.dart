@@ -26,22 +26,22 @@ class StringValueNotifierConverter extends ValueNotifierConverter<String> {
 }
 
 class ListMaterialsValueNotifierConverter
-    implements
-        JsonConverter<ValueNotifier<List<ARKitMaterial>>,
-            List<Map<String, dynamic>>> {
+    implements JsonConverter<ValueNotifier<List<ARKitMaterial>>, List<Map>> {
   const ListMaterialsValueNotifierConverter();
 
   @override
-  ValueNotifier<List<ARKitMaterial>> fromJson(List<Map<String, dynamic>> json) {
+  ValueNotifier<List<ARKitMaterial>> fromJson(List<Map> json) {
     if (json == null) {
       return null;
     }
-    return ValueNotifier(json.map((e) => ARKitMaterial.fromJson(e)));
+    return ValueNotifier(json
+        .map((e) => Map<String, dynamic>.from(e))
+        .map((e) => ARKitMaterial.fromJson(e)));
   }
 
   @override
-  List<Map<String, dynamic>> toJson(ValueNotifier<List<ARKitMaterial>> object) {
-    if (object == null) {
+  List<Map> toJson(ValueNotifier<List<ARKitMaterial>> object) {
+    if (object.value == null) {
       return null;
     }
     return object.value.map((e) => e.toJson()).toList();
@@ -49,15 +49,15 @@ class ListMaterialsValueNotifierConverter
 }
 
 class ARKitMaterialPropertyConverter
-    implements JsonConverter<ARKitMaterialProperty, Map<String, dynamic>> {
+    implements JsonConverter<ARKitMaterialProperty, Map> {
   const ARKitMaterialPropertyConverter();
 
   @override
-  ARKitMaterialProperty fromJson(Map<String, dynamic> json) =>
-      ARKitMaterialProperty.fromJson(json);
+  ARKitMaterialProperty fromJson(Map json) =>
+      ARKitMaterialProperty.fromJson(Map<String, dynamic>.from(json));
 
   @override
-  Map<String, dynamic> toJson(ARKitMaterialProperty object) => object?.toJson();
+  Map toJson(ARKitMaterialProperty object) => object?.toJson();
 }
 
 class ValueNotifierConverter<T> implements JsonConverter<ValueNotifier<T>, T> {
@@ -90,16 +90,15 @@ class ARKitLightTypeConverter implements JsonConverter<ARKitLightType, int> {
   int toJson(ARKitLightType object) => object?.index;
 }
 
-class ARKitGeometryConverter
-    implements JsonConverter<ARKitGeometry, Map<String, dynamic>> {
+class ARKitGeometryConverter implements JsonConverter<ARKitGeometry, Map> {
   const ARKitGeometryConverter();
 
   @override
-  ARKitGeometry fromJson(Map<String, dynamic> json) =>
-      ARKitGeometry.fromJson(json);
+  ARKitGeometry fromJson(Map json) =>
+      ARKitGeometry.fromJson(Map<String, dynamic>.from(json));
 
   @override
-  Map<String, dynamic> toJson(ARKitGeometry object) => object?.toJson();
+  Map toJson(ARKitGeometry object) => object?.toJson();
 }
 
 class ARKitPhysicsBodyTypeConverter
@@ -114,15 +113,15 @@ class ARKitPhysicsBodyTypeConverter
 }
 
 class ARKitPhysicsShapeConverter
-    implements JsonConverter<ARKitPhysicsShape, Map<String, dynamic>> {
+    implements JsonConverter<ARKitPhysicsShape, Map> {
   const ARKitPhysicsShapeConverter();
 
   @override
-  ARKitPhysicsShape fromJson(Map<String, dynamic> json) =>
-      ARKitPhysicsShape.fromJson(json);
+  ARKitPhysicsShape fromJson(Map json) =>
+      ARKitPhysicsShape.fromJson(Map<String, dynamic>.from(json));
 
   @override
-  Map<String, dynamic> toJson(ARKitPhysicsShape object) => object?.toJson();
+  Map toJson(ARKitPhysicsShape object) => object?.toJson();
 }
 
 class ARKitLightingModelConverter
@@ -199,7 +198,6 @@ class ARKitColorMaskConverter implements JsonConverter<ARKitColorMask, int> {
     switch (object) {
       case ARKitColorMask.none:
         return 0;
-        break;
       case ARKitColorMask.red:
         return 8;
       case ARKitColorMask.green:
@@ -271,15 +269,20 @@ class ARKitHitTestResultTypeConverter
   }
 }
 
-class ARKitAnchorConverter
-    implements JsonConverter<ARKitAnchor, Map<String, dynamic>> {
+class ARKitAnchorConverter implements JsonConverter<ARKitAnchor, Map> {
   const ARKitAnchorConverter();
 
   @override
-  ARKitAnchor fromJson(Map<String, dynamic> json) => ARKitAnchor.fromJson(json);
+  ARKitAnchor fromJson(Map json) {
+    if (json == null) {
+      return null;
+    }
+    final map = Map<String, dynamic>.from(json);
+    return ARKitAnchor.fromJson(map);
+  }
 
   @override
-  Map<String, dynamic> toJson(ARKitAnchor object) => object?.toJson();
+  Map<dynamic, dynamic> toJson(ARKitAnchor object) => object?.toJson();
 }
 
 class MatrixConverter implements JsonConverter<Matrix4, List<dynamic>> {
@@ -299,17 +302,19 @@ class MatrixConverter implements JsonConverter<Matrix4, List<dynamic>> {
 }
 
 class MapOfMatrixConverter
-    implements JsonConverter<Map<String, Matrix4>, Map<String, List<dynamic>>> {
+    implements
+        JsonConverter<Map<String, Matrix4>, Map<dynamic, List<dynamic>>> {
   const MapOfMatrixConverter();
 
   @override
-  Map<String, Matrix4> fromJson(Map<String, List<dynamic>> json) {
+  Map<String, Matrix4> fromJson(Map<dynamic, List<dynamic>> json) {
     const converter = MatrixConverter();
-    return json.map((k, v) => MapEntry(k, converter.fromJson(v)));
+    return Map<String, List<dynamic>>.from(json)
+        .map((k, v) => MapEntry(k, converter.fromJson(v)));
   }
 
   @override
-  Map<String, List<dynamic>> toJson(Map<String, Matrix4> matrix) {
+  Map<dynamic, List<dynamic>> toJson(Map<String, Matrix4> matrix) {
     const converter = MatrixConverter();
     return matrix.map((k, v) => MapEntry(k, converter.toJson(v)));
   }
