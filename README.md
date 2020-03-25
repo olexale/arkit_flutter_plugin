@@ -94,7 +94,7 @@ If you prefer video here is a playlist with "AR in Flutter" videos:
 [![AR in Flutter videos](https://img.youtube.com/vi/gOgCdl5_E7k/0.jpg)](https://www.youtube.com/watch?v=MaH4L6R8ZfQ&list=PLjaSBcAZ8TqGoWj3FE96uQ2gGPDGaXbDp "AR in Flutter videos")
 
 ## UX advice
-You might want to check the device capabilities before establishing an AR session. To do that the [device_info](https://pub.dev/packages/device_info) plugin will be in hand. Check the documentation about AR functionality you want to add and implement some fallback logic for users with older OSes.
+You might want to check the device capabilities before establishing an AR session. Review the [Check Support](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/check_support_page.dart) sample for the implementation details.
 
 ## Before you go to AppStore
 The plugin supports TrueDepth API. In case you didn't use it, your app will be rejected by Apple. Hence you need to remove any TrueDepth functionality by modifying your `Podfile` file
