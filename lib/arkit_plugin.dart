@@ -37,3 +37,18 @@ export 'package:arkit_plugin/widget/arkit_configuration.dart';
 export 'package:arkit_plugin/widget/arkit_scene_view.dart';
 export 'package:arkit_plugin/widget/arkit_reference_image.dart';
 export 'package:arkit_plugin/widget/arkit_world_alignment.dart';
+
+import 'package:arkit_plugin/widget/arkit_configuration.dart';
+import 'package:flutter/services.dart';
+
+class ARKitPlugin {
+  static const MethodChannel _channel = MethodChannel('arkit_configuration');
+
+  ARKitPlugin._();
+
+  static Future<bool> checkConfiguration(ARKitConfiguration configuration) {
+    return _channel.invokeMethod<bool>('checkConfiguration', {
+      'configuration': configuration.index,
+    });
+  }
+}

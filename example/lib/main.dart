@@ -1,3 +1,4 @@
+import 'package:arkit_plugin_example/check_support_page.dart';
 import 'package:arkit_plugin_example/custom_animation_page.dart';
 import 'package:arkit_plugin_example/custom_object_page.dart';
 import 'package:arkit_plugin_example/distance_tracking_page.dart';
@@ -31,6 +32,13 @@ class MyApp extends StatelessWidget {
         Icons.home,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => HelloWorldPage())),
+      ),
+      Sample(
+        'Check configuration',
+        'Shows which kinds of AR configuration are supported on the device',
+        Icons.settings,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => CheckSupportPage())),
       ),
       Sample(
         'Earth',

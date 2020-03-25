@@ -1,14 +1,29 @@
 import Flutter
 import UIKit
+import ARKit
 
 public class SwiftArkitPlugin: NSObject, FlutterPlugin {
     public static var registrar:FlutterPluginRegistrar? = nil
     
-  public static func register(with registrar: FlutterPluginRegistrar) {
-    SwiftArkitPlugin.registrar = registrar
-    let arkitFactory = FlutterArkitFactory(messenger: registrar.messenger())
-    registrar.register(arkitFactory, withId: "arkit")
-  }
+    public static func register(with registrar: FlutterPluginRegistrar) {
+        SwiftArkitPlugin.registrar = registrar
+        let arkitFactory = FlutterArkitFactory(messenger: registrar.messenger())
+        registrar.register(arkitFactory, withId: "arkit")
+        
+        let channel = FlutterMethodChannel(name: "arkit_configuration", binaryMessenger: registrar.messenger())
+        registrar.addMethodCallDelegate(SwiftArkitPlugin(), channel: channel)
+    }
+    
+    public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        if (call.method == "checkConfiguration") {
+            let res = checkConfiguration(call.arguments)
+            result(res)
+        } else {
+            result(FlutterMethodNotImplemented)
+        }
+    }
+    
+    
 }
 
 class FlutterArkitFactory :NSObject, FlutterPlatformViewFactory {
