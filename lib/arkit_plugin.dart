@@ -26,6 +26,7 @@ export 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
 export 'package:arkit_plugin/hit/arkit_hit_test_result_type.dart';
 export 'package:arkit_plugin/hit/arkit_node_pan_result.dart';
 export 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
+export 'package:arkit_plugin/hit/arkit_node_rotation_result.dart';
 export 'package:arkit_plugin/light/arkit_light.dart';
 export 'package:arkit_plugin/light/arkit_light_estimate.dart';
 export 'package:arkit_plugin/light/arkit_light_type.dart';

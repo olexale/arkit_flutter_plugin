@@ -13,6 +13,7 @@ import 'package:arkit_plugin/geometries/arkit_torus.dart';
 import 'package:arkit_plugin/geometries/arkit_tube.dart';
 import 'package:arkit_plugin/hit/arkit_node_pan_result.dart';
 import 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
+import 'package:arkit_plugin/hit/arkit_node_rotation_result.dart';
 import 'package:arkit_plugin/light/arkit_light_estimate.dart';
 import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:arkit_plugin/widget/arkit_arplane_detection.dart';
@@ -31,6 +32,8 @@ typedef AnchorEventHandler = void Function(ARKitAnchor anchor);
 typedef ARKitTapResultHandler = void Function(List<String> nodes);
 typedef ARKitHitResultHandler = void Function(List<ARKitTestResult> hits);
 typedef ARKitPanResultHandler = void Function(List<ARKitNodePanResult> pans);
+typedef ARKitRotationResultHandler = void Function(
+    List<ARKitNodeRotationResult> pans);
 typedef ARKitPinchGestureHandler = void Function(
     List<ARKitNodePinchResult> pinch);
 
@@ -45,6 +48,7 @@ class ARKitSceneView extends StatefulWidget {
     this.enableTapRecognizer = false,
     this.enablePinchRecognizer = false,
     this.enablePanRecognizer = false,
+    this.enableRotationRecognizer = false,
     this.showFeaturePoints = false,
     this.showWorldOrigin = false,
     this.planeDetection = ARPlaneDetection.none,
@@ -85,6 +89,10 @@ class ARKitSceneView extends StatefulWidget {
   /// Determines whether the receiver should recognize pan events.
   /// The default is false.
   final bool enablePanRecognizer;
+
+  /// Determines whether the receiver should recognize rotation events.
+  /// The default is false.
+  final bool enableRotationRecognizer;
 
   /// Type of planes to detect in the scene.
   /// If set, new planes will continue to be detected and updated over time.
@@ -165,6 +173,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.showWorldOrigin,
       widget.enablePinchRecognizer,
       widget.enablePanRecognizer,
+      widget.enableRotationRecognizer,
       widget.planeDetection,
       widget.worldAlignment,
       widget.detectionImagesGroupName,
@@ -192,6 +201,7 @@ class ARKitController {
     bool showWorldOrigin,
     bool enablePinchRecognizer,
     bool enablePanRecognizer,
+    bool enableRotationRecognizer,
     ARPlaneDetection planeDetection,
     ARWorldAlignment worldAlignment,
     String detectionImagesGroupName,
@@ -210,6 +220,7 @@ class ARKitController {
       'enableTapRecognizer': enableTapRecognizer,
       'enablePinchRecognizer': enablePinchRecognizer,
       'enablePanRecognizer': enablePanRecognizer,
+      'enableRotationRecognizer': enableRotationRecognizer,
       'planeDetection': planeDetection.index,
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
@@ -245,6 +256,7 @@ class ARKitController {
   ARKitHitResultHandler onARTap;
   ARKitPinchGestureHandler onNodePinch;
   ARKitPanResultHandler onNodePan;
+  ARKitRotationResultHandler onNodeRotation;
 
   /// Called when a new node has been mapped to the given anchor.
   AnchorEventHandler onAddNodeForAnchor;
@@ -416,6 +428,15 @@ class ARKitController {
             final listMap = input.map((e) => Map<String, dynamic>.from(e));
             final objects = listMap.map((e) => ARKitNodePanResult.fromJson(e));
             onNodePan(objects.toList());
+          }
+          break;
+        case 'onNodeRotation':
+          if (onNodeRotation != null) {
+            final List<dynamic> input = call.arguments;
+            final listMap = input.map((e) => Map<String, dynamic>.from(e));
+            final objects =
+                listMap.map((e) => ARKitNodeRotationResult.fromJson(e));
+            onNodeRotation(objects.toList());
           }
           break;
         case 'didAddNodeForAnchor':

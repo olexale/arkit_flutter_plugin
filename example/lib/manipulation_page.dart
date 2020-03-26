@@ -25,6 +25,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
           child: ARKitSceneView(
             enablePinchRecognizer: true,
             enablePanRecognizer: true,
+            enableRotationRecognizer: true,
             onARKitViewCreated: onARKitViewCreated,
           ),
         ),
@@ -34,6 +35,8 @@ class _ManipulationPageState extends State<ManipulationPage> {
     this.arkitController = arkitController;
     this.arkitController.onNodePinch = (pinch) => _onPinchHandler(pinch);
     this.arkitController.onNodePan = (pan) => _onPanHandler(pan);
+    this.arkitController.onNodeRotation =
+        (rotation) => _onRotationHandler(rotation);
     addNode();
   }
 
@@ -62,7 +65,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
       orElse: null,
     );
     if (pinchNode != null) {
-      final scale = boxNode.scale.value * pinchNode.scale;
+      final scale = vector.Vector3.all(pinchNode.scale);
       boxNode.scale.value = scale;
     }
   }
@@ -74,6 +77,18 @@ class _ManipulationPageState extends State<ManipulationPage> {
       final old = boxNode.eulerAngles.value;
       final newAngleY = panNode.translation.x * math.pi / 180;
       boxNode.eulerAngles.value = vector.Vector3(old.x, newAngleY, old.z);
+    }
+  }
+
+  void _onRotationHandler(List<ARKitNodeRotationResult> rotation) {
+    final rotationNode = rotation.firstWhere(
+      (e) => e.nodeName == boxNode.name,
+      orElse: null,
+    );
+    if (rotationNode != null) {
+      final rotation =
+          boxNode.rotation.value + vector.Vector4.all(rotationNode.rotation);
+      boxNode.rotation.value = rotation;
     }
   }
 }

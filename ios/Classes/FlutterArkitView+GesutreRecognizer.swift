@@ -22,12 +22,20 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
                 self.sceneView.gestureRecognizers?.append(pinchGestureRecognizer)
             }
         }
-        
+
         if let enablePan = arguments["enablePanRecognizer"] as? Bool {
             if (enablePan) {
                 let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
                 panGestureRecognizer.delegate = self
                 self.sceneView.gestureRecognizers?.append(panGestureRecognizer)
+            }
+        }
+        
+        if let enableRotation = arguments["enableRotationRecognizer"] as? Bool {
+            if (enableRotation) {
+                let rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(handleRotation(_:)))
+                rotationGestureRecognizer.delegate = self
+                self.sceneView.gestureRecognizers?.append(rotationGestureRecognizer)
             }
         }
     }
@@ -91,6 +99,28 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
             if (results.count != 0) {
                 self.channel.invokeMethod("onNodePan", arguments: results)
             }
+        }
+    }
+    
+    @objc func handleRotation(_ recognizer: UIRotationGestureRecognizer) {
+        guard let sceneView = recognizer.view as? ARSCNView else {
+            return
+        }
+        if (recognizer.state == .changed) {
+            let touchLocation = recognizer.location(in: sceneView)
+            let hitResults = sceneView.hitTest(touchLocation, options: nil)
+            
+            let results: Array<Dictionary<String, Any>> = hitResults.compactMap {
+                if let name = $0.node.name {
+                    return ["nodeName" : name, "rotation": recognizer.rotation]
+                } else {
+                    return nil
+                }
+            }
+            if (results.count != 0) {
+                self.channel.invokeMethod("onNodeRotation", arguments: results)
+            }
+            recognizer.rotation = 0
         }
     }
     
