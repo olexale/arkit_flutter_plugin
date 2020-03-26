@@ -22,9 +22,9 @@ class ARKitNode {
     String name,
   })  : name = name ?? random_string.randomString(),
         position = ValueNotifier(position),
-        scale = ValueNotifier(scale),
-        rotation = ValueNotifier(rotation),
-        eulerAngles = ValueNotifier(eulerAngles);
+        scale = ValueNotifier(scale ?? Vector3.all(1)),
+        rotation = ValueNotifier(rotation ?? Vector4.zero()),
+        eulerAngles = ValueNotifier(eulerAngles ?? Vector3.zero());
 
   /// Returns the geometry attached to the receiver.
   final ARKitGeometry geometry;

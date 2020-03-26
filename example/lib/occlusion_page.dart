@@ -38,8 +38,10 @@ class _OcclusionPageState extends State<OcclusionPage> {
     this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
     this.arkitController.onUpdateNodeForAnchor = _handleUpdateAnchor;
     this.arkitController.onARTap = (ar) {
-      final point =
-          ar.firstWhere((o) => o.type == ARKitHitTestResultType.featurePoint);
+      final point = ar.firstWhere(
+        (o) => o.type == ARKitHitTestResultType.featurePoint,
+        orElse: null,
+      );
       if (point != null) {
         _onARTapHandler(point);
       }

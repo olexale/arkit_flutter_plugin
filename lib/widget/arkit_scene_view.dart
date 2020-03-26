@@ -28,6 +28,7 @@ import 'package:vector_math/vector_math_64.dart';
 typedef ARKitPluginCreatedCallback = void Function(ARKitController controller);
 typedef StringResultHandler = void Function(String text);
 typedef AnchorEventHandler = void Function(ARKitAnchor anchor);
+typedef ARKitTapResultHandler = void Function(List<String> nodes);
 typedef ARKitHitResultHandler = void Function(List<ARKitTestResult> hits);
 typedef ARKitPanResultHandler = void Function(List<ARKitNodePanResult> pans);
 typedef ARKitPinchGestureHandler = void Function(
@@ -240,7 +241,7 @@ class ARKitController {
   /// the interruption has ended. If the device has moved, anchors will be misaligned.
   VoidCallback onSessionInterruptionEnded;
 
-  StringResultHandler onNodeTap;
+  ARKitTapResultHandler onNodeTap;
   ARKitHitResultHandler onARTap;
   ARKitPinchGestureHandler onNodePinch;
   ARKitPanResultHandler onNodePan;
@@ -284,16 +285,13 @@ class ARKitController {
   /// x and y values are between 0 and 1
   Future<List<ARKitTestResult>> performHitTest({double x, double y}) async {
     assert(x > 0 && y > 0);
-    final List<dynamic> results =
-        await _channel.invokeMethod('performHitTest', {'x': x, 'y': y});
+    final results =
+        await _channel.invokeListMethod('performHitTest', {'x': x, 'y': y});
     if (results == null) {
       return [];
     } else {
-      final objects = results
-          .cast<Map<dynamic, dynamic>>()
-          .map<ARKitTestResult>(
-              (Map<dynamic, dynamic> r) => ARKitTestResult.fromJson(r))
-          .toList();
+      final map = results.map((e) => Map<String, dynamic>.from(e));
+      final objects = map.map((e) => ARKitTestResult.fromJson(e)).toList();
       return objects;
     }
   }
@@ -301,9 +299,11 @@ class ARKitController {
   /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
   Future<List<Vector3>> getNodeBoundingBox(ARKitNode node) async {
     final params = _addParentNodeNameToParams(node.toMap(), null);
-    final List<List<double>> result = await _channel
-        .invokeListMethod<List<double>>('getNodeBoundingBox', params);
-    return result.map((value) => _vector3Converter.fromJson(value)).toList();
+    final List result =
+        await _channel.invokeListMethod('getNodeBoundingBox', params);
+    final typed = result.map((e) => List<double>.from(e));
+    final vectors = typed.map((e) => _vector3Converter.fromJson(e));
+    return vectors.toList();
   }
 
   Future<ARKitLightEstimate> getLightEstimate() async {
@@ -323,10 +323,10 @@ class ARKitController {
   }
 
   Future<Vector3> projectPoint(Vector3 point) async {
-    final projectPoint = await _channel.invokeMethod<List<double>>(
+    final projectPoint = await _channel.invokeListMethod(
         'projectPoint', {'point': _vector3Converter.toJson(point)});
     return projectPoint != null
-        ? _vector3Converter.fromJson(projectPoint)
+        ? _vector3Converter.fromJson(List<double>.from(projectPoint))
         : null;
   }
 
@@ -386,45 +386,36 @@ class ARKitController {
           break;
         case 'onNodeTap':
           if (onNodeTap != null) {
-            onNodeTap(call.arguments);
+            final list = call.arguments as List<dynamic>;
+            onNodeTap(list.map((e) => e.toString()).toList());
           }
           break;
         case 'onARTap':
           if (onARTap != null) {
-            // final List<dynamic> input = call.arguments;
             final input = call.arguments as List<dynamic>;
             final map1 =
                 input.map((e) => Map<String, dynamic>.from(e)).toList();
             final map2 = map1.map((e) {
               return ARKitTestResult.fromJson(e);
             }).toList();
-            // final objects = input
-            //     .map((e) => Map<String, dynamic>.from(e))
-            //     .map((r) => ARKitTestResult.fromJson(r));
-            // .toList();
             onARTap(map2);
           }
           break;
         case 'onNodePinch':
           if (onNodePinch != null) {
             final List<dynamic> input = call.arguments;
-            final objects = input
-                .cast<Map<dynamic, dynamic>>()
-                .map<ARKitNodePinchResult>((Map<dynamic, dynamic> r) =>
-                    ARKitNodePinchResult.fromJson(r))
-                .toList();
-            onNodePinch(objects);
+            final listMap = input.map((e) => Map<String, dynamic>.from(e));
+            final objects =
+                listMap.map((e) => ARKitNodePinchResult.fromJson(e));
+            onNodePinch(objects.toList());
           }
           break;
         case 'onNodePan':
           if (onNodePan != null) {
             final List<dynamic> input = call.arguments;
-            final objects = input
-                .cast<Map<dynamic, dynamic>>()
-                .map<ARKitNodePanResult>(
-                    (Map<dynamic, dynamic> r) => ARKitNodePanResult.fromJson(r))
-                .toList();
-            onNodePan(objects);
+            final listMap = input.map((e) => Map<String, dynamic>.from(e));
+            final objects = listMap.map((e) => ARKitNodePanResult.fromJson(e));
+            onNodePan(objects.toList());
           }
           break;
         case 'didAddNodeForAnchor':

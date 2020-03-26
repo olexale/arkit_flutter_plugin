@@ -40,7 +40,9 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
     this.arkitController.onUpdateNodeForAnchor = _handleUpdateAnchor;
     this.arkitController.onARTap = (List<ARKitTestResult> ar) {
       final planeTap = ar.firstWhere(
-          (tap) => tap.type == ARKitHitTestResultType.existingPlaneUsingExtent);
+        (tap) => tap.type == ARKitHitTestResultType.existingPlaneUsingExtent,
+        orElse: null,
+      );
       if (planeTap != null) {
         _onPlaneTapHandler(planeTap.worldTransform);
       }
