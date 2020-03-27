@@ -55,7 +55,7 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
           if (results.isNotEmpty) {
             final point = results.firstWhere(
                 (o) => o.type == ARKitHitTestResultType.featurePoint,
-                orElse: null);
+                orElse: () => null);
             if (point == null) {
               return;
             }

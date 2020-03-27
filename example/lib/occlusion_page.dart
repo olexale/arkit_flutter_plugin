@@ -40,7 +40,7 @@ class _OcclusionPageState extends State<OcclusionPage> {
     this.arkitController.onARTap = (ar) {
       final point = ar.firstWhere(
         (o) => o.type == ARKitHitTestResultType.featurePoint,
-        orElse: null,
+        orElse: () => null,
       );
       if (point != null) {
         _onARTapHandler(point);

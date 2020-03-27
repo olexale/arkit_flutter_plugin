@@ -62,7 +62,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
   void _onPinchHandler(List<ARKitNodePinchResult> pinch) {
     final pinchNode = pinch.firstWhere(
       (e) => e.nodeName == boxNode.name,
-      orElse: null,
+      orElse: () => null,
     );
     if (pinchNode != null) {
       final scale = vector.Vector3.all(pinchNode.scale);
@@ -83,7 +83,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
   void _onRotationHandler(List<ARKitNodeRotationResult> rotation) {
     final rotationNode = rotation.firstWhere(
       (e) => e.nodeName == boxNode.name,
-      orElse: null,
+      orElse: () => null,
     );
     if (rotationNode != null) {
       final rotation =
