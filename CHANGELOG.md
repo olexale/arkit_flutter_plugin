@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.3
+
+* Added onCameraDidChangeTrackingState function, gets called when the camera tracking state is changed.
+
 ## 0.4.2
 
 * Images load via network
