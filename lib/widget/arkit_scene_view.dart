@@ -33,6 +33,11 @@ typedef ARKitHitResultHandler = void Function(List<ARKitTestResult> hits);
 typedef ARKitPanResultHandler = void Function(List<ARKitNodePanResult> pans);
 typedef ARKitPinchGestureHandler = void Function(
     List<ARKitNodePinchResult> pinch);
+enum ARTrackingState {
+  ARTrackingStateNotAvailable,
+  ARTrackingStateLimited,
+  ARTrackingStateNormal
+}
 
 /// A widget that wraps ARSCNView from ARKit.
 class ARKitSceneView extends StatefulWidget {
@@ -258,6 +263,9 @@ class ARKitController {
   /// Called once per frame
   Function(double time) updateAtTime;
 
+  /// Called when camera tracking state is changed;
+  Function(ARTrackingState trackingState) onCameraDidChangeTrackingState;
+
   final bool debug;
 
   void dispose() {
@@ -439,9 +447,15 @@ class ARKitController {
           updateAtTime(time);
         }
         break;
+      case 'onCameraDidChangeTrackingState':
+        if (onCameraDidChangeTrackingState != null) {
+          final int trackingState = call.arguments['trackingState'];
+          onCameraDidChangeTrackingState(ARTrackingState.values[trackingState]);
+        }
+        break;
       default:
         if (debug) {
-          print('Unknowm method ${call.method} ');
+          print('Unknown method ${call.method} ');
         }
     }
     return Future.value();

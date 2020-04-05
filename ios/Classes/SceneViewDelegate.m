@@ -33,6 +33,14 @@
   
 }
 
+- (void)session:(ARSession *)session
+cameraDidChangeTrackingState:(ARCamera *)camera{
+    NSDictionary *params = @{
+        @"trackingState" : [NSNumber numberWithInt:(int)camera.trackingState]
+    };
+    [_channel invokeMethod: @"onCameraDidChangeTrackingState" arguments: params];
+}
+
 - (void)sessionWasInterrupted:(ARSession *)session {
   // Inform the user that the session has been interrupted, for example, by presenting an overlay
   [_channel invokeMethod: @"onSessionWasInterrupted" arguments: nil];
