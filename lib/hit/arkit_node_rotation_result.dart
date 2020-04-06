@@ -10,7 +10,7 @@ class ARKitNodeRotationResult {
   /// The name of the node which users is interacting with.
   final String nodeName;
 
-  // The rotation value.
+  /// The rotation value.
   final double rotation;
 
   static ARKitNodeRotationResult fromJson(Map<String, dynamic> json) =>
