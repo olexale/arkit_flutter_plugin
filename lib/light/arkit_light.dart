@@ -37,8 +37,7 @@ class ARKitLight {
   /// This intensity is used to modulate the light color.
   /// When used with a physically-based material, this corresponds to the luminous flux of the light, expressed in lumens (lm).
   /// Defaults to 1000.
-//  @JsonKey(fromJson: _intensityFromJson, toJson: _intensityToJson)
-  @ValueNotifierConverter()
+  @DoubleValueNotifierConverter()
   final ValueNotifier<double> intensity;
 
   /// The angle in degrees between the spot direction and the lit element below which the lighting is at full strength.
@@ -49,5 +48,8 @@ class ARKitLight {
   /// Defaults to 45 degrees.
   final double spotOuterAngle;
 
-  Map<String, dynamic> toMap() => _$ARKitLightToJson(this);
+  static ARKitLight fromJson(Map<String, dynamic> json) =>
+      _$ARKitLightFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ARKitLightToJson(this);
 }

@@ -1,6 +1,11 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'arkit_node_pinch_result.g.dart';
+
 /// The result of users pinch gesture interaction with nodes
+@JsonSerializable()
 class ARKitNodePinchResult {
-  ARKitNodePinchResult._(this.nodeName, this.scale);
+  const ARKitNodePinchResult(this.nodeName, this.scale);
 
   /// The name of the node which users is interacting with.
   final String nodeName;
@@ -8,9 +13,8 @@ class ARKitNodePinchResult {
   // The pinch scale value.
   final double scale;
 
-  static ARKitNodePinchResult fromMap(Map<dynamic, dynamic> map) =>
-      ARKitNodePinchResult._(
-        map['name'],
-        map['scale'],
-      );
+  static ARKitNodePinchResult fromJson(Map<String, dynamic> json) =>
+      _$ARKitNodePinchResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ARKitNodePinchResultToJson(this);
 }

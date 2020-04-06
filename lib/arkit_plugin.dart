@@ -26,6 +26,7 @@ export 'package:arkit_plugin/hit/arkit_hit_test_result.dart';
 export 'package:arkit_plugin/hit/arkit_hit_test_result_type.dart';
 export 'package:arkit_plugin/hit/arkit_node_pan_result.dart';
 export 'package:arkit_plugin/hit/arkit_node_pinch_result.dart';
+export 'package:arkit_plugin/hit/arkit_node_rotation_result.dart';
 export 'package:arkit_plugin/light/arkit_light.dart';
 export 'package:arkit_plugin/light/arkit_light_estimate.dart';
 export 'package:arkit_plugin/light/arkit_light_type.dart';
@@ -37,3 +38,18 @@ export 'package:arkit_plugin/widget/arkit_configuration.dart';
 export 'package:arkit_plugin/widget/arkit_scene_view.dart';
 export 'package:arkit_plugin/widget/arkit_reference_image.dart';
 export 'package:arkit_plugin/widget/arkit_world_alignment.dart';
+
+import 'package:arkit_plugin/widget/arkit_configuration.dart';
+import 'package:flutter/services.dart';
+
+class ARKitPlugin {
+  static const MethodChannel _channel = MethodChannel('arkit_configuration');
+
+  ARKitPlugin._();
+
+  static Future<bool> checkConfiguration(ARKitConfiguration configuration) {
+    return _channel.invokeMethod<bool>('checkConfiguration', {
+      'configuration': configuration.index,
+    });
+  }
+}

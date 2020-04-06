@@ -1,5 +1,8 @@
 /// Option set of hit-test result types.
 enum ARKitHitTestResultType {
+  /// If you have this value you might face a bug in the plugin, sorry. Please create an issue on GitHub.
+  unknown,
+
   /// Result type from intersecting the nearest feature point.
   featurePoint,
 
@@ -17,23 +20,4 @@ enum ARKitHitTestResultType {
 
   /// Result type from intersecting with an existing plane anchor, taking into account the plane’s geometry.
   existingPlaneUsingGeometry,
-}
-
-ARKitHitTestResultType aRKitHitTestResultTypeFromInt(int number) {
-  switch (number) {
-    case 1:
-      return ARKitHitTestResultType.featurePoint;
-    case 2:
-      return ARKitHitTestResultType.estimatedHorizontalPlane;
-    case 4:
-      return ARKitHitTestResultType.estimatedVerticalPlane;
-    case 8:
-      return ARKitHitTestResultType.existingPlane;
-    case 16:
-      return ARKitHitTestResultType.existingPlaneUsingExtent;
-    case 32:
-      return ARKitHitTestResultType.existingPlaneUsingGeometry;
-    default:
-      return null;
-  }
 }

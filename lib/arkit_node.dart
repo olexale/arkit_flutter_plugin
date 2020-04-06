@@ -1,9 +1,9 @@
 import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/light/arkit_light.dart';
 import 'package:arkit_plugin/physics/arkit_physics_body.dart';
+import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:flutter/widgets.dart';
 import 'package:arkit_plugin/utils/random_string.dart' as random_string;
-import 'package:arkit_plugin/utils/vector_utils.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 /// ARKitNode is the model class for node-tree objects.
@@ -22,9 +22,9 @@ class ARKitNode {
     String name,
   })  : name = name ?? random_string.randomString(),
         position = ValueNotifier(position),
-        scale = ValueNotifier(scale),
-        rotation = ValueNotifier(rotation),
-        eulerAngles = ValueNotifier(eulerAngles);
+        scale = ValueNotifier(scale ?? Vector3.all(1)),
+        rotation = ValueNotifier(rotation ?? Vector4.zero()),
+        eulerAngles = ValueNotifier(eulerAngles ?? Vector3.zero());
 
   /// Returns the geometry attached to the receiver.
   final ARKitGeometry geometry;
@@ -67,15 +67,18 @@ class ARKitNode {
   /// Defaults to 0.
   final int renderingOrder;
 
+  static const _vector3ValueNotifierConverter = Vector3ValueNotifierConverter();
+  static const _vector4ValueNotifierConverter = Vector4ValueNotifierConverter();
+
   Map<String, dynamic> toMap() => <String, dynamic>{
         'dartType': runtimeType.toString(),
-        'geometry': geometry?.toMap(),
-        'position': convertVector3ToMap(position.value),
-        'scale': convertVector3ToMap(scale.value),
-        'rotation': convertVector4ToMap(rotation.value),
-        'eulerAngles': convertVector3ToMap(eulerAngles.value),
-        'physicsBody': physicsBody?.toMap(),
-        'light': light?.toMap(),
+        'geometry': geometry?.toJson(),
+        'position': _vector3ValueNotifierConverter.toJson(position),
+        'scale': _vector3ValueNotifierConverter.toJson(scale),
+        'rotation': _vector4ValueNotifierConverter.toJson(rotation),
+        'eulerAngles': _vector3ValueNotifierConverter.toJson(eulerAngles),
+        'physicsBody': physicsBody?.toJson(),
+        'light': light?.toJson(),
         'name': name,
         'renderingOrder': renderingOrder,
       }..removeWhere((String k, dynamic v) => v == null);

@@ -42,13 +42,13 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
     if (!(anchor is ARKitFaceAnchor)) {
       return;
     }
-    final material = ARKitMaterial(fillMode: ARKitFillMode.lines);
+    // final material = ARKitMaterial(fillMode: ARKitFillMode.lines);
     final ARKitFaceAnchor faceAnchor = anchor;
-    faceAnchor.geometry.materials.value = [material];
+    // faceAnchor.geometry.materials.value = [material];
 
     anchorId = anchor.identifier;
-    node = ARKitNode(geometry: faceAnchor.geometry);
-    arkitController.add(node, parentNodeName: anchor.nodeName);
+    // node = ARKitNode(geometry: faceAnchor.geometry);
+    // arkitController.add(node, parentNodeName: anchor.nodeName);
 
     leftEye = _createEye(faceAnchor.leftEyeTransform);
     arkitController.add(leftEye, parentNodeName: anchor.nodeName);
@@ -74,7 +74,7 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
   void _handleUpdateAnchor(ARKitAnchor anchor) {
     if (anchor is ARKitFaceAnchor) {
       final ARKitFaceAnchor faceAnchor = anchor;
-      arkitController.updateFaceGeometry(node, anchor.identifier);
+      // arkitController.updateFaceGeometry(node, anchor.identifier);
       _updateEye(leftEye, faceAnchor.leftEyeTransform,
           faceAnchor.blendShapes['eyeBlink_L']);
       _updateEye(rightEye, faceAnchor.rightEyeTransform,

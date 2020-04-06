@@ -10,7 +10,7 @@ class ManipulationPage extends StatefulWidget {
 
 class _ManipulationPageState extends State<ManipulationPage> {
   ARKitController arkitController;
-  List<ARKitNode> nodes = [];
+  ARKitNode boxNode;
 
   @override
   void dispose() {
@@ -23,11 +23,9 @@ class _ManipulationPageState extends State<ManipulationPage> {
         appBar: AppBar(title: const Text('Manipulation Sample')),
         body: Container(
           child: ARKitSceneView(
-            showFeaturePoints: true,
-            enableTapRecognizer: true,
             enablePinchRecognizer: true,
             enablePanRecognizer: true,
-            planeDetection: ARPlaneDetection.horizontal,
+            enableRotationRecognizer: true,
             onARKitViewCreated: onARKitViewCreated,
           ),
         ),
@@ -35,18 +33,14 @@ class _ManipulationPageState extends State<ManipulationPage> {
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
-    this.arkitController.onARTap = (ar) {
-      final point =
-          ar.firstWhere((o) => o.type == ARKitHitTestResultType.featurePoint);
-      if (point != null) {
-        _onTapHandler(point);
-      }
-    };
     this.arkitController.onNodePinch = (pinch) => _onPinchHandler(pinch);
     this.arkitController.onNodePan = (pan) => _onPanHandler(pan);
+    this.arkitController.onNodeRotation =
+        (rotation) => _onRotationHandler(rotation);
+    addNode();
   }
 
-  void _onTapHandler(ARKitTestResult point) {
+  void addNode() {
     final material = ARKitMaterial(
       lightingModelName: ARKitLightingModel.physicallyBased,
       diffuse: ARKitMaterialProperty(
@@ -55,45 +49,46 @@ class _ManipulationPageState extends State<ManipulationPage> {
       ),
     );
     final box =
-        ARKitBox(materials: [material], width: 0.2, height: 0.2, length: 0.2);
-    final position = vector.Vector3(
-      point.worldTransform.getColumn(3).x,
-      point.worldTransform.getColumn(3).y,
-      point.worldTransform.getColumn(3).z,
-    );
+        ARKitBox(materials: [material], width: 0.1, height: 0.1, length: 0.1);
 
     final node = ARKitNode(
       geometry: box,
-      scale: vector.Vector3.all(1),
-      eulerAngles: vector.Vector3.zero(),
-      position: position,
+      position: vector.Vector3(0, 0, -0.5),
     );
     arkitController.add(node);
-    nodes.add(node);
+    boxNode = node;
   }
 
   void _onPinchHandler(List<ARKitNodePinchResult> pinch) {
-    for (var pinchNode in pinch) {
-      final node = nodes.firstWhere((n) => n.name == pinchNode.nodeName);
-      if (node != null) {
-        final scale = vector.Vector3(
-          node.scale.value.x * pinchNode.scale,
-          node.scale.value.y * pinchNode.scale,
-          node.scale.value.z * pinchNode.scale,
-        );
-        node.scale.value = scale;
-      }
+    final pinchNode = pinch.firstWhere(
+      (e) => e.nodeName == boxNode.name,
+      orElse: () => null,
+    );
+    if (pinchNode != null) {
+      final scale = vector.Vector3.all(pinchNode.scale);
+      boxNode.scale.value = scale;
     }
   }
 
   void _onPanHandler(List<ARKitNodePanResult> pan) {
-    for (var panNode in pan) {
-      final node = nodes.firstWhere((n) => n.name == panNode.nodeName);
-      if (node != null) {
-        final old = node.eulerAngles.value;
-        final newAngleY = panNode.translation.x * math.pi / 180;
-        node.eulerAngles.value = vector.Vector3(old.x, newAngleY, old.z);
-      }
+    final panNode =
+        pan.firstWhere((e) => e.nodeName == boxNode.name, orElse: null);
+    if (panNode != null) {
+      final old = boxNode.eulerAngles.value;
+      final newAngleY = panNode.translation.x * math.pi / 180;
+      boxNode.eulerAngles.value = vector.Vector3(old.x, newAngleY, old.z);
+    }
+  }
+
+  void _onRotationHandler(List<ARKitNodeRotationResult> rotation) {
+    final rotationNode = rotation.firstWhere(
+      (e) => e.nodeName == boxNode.name,
+      orElse: () => null,
+    );
+    if (rotationNode != null) {
+      final rotation =
+          boxNode.rotation.value + vector.Vector4.all(rotationNode.rotation);
+      boxNode.rotation.value = rotation;
     }
   }
 }
