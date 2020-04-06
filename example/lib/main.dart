@@ -18,6 +18,7 @@ import 'package:arkit_plugin_example/face_detection_page.dart';
 import 'package:arkit_plugin_example/panorama_page.dart';
 import 'package:arkit_plugin_example/widget_projection.dart';
 import 'package:arkit_plugin_example/real_time_updates.dart';
+import 'package:arkit_plugin_example/camera_tracking_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MaterialApp(home: MyApp()));
@@ -165,6 +166,13 @@ class MyApp extends StatelessWidget {
         Icons.timer,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => RealTimeUpdatesPage())),
+      ),
+      Sample(
+        'Camera Tracking Page',
+        'Returns Camera tracking state. Update your app based on the quality of the data processed by arkit.',
+        Icons.track_changes,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => CameraTrackingPage())),
       ),
     ];
 

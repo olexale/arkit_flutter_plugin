@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:arkit_plugin/arkit_node.dart';
+import 'package:arkit_plugin/ar_tracking_state.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_box.dart';
 import 'package:arkit_plugin/geometries/arkit_capsule.dart';
@@ -270,6 +271,10 @@ class ARKitController {
   /// Called once per frame
   Function(double time) updateAtTime;
 
+  /// Called when camera tracking state is changed;
+  Function(ARTrackingState trackingState, ARTrackingStateReason reason)
+      onCameraDidChangeTrackingState;
+
   final bool debug;
 
   static const _vector3Converter = Vector3Converter();
@@ -464,6 +469,15 @@ class ARKitController {
           if (updateAtTime != null) {
             final double time = call.arguments['time'];
             updateAtTime(time);
+          }
+          break;
+        case 'onCameraDidChangeTrackingState':
+          if (onCameraDidChangeTrackingState != null) {
+            ARTrackingState trackingState =
+                ARTrackingStateFromString(call.arguments['trackingState']);
+            ARTrackingStateReason reason =
+                ARTrackingStateReasonFromString(call.arguments['reason']);
+            onCameraDidChangeTrackingState(trackingState, reason);
           }
           break;
         default:
