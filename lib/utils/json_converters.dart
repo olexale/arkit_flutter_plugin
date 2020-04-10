@@ -379,7 +379,7 @@ class Vector3ValueNotifierConverter
 
   @override
   List<dynamic> toJson(ValueNotifier<Vector3> object) {
-    if (object.value == null) {
+    if (object == null || object.value == null) {
       return null;
     }
     final list = List<double>(3);
@@ -399,7 +399,7 @@ class Vector4ValueNotifierConverter
 
   @override
   List<dynamic> toJson(ValueNotifier<Vector4> object) {
-    if (object.value == null) {
+    if (object == null || object.value == null) {
       return null;
     }
     final list = List<double>(4);
@@ -428,4 +428,24 @@ class ARTrackingStateReasonConverter
 
   @override
   int toJson(ARTrackingStateReason object) => object?.index;
+}
+
+class MatrixValueNotifierConverter
+    implements JsonConverter<ValueNotifier<Matrix4>, List<dynamic>> {
+  const MatrixValueNotifierConverter();
+
+  @override
+  ValueNotifier<Matrix4> fromJson(List<dynamic> json) {
+    return ValueNotifier(Matrix4.fromList(json.cast<double>()));
+  }
+
+  @override
+  List<dynamic> toJson(ValueNotifier<Matrix4> matrix) {
+    if (matrix == null || matrix.value == null) {
+      return null;
+    }
+    final list = List<double>(16);
+    matrix.value.copyIntoArray(list);
+    return list;
+  }
 }
