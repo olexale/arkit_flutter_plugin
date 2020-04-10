@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:arkit_plugin/arkit_node.dart';
-import 'package:arkit_plugin/ar_tracking_state.dart';
+import 'package:arkit_plugin/widget/ar_tracking_state.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_box.dart';
 import 'package:arkit_plugin/geometries/arkit_capsule.dart';
@@ -473,10 +473,16 @@ class ARKitController {
           break;
         case 'onCameraDidChangeTrackingState':
           if (onCameraDidChangeTrackingState != null) {
-            ARTrackingState trackingState =
-                ARTrackingStateFromString(call.arguments['trackingState']);
-            ARTrackingStateReason reason =
-                ARTrackingStateReasonFromString(call.arguments['reason']);
+            ARTrackingState trackingState;
+            trackingState = ARTrackingStateConverter()
+                .fromJson(call.arguments['trackingState'] as int);
+
+            ARTrackingStateReason reason;
+            int reasonNum = call.arguments['reason'] as int;
+            if (reasonNum != null) {
+              reason = ARTrackingStateReasonConverter().fromJson(reasonNum);
+            }
+
             onCameraDidChangeTrackingState(trackingState, reason);
           }
           break;

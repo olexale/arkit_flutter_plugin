@@ -7,28 +7,28 @@ extension FlutterArkitView: ARSCNViewDelegate {
     }
     
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera){
-        var params = [String: NSString]()
+        var params = [String: NSNumber]()
         
         switch camera.trackingState {
         case .notAvailable:
-            params["trackingState"] = "notAvailable" as NSString
+            params["trackingState"] = NSNumber(integerLiteral: 0)
         case .limited(let reason):
             // only if the tracking state is limited, a reason can be given
-            params["trackingState"] = "limited" as NSString
+            params["trackingState"] = NSNumber(integerLiteral: 1)
             switch reason {
-            case .excessiveMotion:
-                params["reason"] = "excessiveMotion" as NSString
-            case .insufficientFeatures:
-                params["reason"] = "insufficientFeatures" as NSString
             case .initializing:
-                params["reason"] = "initializing" as NSString
+                params["reason"] = NSNumber(integerLiteral: 0)
             case .relocalizing:
-                params["reason"] = "relocalizing" as NSString
+                params["reason"] = NSNumber(integerLiteral: 1)
+            case .excessiveMotion:
+                params["reason"] = NSNumber(integerLiteral: 2)
+            case .insufficientFeatures:
+                params["reason"] = NSNumber(integerLiteral: 3)
             default:
                 print("Tracking quality is limited. Unexpected reason.")
             }
         case .normal:
-            params["trackingState"] = "normal" as NSString
+            params["trackingState"] = NSNumber(integerLiteral: 2)
         default:
             print("Unexpected camera tracking state.")
         }

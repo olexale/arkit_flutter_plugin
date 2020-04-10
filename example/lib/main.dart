@@ -167,13 +167,6 @@ class MyApp extends StatelessWidget {
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => RealTimeUpdatesPage())),
       ),
-      Sample(
-        'Camera Tracking Page',
-        'Returns Camera tracking state. Update your app based on the quality of the data processed by arkit.',
-        Icons.track_changes,
-        () => Navigator.of(context).push<void>(
-            MaterialPageRoute(builder: (c) => CameraTrackingPage())),
-      ),
     ];
 
     return Scaffold(
