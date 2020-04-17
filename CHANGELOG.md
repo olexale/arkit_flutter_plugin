@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+
+* Add camera tracking state listener (by @miles-au)
+
 ## 0.5.0
 
 * BREAKING CHANGE: REQUIRE_TRUEDEPTH_API is replaced with DISABLE_TRUEDEPTH_API
