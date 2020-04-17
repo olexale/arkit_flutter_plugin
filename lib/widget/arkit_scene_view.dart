@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:arkit_plugin/arkit_node.dart';
+import 'package:arkit_plugin/widget/ar_tracking_state.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_box.dart';
 import 'package:arkit_plugin/geometries/arkit_capsule.dart';
@@ -270,11 +271,17 @@ class ARKitController {
   /// Called once per frame
   Function(double time) updateAtTime;
 
+  /// Called when camera tracking state is changed;
+  Function(ARTrackingState trackingState, ARTrackingStateReason reason)
+      onCameraDidChangeTrackingState;
+
   final bool debug;
 
   static const _vector3Converter = Vector3Converter();
   static const _vector4Converter = Vector4Converter();
   static const _materialsConverter = ListMaterialsValueNotifierConverter();
+  static const _stateConverter = ARTrackingStateConverter();
+  static const _stateReasonConverter = ARTrackingStateReasonConverter();
 
   void dispose() {
     _channel?.invokeMethod<void>('dispose');
@@ -464,6 +471,17 @@ class ARKitController {
           if (updateAtTime != null) {
             final double time = call.arguments['time'];
             updateAtTime(time);
+          }
+          break;
+        case 'onCameraDidChangeTrackingState':
+          if (onCameraDidChangeTrackingState != null) {
+            final int rawTrackingState = call.arguments['trackingState'];
+            final trackingState = _stateConverter.fromJson(rawTrackingState);
+
+            final int rawReason = call.arguments['reason'];
+            final reason = _stateReasonConverter.fromJson(rawReason);
+
+            onCameraDidChangeTrackingState(trackingState, reason);
           }
           break;
         default:

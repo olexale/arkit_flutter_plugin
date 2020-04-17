@@ -408,6 +408,32 @@ class Vector4ValueNotifierConverter
   }
 }
 
+class ARTrackingStateConverter implements JsonConverter<ARTrackingState, int> {
+  const ARTrackingStateConverter();
+
+  @override
+  ARTrackingState fromJson(int json) => ARTrackingState.values[json];
+
+  @override
+  int toJson(ARTrackingState object) => object?.index;
+}
+
+class ARTrackingStateReasonConverter
+    implements JsonConverter<ARTrackingStateReason, int> {
+  const ARTrackingStateReasonConverter();
+
+  @override
+  ARTrackingStateReason fromJson(int json) {
+    if (json == null) {
+      return null;
+    }
+    return ARTrackingStateReason.values[json];
+  }
+
+  @override
+  int toJson(ARTrackingStateReason object) => object?.index;
+}
+
 class MatrixValueNotifierConverter
     implements JsonConverter<ValueNotifier<Matrix4>, List<dynamic>> {
   const MatrixValueNotifierConverter();

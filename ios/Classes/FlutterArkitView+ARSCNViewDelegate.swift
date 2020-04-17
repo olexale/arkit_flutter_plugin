@@ -6,6 +6,41 @@ extension FlutterArkitView: ARSCNViewDelegate {
         logPluginError("sessionDidFailWithError: \(error.localizedDescription)", toChannel: channel)
     }
     
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera){
+        var params = [String: NSNumber]()
+        
+        switch camera.trackingState {
+        case .notAvailable:
+            params["trackingState"] = 0
+            break
+        case .limited(let reason):
+            params["trackingState"] = 1
+            switch reason {
+            case .initializing:
+                params["reason"] = 1
+                break
+            case .relocalizing:
+                params["reason"] = 2
+                break
+            case .excessiveMotion:
+                params["reason"] = 3
+                break
+            case .insufficientFeatures:
+                params["reason"] = 4
+                break
+            default:
+                params["reason"] = 0
+                break
+            }
+            break
+        case .normal:
+            params["trackingState"] = 2
+            break
+        }
+        
+        self.channel.invokeMethod("onCameraDidChangeTrackingState", arguments: params)
+    }
+    
     func sessionWasInterrupted(_ session: ARSession) {
         self.channel.invokeMethod("onSessionWasInterrupted", arguments: nil)
     }

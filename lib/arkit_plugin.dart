@@ -1,5 +1,6 @@
 export 'package:arkit_plugin/arkit_node.dart';
 export 'package:arkit_plugin/arkit_reference_node.dart';
+export 'package:arkit_plugin/widget/ar_tracking_state.dart';
 export 'package:arkit_plugin/geometries/arkit_anchor.dart';
 export 'package:arkit_plugin/geometries/arkit_box.dart';
 export 'package:arkit_plugin/geometries/arkit_capsule.dart';
