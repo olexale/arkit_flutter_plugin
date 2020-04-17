@@ -423,8 +423,12 @@ class ARTrackingStateReasonConverter
   const ARTrackingStateReasonConverter();
 
   @override
-  ARTrackingStateReason fromJson(int json) =>
-      ARTrackingStateReason.values[json];
+  ARTrackingStateReason fromJson(int json) {
+    if (json == null) {
+      return null;
+    }
+    return ARTrackingStateReason.values[json];
+  }
 
   @override
   int toJson(ARTrackingStateReason object) => object?.index;
