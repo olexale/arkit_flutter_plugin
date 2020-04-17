@@ -280,6 +280,8 @@ class ARKitController {
   static const _vector3Converter = Vector3Converter();
   static const _vector4Converter = Vector4Converter();
   static const _materialsConverter = ListMaterialsValueNotifierConverter();
+  static const _stateConverter = ARTrackingStateConverter();
+  static const _stateReasonConverter = ARTrackingStateReasonConverter();
 
   void dispose() {
     _channel?.invokeMethod<void>('dispose');
@@ -473,15 +475,11 @@ class ARKitController {
           break;
         case 'onCameraDidChangeTrackingState':
           if (onCameraDidChangeTrackingState != null) {
-            ARTrackingState trackingState;
-            trackingState = ARTrackingStateConverter()
-                .fromJson(call.arguments['trackingState'] as int);
+            final int rawTrackingState = call.arguments['trackingState'];
+            final trackingState = _stateConverter.fromJson(rawTrackingState);
 
-            ARTrackingStateReason reason;
-            int reasonNum = call.arguments['reason'] as int;
-            if (reasonNum != null) {
-              reason = ARTrackingStateReasonConverter().fromJson(reasonNum);
-            }
+            final int rawReason = call.arguments['reason'];
+            final reason = _stateReasonConverter.fromJson(rawReason);
 
             onCameraDidChangeTrackingState(trackingState, reason);
           }
