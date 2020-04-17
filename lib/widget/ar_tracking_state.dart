@@ -1,16 +1,29 @@
-/// Possible values that describe position tracking quality
-/// copied over from ARTrackingState: https://developer.apple.com/documentation/arkit/artrackingstate
+/// A value describing the camera's tracking state.
 enum ARTrackingState {
-  notAvailable, // Camera position tracking is not available.
-  limited, // Tracking is available, but the quality of results is questionable.
-  normal, // Camera position tracking is providing optimal results.
+  /// Camera position tracking is not available.
+  notAvailable,
+
+  /// Tracking is available, but the quality of results is questionable.
+  limited,
+
+  /// Camera position tracking is providing optimal results.
+  normal,
 }
 
-/// if ARTrackingState is limited, it may come with a reason
-/// https://developer.apple.com/documentation/arkit/arcamera/trackingstate/reason
+/// The reason why ARTrackingState is limited
 enum ARTrackingStateReason {
-  initializing, // The AR session has not yet gathered enough camera or motion data to provide tracking information.
-  relocalizing, // The AR session is attempting to resume after an interruption.
-  excessiveMotion, // The device is moving too fast for accurate image-based position tracking.
-  insufficientFeatures // The scene visible to the camera does not contain enough distinguishable features for image-based position tracking.
+  /// This should not happen. Please create an issue for the plugin.
+  unknown,
+
+  /// Tracking is limited due to initialization in progress.
+  initializing,
+
+  /// Tracking is limited due to a relocalization in progress.
+  relocalizing,
+
+  /// Tracking is limited due to a excessive motion of the camera.
+  excessiveMotion,
+
+  /// Tracking is limited due to a lack of features visible to the camera.
+  insufficientFeatures,
 }
