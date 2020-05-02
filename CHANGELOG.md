@@ -2,6 +2,7 @@
 
 ## 0.5.1
 
+* Fix the AR Face masks
 * Add camera tracking state listener (by @miles-au)
 
 ## 0.5.0
