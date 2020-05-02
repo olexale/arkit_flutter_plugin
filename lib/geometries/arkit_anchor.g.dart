@@ -94,6 +94,7 @@ Map<String, dynamic> _$ARKitImageAnchorToJson(ARKitImageAnchor instance) {
 
 ARKitFaceAnchor _$ARKitFaceAnchorFromJson(Map<String, dynamic> json) {
   return ARKitFaceAnchor(
+    ARKitFace.fromJson(json['geometry'] as Map<String, dynamic>),
     Map<String, double>.from(json['blendShapes'] as Map),
     json['isTracked'] as bool,
     json['nodeName'] as String,
@@ -117,6 +118,7 @@ Map<String, dynamic> _$ARKitFaceAnchorToJson(ARKitFaceAnchor instance) {
   }
 
   writeNotNull('transform', const MatrixConverter().toJson(instance.transform));
+  val['geometry'] = instance.geometry;
   writeNotNull('leftEyeTransform',
       const MatrixConverter().toJson(instance.leftEyeTransform));
   writeNotNull('rightEyeTransform',

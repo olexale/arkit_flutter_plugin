@@ -16,8 +16,12 @@ class ARKitFace extends ARKitGeometry {
           materials: materials,
         );
 
-  static ARKitFace fromJson(Map<String, dynamic> json) =>
-      _$ARKitFaceFromJson(json);
+  static ARKitFace fromJson(Map<String, dynamic> json) {
+    if (json == null) {
+      return ARKitFace(materials: []);
+    }
+    return _$ARKitFaceFromJson(json);
+  }
 
   @override
   Map<String, dynamic> toJson() =>

@@ -130,7 +130,7 @@ class ARKitImageAnchor extends ARKitAnchor {
 @JsonSerializable()
 class ARKitFaceAnchor extends ARKitAnchor {
   const ARKitFaceAnchor(
-    // this.geometry,
+    this.geometry,
     this.blendShapes,
     this.isTracked,
     String nodeName,
@@ -145,7 +145,7 @@ class ARKitFaceAnchor extends ARKitAnchor {
         );
 
   /// The face geometry updated based on the computed blend shapes.
-  // final ARKitFace geometry;
+  final ARKitFace geometry;
 
   /// The left eye’s rotation and translation relative to the anchor’s origin.
   @MatrixConverter()
