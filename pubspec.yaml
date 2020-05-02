@@ -12,14 +12,14 @@ dependencies:
     sdk: flutter
   meta: ^1.1.8
   vector_math: ^2.0.8
-  json_annotation: ^3.0.0
+  json_annotation: ^3.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.7.2
-  json_serializable: ^3.2.3
-  pedantic: ^1.8.0
+  build_runner: ^1.9.0
+  json_serializable: ^3.3.0
+  pedantic: ^1.9.0
 
 flutter:
   plugin:
