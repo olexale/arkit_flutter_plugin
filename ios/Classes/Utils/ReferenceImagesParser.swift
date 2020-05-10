@@ -15,6 +15,7 @@ func parseReferenceImage(_ dict: Dictionary<String, Any>) -> ARReferenceImage? {
         let cgImage = image.cgImage {
         
         let referenceImage = ARReferenceImage(cgImage, orientation: CGImagePropertyOrientation.up, physicalWidth: CGFloat(physicalWidth))
+        referenceImage.name = name
         return referenceImage
     }
     return nil

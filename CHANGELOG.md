@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.2
+
+* Fixed anchor's referenceImageName
+
 ## 0.5.1
 
 * Fix the AR Face masks
