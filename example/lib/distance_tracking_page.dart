@@ -61,7 +61,7 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
       return;
     }
     final ARKitPlaneAnchor planeAnchor = anchor;
-    node.position.value =
+    node.position =
         vector.Vector3(planeAnchor.center.x, 0, planeAnchor.center.z);
     plane.width.value = planeAnchor.extent.x;
     plane.height.value = planeAnchor.extent.z;
@@ -157,11 +157,11 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
       final dx = (maxVector.x - minVector.x) / 2 * scale;
       final dy = (maxVector.y - minVector.y) / 2 * scale;
       final position = vector.Vector3(
-        node.position.value.x - dx,
-        node.position.value.y - dy,
-        node.position.value.z,
+        node.position.x - dx,
+        node.position.y - dy,
+        node.position.z,
       );
-      node.position.value = position;
+      node.position = position;
     });
     arkitController.add(node);
   }

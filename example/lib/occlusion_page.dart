@@ -60,7 +60,7 @@ class _OcclusionPageState extends State<OcclusionPage> {
       return;
     }
     final ARKitPlaneAnchor planeAnchor = anchor;
-    node.position.value =
+    node.position =
         vector.Vector3(planeAnchor.center.x, 0, planeAnchor.center.z);
     plane.width.value = planeAnchor.extent.x;
     plane.height.value = planeAnchor.extent.z;

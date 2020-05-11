@@ -77,9 +77,9 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
       arkitController.add(node);
 
       timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
-        final old = node.eulerAngles.value;
+        final old = node.eulerAngles;
         final eulerAngles = vector.Vector3(old.x, old.y + 0.1, old.z);
-        node.eulerAngles.value = eulerAngles;
+        node.eulerAngles = eulerAngles;
       });
     }
   }
