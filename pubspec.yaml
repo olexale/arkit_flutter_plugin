@@ -5,7 +5,7 @@ author: Oleksandr Leuschenko <olexa.le@gmail.com>
 homepage: https://github.com/olexale/arkit_flutter_plugin
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
