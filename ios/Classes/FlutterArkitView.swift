@@ -45,20 +45,8 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
         case "getNodeBoundingBox":
             onGetNodeBoundingBox(arguments!, result)
             break
-        case "positionChanged":
-            onPositionChanged(arguments!)
-            result(nil)
-            break
-        case "rotationChanged":
-            onRotationChanged(arguments!)
-            result(nil)
-            break
-        case "eulerAnglesChanged":
-            onEulerAnglesChanged(arguments!)
-            result(nil)
-            break
-        case "scaleChanged":
-            onScaleChanged(arguments!)
+        case "transformationChanged":
+            onTransformChanged(arguments!)
             result(nil)
             break
         case "updateSingleProperty":
