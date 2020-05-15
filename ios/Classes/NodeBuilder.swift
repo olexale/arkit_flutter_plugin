@@ -40,7 +40,11 @@ func createNode(_ geometry: SCNGeometry?, fromDict dict: Dictionary<String, Any>
 
 fileprivate func createReferenceNode(_ dict: Dictionary<String, Any>) -> SCNReferenceNode {
     let url = dict["url"] as! String
-    let referenceUrl = Bundle.main.url(forResource: url, withExtension: nil)
+    let loadFromBundle = dict["loadFromBundle"] as! Bool
+    var referenceUrl = Bundle.main.url(forResource: url, withExtension: nil)
+    if loadFromBundle != true{
+        referenceUrl = URL(fileURLWithPath: url)
+    }
     let node = SCNReferenceNode(url: referenceUrl!)
     node?.load()
     return node!
