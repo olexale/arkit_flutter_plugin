@@ -8,7 +8,6 @@ import 'package:vector_math/vector_math_64.dart';
 class ARKitReferenceNode extends ARKitNode {
   ARKitReferenceNode({
     @required this.url,
-    bool this.loadFromBundle = true,
     ARKitPhysicsBody physicsBody,
     ARKitLight light,
     Vector3 position,
@@ -26,13 +25,13 @@ class ARKitReferenceNode extends ARKitNode {
           renderingOrder: renderingOrder,
         );
 
-  /// Node url at bundle.
+  /// URL location of the Node
+  /// Defaults to path from Main Bundle
+  /// If path from main bundle fails, will search as full file path
   final String url;
-  final bool loadFromBundle;
 
   @override
   Map<String, dynamic> toMap() => <String, dynamic>{
         'url': url,
-        'loadFromBundle': loadFromBundle,
       }..addAll(super.toMap());
 }
