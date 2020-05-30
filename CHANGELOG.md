@@ -2,6 +2,7 @@
 
 ## 0.5.2
 
+* ReferenceNode might be loaded from file with full path (by @miles-au)
 * Fixed anchor's referenceImageName
 
 ## 0.5.1
