@@ -21,6 +21,16 @@ extension FlutterArkitView {
         let node = sceneView.scene.rootNode.childNode(withName: nodeName, recursively: true)
         node?.removeFromParentNode()
     }
+  
+    func onRemoveAnchor(_ arguments: Dictionary<String, Any>) {
+        guard let anchorIdentifier = arguments["anchorIdentifier"] as? String else {
+            logPluginError("anchorIdentifier deserialization failed", toChannel: channel)
+            return
+        }
+        if let anchor = sceneView.session.currentFrame?.anchors.first(where:{ $0.identifier.uuidString == anchorIdentifier }) {
+            sceneView.session.remove(anchor: anchor)
+        }
+    }
     
     func onGetNodeBoundingBox(_ arguments: Dictionary<String, Any>, _ result:FlutterResult) {
         guard let geometryArguments = arguments["geometry"] as? Dictionary<String, Any> else {
