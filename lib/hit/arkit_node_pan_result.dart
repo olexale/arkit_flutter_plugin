@@ -20,7 +20,7 @@ class ARKitNodePanResult {
   @Vector2Converter()
   final Vector2 translation;
 
-  // The touch location in the coordinate system of the scene view
+  // The touch location relative to the scene view
   @Vector2Converter()
   final Vector2 touchLocation;
 

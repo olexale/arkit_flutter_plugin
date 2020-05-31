@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.3
+* ARKitNodePanResult now also has attribute touchLocation for screen
+* onNodePan now returns results when the node name is nil as well
+
 ## 0.5.2
 
 * ReferenceNode might be loaded from file with full path (by @miles-au)
