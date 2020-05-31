@@ -65,13 +65,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
-				BC0E42C2F70D00C71236A729 /* Pods_Runner.framework in Frameworks */,
-=======
 				9705A1C61CF904A100538489 /* Flutter.framework in Frameworks */,
 				3B80C3941E831B6300D905FE /* App.framework in Frameworks */,
 				A05D68128445274E0C6BB8EE /* libPods-Runner.a in Frameworks */,
->>>>>>> 57702aaf13c46eb7b7b1db3359ddddcfb9d4ba7e
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
