@@ -26,6 +26,7 @@ class _CustomObjectPageState extends State<CustomObjectPage> {
             showFeaturePoints: true,
             planeDetection: ARPlaneDetection.horizontal,
             onARKitViewCreated: onARKitViewCreated,
+            enablePanRecognizer: true,
           ),
         ),
       );
@@ -33,6 +34,29 @@ class _CustomObjectPageState extends State<CustomObjectPage> {
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
     this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
+    this.arkitController.onNodePan = (results) async {
+      ARKitNodePanResult panResult = results.first;
+      double hitTestLocationX =
+          panResult.touchLocation.x / MediaQuery.of(context).size.width;
+      double hitTestLocationY = panResult.touchLocation.y /
+          (MediaQuery.of(context).size.height -
+              kToolbarHeight -
+              MediaQuery.of(context).padding.top);
+
+      List<ARKitTestResult> hitResults = await arkitController.performHitTest(
+        x: hitTestLocationX,
+        y: hitTestLocationY,
+      );
+
+      ARKitTestResult hitResult = hitResults.firstWhere(
+          (result) => result.type == ARKitHitTestResultType.existingPlane);
+
+      node.position.value = vector.Vector3(
+        hitResult.worldTransform.getColumn(3).x,
+        hitResult.worldTransform.getColumn(3).y,
+        hitResult.worldTransform.getColumn(3).z,
+      );
+    };
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
@@ -52,6 +76,12 @@ class _CustomObjectPageState extends State<CustomObjectPage> {
       position: vector.Vector3(0, 0, 0),
       scale: vector.Vector3(0.002, 0.002, 0.002),
     );
-    controller.add(node, parentNodeName: anchor.nodeName);
+    final transform = anchor.transform.getColumn(3);
+    node.position.value = vector.Vector3(
+      transform.x,
+      transform.y,
+      transform.z,
+    );
+    controller.add(node);
   }
 }

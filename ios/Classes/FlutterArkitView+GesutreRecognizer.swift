@@ -86,22 +86,18 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
             let touchLocation = recognizer.location(in: sceneView)
             let translation = recognizer.translation(in: sceneView)
             let hitResults = sceneView.hitTest(touchLocation, options: nil)
-            
+
             let results: Array<Dictionary<String, Any>> = hitResults.compactMap {
-                if let name = $0.node.name {
-                    return ["nodeName" : name,
-                            "translation": [translation.x, translation.y]
-                    ]
-                } else {
-                    return nil
-                }
+                return ["nodeName" : $0.node.name as Any,
+                        "translation": [translation.x, translation.y],
+                        "touchLocation": [touchLocation.x, touchLocation.y]]
             }
             if (results.count != 0) {
                 self.channel.invokeMethod("onNodePan", arguments: results)
             }
         }
     }
-    
+
     @objc func handleRotation(_ recognizer: UIRotationGestureRecognizer) {
         guard let sceneView = recognizer.view as? ARSCNView else {
             return

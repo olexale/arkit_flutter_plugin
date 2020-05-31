@@ -7,7 +7,11 @@ part 'arkit_node_pan_result.g.dart';
 /// The result of users pan gesture interaction with nodes
 @JsonSerializable()
 class ARKitNodePanResult {
-  const ARKitNodePanResult(this.nodeName, this.translation);
+  const ARKitNodePanResult(
+    this.nodeName,
+    this.translation,
+    this.touchLocation,
+  );
 
   /// The name of the node which users is interacting with.
   final String nodeName;
@@ -15,6 +19,10 @@ class ARKitNodePanResult {
   // The translation in the coordinate system of the scene view
   @Vector2Converter()
   final Vector2 translation;
+
+  // The touch location in the coordinate system of the scene view
+  @Vector2Converter()
+  final Vector2 touchLocation;
 
   static ARKitNodePanResult fromJson(Map<String, dynamic> json) =>
       _$ARKitNodePanResultFromJson(json);

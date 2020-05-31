@@ -10,6 +10,7 @@ ARKitNodePanResult _$ARKitNodePanResultFromJson(Map<String, dynamic> json) {
   return ARKitNodePanResult(
     json['nodeName'] as String,
     const Vector2Converter().fromJson(json['translation'] as List),
+    const Vector2Converter().fromJson(json['touchLocation'] as List),
   );
 }
 
