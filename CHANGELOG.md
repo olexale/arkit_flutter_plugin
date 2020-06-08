@@ -2,7 +2,9 @@
 
 ## 0.5.2
 
+* ReferenceNode might be loaded from file with full path (by @miles-au)
 * Fixed anchor's referenceImageName
+* Add possibility to remove an anchor
 
 ## 0.5.1
 

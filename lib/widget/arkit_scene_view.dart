@@ -300,6 +300,12 @@ class ARKitController {
     return _channel.invokeMethod('removeARKitNode', {'nodeName': nodeName});
   }
 
+  Future<void> removeAnchor(String anchorIdentifier) {
+    assert(anchorIdentifier != null);
+    return _channel.invokeMethod(
+        'removeARKitAnchor', {'anchorIdentifier': anchorIdentifier});
+  }
+
   /// Perform Hit Test
   /// defaults to center of the screen.
   /// x and y values are between 0 and 1

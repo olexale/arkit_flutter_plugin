@@ -25,7 +25,9 @@ class ARKitReferenceNode extends ARKitNode {
           renderingOrder: renderingOrder,
         );
 
-  /// Node url at bundle.
+  /// URL location of the Node
+  /// Defaults to path from Main Bundle
+  /// If path from main bundle fails, will search as full file path
   final String url;
 
   @override
