@@ -6,17 +6,9 @@ func createNode(_ geometry: SCNGeometry?, fromDict dict: Dictionary<String, Any>
     let node = dartType == "ARKitReferenceNode"
         ? createReferenceNode(dict)
         : SCNNode(geometry: geometry)
-    
-    if let position = dict["position"] as? Array<Double> {
-        node.position = deserizlieVector3(position)
-    }
-    
-    if let scale = dict["scale"] as? Array<Double> {
-        node.scale = deserizlieVector3(scale)
-    }
-    
-    if let rotation = dict["rotation"] as? Array<Double> {
-        node.rotation = deserizlieVector4(rotation)
+  
+    if let transform = dict["transform"] as? Array<Float> {
+      node.transform = deserizlieMatrix4(transform)
     }
     
     if let name = dict["name"] as? String {
