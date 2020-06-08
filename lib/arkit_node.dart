@@ -33,15 +33,17 @@ class ARKitNode {
   /// The transform is the combination of the position, rotation and scale defined below.
   /// So when the transform is set, the receiver's position, rotation and scale are changed to match the new transform.
   Matrix4 get transform => transformNotifier.value;
-  set transform(Matrix4 value) {
-    transformNotifier.value = value;
+  set transform(Matrix4 matrix) {
+    transformNotifier.value = matrix;
   }
 
   /// Determines the receiver's position.
   Vector3 get position => transform.getTranslation();
   set position(Vector3 value) {
-    final t = Matrix4.fromFloat64List(transform.storage)..setTranslation(value);
-    transform = t;
+    final old = Matrix4.fromFloat64List(transform.storage);
+    final newT = old.clone();
+    newT.setTranslation(value);
+    transform = newT;
   }
 
   /// Determines the receiver's scale.
@@ -50,8 +52,10 @@ class ARKitNode {
   }
 
   set scale(Vector3 value) {
-    final t = Matrix4.fromFloat64List(transform.storage)..scale(value);
-    transform = t;
+    final old = Matrix4.fromFloat64List(transform.storage);
+    final newT = old.clone();
+    newT.scale(value);
+    transform = newT;
   }
 
   /// Determines the receiver's rotation.
@@ -60,9 +64,10 @@ class ARKitNode {
   Vector4 get rotation => transform.matrixRotation;
 
   set rotation(Vector4 value) {
-    final t = Matrix4.fromFloat64List(transform.storage)
-      ..rotate(Vector3(value[0], value[1], value[2]), value[3]);
-    transform = t;
+    final old = Matrix4.fromFloat64List(transform.storage);
+    final newT = old.clone();
+    newT.rotate(Vector3(value[0], value[1], value[2]), value[3]);
+    transform = newT;
   }
 
   /// Determines the receiver's euler angles.
@@ -78,9 +83,10 @@ class ARKitNode {
   Vector3 get eulerAngles => transform.matrixEulerAngles;
 
   set eulerAngles(Vector3 value) {
-    final t = Matrix4.fromFloat64List(transform.storage)
-      ..matrixEulerAngles = value;
-    transform = t;
+    final old = Matrix4.fromFloat64List(transform.storage);
+    final newT = old.clone();
+    newT.matrixEulerAngles = value;
+    transform = newT;
   }
 
   final ValueNotifier<Matrix4> transformNotifier;
