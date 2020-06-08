@@ -278,7 +278,6 @@ class ARKitController {
   final bool debug;
 
   static const _vector3Converter = Vector3Converter();
-  static const _vector4Converter = Vector4Converter();
   static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
   static const _materialsConverter = ListMaterialsValueNotifierConverter();
   static const _stateConverter = ARTrackingStateConverter();
@@ -634,34 +633,6 @@ class ARKitController {
     plane.height.addListener(() =>
         _updateSingleProperty(node, 'height', plane.height.value, 'geometry'));
   }
-
-  // void _handlePositionChanged(ARKitNode node) {
-  //   _channel.invokeMethod<void>(
-  //       'positionChanged',
-  //       _getHandlerParams(
-  //           node, 'position', _vector3Converter.toJson(node.position.value)));
-  // }
-
-  // void _handleRotationChanged(ARKitNode node) {
-  //   _channel.invokeMethod<void>(
-  //       'rotationChanged',
-  //       _getHandlerParams(
-  //           node, 'rotation', _vector4Converter.toJson(node.rotation.value)));
-  // }
-
-  // void _handleEulerAnglesChanged(ARKitNode node) {
-  //   _channel.invokeMethod<void>(
-  //       'eulerAnglesChanged',
-  //       _getHandlerParams(node, 'eulerAngles',
-  //           _vector3Converter.toJson(node.eulerAngles.value)));
-  // }
-
-  // void _handleScaleChanged(ARKitNode node) {
-  //   _channel.invokeMethod<void>(
-  //       'scaleChanged',
-  //       _getHandlerParams(
-  //           node, 'scale', _vector3Converter.toJson(node.scale.value)));
-  // }
 
   void _handleTransformationChanged(ARKitNode node) {
     _channel.invokeMethod<void>(
