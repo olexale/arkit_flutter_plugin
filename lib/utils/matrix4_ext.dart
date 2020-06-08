@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 Matrix4 createTransformMatrix(Matrix4 origin, Vector3 position, Vector3 scale,
     Vector4 rotation, Vector3 eulerAngles) {
-  final transform = origin ?? Matrix4.zero();
+  final transform = origin ?? Matrix4.identity();
 
   if (position != null) {
     transform.setTranslation(position);
@@ -20,7 +20,7 @@ Matrix4 createTransformMatrix(Matrix4 origin, Vector3 position, Vector3 scale,
   } else {
     transform.scale(1.0);
   }
-  return origin;
+  return transform;
 }
 
 extension Matrix4Extenstion on Matrix4 {

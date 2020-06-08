@@ -47,7 +47,7 @@ extension FlutterArkitView {
     
     func onTransformChanged(_ arguments: Dictionary<String, Any>) {
         guard let name = arguments["name"] as? String,
-            let params = arguments["transform"] as? Array<Float>
+            let params = arguments["transformation"] as? Array<Float>
             else {
                 logPluginError("deserialization failed", toChannel: channel)
                 return
