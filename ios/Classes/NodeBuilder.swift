@@ -7,8 +7,8 @@ func createNode(_ geometry: SCNGeometry?, fromDict dict: Dictionary<String, Any>
         ? createReferenceNode(dict)
         : SCNNode(geometry: geometry)
   
-    if let transform = dict["transform"] as? Array<Float> {
-      node.transform = deserizlieMatrix4(transform)
+    if let transform = dict["transform"] as? Array<NSNumber> {
+      node.transform = deserializeMatrix4(transform)
     }
     
     if let name = dict["name"] as? String {

@@ -47,13 +47,13 @@ extension FlutterArkitView {
     
     func onTransformChanged(_ arguments: Dictionary<String, Any>) {
         guard let name = arguments["name"] as? String,
-            let params = arguments["transformation"] as? Array<Float>
+            let params = arguments["transformation"] as? Array<NSNumber>
             else {
                 logPluginError("deserialization failed", toChannel: channel)
                 return
         }
         if let node = sceneView.scene.rootNode.childNode(withName: name, recursively: true) {
-            node.transform = deserizlieMatrix4(params)
+            node.transform = deserializeMatrix4(params)
         } else {
             logPluginError("node not found", toChannel: channel)
         }
