@@ -90,6 +90,9 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
         case "cameraProjectionMatrix":
             onCameraProjectionMatrix(result)
             break
+        case "pointOfViewTransform":
+            onPointOfViewTransform(result)
+            break
         case "playAnimation":
             onPlayAnimation(arguments!)
             result(nil)
@@ -106,12 +109,10 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
             result(FlutterMethodNotImplemented)
             break
         }
-        
     }
     
     func onDispose(_ result:FlutterResult) {
         sceneView.session.pause()
         result(nil)
     }
-    
 }

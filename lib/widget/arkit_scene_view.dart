@@ -364,6 +364,16 @@ class ARKitController {
         : null;
   }
 
+  /// Provides the point of view transform in world space (relative to the scene's root node)
+  Future<Matrix4> pointOfViewTransform() async {
+    const converter = MatrixConverter();
+    final pointOfViewTransform =
+        await _channel.invokeMethod<List<dynamic>>('pointOfViewTransform');
+    return pointOfViewTransform != null
+        ? converter.fromJson(pointOfViewTransform.cast<double>())
+        : null;
+  }
+
   Future<void> playAnimation(
       {@required String key,
       @required String sceneName,

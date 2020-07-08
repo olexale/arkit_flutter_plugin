@@ -206,6 +206,15 @@ extension FlutterArkitView {
             result(nil)
         }
     }
+  
+    func onPointOfViewTransform(_ result:FlutterResult) {
+        if let pointOfView = sceneView.pointOfView {
+          let matrix = serializeMatrix(pointOfView.simdWorldTransform)
+            result(matrix)
+        } else {
+            result(nil)
+        }
+    }
     
     func onPlayAnimation(_ arguments: Dictionary<String, Any>) {
         guard let key = arguments["key"] as? String,
@@ -234,11 +243,4 @@ extension FlutterArkitView {
         }
         sceneView.scene.rootNode.removeAnimation(forKey: key)
     }
-    
-    
-    
 }
-
-
-
-
