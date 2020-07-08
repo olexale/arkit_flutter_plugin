@@ -15,7 +15,7 @@ func createImageTrackingConfiguration(_ arguments: Dictionary<String, Any>) -> A
         }
         if #available(iOS 12.0, *) {
             if let maximumNumberOfTrackedImages = arguments["maximumNumberOfTrackedImages"] as? Int {
-                worldTrackingConfiguration.maximumNumberOfTrackedImages = maximumNumberOfTrackedImages
+                imageTrackingConfiguration.maximumNumberOfTrackedImages = maximumNumberOfTrackedImages
             }
         }
         return imageTrackingConfiguration
