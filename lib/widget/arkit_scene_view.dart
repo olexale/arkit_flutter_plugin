@@ -59,6 +59,7 @@ class ARKitSceneView extends StatefulWidget {
     this.trackingImages,
     this.forceUserTapOnCenter = false,
     this.worldAlignment = ARWorldAlignment.gravity,
+    this.maximumNumberOfTrackedImages = 0,
     this.debug = false,
   }) : super(key: key);
 
@@ -138,6 +139,12 @@ class ARKitSceneView extends StatefulWidget {
   /// The default is false.
   final bool forceUserTapOnCenter;
 
+  /// Maximum number of images to track simultaneously. 
+  /// Setting the maximum number of tracked images will limit the number of images that can be tracked in a given frame. 
+  /// If more than the maximum is visible, only the images already being tracked will continue to track until tracking is lost or another image is removed.
+  /// The default is 0
+  final int maximumNumberOfTrackedImages;
+
   /// When true prints all communication between the plugin and the framework.
   /// The default is false;
   final bool debug;
@@ -182,6 +189,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.trackingImagesGroupName,
       widget.trackingImages,
       widget.forceUserTapOnCenter,
+      widget.maximumNumberOfTrackedImages,
       widget.debug,
     ));
   }
@@ -210,6 +218,7 @@ class ARKitController {
     String trackingImagesGroupName,
     List<ARKitReferenceImage> trackingImages,
     bool forceUserTapOnCenter,
+    int maximumNumberOfTrackedImages,
     this.debug,
   ) {
     _channel = MethodChannel('arkit_$id');
@@ -231,6 +240,7 @@ class ARKitController {
       'trackingImages': trackingImages?.map((i) => i.toJson())?.toList(),
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
+      'maximumNumberOfTrackedImages': maximumNumberOfTrackedImages,
     });
   }
 
