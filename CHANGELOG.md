@@ -5,6 +5,7 @@
 * ReferenceNode might be loaded from file with full path (by @miles-au)
 * Fixed anchor's referenceImageName
 * Add possibility to remove an anchor
+* Add pointOfViewTransform method
 
 ## 0.5.1
 
