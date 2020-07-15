@@ -191,11 +191,11 @@ class SampleItem extends StatelessWidget {
           leading: Icon(item.icon),
           title: Text(
             item.title,
-            style: Theme.of(context).textTheme.subhead,
+            style: Theme.of(context).textTheme.subtitle1,
           ),
           subtitle: Text(
             item.description,
-            style: Theme.of(context).textTheme.subtitle,
+            style: Theme.of(context).textTheme.subtitle2,
           ),
         ),
       ),
