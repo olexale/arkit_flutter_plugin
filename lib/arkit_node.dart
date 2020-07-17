@@ -19,9 +19,11 @@ class ARKitNode {
     Vector3 scale,
     Vector4 rotation,
     Vector3 eulerAngles,
+    Matrix4 pivot,
     String name,
   })  : name = name ?? random_string.randomString(),
         position = ValueNotifier(position),
+        pivot = ValueNotifier(pivot),
         scale = ValueNotifier(scale ?? Vector3.all(1)),
         rotation = ValueNotifier(rotation ?? Vector4.zero()),
         eulerAngles = ValueNotifier(eulerAngles ?? Vector3.zero());
@@ -31,6 +33,9 @@ class ARKitNode {
 
   /// Determines the receiver's position.
   final ValueNotifier<Vector3> position;
+
+  /// Determines the pivot.
+  final ValueNotifier<Matrix4> pivot;
 
   /// Determines the receiver's scale.
   final ValueNotifier<Vector3> scale;
@@ -69,11 +74,13 @@ class ARKitNode {
 
   static const _vector3ValueNotifierConverter = Vector3ValueNotifierConverter();
   static const _vector4ValueNotifierConverter = Vector4ValueNotifierConverter();
+  static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
 
   Map<String, dynamic> toMap() => <String, dynamic>{
         'dartType': runtimeType.toString(),
         'geometry': geometry?.toJson(),
         'position': _vector3ValueNotifierConverter.toJson(position),
+        'pivot': _matrixValueNotifierConverter.toJson(pivot),
         'scale': _vector3ValueNotifierConverter.toJson(scale),
         'rotation': _vector4ValueNotifierConverter.toJson(rotation),
         'eulerAngles': _vector3ValueNotifierConverter.toJson(eulerAngles),
