@@ -15,7 +15,7 @@ class ARKitNode {
     this.physicsBody,
     this.light,
     this.renderingOrder = 0,
-    this.hidden = false,
+    this.isHidden = false,
     Vector3 position,
     Vector3 scale,
     Vector4 rotation,
@@ -70,7 +70,7 @@ class ARKitNode {
 
   /// Determines the visibility of the node’s contents. Animatable.
   /// Defaults to false.
-  bool hidden;
+  bool isHidden;
 
   static const _vector3ValueNotifierConverter = Vector3ValueNotifierConverter();
   static const _vector4ValueNotifierConverter = Vector4ValueNotifierConverter();
@@ -86,6 +86,6 @@ class ARKitNode {
         'light': light?.toJson(),
         'name': name,
         'renderingOrder': renderingOrder,
-        'hidden': hidden,
+        'isHidden': isHidden,
       }..removeWhere((String k, dynamic v) => v == null);
 }
