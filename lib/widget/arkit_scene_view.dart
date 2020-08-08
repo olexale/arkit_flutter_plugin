@@ -676,7 +676,7 @@ class ARKitController {
     _channel.invokeMethod<void>(
         'isHiddenChanged',
         _getHandlerParams(
-            node, 'isHidden', _boolConverter.toJson(node.isHidden.value)));
+            node, 'isHidden', _boolConverter.toJson(node.isHidden)));
   }
 
   void _updateMaterials(ARKitNode node) {
