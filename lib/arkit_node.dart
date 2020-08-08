@@ -73,7 +73,7 @@ class ARKitNode {
   /// Defaults to false.
   final ValueNotifier<bool> isHidden;
 
-  static const _boolValueNotifierConverter = ValueNotifierConverter<bool>();
+  static const _boolValueNotifierConverter = ValueNotifierConverter();
   static const _vector3ValueNotifierConverter = Vector3ValueNotifierConverter();
   static const _vector4ValueNotifierConverter = Vector4ValueNotifierConverter();
 
