@@ -88,6 +88,6 @@ class ARKitNode {
         'light': light?.toJson(),
         'name': name,
         'renderingOrder': renderingOrder,
-        'isHidden': _boolValueNotifierConverter(isHidden),
+        'isHidden': _boolValueNotifierConverter.toJson(isHidden),
       }..removeWhere((String k, dynamic v) => v == null);
 }
