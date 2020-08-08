@@ -15,7 +15,7 @@ class ARKitNode {
     this.physicsBody,
     this.light,
     this.renderingOrder = 0,
-    this.isHidden = false,
+    bool isHidden = false,
     Vector3 position,
     Vector3 scale,
     Vector4 rotation,
@@ -25,7 +25,8 @@ class ARKitNode {
         position = ValueNotifier(position),
         scale = ValueNotifier(scale ?? Vector3.all(1)),
         rotation = ValueNotifier(rotation ?? Vector4.zero()),
-        eulerAngles = ValueNotifier(eulerAngles ?? Vector3.zero());
+        eulerAngles = ValueNotifier(eulerAngles ?? Vector3.zero()),
+        isHidden = ValueNotifier(isHidden);
 
   /// Returns the geometry attached to the receiver.
   final ARKitGeometry geometry;
@@ -70,8 +71,9 @@ class ARKitNode {
 
   /// Determines the visibility of the node’s contents. Animatable.
   /// Defaults to false.
-  bool isHidden;
+  final ValueNotifier<bool> isHidden;
 
+  static const _boolValueNotifierConverter = ValueNotifierConverter<bool>();
   static const _vector3ValueNotifierConverter = Vector3ValueNotifierConverter();
   static const _vector4ValueNotifierConverter = Vector4ValueNotifierConverter();
 
@@ -86,6 +88,6 @@ class ARKitNode {
         'light': light?.toJson(),
         'name': name,
         'renderingOrder': renderingOrder,
-        'isHidden': isHidden,
+        'isHidden': _boolValueNotifierConverter(isHidden),
       }..removeWhere((String k, dynamic v) => v == null);
 }
