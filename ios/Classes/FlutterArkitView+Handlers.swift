@@ -101,6 +101,20 @@ extension FlutterArkitView {
         }
     }
     
+    func onIsHiddenChanged(_ arguments: Dictionary<String, Any>) {
+        guard let name = arguments["name"] as? String,
+            let params = arguments["isHidden"] as? Bool
+            else {
+                logPluginError("deserialization failed", toChannel: channel)
+                return
+        }
+        if let node = sceneView.scene.rootNode.childNode(withName: name, recursively: true) {
+            node.isHidden = params
+        } else {
+            logPluginError("node not found", toChannel: channel)
+        }
+    }
+    
     func onUpdateSingleProperty(_ arguments: Dictionary<String, Any>) {
         guard let name = arguments["name"] as? String,
             let args = arguments["property"] as? Dictionary<String, Any>,

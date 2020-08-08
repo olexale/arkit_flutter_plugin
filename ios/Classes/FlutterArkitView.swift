@@ -65,6 +65,10 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
             onScaleChanged(arguments!)
             result(nil)
             break
+        case "isHiddenChanged":
+            onIsHiddenChanged(arguments!)
+            result(nil)
+            break
         case "updateSingleProperty":
             onUpdateSingleProperty(arguments!)
             result(nil)
