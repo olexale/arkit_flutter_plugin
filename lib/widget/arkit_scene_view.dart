@@ -672,7 +672,7 @@ class ARKitController {
             node, 'scale', _vector3Converter.toJson(node.scale.value)));
   }
 
-  void _handleIsHiddenChanged() {
+  void _handleIsHiddenChanged(ARKitNode node) {
     _channel.invokeMethod<void>(
         'isHiddenChanged',
         _getHandlerParams(
