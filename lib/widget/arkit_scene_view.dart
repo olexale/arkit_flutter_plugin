@@ -287,6 +287,7 @@ class ARKitController {
 
   final bool debug;
 
+  static const _boolConverter = ValueNotifierConverter();
   static const _vector3Converter = Vector3Converter();
   static const _vector4Converter = Vector4Converter();
   static const _materialsConverter = ListMaterialsValueNotifierConverter();
@@ -526,6 +527,7 @@ class ARKitController {
     node.rotation.addListener(() => _handleRotationChanged(node));
     node.eulerAngles.addListener(() => _handleEulerAnglesChanged(node));
     node.scale.addListener(() => _handleScaleChanged(node));
+    node.isHidden.addListener(() => _handleIsHiddenChanged(node));
 
     if (node.geometry != null) {
       node.geometry.materials.addListener(() => _updateMaterials(node));
@@ -678,6 +680,13 @@ class ARKitController {
         'scaleChanged',
         _getHandlerParams(
             node, 'scale', _vector3Converter.toJson(node.scale.value)));
+  }
+
+  void _handleIsHiddenChanged(ARKitNode node) {
+    _channel.invokeMethod<void>(
+        'isHiddenChanged',
+        _getHandlerParams(
+            node, 'isHidden', _boolConverter.toJson(node.isHidden)));
   }
 
   void _updateMaterials(ARKitNode node) {
