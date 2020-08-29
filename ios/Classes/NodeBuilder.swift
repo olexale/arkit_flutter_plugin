@@ -27,6 +27,10 @@ func createNode(_ geometry: SCNGeometry?, fromDict dict: Dictionary<String, Any>
         node.renderingOrder = renderingOrder
     }
     
+    if let isHidden = dict["isHidden"] as? Bool {
+        node.isHidden = isHidden
+    }
+    
     return node
 }
 

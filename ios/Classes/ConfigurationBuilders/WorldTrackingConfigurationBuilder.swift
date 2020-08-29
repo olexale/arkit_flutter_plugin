@@ -27,6 +27,11 @@ func createWorldTrackingConfiguration(_ arguments: Dictionary<String, Any>) -> A
                 worldTrackingConfiguration.detectionImages = parseReferenceImagesSet(detectionImages)
             }
         }
+        if #available(iOS 12.0, *) {
+            if let maximumNumberOfTrackedImages = arguments["maximumNumberOfTrackedImages"] as? Int {
+                worldTrackingConfiguration.maximumNumberOfTrackedImages = maximumNumberOfTrackedImages
+            }
+        }
         return worldTrackingConfiguration
     }
     return nil

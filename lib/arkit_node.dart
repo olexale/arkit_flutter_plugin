@@ -16,6 +16,7 @@ class ARKitNode {
     this.physicsBody,
     this.light,
     this.renderingOrder = 0,
+    bool isHidden = false,
     Vector3 position,
     Vector3 scale,
     Vector4 rotation,
@@ -23,6 +24,7 @@ class ARKitNode {
     String name,
     Matrix4 transformation,
   })  : name = name ?? random_string.randomString(),
+        isHidden = ValueNotifier(isHidden),
         transformNotifier = ValueNotifier(createTransformMatrix(
             transformation, position, scale, rotation, eulerAngles));
 
@@ -106,6 +108,10 @@ class ARKitNode {
   /// Defaults to 0.
   final int renderingOrder;
 
+  /// Determines the visibility of the node’s contents. Animatable.
+  /// Defaults to false.
+  final ValueNotifier<bool> isHidden;
+
   static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
 
   Map<String, dynamic> toMap() => <String, dynamic>{
@@ -116,5 +122,6 @@ class ARKitNode {
         'light': light?.toJson(),
         'name': name,
         'renderingOrder': renderingOrder,
+        'isHidden': _boolValueNotifierConverter.toJson(isHidden),
       }..removeWhere((String k, dynamic v) => v == null);
 }

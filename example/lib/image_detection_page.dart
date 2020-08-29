@@ -40,7 +40,7 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
                         'Point the camera at the earth image from the article about Earth on Wikipedia.',
                         style: Theme.of(context)
                             .textTheme
-                            .headline
+                            .headline5
                             .copyWith(color: Colors.white),
                       ),
                     ),

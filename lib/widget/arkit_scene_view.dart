@@ -59,6 +59,7 @@ class ARKitSceneView extends StatefulWidget {
     this.trackingImages,
     this.forceUserTapOnCenter = false,
     this.worldAlignment = ARWorldAlignment.gravity,
+    this.maximumNumberOfTrackedImages = 0,
     this.debug = false,
   }) : super(key: key);
 
@@ -138,6 +139,12 @@ class ARKitSceneView extends StatefulWidget {
   /// The default is false.
   final bool forceUserTapOnCenter;
 
+  /// Maximum number of images to track simultaneously. 
+  /// Setting the maximum number of tracked images will limit the number of images that can be tracked in a given frame. 
+  /// If more than the maximum is visible, only the images already being tracked will continue to track until tracking is lost or another image is removed.
+  /// The default is 0
+  final int maximumNumberOfTrackedImages;
+
   /// When true prints all communication between the plugin and the framework.
   /// The default is false;
   final bool debug;
@@ -182,6 +189,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.trackingImagesGroupName,
       widget.trackingImages,
       widget.forceUserTapOnCenter,
+      widget.maximumNumberOfTrackedImages,
       widget.debug,
     ));
   }
@@ -210,6 +218,7 @@ class ARKitController {
     String trackingImagesGroupName,
     List<ARKitReferenceImage> trackingImages,
     bool forceUserTapOnCenter,
+    int maximumNumberOfTrackedImages,
     this.debug,
   ) {
     _channel = MethodChannel('arkit_$id');
@@ -231,6 +240,7 @@ class ARKitController {
       'trackingImages': trackingImages?.map((i) => i.toJson())?.toList(),
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
+      'maximumNumberOfTrackedImages': maximumNumberOfTrackedImages,
     });
   }
 
@@ -277,6 +287,7 @@ class ARKitController {
 
   final bool debug;
 
+  static const _boolConverter = ValueNotifierConverter();
   static const _vector3Converter = Vector3Converter();
   static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
   static const _materialsConverter = ListMaterialsValueNotifierConverter();
@@ -361,6 +372,16 @@ class ARKitController {
         await _channel.invokeMethod<List<double>>('cameraProjectionMatrix');
     return cameraProjectionMatrix != null
         ? converter.fromJson(cameraProjectionMatrix)
+        : null;
+  }
+
+  /// Provides the point of view transform in world space (relative to the scene's root node)
+  Future<Matrix4> pointOfViewTransform() async {
+    const converter = MatrixConverter();
+    final pointOfViewTransform =
+        await _channel.invokeMethod<List<dynamic>>('pointOfViewTransform');
+    return pointOfViewTransform != null
+        ? converter.fromJson(pointOfViewTransform.cast<double>())
         : null;
   }
 
@@ -508,6 +529,7 @@ class ARKitController {
     // node.scale.addListener(() => _handleScaleChanged(node));
     node.transformNotifier
         .addListener(() => _handleTransformationChanged(node));
+    node.isHidden.addListener(() => _handleIsHiddenChanged(node));
 
     if (node.geometry != null) {
       node.geometry.materials.addListener(() => _updateMaterials(node));
@@ -639,6 +661,13 @@ class ARKitController {
         'transformationChanged',
         _getHandlerParams(node, 'transformation',
             _matrixValueNotifierConverter.toJson(node.transformNotifier)));
+  }
+
+  void _handleIsHiddenChanged(ARKitNode node) {
+    _channel.invokeMethod<void>(
+        'isHiddenChanged',
+        _getHandlerParams(
+            node, 'isHidden', _boolConverter.toJson(node.isHidden)));
   }
 
   void _updateMaterials(ARKitNode node) {

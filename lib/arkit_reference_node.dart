@@ -15,6 +15,7 @@ class ARKitReferenceNode extends ARKitNode {
     Vector3 eulerAngles,
     String name,
     int renderingOrder,
+    bool isHidden,
   }) : super(
           physicsBody: physicsBody,
           light: light,
@@ -23,6 +24,7 @@ class ARKitReferenceNode extends ARKitNode {
           eulerAngles: eulerAngles,
           name: name,
           renderingOrder: renderingOrder,
+          isHidden: isHidden,
         );
 
   /// URL location of the Node
