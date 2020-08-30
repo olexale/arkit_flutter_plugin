@@ -30,15 +30,13 @@ extension Matrix4Extenstion on Matrix4 {
     return scale;
   }
 
-  Vector4 get matrixRotation {
-    final r = Quaternion(0, 0, 0, 0);
-    decompose(Vector3.zero(), r, Vector3.zero());
-    return Vector4.fromFloat64List(r.storage);
-  }
-
   Vector3 get matrixEulerAngles {
     final q = Quaternion(0, 0, 0, 0);
     decompose(Vector3.zero(), q, Vector3.zero());
+
+    final t = q.x;
+    q.x = q.y;
+    q.y = t;
 
     final angles = Vector3.zero();
 
@@ -65,10 +63,9 @@ extension Matrix4Extenstion on Matrix4 {
 
   set matrixEulerAngles(Vector3 angles) {
     final translation = Vector3.zero();
-    final r = Quaternion(0, 0, 0, 0);
     final scale = Vector3.zero();
-    decompose(translation, r, scale);
-    r.setEuler(angles[0], angles[1], angles[2]);
+    decompose(translation, Quaternion(0, 0, 0, 0), scale);
+    final r = Quaternion.euler(angles[0], angles[1], angles[2]);
     setFromTranslationRotationScale(translation, r, scale);
   }
 }

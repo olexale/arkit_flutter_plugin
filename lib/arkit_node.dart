@@ -35,12 +35,14 @@ class ARKitNode {
   /// The transform is the combination of the position, rotation and scale defined below.
   /// So when the transform is set, the receiver's position, rotation and scale are changed to match the new transform.
   Matrix4 get transform => transformNotifier.value;
+
   set transform(Matrix4 matrix) {
     transformNotifier.value = matrix;
   }
 
   /// Determines the receiver's position.
   Vector3 get position => transform.getTranslation();
+
   set position(Vector3 value) {
     final old = Matrix4.fromFloat64List(transform.storage);
     final newT = old.clone();
@@ -49,27 +51,19 @@ class ARKitNode {
   }
 
   /// Determines the receiver's scale.
-  Vector3 get scale {
-    return transform.matrixScale;
-  }
+  Vector3 get scale => transform.matrixScale;
 
   set scale(Vector3 value) {
-    final old = Matrix4.fromFloat64List(transform.storage);
-    final newT = old.clone();
-    newT.scale(value);
-    transform = newT;
+    transform =
+        Matrix4.compose(position, Quaternion.fromRotation(rotation), value);
   }
 
   /// Determines the receiver's rotation.
-  /// The rotation is axis angle rotation.
-  /// The three first components are the axis, the fourth one is the rotation (in radian).
-  Vector4 get rotation => transform.matrixRotation;
+  Matrix3 get rotation => transform.getRotation();
 
-  set rotation(Vector4 value) {
-    final old = Matrix4.fromFloat64List(transform.storage);
-    final newT = old.clone();
-    newT.rotate(Vector3(value[0], value[1], value[2]), value[3]);
-    transform = newT;
+  set rotation(Matrix3 value) {
+    transform =
+        Matrix4.compose(position, Quaternion.fromRotation(value), scale);
   }
 
   /// Determines the receiver's euler angles.
@@ -77,11 +71,6 @@ class ARKitNode {
   /// 1. Pitch (the x component) is the rotation about the node's x-axis (in radians)
   /// 2. Yaw   (the y component) is the rotation about the node's y-axis (in radians)
   /// 3. Roll  (the z component) is the rotation about the node's z-axis (in radians)
-  ///
-  /// SceneKit applies these rotations in the reverse order of the components:
-  /// 1. first roll
-  /// 2. then yaw
-  /// 3. then pitch
   Vector3 get eulerAngles => transform.matrixEulerAngles;
 
   set eulerAngles(Vector3 value) {
@@ -108,10 +97,11 @@ class ARKitNode {
   /// Defaults to 0.
   final int renderingOrder;
 
-  /// Determines the visibility of the node’s contents. Animatable.
+  /// Determines the visibility of the node’s contents.
   /// Defaults to false.
   final ValueNotifier<bool> isHidden;
 
+  static const _boolValueNotifierConverter = ValueNotifierConverter();
   static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
 
   Map<String, dynamic> toMap() => <String, dynamic>{
