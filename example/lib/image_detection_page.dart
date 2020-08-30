@@ -78,7 +78,7 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
 
       timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {
         final old = node.eulerAngles;
-        final eulerAngles = vector.Vector3(old.x, old.y + 0.1, old.z);
+        final eulerAngles = vector.Vector3(old.x + 0.01, old.y, old.z);
         node.eulerAngles = eulerAngles;
       });
     }

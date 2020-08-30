@@ -87,8 +87,8 @@ class _ManipulationPageState extends State<ManipulationPage> {
     );
     if (rotationNode != null) {
       final rotation =
-          boxNode.rotation + vector.Vector4.all(rotationNode.rotation);
-      boxNode.rotation = rotation;
+          boxNode.eulerAngles + vector.Vector3.all(rotationNode.rotation);
+      boxNode.eulerAngles = rotation;
     }
   }
 }
