@@ -139,8 +139,8 @@ class ARKitSceneView extends StatefulWidget {
   /// The default is false.
   final bool forceUserTapOnCenter;
 
-  /// Maximum number of images to track simultaneously. 
-  /// Setting the maximum number of tracked images will limit the number of images that can be tracked in a given frame. 
+  /// Maximum number of images to track simultaneously.
+  /// Setting the maximum number of tracked images will limit the number of images that can be tracked in a given frame.
   /// If more than the maximum is visible, only the images already being tracked will continue to track until tracking is lost or another image is removed.
   /// The default is 0
   final int maximumNumberOfTrackedImages;
@@ -523,10 +523,6 @@ class ARKitController {
   }
 
   void _subsribeToChanges(ARKitNode node) {
-    // node.position.addListener(() => _handlePositionChanged(node));
-    // node.rotation.addListener(() => _handleRotationChanged(node));
-    // node.eulerAngles.addListener(() => _handleEulerAnglesChanged(node));
-    // node.scale.addListener(() => _handleScaleChanged(node));
     node.transformNotifier
         .addListener(() => _handleTransformationChanged(node));
     node.isHidden.addListener(() => _handleIsHiddenChanged(node));
