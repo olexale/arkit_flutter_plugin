@@ -1,8 +1,13 @@
 # Changelog
 
+## 0.6.0
+
+* BREAKING CHANGE: Refactor transformation matrix
+
 ## 0.5.2
 
 * ReferenceNode might be loaded from file with full path (by @miles-au)
+* Add isHidden node's property (by @mochetti)
 * Fixed anchor's referenceImageName
 * Add possibility to remove an anchor
 * Add pointOfViewTransform method
