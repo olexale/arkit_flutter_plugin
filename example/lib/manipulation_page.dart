@@ -66,7 +66,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
     );
     if (pinchNode != null) {
       final scale = vector.Vector3.all(pinchNode.scale);
-      boxNode.scale.value = scale;
+      boxNode.scale = scale;
     }
   }
 
@@ -74,9 +74,9 @@ class _ManipulationPageState extends State<ManipulationPage> {
     final panNode =
         pan.firstWhere((e) => e.nodeName == boxNode.name, orElse: null);
     if (panNode != null) {
-      final old = boxNode.eulerAngles.value;
+      final old = boxNode.eulerAngles;
       final newAngleY = panNode.translation.x * math.pi / 180;
-      boxNode.eulerAngles.value = vector.Vector3(old.x, newAngleY, old.z);
+      boxNode.eulerAngles = vector.Vector3(old.x, newAngleY, old.z);
     }
   }
 
@@ -87,8 +87,8 @@ class _ManipulationPageState extends State<ManipulationPage> {
     );
     if (rotationNode != null) {
       final rotation =
-          boxNode.rotation.value + vector.Vector4.all(rotationNode.rotation);
-      boxNode.rotation.value = rotation;
+          boxNode.eulerAngles + vector.Vector3.all(rotationNode.rotation);
+      boxNode.eulerAngles = rotation;
     }
   }
 }

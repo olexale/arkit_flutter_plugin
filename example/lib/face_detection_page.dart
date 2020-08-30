@@ -84,6 +84,6 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
 
   void _updateEye(ARKitNode node, Matrix4 transform, double blink) {
     final scale = vector.Vector3(1, 1 - blink, 1);
-    node.scale.value = scale;
+    node.scale = scale;
   }
 }

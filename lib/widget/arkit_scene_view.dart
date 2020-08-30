@@ -139,8 +139,8 @@ class ARKitSceneView extends StatefulWidget {
   /// The default is false.
   final bool forceUserTapOnCenter;
 
-  /// Maximum number of images to track simultaneously. 
-  /// Setting the maximum number of tracked images will limit the number of images that can be tracked in a given frame. 
+  /// Maximum number of images to track simultaneously.
+  /// Setting the maximum number of tracked images will limit the number of images that can be tracked in a given frame.
   /// If more than the maximum is visible, only the images already being tracked will continue to track until tracking is lost or another image is removed.
   /// The default is 0
   final int maximumNumberOfTrackedImages;
@@ -289,7 +289,7 @@ class ARKitController {
 
   static const _boolConverter = ValueNotifierConverter();
   static const _vector3Converter = Vector3Converter();
-  static const _vector4Converter = Vector4Converter();
+  static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
   static const _materialsConverter = ListMaterialsValueNotifierConverter();
   static const _stateConverter = ARTrackingStateConverter();
   static const _stateReasonConverter = ARTrackingStateReasonConverter();
@@ -523,10 +523,8 @@ class ARKitController {
   }
 
   void _subsribeToChanges(ARKitNode node) {
-    node.position.addListener(() => _handlePositionChanged(node));
-    node.rotation.addListener(() => _handleRotationChanged(node));
-    node.eulerAngles.addListener(() => _handleEulerAnglesChanged(node));
-    node.scale.addListener(() => _handleScaleChanged(node));
+    node.transformNotifier
+        .addListener(() => _handleTransformationChanged(node));
     node.isHidden.addListener(() => _handleIsHiddenChanged(node));
 
     if (node.geometry != null) {
@@ -654,32 +652,11 @@ class ARKitController {
         _updateSingleProperty(node, 'height', plane.height.value, 'geometry'));
   }
 
-  void _handlePositionChanged(ARKitNode node) {
+  void _handleTransformationChanged(ARKitNode node) {
     _channel.invokeMethod<void>(
-        'positionChanged',
-        _getHandlerParams(
-            node, 'position', _vector3Converter.toJson(node.position.value)));
-  }
-
-  void _handleRotationChanged(ARKitNode node) {
-    _channel.invokeMethod<void>(
-        'rotationChanged',
-        _getHandlerParams(
-            node, 'rotation', _vector4Converter.toJson(node.rotation.value)));
-  }
-
-  void _handleEulerAnglesChanged(ARKitNode node) {
-    _channel.invokeMethod<void>(
-        'eulerAnglesChanged',
-        _getHandlerParams(node, 'eulerAngles',
-            _vector3Converter.toJson(node.eulerAngles.value)));
-  }
-
-  void _handleScaleChanged(ARKitNode node) {
-    _channel.invokeMethod<void>(
-        'scaleChanged',
-        _getHandlerParams(
-            node, 'scale', _vector3Converter.toJson(node.scale.value)));
+        'transformationChanged',
+        _getHandlerParams(node, 'transformation',
+            _matrixValueNotifierConverter.toJson(node.transformNotifier)));
   }
 
   void _handleIsHiddenChanged(ARKitNode node) {

@@ -45,57 +45,15 @@ extension FlutterArkitView {
         result(resArray)
     }
     
-    func onPositionChanged(_ arguments: Dictionary<String, Any>) {
+    func onTransformChanged(_ arguments: Dictionary<String, Any>) {
         guard let name = arguments["name"] as? String,
-            let params = arguments["position"] as? Array<Double>
+            let params = arguments["transformation"] as? Array<NSNumber>
             else {
                 logPluginError("deserialization failed", toChannel: channel)
                 return
         }
         if let node = sceneView.scene.rootNode.childNode(withName: name, recursively: true) {
-            node.position = deserizlieVector3(params)
-        } else {
-            logPluginError("node not found", toChannel: channel)
-        }
-    }
-    
-    func onRotationChanged(_ arguments: Dictionary<String, Any>) {
-        guard let name = arguments["name"] as? String,
-            let params = arguments["rotation"] as? Array<Double>
-            else {
-                logPluginError("deserialization failed", toChannel: channel)
-                return
-        }
-        if let node = sceneView.scene.rootNode.childNode(withName: name, recursively: true) {
-            node.rotation = deserizlieVector4(params)
-        } else {
-            logPluginError("node not found", toChannel: channel)
-        }
-    }
-    
-    func onEulerAnglesChanged(_ arguments: Dictionary<String, Any>) {
-        guard let name = arguments["name"] as? String,
-            let params = arguments["eulerAngles"] as? Array<Double>
-            else {
-                logPluginError("deserialization failed", toChannel: channel)
-                return
-        }
-        if let node = sceneView.scene.rootNode.childNode(withName: name, recursively: true) {
-            node.eulerAngles = deserizlieVector3(params)
-        } else {
-            logPluginError("node not found", toChannel: channel)
-        }
-    }
-    
-    func onScaleChanged(_ arguments: Dictionary<String, Any>) {
-        guard let name = arguments["name"] as? String,
-            let params = arguments["scale"] as? Array<Double>
-            else {
-                logPluginError("deserialization failed", toChannel: channel)
-                return
-        }
-        if let node = sceneView.scene.rootNode.childNode(withName: name, recursively: true) {
-            node.scale = deserizlieVector3(params)
+            node.transform = deserializeMatrix4(params)
         } else {
             logPluginError("node not found", toChannel: channel)
         }
