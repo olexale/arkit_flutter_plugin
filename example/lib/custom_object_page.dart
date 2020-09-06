@@ -36,10 +36,9 @@ class _CustomObjectPageState extends State<CustomObjectPage> {
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
-    if (!(anchor is ARKitPlaneAnchor)) {
-      return;
+    if (anchor is ARKitPlaneAnchor) {
+      _addPlane(arkitController, anchor);
     }
-    _addPlane(arkitController, anchor);
   }
 
   void _addPlane(ARKitController controller, ARKitPlaneAnchor anchor) {
@@ -48,9 +47,8 @@ class _CustomObjectPageState extends State<CustomObjectPage> {
       controller.remove(node.name);
     }
     node = ARKitReferenceNode(
-      url: 'models.scnassets/eevee.dae',
-      position: vector.Vector3(0, 0, 0),
-      scale: vector.Vector3(0.002, 0.002, 0.002),
+      url: 'models.scnassets/dash.dae',
+      scale: vector.Vector3.all(0.3),
     );
     controller.add(node, parentNodeName: anchor.nodeName);
   }
