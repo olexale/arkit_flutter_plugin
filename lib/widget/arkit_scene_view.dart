@@ -369,7 +369,7 @@ class ARKitController {
   Future<Matrix4> cameraProjectionMatrix() async {
     const converter = MatrixConverter();
     final cameraProjectionMatrix =
-        await _channel.invokeMethod<List<double>>('cameraProjectionMatrix');
+        await _channel.invokeMethod<List<dynamic>>('cameraProjectionMatrix');
     return cameraProjectionMatrix != null
         ? converter.fromJson(cameraProjectionMatrix)
         : null;
