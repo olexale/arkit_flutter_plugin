@@ -13,10 +13,8 @@ func createImageTrackingConfiguration(_ arguments: Dictionary<String, Any>) -> A
         if let trackingImages = arguments["trackingImages"] as? Array<Dictionary<String, Any>> {
             imageTrackingConfiguration.trackingImages = parseReferenceImagesSet(trackingImages)
         }
-        if #available(iOS 12.0, *) {
-            if let maximumNumberOfTrackedImages = arguments["maximumNumberOfTrackedImages"] as? Int {
-                imageTrackingConfiguration.maximumNumberOfTrackedImages = maximumNumberOfTrackedImages
-            }
+        if let maximumNumberOfTrackedImages = arguments["maximumNumberOfTrackedImages"] as? Int {
+            imageTrackingConfiguration.maximumNumberOfTrackedImages = maximumNumberOfTrackedImages
         }
         return imageTrackingConfiguration
     }
