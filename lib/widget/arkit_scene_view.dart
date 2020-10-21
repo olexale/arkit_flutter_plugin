@@ -290,6 +290,7 @@ class ARKitController {
   static const _boolConverter = ValueNotifierConverter();
   static const _vector3Converter = Vector3Converter();
   static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
+  static const _matrixConverter = MatrixConverter();
   static const _materialsConverter = ListMaterialsValueNotifierConverter();
   static const _stateConverter = ARTrackingStateConverter();
   static const _stateReasonConverter = ARTrackingStateReasonConverter();
@@ -367,7 +368,6 @@ class ARKitController {
   }
 
   Future<Matrix4> cameraProjectionMatrix() async {
-    const converter = MatrixConverter();
     final cameraProjectionMatrix =
         await _channel.invokeMethod<List<double>>('cameraProjectionMatrix');
     return cameraProjectionMatrix != null
@@ -377,7 +377,6 @@ class ARKitController {
 
   /// Provides the point of view transform in world space (relative to the scene's root node)
   Future<Matrix4> pointOfViewTransform() async {
-    const converter = MatrixConverter();
     final pointOfViewTransform =
         await _channel.invokeMethod<List<dynamic>>('pointOfViewTransform');
     return pointOfViewTransform != null
