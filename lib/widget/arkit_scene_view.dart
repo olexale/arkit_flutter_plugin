@@ -359,29 +359,27 @@ class ARKitController {
   }
 
   Future<Vector3> projectPoint(Vector3 point) async {
-    final projectPoint = await _channel.invokeListMethod(
+    final projectPoint = await _channel.invokeListMethod<double>(
         'projectPoint', {'point': _vector3Converter.toJson(point)});
     return projectPoint != null
-        ? _vector3Converter.fromJson(List<double>.from(projectPoint))
+        ? _vector3Converter.fromJson(projectPoint)
         : null;
   }
 
   Future<Matrix4> cameraProjectionMatrix() async {
-    const converter = MatrixConverter();
     final cameraProjectionMatrix =
-        await _channel.invokeMethod<List<double>>('cameraProjectionMatrix');
+        await _channel.invokeListMethod<double>('cameraProjectionMatrix');
     return cameraProjectionMatrix != null
-        ? converter.fromJson(cameraProjectionMatrix)
+        ? _matrixConverter.fromJson(cameraProjectionMatrix)
         : null;
   }
 
   /// Provides the point of view transform in world space (relative to the scene's root node)
   Future<Matrix4> pointOfViewTransform() async {
-    const converter = MatrixConverter();
     final pointOfViewTransform =
-        await _channel.invokeMethod<List<dynamic>>('pointOfViewTransform');
+        await _channel.invokeListMethod<double>('pointOfViewTransform');
     return pointOfViewTransform != null
-        ? converter.fromJson(pointOfViewTransform.cast<double>())
+        ? _matrixConverter.fromJson(pointOfViewTransform)
         : null;
   }
 
