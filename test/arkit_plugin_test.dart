@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('arkit_plugin');
+  const channel = MethodChannel('arkit_plugin');
 
   setUp(() {
     channel.setMockMethodCallHandler((MethodCall methodCall) async {
