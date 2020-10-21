@@ -3,11 +3,11 @@ import ARKit
 extension FlutterArkitView {
     func initalize(_ arguments: Dictionary<String, Any>, _ result:FlutterResult) {
         if let showStatistics = arguments["showStatistics"] as? Bool {
-            self.sceneView.showsStatistics = showStatistics
+            self.sceneView?.showsStatistics = showStatistics
         }
         
         if let autoenablesDefaultLighting = arguments["autoenablesDefaultLighting"] as? Bool {
-            self.sceneView.autoenablesDefaultLighting = autoenablesDefaultLighting
+            self.sceneView?.autoenablesDefaultLighting = autoenablesDefaultLighting
         }
         
         if let forceUserTapOnCenter = arguments["forceUserTapOnCenter"] as? Bool {
@@ -16,10 +16,11 @@ extension FlutterArkitView {
         
         initalizeGesutreRecognizers(arguments)
         
-        sceneView.debugOptions = parseDebugOptions(arguments)
+        sceneView?.debugOptions = parseDebugOptions(arguments)
         configuration = parseConfiguration(arguments)
         if (configuration != nil) {
-            self.sceneView.session.run(self.configuration!)
+            self.sceneView?.session.run(self.configuration!, options: [.resetTracking,
+                 .removeExistingAnchors])
         }
     }
     

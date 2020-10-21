@@ -11,7 +11,7 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
             if (enableTap) {
                 let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
                 tapGestureRecognizer.delegate = self
-                self.sceneView.gestureRecognizers?.append(tapGestureRecognizer)
+                self.sceneView?.gestureRecognizers?.append(tapGestureRecognizer)
             }
         }
         
@@ -19,7 +19,7 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
             if (enablePinch) {
                 let pinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
                 pinchGestureRecognizer.delegate = self
-                self.sceneView.gestureRecognizers?.append(pinchGestureRecognizer)
+                self.sceneView?.gestureRecognizers?.append(pinchGestureRecognizer)
             }
         }
 
@@ -27,7 +27,7 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
             if (enablePan) {
                 let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
                 panGestureRecognizer.delegate = self
-                self.sceneView.gestureRecognizers?.append(panGestureRecognizer)
+                self.sceneView?.gestureRecognizers?.append(panGestureRecognizer)
             }
         }
         
@@ -35,7 +35,7 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
             if (enableRotation) {
                 let rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(handleRotation(_:)))
                 rotationGestureRecognizer.delegate = self
-                self.sceneView.gestureRecognizers?.append(rotationGestureRecognizer)
+                self.sceneView?.gestureRecognizers?.append(rotationGestureRecognizer)
             }
         }
     }
@@ -45,7 +45,9 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
         guard let sceneView = recognizer.view as? ARSCNView else {
             return
         }
-        let touchLocation = self.forceTapOnCenter ? self.sceneView.center : recognizer.location(in: sceneView)
+        guard let touchLocation = self.forceTapOnCenter ? self.sceneView?.center : recognizer.location(in: sceneView) else {
+            return
+        }
         let hitResults = sceneView.hitTest(touchLocation, options: nil)
         let results: Array<String> = hitResults.compactMap { $0.node.name }
         if (results.count != 0) {
