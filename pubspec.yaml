@@ -23,5 +23,4 @@ dev_dependencies:
 
 flutter:
   plugin:
-    androidPackage: io.github.olexale.arkit_plugin
     pluginClass: ArkitPlugin
