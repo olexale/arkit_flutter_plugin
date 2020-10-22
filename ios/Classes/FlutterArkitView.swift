@@ -105,6 +105,7 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
     
     func onDispose(_ result:FlutterResult) {
         sceneView.session.pause()
+        self.channel.setMethodCallHandler(nil)
         result(nil)
     }
 }
