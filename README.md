@@ -116,6 +116,13 @@ end
 No, as ARKit is not available on Android. You might want to try [ARCore plugin](https://pub.dev/packages/arcore_flutter_plugin) instead.
 - **My app crashes when I open the AR scene several times. Why?**  
 Most probably that's because you didn't call `dispose` method on the ARKit controller.
+- **One of the features I need is merged in the repository, but is not available on pub.dev. How can I use the latest version?**  
+You may use the latest version by changing the `pubspec.yaml` dependency to:
+```yaml
+dependencies:
+  arkit_plugin:
+    git: git://github.com/olexale/arkit_flutter_plugin.git
+```
 
 ## Contributing
 
