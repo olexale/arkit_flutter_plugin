@@ -3,6 +3,7 @@
 ## 0.6.0
 
 * BREAKING CHANGE: Refactor transformation matrix
+* Fix memory leak (thanks to @BrutalCoding)
 
 ## 0.5.2
 
