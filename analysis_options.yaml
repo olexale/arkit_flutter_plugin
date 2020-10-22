@@ -1,1 +1,7 @@
 include: package:pedantic/analysis_options.1.9.0.yaml
+
+analyzer:
+  exclude:
+    # workaround for https://github.com/dart-lang/sdk/issues/42910
+    - 'example/**'
+    - '**/*.g.dart'
