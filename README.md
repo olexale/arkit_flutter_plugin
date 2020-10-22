@@ -2,7 +2,7 @@
 [![Codemagic build status](https://api.codemagic.io/apps/5cb0a01178f5790010ab6978/5cb0a01178f5790010ab6977/status_badge.svg)](https://codemagic.io/apps/5cb0a01178f5790010ab6978/5cb0a01178f5790010ab6977/latest_build) [![flutter awesome](https://img.shields.io/badge/Awesome-Flutter-blue.svg?longCache=true&style=flat-square)](https://github.com/Solido/awesome-flutter)
 [![pub package](https://img.shields.io/pub/v/arkit_plugin.svg)](https://pub.dartlang.org/packages/arkit_plugin)
 
-**Note**: ARKit is only supported by mobile devices with A9 or later processors (iPhone 6s/7/SE/8/X, iPad 2017/Pro) on iOS 11 and newer. For some features iOS 12 is required.
+**Note**: ARKit is only supported by mobile devices with A9 or later processors (iPhone 6s/7/SE/8/X, iPad 2017/Pro) on iOS 11 and newer. For some features iOS 12 or newer is required.
 
 ## Usage
 
@@ -12,15 +12,16 @@ Follow the [installation instructions](https://pub.dartlang.org/packages/arkit_p
 
 ### Update Info.plist
 
-The plugin use native view from ARKit, which is not yet supported by default. To make it work add the following code to `Info.plist`:
-```xml
-    <key>io.flutter.embedded_views_preview</key>
-    <string>YES</string>
-```
 ARKit uses the device camera, so do not forget to provide the `NSCameraUsageDescription`. You may specify it in `Info.plist` like that:
 ```xml
     <key>NSCameraUsageDescription</key>
     <string>Describe why your app needs AR here.</string>
+```
+
+Prior to Flutter 1.22, platform views were in developers preview, hence if you want to use the plugin with old Flutter versions you need to add the following code to `Info.plist`:
+```xml
+    <key>io.flutter.embedded_views_preview</key>
+    <string>YES</string>
 ```
 
 ### Write the app
@@ -108,6 +109,19 @@ post_install do |installer|
     end
   end
 end
+```
+
+## FAQ
+- **Is it possible to use this plugin on Android?**  
+No, as ARKit is not available on Android. You might want to try [ARCore plugin](https://pub.dev/packages/arcore_flutter_plugin) instead.
+- **My app crashes when I open the AR scene several times. Why?**  
+Most probably that's because you didn't call `dispose` method on the ARKit controller.
+- **One of the features I need is merged in the repository, but is not available on pub.dev. How can I use the latest version?**  
+You may use the latest version by changing the `pubspec.yaml` dependency to:
+```yaml
+dependencies:
+  arkit_plugin:
+    git: git://github.com/olexale/arkit_flutter_plugin.git
 ```
 
 ## Contributing
