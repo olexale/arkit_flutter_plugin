@@ -688,4 +688,11 @@ class ARKitController {
       ..addAll({paramName: params});
     return values;
   }
+
+  Future<Vector3> _getCameraEulerAngles() async{
+    final result =  await _channel.invokeListMethod('cameraEulerAngles');
+    var vector3 = _vector3Converter.fromJson(result);
+    return vector3;
+  }
+
 }
