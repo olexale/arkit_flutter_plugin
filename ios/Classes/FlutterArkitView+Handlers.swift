@@ -218,9 +218,7 @@ extension FlutterArkitView {
 
     func onCameraEulerAngles(_ result:FlutterResult){
         if let frame = sceneView.session.currentFrame {
-            let cameraEulerAngles = frame.camera.eulerAngles
-            var eulerAnglesVector = SCNVector3(cameraEulerAngles.x, cameraEulerAngles.y, cameraEulerAngles.z)
-            let res = serializeVector(eulerAnglesVector)
+            let res = serializeArray(frame.camera.eulerAngles)
             result(res)
         } else {
             result(nil)
