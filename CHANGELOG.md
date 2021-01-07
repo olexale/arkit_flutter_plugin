@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+* Exposing Camera Euler Angles (by @devsherif)
+
 ## 0.6.0
 
 * BREAKING CHANGE: Refactor transformation matrix
