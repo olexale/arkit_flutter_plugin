@@ -97,6 +97,9 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
             onDispose(result)
             result(nil)
             break
+        case "cameraEulerAngles":
+            onCameraEulerAngles(result)
+            break
         default:
             result(FlutterMethodNotImplemented)
             break
