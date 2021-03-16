@@ -19,6 +19,7 @@ class ARKitMaterialProperty {
   /// It might be either a name of an image stored in native iOS project or
   /// a full path to the file in the Flutter folder (/assets/image/img.jpg)
   /// or URL
+  /// or base64 string (highly not recommended due to performance issues)
   final String image;
 
   /// Specifies the location of an image file
