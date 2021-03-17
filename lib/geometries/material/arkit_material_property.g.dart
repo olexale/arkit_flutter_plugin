@@ -11,6 +11,8 @@ ARKitMaterialProperty _$ARKitMaterialPropertyFromJson(
   return ARKitMaterialProperty(
     color: const ColorConverter().fromJson(json['color'] as int),
     image: json['image'] as String,
+    rawImage: ARKitMaterialPropertyImage.fromJson(
+        json['rawImage'] as Map<String, dynamic>),
     url: json['url'] as String,
   );
 }
@@ -27,6 +29,24 @@ Map<String, dynamic> _$ARKitMaterialPropertyToJson(
 
   writeNotNull('color', const ColorConverter().toJson(instance.color));
   val['image'] = instance.image;
+  val['rawImage'] = instance.rawImage;
   val['url'] = instance.url;
   return val;
 }
+
+ARKitMaterialPropertyImage _$ARKitMaterialPropertyImageFromJson(
+    Map<String, dynamic> json) {
+  return ARKitMaterialPropertyImage(
+    json['width'] as int,
+    json['height'] as int,
+    (json['imageBytes'] as List).map((e) => e as int).toList(),
+  );
+}
+
+Map<String, dynamic> _$ARKitMaterialPropertyImageToJson(
+        ARKitMaterialPropertyImage instance) =>
+    <String, dynamic>{
+      'width': instance.width,
+      'height': instance.height,
+      'imageBytes': instance.imageBytes,
+    };
