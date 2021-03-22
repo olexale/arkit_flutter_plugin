@@ -225,4 +225,11 @@ extension FlutterArkitView {
         }
    }
 
+   func onGetSnapshot(_ result:FlutterResult) {
+        // TODO: create a result that can be converted on the flutter side.
+        // We need a UInt8List in Dart to create an Image so in Swift that is through a FlutterStandardTypedData type.
+        let snapshotImage = sceneView.snapshot()
+        let data = FlutterStandardTypedData(bytes:snapshotImage.pngData()!)
+        result(data)
+    }
 }
