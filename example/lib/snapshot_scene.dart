@@ -1,7 +1,6 @@
-import 'dart:math' as math;
 import 'package:arkit_plugin/arkit_plugin.dart';
+import 'package:arkit_plugin_example/util/ar_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:vector_math/vector_math_64.dart' as vector;
 
 class SnapshotScenePage extends StatefulWidget {
   @override
@@ -46,25 +45,7 @@ class _SnapshotScenePageState extends State<SnapshotScenePage> {
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
-    this.arkitController.add(_createSphere());
-  }
-
-  ARKitNode _createSphere() => ARKitNode(
-        geometry:
-            ARKitSphere(materials: _createRandomColorMaterial(), radius: 0.04),
-        position: vector.Vector3(-0.1, -0.1, -0.5),
-      );
-
-  List<ARKitMaterial> _createRandomColorMaterial() {
-    return [
-      ARKitMaterial(
-        lightingModelName: ARKitLightingModel.physicallyBased,
-        diffuse: ARKitMaterialProperty(
-          color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0)
-              .withOpacity(1.0),
-        ),
-      )
-    ];
+    this.arkitController.add(createSphere());
   }
 }
 
