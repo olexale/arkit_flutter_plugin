@@ -149,13 +149,6 @@ fileprivate func parsePropertyContents(_ dict: Any?) -> Any? {
     if let imageName = dict["image"] as? String {
         return getImageByName(imageName)
     }
-  
-    if let rawImage = dict["rawImage"] as? Dictionary<String, Any>,
-      let imageBytes = rawImage["imageBytes"] as? Array<Int>,
-      let width = rawImage["width"] as? Int,
-      let height = rawImage["height"] as? Int {
-        return getImageFromBytes(width, height, imageBytes)
-    }
     if let color = dict["color"] as? Int {
         return UIColor(rgb: UInt(color))
     }

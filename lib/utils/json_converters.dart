@@ -60,18 +60,6 @@ class ARKitMaterialPropertyConverter
   Map toJson(ARKitMaterialProperty object) => object?.toJson();
 }
 
-class ARKitMaterialPropertyImageConverter
-    implements JsonConverter<ARKitMaterialPropertyImage, Map> {
-  const ARKitMaterialPropertyImageConverter();
-
-  @override
-  ARKitMaterialPropertyImage fromJson(Map json) =>
-      ARKitMaterialPropertyImage.fromJson(Map<String, dynamic>.from(json));
-
-  @override
-  Map toJson(ARKitMaterialPropertyImage object) => object?.toJson();
-}
-
 class ValueNotifierConverter<T> implements JsonConverter<ValueNotifier<T>, T> {
   const ValueNotifierConverter();
 

@@ -9,7 +9,7 @@ part 'arkit_material_property.g.dart';
 /// This can be used to specify the various properties of SCNMaterial slots such as diffuse, ambient, etc.
 @JsonSerializable()
 class ARKitMaterialProperty {
-  ARKitMaterialProperty({this.color, this.image, this.rawImage, this.url});
+  ARKitMaterialProperty({this.color, this.image, this.url});
 
   /// Specifies the receiver's color.
   @ColorConverter()
@@ -22,10 +22,6 @@ class ARKitMaterialProperty {
   /// or base64 string (highly not recommended due to potential performance issues)
   final String image;
 
-  /// Specifies the receiver's image.
-  @ARKitMaterialPropertyImageConverter()
-  final ARKitMaterialPropertyImage rawImage;
-
   /// Specifies the location of an image file
   /// Deprecated: use image field instead
   @deprecated
@@ -35,20 +31,5 @@ class ARKitMaterialProperty {
       _$ARKitMaterialPropertyFromJson(json);
 
   Map<String, dynamic> toJson() => _$ARKitMaterialPropertyToJson(this)
-    ..removeWhere((String k, dynamic v) => v == null);
-}
-
-@JsonSerializable()
-class ARKitMaterialPropertyImage {
-  const ARKitMaterialPropertyImage(this.width, this.height, this.imageBytes);
-
-  final int width;
-  final int height;
-  final List<int> imageBytes;
-
-  static ARKitMaterialPropertyImage fromJson(Map<String, dynamic> json) =>
-      _$ARKitMaterialPropertyImageFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ARKitMaterialPropertyImageToJson(this)
     ..removeWhere((String k, dynamic v) => v == null);
 }

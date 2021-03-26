@@ -20,8 +20,3 @@ func getImageByName(_ name: String) -> UIImage? {
     }
     return nil
 }
-
-func getImageFromBytes(_ width: Int, _ height: Int, _ imageBytes: Array<Int>) -> UIImage? {
-    let data = Data(bytes: imageBytes, count: imageBytes.count)
-    return UIImage(data: data)
-}
