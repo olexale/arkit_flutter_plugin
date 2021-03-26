@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui' as UI;
 import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/widget/ar_tracking_state.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
@@ -689,10 +691,14 @@ class ARKitController {
     return values;
   }
 
-  Future<Vector3> getCameraEulerAngles() async{
-    final result =  await _channel.invokeListMethod('cameraEulerAngles');
+  Future<Vector3> getCameraEulerAngles() async {
+    final result = await _channel.invokeListMethod('cameraEulerAngles');
     final vector3 = _vector3Converter.fromJson(result);
     return vector3;
   }
 
+  Future<ImageProvider> snapshot() async {
+    final result = await _channel.invokeMethod<Uint8List>('snapshot');
+    return MemoryImage(result);
+  }
 }

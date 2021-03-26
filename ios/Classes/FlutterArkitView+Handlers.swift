@@ -225,4 +225,13 @@ extension FlutterArkitView {
         }
    }
 
+   func onGetSnapshot(_ result:FlutterResult) {
+        let snapshotImage = sceneView.snapshot()
+        if let bytes = snapshotImage.pngData() {
+            let data = FlutterStandardTypedData(bytes:bytes)
+            result(data)
+        } else {
+            result(nil)
+        }
+    }
 }
