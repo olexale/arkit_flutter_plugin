@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.2
+
+* Camera snapshots (by @leeprobert)
+* Dynamic material images with base64 encoding
+
 ## 0.6.1
 
 * Exposing Camera Euler Angles (by @devsherif)
