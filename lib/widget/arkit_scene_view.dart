@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'dart:ui' as UI;
 import 'package:arkit_plugin/arkit_node.dart';
 import 'package:arkit_plugin/widget/ar_tracking_state.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';

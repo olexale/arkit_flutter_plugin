@@ -20,22 +20,21 @@ class _SnapshotScenePageState extends State<SnapshotScenePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(
-        title: const Text('ARKit in Flutter'),
+        title: const Text('Snapshot'),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.camera_alt),
         onPressed: () async {
           try {
-            await _snapshot().then((imageProvider) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SnapshotPreview(
-                    imageProvider: imageProvider,
-                  ),
+            final image = await arkitController.snapshot();
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SnapshotPreview(
+                  imageProvider: image,
                 ),
-              );
-            });
+              ),
+            );
           } catch (e) {
             print(e);
           }
@@ -48,11 +47,6 @@ class _SnapshotScenePageState extends State<SnapshotScenePage> {
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
     this.arkitController.add(_createSphere());
-  }
-
-  Future<ImageProvider> _snapshot() async {
-    var imageProvider = await arkitController.snapshot();
-    return imageProvider;
   }
 
   ARKitNode _createSphere() => ARKitNode(
@@ -81,10 +75,13 @@ class SnapshotPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: "Image Preview",
+        title: const Text('Image Preview'),
       ),
-      body: SafeArea(
-        child: Image(image: imageProvider),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image(image: imageProvider),
+        ],
       ),
     );
   }

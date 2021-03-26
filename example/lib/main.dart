@@ -13,6 +13,7 @@ import 'package:arkit_plugin_example/network_image_detection.dart';
 import 'package:arkit_plugin_example/occlusion_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
+import 'package:arkit_plugin_example/snapshot_scene.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
 import 'package:arkit_plugin_example/face_detection_page.dart';
 import 'package:arkit_plugin_example/panorama_page.dart';
@@ -165,6 +166,13 @@ class MyApp extends StatelessWidget {
         Icons.timer,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => RealTimeUpdatesPage())),
+      ),
+      Sample(
+        'Snapshot',
+        'Make a photo of AR content',
+        Icons.camera,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => SnapshotScenePage())),
       ),
     ];
 
