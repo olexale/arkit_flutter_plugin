@@ -24,6 +24,26 @@ Prior to Flutter 1.22, platform views were in developers preview, hence if you w
     <string>YES</string>
 ```
 
+### Update Podfile
+
+At the top level of the _ios_ folder uncomment the second line in the _Podfile_, and change the ios minimun version from _9.0_ to _11.0_
+
+From:
+```
+# platform :ios, '9.0'
+```
+To:
+
+```
+platform :ios, '11.0'
+```
+
+NOTE: If when running for the first time you get a _cocoapods_ error, erase de _Podfile.lock_ file in the _ios_ folder. Go into de _ios_ folder in the terminal and run:
+```
+pod install
+```
+
+
 ### Write the app
 
 The simplest code example:
