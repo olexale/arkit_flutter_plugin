@@ -10,7 +10,7 @@ part 'arkit_physics_body.g.dart';
 class ARKitPhysicsBody {
   const ARKitPhysicsBody(
     this.type, {
-    this.shape,
+    required this.shape,
     this.categoryBitMask,
   });
 
@@ -24,7 +24,7 @@ class ARKitPhysicsBody {
 
   /// Defines what logical 'categories' this body belongs to.
   /// Defaults to SCNPhysicsCollisionCategoryStatic for static bodies and SCNPhysicsCollisionCategoryDefault for the other body types.
-  final int categoryBitMask;
+  final int? categoryBitMask;
 
   static ARKitPhysicsBody fromJson(Map<String, dynamic> json) =>
       _$ARKitPhysicsBodyFromJson(json);

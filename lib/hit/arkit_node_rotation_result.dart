@@ -8,7 +8,7 @@ class ARKitNodeRotationResult {
   const ARKitNodeRotationResult(this.nodeName, this.rotation);
 
   /// The name of the node which users is interacting with.
-  final String nodeName;
+  final String? nodeName;
 
   /// The rotation value.
   final double rotation;

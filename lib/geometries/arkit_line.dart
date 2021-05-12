@@ -11,9 +11,9 @@ part 'arkit_line.g.dart';
 @JsonSerializable()
 class ARKitLine extends ARKitGeometry {
   ARKitLine({
-    @required this.fromVector,
-    @required this.toVector,
-    List<ARKitMaterial> materials,
+    required this.fromVector,
+    required this.toVector,
+    List<ARKitMaterial>? materials,
   }) : super(
           materials: materials,
         );

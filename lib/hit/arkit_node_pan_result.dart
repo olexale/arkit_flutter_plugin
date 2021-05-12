@@ -10,7 +10,7 @@ class ARKitNodePanResult {
   const ARKitNodePanResult(this.nodeName, this.translation);
 
   /// The name of the node which users is interacting with.
-  final String nodeName;
+  final String? nodeName;
 
   // The translation in the coordinate system of the scene view
   @Vector2Converter()

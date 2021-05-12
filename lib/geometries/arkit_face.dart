@@ -11,12 +11,12 @@ part 'arkit_face.g.dart';
 @JsonSerializable()
 class ARKitFace extends ARKitGeometry {
   ARKitFace({
-    List<ARKitMaterial> materials,
+    List<ARKitMaterial>? materials,
   }) : super(
           materials: materials,
         );
 
-  static ARKitFace fromJson(Map<String, dynamic> json) {
+  static ARKitFace fromJson(Map<String, dynamic>? json) {
     if (json == null) {
       return ARKitFace(materials: []);
     }

@@ -12,7 +12,7 @@ class ARKitCylinder extends ARKitGeometry {
   ARKitCylinder({
     double height = 1,
     double radius = 0.5,
-    List<ARKitMaterial> materials,
+    List<ARKitMaterial>? materials,
   })  : height = ValueNotifier(height),
         radius = ValueNotifier(radius),
         super(

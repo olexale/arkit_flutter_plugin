@@ -8,7 +8,7 @@ class ARKitNodePinchResult {
   const ARKitNodePinchResult(this.nodeName, this.scale);
 
   /// The name of the node which users is interacting with.
-  final String nodeName;
+  final String? nodeName;
 
   // The pinch scale value.
   final double scale;

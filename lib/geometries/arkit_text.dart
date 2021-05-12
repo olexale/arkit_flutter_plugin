@@ -11,9 +11,9 @@ part 'arkit_text.g.dart';
 @JsonSerializable()
 class ARKitText extends ARKitGeometry {
   ARKitText({
-    @required String text,
-    @required this.extrusionDepth,
-    List<ARKitMaterial> materials,
+    required String text,
+    required this.extrusionDepth,
+    List<ARKitMaterial>? materials,
   })  : text = ValueNotifier(text),
         super(
           materials: materials,

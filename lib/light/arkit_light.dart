@@ -13,7 +13,7 @@ class ARKitLight {
     this.type = ARKitLightType.omni,
     this.color = Colors.white,
     this.temperature = 6500,
-    double intensity,
+    double? intensity,
     this.spotInnerAngle = 0,
     this.spotOuterAngle = 45,
   }) : intensity = ValueNotifier(intensity ?? 1000);

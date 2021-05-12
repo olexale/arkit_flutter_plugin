@@ -13,7 +13,7 @@ class ARKitCone extends ARKitGeometry {
     double height = 1,
     double topRadius = 0,
     double bottomRadius = 0.5,
-    List<ARKitMaterial> materials,
+    List<ARKitMaterial>? materials,
   })  : height = ValueNotifier(height),
         topRadius = ValueNotifier(topRadius),
         bottomRadius = ValueNotifier(bottomRadius),
