@@ -24,6 +24,26 @@ Prior to Flutter 1.22, platform views were in developers preview, hence if you w
     <string>YES</string>
 ```
 
+### Update Podfile
+
+At the top level of the `ios` folder uncomment the second line in the `Podfile` and change the iOS minimum version from `9.0` to the appropriate one.
+The minimum supported iOS version is `11.0`, though if you need image anchors use `11.3`, for image tracking configuration or face tracking set `12.0`, and for body tracking minimum version must be `13.0`.
+
+From:
+```ruby
+# platform :ios, '9.0'
+```
+To:
+
+```ruby
+platform :ios, '11.0'
+```
+
+NOTE: If when running for the first time you get a _cocoapods_ error, delete the `Podfile.lock` file in the `ios` folder. Open the `ios` folder in the terminal and run:
+```
+pod install
+```
+
 ### Write the app
 
 The simplest code example:
