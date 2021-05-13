@@ -10,8 +10,8 @@ ARKitText _$ARKitTextFromJson(Map<String, dynamic> json) {
   return ARKitText(
     text: json['text'] as String,
     extrusionDepth: (json['extrusionDepth'] as num).toDouble(),
-    materials: (json['materials'] as List)
-        .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
+    materials: (json['materials'] as List<dynamic>?)
+        ?.map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

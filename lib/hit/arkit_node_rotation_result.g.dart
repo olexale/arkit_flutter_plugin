@@ -9,14 +9,22 @@ part of 'arkit_node_rotation_result.dart';
 ARKitNodeRotationResult _$ARKitNodeRotationResultFromJson(
     Map<String, dynamic> json) {
   return ARKitNodeRotationResult(
-    json['nodeName'] as String,
+    json['nodeName'] as String?,
     (json['rotation'] as num).toDouble(),
   );
 }
 
 Map<String, dynamic> _$ARKitNodeRotationResultToJson(
-        ARKitNodeRotationResult instance) =>
-    <String, dynamic>{
-      'nodeName': instance.nodeName,
-      'rotation': instance.rotation,
-    };
+    ARKitNodeRotationResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nodeName', instance.nodeName);
+  val['rotation'] = instance.rotation;
+  return val;
+}

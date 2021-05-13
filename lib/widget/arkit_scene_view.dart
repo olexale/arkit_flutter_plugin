@@ -297,7 +297,7 @@ class ARKitController {
   static const _stateReasonConverter = ARTrackingStateReasonConverter();
 
   void dispose() {
-    _channel?.invokeMethod<void>('dispose');
+    _channel.invokeMethod<void>('dispose');
   }
 
   Future<void> add(ARKitNode node, {String? parentNodeName}) {

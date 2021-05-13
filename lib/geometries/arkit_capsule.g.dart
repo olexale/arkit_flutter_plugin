@@ -10,8 +10,8 @@ ARKitCapsule _$ARKitCapsuleFromJson(Map<String, dynamic> json) {
   return ARKitCapsule(
     capRadius: (json['capRadius'] as num).toDouble(),
     height: (json['height'] as num).toDouble(),
-    materials: (json['materials'] as List)
-        .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
+    materials: (json['materials'] as List<dynamic>?)
+        ?.map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

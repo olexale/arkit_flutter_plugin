@@ -27,7 +27,7 @@ class ARKitLight {
   /// Defaults to white.
   /// The renderer multiplies the light's color is by the color derived from the light's temperature.
   @ColorConverter()
-  final Color color;
+  final Color? color;
 
   /// This specifies the temperature of the light in Kelvin.
   /// The renderer multiplies the light's color by the color derived from the light's temperature.

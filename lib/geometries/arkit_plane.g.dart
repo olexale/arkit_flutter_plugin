@@ -12,8 +12,8 @@ ARKitPlane _$ARKitPlaneFromJson(Map<String, dynamic> json) {
     height: (json['height'] as num).toDouble(),
     widthSegmentCount: json['widthSegmentCount'] as int,
     heightSegmentCount: json['heightSegmentCount'] as int,
-    materials: (json['materials'] as List)
-        .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
+    materials: (json['materials'] as List<dynamic>?)
+        ?.map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

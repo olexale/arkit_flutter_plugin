@@ -9,9 +9,9 @@ part of 'arkit_light.dart';
 ARKitLight _$ARKitLightFromJson(Map<String, dynamic> json) {
   return ARKitLight(
     type: const ARKitLightTypeConverter().fromJson(json['type'] as int),
-    color: const ColorConverter().fromJson(json['color'] as int),
+    color: const ColorConverter().fromJson(json['color'] as int?),
     temperature: (json['temperature'] as num).toDouble(),
-    intensity: (json['intensity'] as num).toDouble(),
+    intensity: (json['intensity'] as num?)?.toDouble(),
     spotInnerAngle: (json['spotInnerAngle'] as num).toDouble(),
     spotOuterAngle: (json['spotOuterAngle'] as num).toDouble(),
   );

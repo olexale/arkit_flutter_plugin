@@ -10,8 +10,8 @@ ARKitTorus _$ARKitTorusFromJson(Map<String, dynamic> json) {
   return ARKitTorus(
     ringRadius: (json['ringRadius'] as num).toDouble(),
     pipeRadius: (json['pipeRadius'] as num).toDouble(),
-    materials: (json['materials'] as List)
-        .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
+    materials: (json['materials'] as List<dynamic>?)
+        ?.map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

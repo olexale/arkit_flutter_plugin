@@ -8,8 +8,8 @@ part of 'arkit_face.dart';
 
 ARKitFace _$ARKitFaceFromJson(Map<String, dynamic> json) {
   return ARKitFace(
-    materials: (json['materials'] as List)
-        .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
+    materials: (json['materials'] as List<dynamic>?)
+        ?.map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

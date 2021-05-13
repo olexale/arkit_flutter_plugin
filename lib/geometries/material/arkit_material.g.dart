@@ -8,47 +8,47 @@ part of 'arkit_material.dart';
 
 ARKitMaterial _$ARKitMaterialFromJson(Map<String, dynamic> json) {
   return ARKitMaterial(
-    diffuse:
-        const ARKitMaterialPropertyConverter().fromJson(json['diffuse'] as Map),
-    ambient:
-        const ARKitMaterialPropertyConverter().fromJson(json['ambient'] as Map),
+    diffuse: const ARKitMaterialPropertyConverter()
+        .fromJson(json['diffuse'] as Map?),
+    ambient: const ARKitMaterialPropertyConverter()
+        .fromJson(json['ambient'] as Map?),
     specular: const ARKitMaterialPropertyConverter()
-        .fromJson(json['specular'] as Map),
+        .fromJson(json['specular'] as Map?),
     emission: const ARKitMaterialPropertyConverter()
-        .fromJson(json['emission'] as Map),
+        .fromJson(json['emission'] as Map?),
     transparent: const ARKitMaterialPropertyConverter()
-        .fromJson(json['transparent'] as Map),
+        .fromJson(json['transparent'] as Map?),
     reflective: const ARKitMaterialPropertyConverter()
-        .fromJson(json['reflective'] as Map),
+        .fromJson(json['reflective'] as Map?),
     multiply: const ARKitMaterialPropertyConverter()
-        .fromJson(json['multiply'] as Map),
+        .fromJson(json['multiply'] as Map?),
     normal:
-        const ARKitMaterialPropertyConverter().fromJson(json['normal'] as Map),
+        const ARKitMaterialPropertyConverter().fromJson(json['normal'] as Map?),
     displacement: const ARKitMaterialPropertyConverter()
-        .fromJson(json['displacement'] as Map),
+        .fromJson(json['displacement'] as Map?),
     ambientOcclusion: const ARKitMaterialPropertyConverter()
-        .fromJson(json['ambientOcclusion'] as Map),
+        .fromJson(json['ambientOcclusion'] as Map?),
     selfIllumination: const ARKitMaterialPropertyConverter()
-        .fromJson(json['selfIllumination'] as Map),
+        .fromJson(json['selfIllumination'] as Map?),
     metalness: const ARKitMaterialPropertyConverter()
-        .fromJson(json['metalness'] as Map),
+        .fromJson(json['metalness'] as Map?),
     roughness: const ARKitMaterialPropertyConverter()
-        .fromJson(json['roughness'] as Map),
-    shininess: (json['shininess'] as num).toDouble(),
-    transparency: (json['transparency'] as num).toDouble(),
+        .fromJson(json['roughness'] as Map?),
+    shininess: (json['shininess'] as num?)?.toDouble(),
+    transparency: (json['transparency'] as num?)?.toDouble(),
     lightingModelName: const ARKitLightingModelConverter()
-        .fromJson(json['lightingModelName'] as int),
-    fillMode: const ARKitFillModeConverter().fromJson(json['fillMode'] as int),
-    cullMode: const ARKitCullModeConverter().fromJson(json['cullMode'] as int),
+        .fromJson(json['lightingModelName'] as int?),
+    fillMode: const ARKitFillModeConverter().fromJson(json['fillMode'] as int?),
+    cullMode: const ARKitCullModeConverter().fromJson(json['cullMode'] as int?),
     transparencyMode: const ARKitTransparencyModeConverter()
-        .fromJson(json['transparencyMode'] as int),
-    locksAmbientWithDiffuse: json['locksAmbientWithDiffuse'] as bool,
-    writesToDepthBuffer: json['writesToDepthBuffer'] as bool,
+        .fromJson(json['transparencyMode'] as int?),
+    locksAmbientWithDiffuse: json['locksAmbientWithDiffuse'] as bool?,
+    writesToDepthBuffer: json['writesToDepthBuffer'] as bool?,
     colorBufferWriteMask: const ARKitColorMaskConverter()
-        .fromJson(json['colorBufferWriteMask'] as int),
-    doubleSided: json['doubleSided'] as bool,
+        .fromJson(json['colorBufferWriteMask'] as int?),
+    doubleSided: json['doubleSided'] as bool?,
     blendMode:
-        const ARKitBlendModeConverter().fromJson(json['blendMode'] as int),
+        const ARKitBlendModeConverter().fromJson(json['blendMode'] as int?),
   );
 }
 
@@ -87,8 +87,8 @@ Map<String, dynamic> _$ARKitMaterialToJson(ARKitMaterial instance) {
       const ARKitMaterialPropertyConverter().toJson(instance.metalness));
   writeNotNull('roughness',
       const ARKitMaterialPropertyConverter().toJson(instance.roughness));
-  val['shininess'] = instance.shininess;
-  val['transparency'] = instance.transparency;
+  writeNotNull('shininess', instance.shininess);
+  writeNotNull('transparency', instance.transparency);
   writeNotNull('lightingModelName',
       const ARKitLightingModelConverter().toJson(instance.lightingModelName));
   writeNotNull(
@@ -97,12 +97,12 @@ Map<String, dynamic> _$ARKitMaterialToJson(ARKitMaterial instance) {
       'cullMode', const ARKitCullModeConverter().toJson(instance.cullMode));
   writeNotNull('transparencyMode',
       const ARKitTransparencyModeConverter().toJson(instance.transparencyMode));
-  val['locksAmbientWithDiffuse'] = instance.locksAmbientWithDiffuse;
-  val['writesToDepthBuffer'] = instance.writesToDepthBuffer;
+  writeNotNull('locksAmbientWithDiffuse', instance.locksAmbientWithDiffuse);
+  writeNotNull('writesToDepthBuffer', instance.writesToDepthBuffer);
   writeNotNull('colorBufferWriteMask',
       const ARKitColorMaskConverter().toJson(instance.colorBufferWriteMask));
   writeNotNull(
       'blendMode', const ARKitBlendModeConverter().toJson(instance.blendMode));
-  val['doubleSided'] = instance.doubleSided;
+  writeNotNull('doubleSided', instance.doubleSided);
   return val;
 }

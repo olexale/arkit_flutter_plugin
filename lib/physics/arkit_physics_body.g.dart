@@ -9,8 +9,10 @@ part of 'arkit_physics_body.dart';
 ARKitPhysicsBody _$ARKitPhysicsBodyFromJson(Map<String, dynamic> json) {
   return ARKitPhysicsBody(
     const ARKitPhysicsBodyTypeConverter().fromJson(json['type'] as int),
-    shape: const ARKitPhysicsShapeConverter().fromJson(json['shape'] as Map),
-    categoryBitMask: json['categoryBitMask'] as int,
+    shape: json['shape'] == null
+        ? null
+        : ARKitPhysicsShape.fromJson(json['shape'] as Map<String, dynamic>),
+    categoryBitMask: json['categoryBitMask'] as int?,
   );
 }
 
@@ -25,8 +27,7 @@ Map<String, dynamic> _$ARKitPhysicsBodyToJson(ARKitPhysicsBody instance) {
 
   writeNotNull(
       'type', const ARKitPhysicsBodyTypeConverter().toJson(instance.type));
-  writeNotNull(
-      'shape', const ARKitPhysicsShapeConverter().toJson(instance.shape));
-  val['categoryBitMask'] = instance.categoryBitMask;
+  writeNotNull('shape', instance.shape);
+  writeNotNull('categoryBitMask', instance.categoryBitMask);
   return val;
 }

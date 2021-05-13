@@ -27,13 +27,13 @@ class StringValueNotifierConverter extends ValueNotifierConverter<String> {
 }
 
 class ListMaterialsValueNotifierConverter
-    implements JsonConverter<ValueNotifier<List<ARKitMaterial>>?, List<Map>?> {
+    implements JsonConverter<ValueNotifier<List<ARKitMaterial>?>, List<Map>?> {
   const ListMaterialsValueNotifierConverter();
 
   @override
-  ValueNotifier<List<ARKitMaterial>>? fromJson(List<Map>? json) {
+  ValueNotifier<List<ARKitMaterial>?> fromJson(List<Map>? json) {
     if (json == null) {
-      return null;
+      return ValueNotifier(null);
     }
     return ValueNotifier(json
         .map((e) => Map<String, dynamic>.from(e))
@@ -50,7 +50,7 @@ class ListMaterialsValueNotifierConverter
 }
 
 class ARKitMaterialPropertyConverter
-    implements JsonConverter<ARKitMaterialProperty, Map?> {
+    implements JsonConverter<ARKitMaterialProperty?, Map?> {
   const ARKitMaterialPropertyConverter();
 
   @override
@@ -68,14 +68,14 @@ class ValueNotifierConverter<T> implements JsonConverter<ValueNotifier<T>, T> {
   ValueNotifier<T> fromJson(T json) => ValueNotifier<T>(json);
 
   @override
-  T toJson(ValueNotifier<T> object) => object?.value;
+  T toJson(ValueNotifier<T> object) => object.value;
 }
 
-class ColorConverter implements JsonConverter<Color, int?> {
+class ColorConverter implements JsonConverter<Color?, int?> {
   const ColorConverter();
 
   @override
-  Color fromJson(int? json) => Color(json!);
+  Color? fromJson(int? json) => json != null ? Color(json) : null;
 
   @override
   int? toJson(Color? object) => object?.value;
@@ -88,7 +88,7 @@ class ARKitLightTypeConverter implements JsonConverter<ARKitLightType, int> {
   ARKitLightType fromJson(int json) => ARKitLightType.values[json];
 
   @override
-  int toJson(ARKitLightType object) => object?.index;
+  int toJson(ARKitLightType object) => object.index;
 }
 
 class ARKitGeometryConverter implements JsonConverter<ARKitGeometry, Map> {
@@ -99,7 +99,7 @@ class ARKitGeometryConverter implements JsonConverter<ARKitGeometry, Map> {
       ARKitGeometry.fromJson(Map<String, dynamic>.from(json));
 
   @override
-  Map toJson(ARKitGeometry object) => object?.toJson();
+  Map toJson(ARKitGeometry object) => object.toJson();
 }
 
 class ARKitPhysicsBodyTypeConverter
@@ -110,7 +110,7 @@ class ARKitPhysicsBodyTypeConverter
   ARKitPhysicsBodyType fromJson(int json) => ARKitPhysicsBodyType.values[json];
 
   @override
-  int toJson(ARKitPhysicsBodyType object) => object?.index;
+  int toJson(ARKitPhysicsBodyType object) => object.index;
 }
 
 class ARKitPhysicsShapeConverter
@@ -122,53 +122,53 @@ class ARKitPhysicsShapeConverter
       ARKitPhysicsShape.fromJson(Map<String, dynamic>.from(json));
 
   @override
-  Map toJson(ARKitPhysicsShape object) => object?.toJson();
+  Map toJson(ARKitPhysicsShape object) => object.toJson();
 }
 
 class ARKitLightingModelConverter
-    implements JsonConverter<ARKitLightingModel, int?> {
+    implements JsonConverter<ARKitLightingModel?, int?> {
   const ARKitLightingModelConverter();
 
   @override
-  ARKitLightingModel fromJson(int? json) => ARKitLightingModel.values[json!];
+  ARKitLightingModel? fromJson(int? json) => ARKitLightingModel?.values[json!];
 
   @override
   int? toJson(ARKitLightingModel? object) => object?.index;
 }
 
-class ARKitFillModeConverter implements JsonConverter<ARKitFillMode, int?> {
+class ARKitFillModeConverter implements JsonConverter<ARKitFillMode?, int?> {
   const ARKitFillModeConverter();
 
   @override
-  ARKitFillMode fromJson(int? json) => ARKitFillMode.values[json!];
+  ARKitFillMode? fromJson(int? json) => ARKitFillMode?.values[json!];
 
   @override
   int? toJson(ARKitFillMode? object) => object?.index;
 }
 
-class ARKitCullModeConverter implements JsonConverter<ARKitCullMode, int?> {
+class ARKitCullModeConverter implements JsonConverter<ARKitCullMode?, int?> {
   const ARKitCullModeConverter();
 
   @override
-  ARKitCullMode fromJson(int? json) => ARKitCullMode.values[json!];
+  ARKitCullMode? fromJson(int? json) => ARKitCullMode?.values[json!];
 
   @override
   int? toJson(ARKitCullMode? object) => object?.index;
 }
 
 class ARKitTransparencyModeConverter
-    implements JsonConverter<ARKitTransparencyMode, int?> {
+    implements JsonConverter<ARKitTransparencyMode?, int?> {
   const ARKitTransparencyModeConverter();
 
   @override
-  ARKitTransparencyMode fromJson(int? json) =>
+  ARKitTransparencyMode? fromJson(int? json) =>
       ARKitTransparencyMode.values[json!];
 
   @override
   int? toJson(ARKitTransparencyMode? object) => object?.index;
 }
 
-class ARKitColorMaskConverter implements JsonConverter<ARKitColorMask, int?> {
+class ARKitColorMaskConverter implements JsonConverter<ARKitColorMask?, int?> {
   const ARKitColorMaskConverter();
 
   @override
@@ -214,7 +214,7 @@ class ARKitColorMaskConverter implements JsonConverter<ARKitColorMask, int?> {
   }
 }
 
-class ARKitBlendModeConverter implements JsonConverter<ARKitBlendMode, int?> {
+class ARKitBlendModeConverter implements JsonConverter<ARKitBlendMode?, int?> {
   const ARKitBlendModeConverter();
 
   @override
@@ -418,7 +418,7 @@ class ARTrackingStateConverter implements JsonConverter<ARTrackingState, int> {
   ARTrackingState fromJson(int json) => ARTrackingState.values[json];
 
   @override
-  int toJson(ARTrackingState object) => object?.index;
+  int toJson(ARTrackingState object) => object.index;
 }
 
 class ARTrackingStateReasonConverter
