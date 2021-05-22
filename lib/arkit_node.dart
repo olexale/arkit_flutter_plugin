@@ -15,8 +15,8 @@ class ARKitNode {
     this.geometry,
     this.physicsBody,
     this.light,
-    this.renderingOrder = 0,
-    bool isHidden = false,
+    this.renderingOrder = defaultRenderingOrderValue,
+    bool isHidden = defaultIsHiddenValue,
     Vector3? position,
     Vector3? scale,
     Vector4? rotation,
@@ -27,6 +27,9 @@ class ARKitNode {
         isHidden = ValueNotifier(isHidden),
         transformNotifier = ValueNotifier(createTransformMatrix(
             transformation, position, scale, rotation, eulerAngles));
+
+  static const bool defaultIsHiddenValue = false;
+  static const int defaultRenderingOrderValue = 0;
 
   /// Returns the geometry attached to the receiver.
   final ARKitGeometry? geometry;

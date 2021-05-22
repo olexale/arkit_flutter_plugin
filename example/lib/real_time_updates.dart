@@ -15,6 +15,7 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
   @override
   void dispose() {
     arkitController?.dispose();
+    arkitController = null;
     super.dispose();
   }
 
@@ -51,7 +52,7 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
     this.arkitController.updateAtTime = (time) {
       if (busy == false) {
         busy = true;
-        this.arkitController.performHitTest(x: 0.25, y: 0.75).then((results) {
+        this.arkitController?.performHitTest(x: 0.25, y: 0.75)?.then((results) {
           if (results.isNotEmpty) {
             final point = results.firstWhere(
                 (o) => o.type == ARKitHitTestResultType.featurePoint,

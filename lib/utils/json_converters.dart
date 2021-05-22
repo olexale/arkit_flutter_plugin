@@ -114,7 +114,7 @@ class ARKitPhysicsBodyTypeConverter
 }
 
 class ARKitPhysicsShapeConverter
-    implements JsonConverter<ARKitPhysicsShape, Map> {
+    implements JsonConverter<ARKitPhysicsShape?, Map> {
   const ARKitPhysicsShapeConverter();
 
   @override
@@ -122,7 +122,7 @@ class ARKitPhysicsShapeConverter
       ARKitPhysicsShape.fromJson(Map<String, dynamic>.from(json));
 
   @override
-  Map toJson(ARKitPhysicsShape object) => object.toJson();
+  Map toJson(ARKitPhysicsShape? object) => object?.toJson() ?? {};
 }
 
 class ARKitLightingModelConverter
