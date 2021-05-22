@@ -13,7 +13,7 @@ class ARKitLight {
     this.type = ARKitLightType.omni,
     this.color = Colors.white,
     this.temperature = 6500,
-    double intensity,
+    double? intensity,
     this.spotInnerAngle = 0,
     this.spotOuterAngle = 45,
   }) : intensity = ValueNotifier(intensity ?? 1000);
@@ -27,7 +27,7 @@ class ARKitLight {
   /// Defaults to white.
   /// The renderer multiplies the light's color is by the color derived from the light's temperature.
   @ColorConverter()
-  final Color color;
+  final Color? color;
 
   /// This specifies the temperature of the light in Kelvin.
   /// The renderer multiplies the light's color by the color derived from the light's temperature.

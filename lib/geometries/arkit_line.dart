@@ -2,7 +2,6 @@ import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 part 'arkit_line.g.dart';
@@ -11,9 +10,9 @@ part 'arkit_line.g.dart';
 @JsonSerializable()
 class ARKitLine extends ARKitGeometry {
   ARKitLine({
-    @required this.fromVector,
-    @required this.toVector,
-    List<ARKitMaterial> materials,
+    required this.fromVector,
+    required this.toVector,
+    List<ARKitMaterial>? materials,
   }) : super(
           materials: materials,
         );

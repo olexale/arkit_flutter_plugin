@@ -13,19 +13,19 @@ class ARKitMaterialProperty {
 
   /// Specifies the receiver's color.
   @ColorConverter()
-  final Color color;
+  final Color? color;
 
   /// Specifies the receiver's image.
   /// It might be either a name of an image stored in native iOS project or
   /// a full path to the file in the Flutter folder (/assets/image/img.jpg)
   /// or URL
   /// or base64 string (highly not recommended due to potential performance issues)
-  final String image;
+  final String? image;
 
   /// Specifies the location of an image file
   /// Deprecated: use image field instead
   @deprecated
-  final String url;
+  final String? url;
 
   static ARKitMaterialProperty fromJson(Map<String, dynamic> json) =>
       _$ARKitMaterialPropertyFromJson(json);

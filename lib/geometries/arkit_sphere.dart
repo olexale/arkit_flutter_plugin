@@ -11,7 +11,7 @@ part 'arkit_sphere.g.dart';
 class ARKitSphere extends ARKitGeometry {
   ARKitSphere({
     double radius = 0.5,
-    List<ARKitMaterial> materials,
+    List<ARKitMaterial>? materials,
   })  : radius = ValueNotifier(radius),
         super(
           materials: materials,

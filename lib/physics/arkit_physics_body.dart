@@ -20,11 +20,11 @@ class ARKitPhysicsBody {
 
   /// Specifies the shape of the receiver.
   @ARKitPhysicsShapeConverter()
-  final ARKitPhysicsShape shape;
+  final ARKitPhysicsShape? shape;
 
   /// Defines what logical 'categories' this body belongs to.
   /// Defaults to SCNPhysicsCollisionCategoryStatic for static bodies and SCNPhysicsCollisionCategoryDefault for the other body types.
-  final int categoryBitMask;
+  final int? categoryBitMask;
 
   static ARKitPhysicsBody fromJson(Map<String, dynamic> json) =>
       _$ARKitPhysicsBodyFromJson(json);

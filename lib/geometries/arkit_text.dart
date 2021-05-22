@@ -3,7 +3,6 @@ import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 
 part 'arkit_text.g.dart';
 
@@ -11,9 +10,9 @@ part 'arkit_text.g.dart';
 @JsonSerializable()
 class ARKitText extends ARKitGeometry {
   ARKitText({
-    @required String text,
-    @required this.extrusionDepth,
-    List<ARKitMaterial> materials,
+    required String text,
+    required this.extrusionDepth,
+    List<ARKitMaterial>? materials,
   })  : text = ValueNotifier(text),
         super(
           materials: materials,

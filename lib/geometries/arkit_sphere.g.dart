@@ -9,8 +9,8 @@ part of 'arkit_sphere.dart';
 ARKitSphere _$ARKitSphereFromJson(Map<String, dynamic> json) {
   return ARKitSphere(
     radius: (json['radius'] as num).toDouble(),
-    materials: (json['materials'] as List)
-        .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
+    materials: (json['materials'] as List<dynamic>?)
+        ?.map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

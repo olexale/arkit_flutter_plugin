@@ -8,12 +8,19 @@ part of 'arkit_geometry.dart';
 
 ARKitUnkownGeometry _$ARKitUnkownGeometryFromJson(Map<String, dynamic> json) {
   return ARKitUnkownGeometry(
-    json['geometryType'] as String,
+    json['geometryType'] as String?,
   );
 }
 
-Map<String, dynamic> _$ARKitUnkownGeometryToJson(
-        ARKitUnkownGeometry instance) =>
-    <String, dynamic>{
-      'geometryType': instance.geometryType,
-    };
+Map<String, dynamic> _$ARKitUnkownGeometryToJson(ARKitUnkownGeometry instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('geometryType', instance.geometryType);
+  return val;
+}

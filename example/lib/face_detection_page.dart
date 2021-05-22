@@ -18,6 +18,7 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
   @override
   void dispose() {
     arkitController?.dispose();
+    arkitController = null;
     super.dispose();
   }
 
@@ -74,7 +75,7 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
   void _handleUpdateAnchor(ARKitAnchor anchor) {
     if (anchor is ARKitFaceAnchor) {
       final ARKitFaceAnchor faceAnchor = anchor;
-      arkitController.updateFaceGeometry(node, anchor.identifier);
+      arkitController?.updateFaceGeometry(node, anchor.identifier);
       _updateEye(leftEye, faceAnchor.leftEyeTransform,
           faceAnchor.blendShapes['eyeBlink_L']);
       _updateEye(rightEye, faceAnchor.rightEyeTransform,

@@ -12,8 +12,8 @@ ARKitBox _$ARKitBoxFromJson(Map<String, dynamic> json) {
     height: (json['height'] as num).toDouble(),
     length: (json['length'] as num).toDouble(),
     chamferRadius: (json['chamferRadius'] as num).toDouble(),
-    materials: (json['materials'] as List)
-        .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
+    materials: (json['materials'] as List<dynamic>?)
+        ?.map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

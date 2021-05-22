@@ -8,15 +8,13 @@ part of 'arkit_node_pan_result.dart';
 
 ARKitNodePanResult _$ARKitNodePanResultFromJson(Map<String, dynamic> json) {
   return ARKitNodePanResult(
-    json['nodeName'] as String,
+    json['nodeName'] as String?,
     const Vector2Converter().fromJson(json['translation'] as List),
   );
 }
 
 Map<String, dynamic> _$ARKitNodePanResultToJson(ARKitNodePanResult instance) {
-  final val = <String, dynamic>{
-    'nodeName': instance.nodeName,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -24,6 +22,7 @@ Map<String, dynamic> _$ARKitNodePanResultToJson(ARKitNodePanResult instance) {
     }
   }
 
+  writeNotNull('nodeName', instance.nodeName);
   writeNotNull(
       'translation', const Vector2Converter().toJson(instance.translation));
   return val;

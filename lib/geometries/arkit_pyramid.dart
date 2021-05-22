@@ -13,7 +13,7 @@ class ARKitPyramid extends ARKitGeometry {
     double height = 1,
     double width = 1,
     double length = 1,
-    List<ARKitMaterial> materials,
+    List<ARKitMaterial>? materials,
   })  : height = ValueNotifier(height),
         width = ValueNotifier(width),
         length = ValueNotifier(length),

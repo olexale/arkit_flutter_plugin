@@ -9,9 +9,9 @@ part of 'arkit_material_property.dart';
 ARKitMaterialProperty _$ARKitMaterialPropertyFromJson(
     Map<String, dynamic> json) {
   return ARKitMaterialProperty(
-    color: const ColorConverter().fromJson(json['color'] as int),
-    image: json['image'] as String,
-    url: json['url'] as String,
+    color: const ColorConverter().fromJson(json['color'] as int?),
+    image: json['image'] as String?,
+    url: json['url'] as String?,
   );
 }
 
@@ -26,7 +26,7 @@ Map<String, dynamic> _$ARKitMaterialPropertyToJson(
   }
 
   writeNotNull('color', const ColorConverter().toJson(instance.color));
-  val['image'] = instance.image;
-  val['url'] = instance.url;
+  writeNotNull('image', instance.image);
+  writeNotNull('url', instance.url);
   return val;
 }

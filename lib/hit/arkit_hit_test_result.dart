@@ -37,7 +37,7 @@ class ARKitTestResult {
   /// The anchor that the hit-test intersected.
   /// An anchor will only be provided for existing plane result types.
   @ARKitAnchorConverter()
-  final ARKitAnchor anchor;
+  final ARKitAnchor? anchor;
 
   static ARKitTestResult fromJson(Map<String, dynamic> json) =>
       _$ARKitTestResultFromJson(json);

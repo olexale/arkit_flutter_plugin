@@ -14,7 +14,7 @@ class ARKitBox extends ARKitGeometry {
     double height = 1,
     double length = 1,
     this.chamferRadius = 0,
-    List<ARKitMaterial> materials,
+    List<ARKitMaterial>? materials,
   })  : width = ValueNotifier(width),
         height = ValueNotifier(height),
         length = ValueNotifier(length),

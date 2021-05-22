@@ -30,7 +30,7 @@ abstract class ARKitAnchor {
   }
 
   /// Represents the name of the node anchor attached to.
-  final String nodeName;
+  final String? nodeName;
 
   /// Unique identifier of the anchor.
   final String identifier;
@@ -47,7 +47,7 @@ abstract class ARKitAnchor {
 class ARKitUnkownAnchor extends ARKitAnchor {
   const ARKitUnkownAnchor(
     this.anchorType,
-    String nodeName,
+    String? nodeName,
     String identifier,
     Matrix4 transform,
   ) : super(nodeName, identifier, transform);
@@ -68,7 +68,7 @@ class ARKitPlaneAnchor extends ARKitAnchor {
   const ARKitPlaneAnchor(
     this.center,
     this.extent,
-    String nodeName,
+    String? nodeName,
     String identifier,
     Matrix4 transform,
   ) : super(
@@ -99,7 +99,7 @@ class ARKitImageAnchor extends ARKitAnchor {
     this.referenceImageName,
     this.referenceImagePhysicalSize,
     this.isTracked,
-    String nodeName,
+    String? nodeName,
     String identifier,
     Matrix4 transform,
   ) : super(
@@ -109,7 +109,7 @@ class ARKitImageAnchor extends ARKitAnchor {
         );
 
   /// Name of the detected image (might be null).
-  final String referenceImageName;
+  final String? referenceImageName;
 
   @Vector2Converter()
   final Vector2 referenceImagePhysicalSize;
@@ -133,7 +133,7 @@ class ARKitFaceAnchor extends ARKitAnchor {
     this.geometry,
     this.blendShapes,
     this.isTracked,
-    String nodeName,
+    String? nodeName,
     String identifier,
     Matrix4 transform,
     this.leftEyeTransform,
@@ -177,7 +177,7 @@ class ARKitBodyAnchor extends ARKitAnchor {
   ARKitBodyAnchor(
     this.skeleton,
     this.isTracked,
-    String nodeName,
+    String? nodeName,
     String identifier,
     Matrix4 transform,
   ) : super(

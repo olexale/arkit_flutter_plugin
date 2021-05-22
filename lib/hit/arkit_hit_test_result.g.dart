@@ -12,7 +12,7 @@ ARKitTestResult _$ARKitTestResultFromJson(Map<String, dynamic> json) {
     (json['distance'] as num).toDouble(),
     const MatrixConverter().fromJson(json['localTransform'] as List),
     const MatrixConverter().fromJson(json['worldTransform'] as List),
-    const ARKitAnchorConverter().fromJson(json['anchor'] as Map),
+    const ARKitAnchorConverter().fromJson(json['anchor'] as Map?),
   );
 }
 

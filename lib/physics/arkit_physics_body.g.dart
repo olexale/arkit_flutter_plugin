@@ -10,7 +10,7 @@ ARKitPhysicsBody _$ARKitPhysicsBodyFromJson(Map<String, dynamic> json) {
   return ARKitPhysicsBody(
     const ARKitPhysicsBodyTypeConverter().fromJson(json['type'] as int),
     shape: const ARKitPhysicsShapeConverter().fromJson(json['shape'] as Map),
-    categoryBitMask: json['categoryBitMask'] as int,
+    categoryBitMask: json['categoryBitMask'] as int?,
   );
 }
 
@@ -27,6 +27,6 @@ Map<String, dynamic> _$ARKitPhysicsBodyToJson(ARKitPhysicsBody instance) {
       'type', const ARKitPhysicsBodyTypeConverter().toJson(instance.type));
   writeNotNull(
       'shape', const ARKitPhysicsShapeConverter().toJson(instance.shape));
-  val['categoryBitMask'] = instance.categoryBitMask;
+  writeNotNull('categoryBitMask', instance.categoryBitMask);
   return val;
 }

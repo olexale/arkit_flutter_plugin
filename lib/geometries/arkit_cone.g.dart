@@ -11,8 +11,8 @@ ARKitCone _$ARKitConeFromJson(Map<String, dynamic> json) {
     height: (json['height'] as num).toDouble(),
     topRadius: (json['topRadius'] as num).toDouble(),
     bottomRadius: (json['bottomRadius'] as num).toDouble(),
-    materials: (json['materials'] as List)
-        .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
+    materials: (json['materials'] as List<dynamic>?)
+        ?.map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

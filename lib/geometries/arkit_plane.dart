@@ -14,7 +14,7 @@ class ARKitPlane extends ARKitGeometry {
     double height = 1,
     this.widthSegmentCount = 1,
     this.heightSegmentCount = 1,
-    List<ARKitMaterial> materials,
+    List<ARKitMaterial>? materials,
   })  : width = ValueNotifier(width),
         height = ValueNotifier(height),
         super(

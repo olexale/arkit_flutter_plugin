@@ -15,21 +15,24 @@ class ARKitNode {
     this.geometry,
     this.physicsBody,
     this.light,
-    this.renderingOrder = 0,
-    bool isHidden = false,
-    Vector3 position,
-    Vector3 scale,
-    Vector4 rotation,
-    Vector3 eulerAngles,
-    String name,
-    Matrix4 transformation,
+    this.renderingOrder = defaultRenderingOrderValue,
+    bool isHidden = defaultIsHiddenValue,
+    Vector3? position,
+    Vector3? scale,
+    Vector4? rotation,
+    Vector3? eulerAngles,
+    String? name,
+    Matrix4? transformation,
   })  : name = name ?? random_string.randomString(),
         isHidden = ValueNotifier(isHidden),
         transformNotifier = ValueNotifier(createTransformMatrix(
             transformation, position, scale, rotation, eulerAngles));
 
+  static const bool defaultIsHiddenValue = false;
+  static const int defaultRenderingOrderValue = 0;
+
   /// Returns the geometry attached to the receiver.
-  final ARKitGeometry geometry;
+  final ARKitGeometry? geometry;
 
   /// Determines the receiver's transform.
   /// The transform is the combination of the position, rotation and scale defined below.
@@ -87,10 +90,10 @@ class ARKitNode {
   final String name;
 
   /// The description of the physics body of the receiver.
-  final ARKitPhysicsBody physicsBody;
+  final ARKitPhysicsBody? physicsBody;
 
   /// Determines the light attached to the receiver.
-  final ARKitLight light;
+  final ARKitLight? light;
 
   /// Determines the rendering order of the receiver.
   /// Nodes with greater rendering orders are rendered last.

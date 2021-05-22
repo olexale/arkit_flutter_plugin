@@ -6,8 +6,8 @@ part 'arkit_light_estimate.g.dart';
 @JsonSerializable()
 class ARKitLightEstimate {
   const ARKitLightEstimate({
-    this.ambientIntensity,
-    this.ambientColorTemperature,
+    required this.ambientIntensity,
+    required this.ambientColorTemperature,
   });
 
   /// Ambient intensity of the lighting.

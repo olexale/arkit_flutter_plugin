@@ -6,8 +6,8 @@ part 'arkit_reference_image.g.dart';
 @JsonSerializable()
 class ARKitReferenceImage {
   const ARKitReferenceImage({
-    this.name,
-    this.physicalWidth,
+    required this.name,
+    required this.physicalWidth,
   });
 
   /// An image name for local images (bundle, asset, or url)

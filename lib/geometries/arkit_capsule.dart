@@ -12,7 +12,7 @@ class ARKitCapsule extends ARKitGeometry {
   ARKitCapsule({
     double capRadius = 0.5,
     double height = 2,
-    List<ARKitMaterial> materials,
+    List<ARKitMaterial>? materials,
   })  : capRadius = ValueNotifier(capRadius),
         height = ValueNotifier(height),
         super(

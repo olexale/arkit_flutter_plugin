@@ -10,8 +10,8 @@ ARKitLine _$ARKitLineFromJson(Map<String, dynamic> json) {
   return ARKitLine(
     fromVector: const Vector3Converter().fromJson(json['fromVector'] as List),
     toVector: const Vector3Converter().fromJson(json['toVector'] as List),
-    materials: (json['materials'] as List)
-        .map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
+    materials: (json['materials'] as List<dynamic>?)
+        ?.map((e) => ARKitMaterial.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
