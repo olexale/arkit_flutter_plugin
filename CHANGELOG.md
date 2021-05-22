@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-nullsafey.0
+
+* Migrate to null safety
+* Update documentation (by @Flucadetena)
+* Fix link in README (by @koldunsky)
+
 ## 0.6.2
 
 * Camera snapshots (by @leeprobert)
