@@ -52,7 +52,7 @@ class ARKitUnkownAnchor extends ARKitAnchor {
     Matrix4 transform,
   ) : super(nodeName, identifier, transform);
 
-  final String/*?*/ anchorType;
+  final String anchorType;
 
   static ARKitUnkownAnchor fromJson(Map<String, dynamic> json) =>
       _$ARKitUnkownAnchorFromJson(json);
