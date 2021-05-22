@@ -2,7 +2,6 @@ import 'package:arkit_plugin/geometries/arkit_geometry.dart';
 import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:arkit_plugin/utils/json_converters.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 part 'arkit_line.g.dart';

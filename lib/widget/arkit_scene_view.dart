@@ -169,9 +169,6 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
   }
 
   Future<void> onPlatformViewCreated(int id) async {
-    if (widget.onARKitViewCreated == null) {
-      return;
-    }
     widget.onARKitViewCreated(ARKitController._init(
       id,
       widget.configuration,
@@ -236,9 +233,9 @@ class ARKitController {
       'showFeaturePoints': showFeaturePoints,
       'showWorldOrigin': showWorldOrigin,
       'detectionImagesGroupName': detectionImagesGroupName,
-      'detectionImages': detectionImages?.map((i) => i.toJson())?.toList(),
+      'detectionImages': detectionImages?.map((i) => i.toJson()).toList(),
       'trackingImagesGroupName': trackingImagesGroupName,
-      'trackingImages': trackingImages?.map((i) => i.toJson())?.toList(),
+      'trackingImages': trackingImages?.map((i) => i.toJson()).toList(),
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
       'maximumNumberOfTrackedImages': maximumNumberOfTrackedImages,
@@ -301,19 +298,16 @@ class ARKitController {
   }
 
   Future<void> add(ARKitNode node, {String? parentNodeName}) {
-    assert(node != null);
     final params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
     _subsribeToChanges(node);
     return _channel.invokeMethod('addARKitNode', params);
   }
 
   Future<void> remove(String nodeName) {
-    assert(nodeName != null);
     return _channel.invokeMethod('removeARKitNode', {'nodeName': nodeName});
   }
 
   Future<void> removeAnchor(String anchorIdentifier) {
-    assert(anchorIdentifier != null);
     return _channel.invokeMethod(
         'removeARKitAnchor', {'anchorIdentifier': anchorIdentifier});
   }
@@ -390,10 +384,6 @@ class ARKitController {
       {required String key,
       required String sceneName,
       required String animationIdentifier}) {
-    assert(key != null);
-    assert(sceneName != null);
-    assert(animationIdentifier != null);
-
     return _channel.invokeMethod('playAnimation', {
       'key': key,
       'sceneName': sceneName,
@@ -404,8 +394,6 @@ class ARKitController {
   Future<void> stopAnimation({
     required String key,
   }) {
-    assert(key != null);
-
     return _channel.invokeMethod('stopAnimation', {
       'key': key,
     });
@@ -570,7 +558,7 @@ class ARKitController {
   }
 
   void _subscribeToCapsuleGeometry(ARKitNode node) {
-    final ARKitCapsule capsule = node.geometry as ARKitCapsule;
+    final capsule = node.geometry as ARKitCapsule;
     capsule.capRadius.addListener(() => _updateSingleProperty(
         node, 'capRadius', capsule.capRadius.value, 'geometry'));
     capsule.height.addListener(() => _updateSingleProperty(
@@ -578,7 +566,7 @@ class ARKitController {
   }
 
   void _subscribeToTorusGeometry(ARKitNode node) {
-    final ARKitTorus torus = node.geometry as ARKitTorus;
+    final torus = node.geometry as ARKitTorus;
     torus.pipeRadius.addListener(() => _updateSingleProperty(
         node, 'pipeRadius', torus.pipeRadius.value, 'geometry'));
     torus.ringRadius.addListener(() => _updateSingleProperty(
@@ -586,7 +574,7 @@ class ARKitController {
   }
 
   void _subscribeToTubeGeometry(ARKitNode node) {
-    final ARKitTube tube = node.geometry as ARKitTube;
+    final tube = node.geometry as ARKitTube;
     tube.innerRadius.addListener(() => _updateSingleProperty(
         node, 'innerRadius', tube.innerRadius.value, 'geometry'));
     tube.outerRadius.addListener(() => _updateSingleProperty(
@@ -596,7 +584,7 @@ class ARKitController {
   }
 
   void _subscribeToPyramidGeometry(ARKitNode node) {
-    final ARKitPyramid pyramid = node.geometry as ARKitPyramid;
+    final pyramid = node.geometry as ARKitPyramid;
     pyramid.width.addListener(() =>
         _updateSingleProperty(node, 'width', pyramid.width.value, 'geometry'));
     pyramid.height.addListener(() => _updateSingleProperty(
@@ -606,7 +594,7 @@ class ARKitController {
   }
 
   void _subscribeToConeGeometry(ARKitNode node) {
-    final ARKitCone cone = node.geometry as ARKitCone;
+    final cone = node.geometry as ARKitCone;
     cone.topRadius.addListener(() => _updateSingleProperty(
         node, 'topRadius', cone.topRadius.value, 'geometry'));
     cone.bottomRadius.addListener(() => _updateSingleProperty(
@@ -616,7 +604,7 @@ class ARKitController {
   }
 
   void _subscribeToCylinderGeometry(ARKitNode node) {
-    final ARKitCylinder cylinder = node.geometry as ARKitCylinder;
+    final cylinder = node.geometry as ARKitCylinder;
     cylinder.radius.addListener(() => _updateSingleProperty(
         node, 'radius', cylinder.radius.value, 'geometry'));
     cylinder.height.addListener(() => _updateSingleProperty(
@@ -624,7 +612,7 @@ class ARKitController {
   }
 
   void _subscribeToBoxGeometry(ARKitNode node) {
-    final ARKitBox box = node.geometry as ARKitBox;
+    final box = node.geometry as ARKitBox;
     box.width.addListener(() =>
         _updateSingleProperty(node, 'width', box.width.value, 'geometry'));
     box.height.addListener(() =>
@@ -634,19 +622,19 @@ class ARKitController {
   }
 
   void _subscribeToTextGeometry(ARKitNode node) {
-    final ARKitText text = node.geometry as ARKitText;
+    final text = node.geometry as ARKitText;
     text.text.addListener(
         () => _updateSingleProperty(node, 'text', text.text.value, 'geometry'));
   }
 
   void _subscribeToSphereGeometry(ARKitNode node) {
-    final ARKitSphere sphere = node.geometry as ARKitSphere;
+    final sphere = node.geometry as ARKitSphere;
     sphere.radius.addListener(() =>
         _updateSingleProperty(node, 'radius', sphere.radius.value, 'geometry'));
   }
 
   void _subscribeToPlaneGeometry(ARKitNode node) {
-    final ARKitPlane plane = node.geometry as ARKitPlane;
+    final plane = node.geometry as ARKitPlane;
     plane.width.addListener(() =>
         _updateSingleProperty(node, 'width', plane.width.value, 'geometry'));
     plane.height.addListener(() =>

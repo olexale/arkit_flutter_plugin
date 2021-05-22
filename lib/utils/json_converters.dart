@@ -296,8 +296,8 @@ class MatrixConverter implements JsonConverter<Matrix4, List<dynamic>> {
 
   @override
   List<dynamic> toJson(Matrix4 matrix) {
-    final list = List.filled(16, 0.0); // List<double?>(16);
-    matrix.copyIntoArray(list as List<num>);
+    final list = List.filled(16, 0.0);
+    matrix.copyIntoArray(list);
     return list;
   }
 }
@@ -331,8 +331,8 @@ class Vector2Converter implements JsonConverter<Vector2, List<dynamic>> {
 
   @override
   List<double?> toJson(Vector2 object) {
-    final list = List.filled(2, 0.0); // List<double?>(2);
-    object.copyIntoArray(list as List<double>);
+    final list = List.filled(2, 0.0);
+    object.copyIntoArray(list);
     return list;
   }
 }
@@ -347,8 +347,8 @@ class Vector3Converter implements JsonConverter<Vector3, List<dynamic>> {
 
   @override
   List<dynamic> toJson(Vector3 object) {
-    final list = List.filled(3, 0.0); // List<double?>(3);
-    object.copyIntoArray(list as List<double>);
+    final list = List.filled(3, 0.0);
+    object.copyIntoArray(list);
     return list;
   }
 }
@@ -363,8 +363,8 @@ class Vector4Converter implements JsonConverter<Vector4, List<dynamic>> {
 
   @override
   List<dynamic> toJson(Vector4 object) {
-    final list = List.filled(4, 0.0); // List<double?>(4);
-    object.copyIntoArray(list as List<double>);
+    final list = List.filled(4, 0.0);
+    object.copyIntoArray(list);
     return list;
   }
 }
@@ -381,11 +381,8 @@ class Vector3ValueNotifierConverter
 
   @override
   List<dynamic>? toJson(ValueNotifier<Vector3> object) {
-    if (object == null || object.value == null) {
-      return null;
-    }
-    final list = List.filled(3, 0.0); // List<double?>(3);
-    object?.value?.copyIntoArray(list as List<double>);
+    final list = List.filled(3, 0.0);
+    object.value.copyIntoArray(list);
     return list;
   }
 }
@@ -402,11 +399,8 @@ class Vector4ValueNotifierConverter
 
   @override
   List<dynamic>? toJson(ValueNotifier<Vector4> object) {
-    if (object == null || object.value == null) {
-      return null;
-    }
     final list = List.filled(4, 0.0); //  List<double?>(4);
-    object.value.copyIntoArray(list as List<double>);
+    object.value.copyIntoArray(list);
     return list;
   }
 }
@@ -448,11 +442,8 @@ class MatrixValueNotifierConverter
 
   @override
   List<dynamic>? toJson(ValueNotifier<Matrix4> matrix) {
-    if (matrix == null || matrix.value == null) {
-      return null;
-    }
     final list = List.filled(16, 0.0); // List<double?>(16);
-    matrix.value.copyIntoArray(list as List<num>);
+    matrix.value.copyIntoArray(list);
     return list;
   }
 }
