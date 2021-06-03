@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.0
+
+* Add possibility to set metalness and roughness properties for materials
+* Add environmentTexturing property for ARWorldTrackingConfiguration
+
 ## 1.0.0-nullsafety.0
 
 * Migrate to null safety

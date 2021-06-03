@@ -4,6 +4,19 @@ import ARKit
 func createWorldTrackingConfiguration(_ arguments: Dictionary<String, Any>) -> ARWorldTrackingConfiguration? {
     if(ARWorldTrackingConfiguration.isSupported) {
         let worldTrackingConfiguration = ARWorldTrackingConfiguration()
+        if #available(iOS 12.0, *) {
+          if let environmentTexturing = arguments["environmentTexturing"] as? Int {
+            if environmentTexturing == 0 {
+              worldTrackingConfiguration.environmentTexturing = .none
+            }
+            else if environmentTexturing == 1 {
+              worldTrackingConfiguration.environmentTexturing = .manual
+            }
+            else if environmentTexturing == 2 {
+              worldTrackingConfiguration.environmentTexturing = .automatic
+            }
+          }
+        }
         if let planeDetection = arguments["planeDetection"] as? Int {
             if planeDetection == 1 {
                 worldTrackingConfiguration.planeDetection = .horizontal

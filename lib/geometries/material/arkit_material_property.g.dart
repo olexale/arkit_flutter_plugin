@@ -12,6 +12,7 @@ ARKitMaterialProperty _$ARKitMaterialPropertyFromJson(
     color: const ColorConverter().fromJson(json['color'] as int?),
     image: json['image'] as String?,
     url: json['url'] as String?,
+    value: (json['value'] as num?)?.toDouble(),
   );
 }
 
@@ -27,6 +28,7 @@ Map<String, dynamic> _$ARKitMaterialPropertyToJson(
 
   writeNotNull('color', const ColorConverter().toJson(instance.color));
   writeNotNull('image', instance.image);
+  writeNotNull('value', instance.value);
   writeNotNull('url', instance.url);
   return val;
 }

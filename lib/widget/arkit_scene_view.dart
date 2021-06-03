@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:arkit_plugin/arkit_node.dart';
+import 'package:arkit_plugin/widget/ar_environment_texturing.dart';
 import 'package:arkit_plugin/widget/ar_tracking_state.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
 import 'package:arkit_plugin/geometries/arkit_box.dart';
@@ -45,6 +46,8 @@ class ARKitSceneView extends StatefulWidget {
     Key? key,
     required this.onARKitViewCreated,
     this.configuration = ARKitConfiguration.worldTracking,
+    this.environmentTexturing =
+        ARWorldTrackingConfigurationEnvironmentTexturing.none,
     this.showStatistics = false,
     this.autoenablesDefaultLighting = true,
     this.enableTapRecognizer = false,
@@ -116,6 +119,14 @@ class ARKitSceneView extends StatefulWidget {
   /// The default is false.
   final bool showWorldOrigin;
 
+  /// The mode of environment texturing to run.
+  /// If set, texture information will be accumulated and updated. Adding an AREnvironmentProbeAnchor to the session
+  /// will get the current environment texture available from that probe's perspective which can be used for lighting
+  /// virtual objects in the scene.
+  /// Defaults to ARWorldTrackingConfigurationEnvironmentTexturing.none.
+  /// Requires iOS 12 or newer
+  final ARWorldTrackingConfigurationEnvironmentTexturing environmentTexturing;
+
   /// Images to detect in the scene.
   /// If set the session will attempt to detect the specified images.
   /// When an image is detected an ARImageAnchor will be added to the session.
@@ -172,6 +183,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
     widget.onARKitViewCreated(ARKitController._init(
       id,
       widget.configuration,
+      widget.environmentTexturing,
       widget.showStatistics,
       widget.autoenablesDefaultLighting,
       widget.enableTapRecognizer,
@@ -201,6 +213,7 @@ class ARKitController {
   ARKitController._init(
     int id,
     ARKitConfiguration configuration,
+    ARWorldTrackingConfigurationEnvironmentTexturing environmentTexturing,
     bool showStatistics,
     bool autoenablesDefaultLighting,
     bool enableTapRecognizer,
@@ -223,6 +236,7 @@ class ARKitController {
     _channel.setMethodCallHandler(_platformCallHandler);
     _channel.invokeMethod<void>('init', {
       'configuration': configuration.index,
+      'environmentTexturing': environmentTexturing.index,
       'showStatistics': showStatistics,
       'autoenablesDefaultLighting': autoenablesDefaultLighting,
       'enableTapRecognizer': enableTapRecognizer,

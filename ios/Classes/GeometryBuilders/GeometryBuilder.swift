@@ -155,5 +155,8 @@ fileprivate func parsePropertyContents(_ dict: Any?) -> Any? {
     if let url = dict["url"] as? String {
         return getImageByName(url)
     }
+    if let value = dict["value"] as? Double {
+        return value
+    }
     return nil
 }
