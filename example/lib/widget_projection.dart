@@ -87,13 +87,13 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
     final width = anchor.referenceImagePhysicalSize.x / 2;
     final height = anchor.referenceImagePhysicalSize.y / 2;
 
-    final vector.Vector4 topRight = vector.Vector4(width, 0, -height, 1)
+    final topRight = vector.Vector4(width, 0, -height, 1)
       ..applyMatrix4(transform);
-    final vector.Vector4 bottomRight = vector.Vector4(width, 0, height, 1)
+    final bottomRight = vector.Vector4(width, 0, height, 1)
       ..applyMatrix4(transform);
-    final vector.Vector4 bottomLeft = vector.Vector4(-width, 0, -height, 1)
+    final bottomLeft = vector.Vector4(-width, 0, -height, 1)
       ..applyMatrix4(transform);
-    final vector.Vector4 topLeft = vector.Vector4(-width, 0, height, 1)
+    final topLeft = vector.Vector4(-width, 0, height, 1)
       ..applyMatrix4(transform);
 
     final pointsWorldSpace = [topRight, bottomRight, bottomLeft, topLeft];

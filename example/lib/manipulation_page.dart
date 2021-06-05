@@ -72,7 +72,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
 
   void _onPanHandler(List<ARKitNodePanResult> pan) {
     final panNode =
-        pan.firstWhere((e) => e.nodeName == boxNode.name, orElse: null);
+        pan.firstWhere((e) => e.nodeName == boxNode.name, orElse: () => null);
     if (panNode != null) {
       final old = boxNode.eulerAngles;
       final newAngleY = panNode.translation.x * math.pi / 180;

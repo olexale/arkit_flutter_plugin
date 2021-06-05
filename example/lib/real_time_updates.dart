@@ -34,7 +34,7 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
   }
 
   void _onARKitViewCreated(ARKitController arkitController) {
-    final ARKitMaterial material = ARKitMaterial(
+    final material = ARKitMaterial(
       diffuse: ARKitMaterialProperty(color: Colors.white),
     );
 
@@ -65,7 +65,7 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
               point.worldTransform.getColumn(3).y,
               point.worldTransform.getColumn(3).z,
             );
-            final ARKitNode newNode = ARKitNode(
+            final newNode = ARKitNode(
               geometry: sphere,
               position: position,
             );
