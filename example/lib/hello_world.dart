@@ -23,7 +23,11 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
         title: const Text('ARKit in Flutter'),
       ),
       body: Container(
-        child: ARKitSceneView(onARKitViewCreated: onARKitViewCreated),
+        child: ARKitSceneView(
+          onARKitViewCreated: onARKitViewCreated,
+          environmentTexturing:
+              ARWorldTrackingConfigurationEnvironmentTexturing.automatic,
+        ),
       ));
 
   void onARKitViewCreated(ARKitController arkitController) {
@@ -142,12 +146,15 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
         position: vector.Vector3(0.1, 0, -0.5),
       );
 
+  final _rnd = math.Random();
   List<ARKitMaterial> _createRandomColorMaterial() {
     return [
       ARKitMaterial(
         lightingModelName: ARKitLightingModel.physicallyBased,
+        metalness: ARKitMaterialProperty(value: _rnd.nextDouble()),
+        roughness: ARKitMaterialProperty(value: _rnd.nextDouble()),
         diffuse: ARKitMaterialProperty(
-          color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0)
+          color: Color((_rnd.nextDouble() * 0xFFFFFF).toInt() << 0)
               .withOpacity(1.0),
         ),
       )
