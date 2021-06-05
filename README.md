@@ -19,12 +19,6 @@ ARKit uses the device camera, so do not forget to provide the `NSCameraUsageDesc
     <string>Describe why your app needs AR here.</string>
 ```
 
-Prior to Flutter 1.22, platform views were in developers preview, hence if you want to use the plugin with old Flutter versions you need to add the following code to `Info.plist`:
-```xml
-    <key>io.flutter.embedded_views_preview</key>
-    <string>YES</string>
-```
-
 ### Update Podfile
 
 At the top level of the `ios` folder uncomment the second line in the `Podfile` and change the iOS minimum version from `9.0` to the appropriate one.
