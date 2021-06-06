@@ -88,8 +88,10 @@ I would highly recommend to review the [sample](https://github.com/olexale/arkit
 | Name        | Description                                          | Link | Demo |
 |-------------|------------------------------------------------------|------------------------------------------------------|----|
 | Hello World | The simplest scene with different geometries.           | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/hello_world.dart)| [twitter](https://twitter.com/OlexaLe/status/1118441432707149824) |
+| Check configuration | Shows which kinds of AR configuration are supported on the device | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/check_support_page.dart)|  |
 | Earth       | Sphere with an image texture and rotation animation. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/earth_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1118441432707149824) |
 | Tap         | Sphere which handles tap event.                      | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/tap_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1118441432707149824) |
+| Midas         | Turns walls, floor, and Earth itself into gold by tap.                      | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/midas_page.dart) |  |
 | Plane Detection | Detects horizontal plane. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/plane_detection_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1118870195743883266) |
 | Distance tracking | Detects horizontal plane and track distance on it. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/distance_tracking_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1121022506180149248) |
 | Measure | Measures distances | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/measure_page.dart) | [twitter](https://twitter.com/OlexaLe/status/1121022506180149248) |
@@ -105,6 +107,8 @@ I would highly recommend to review the [sample](https://github.com/olexale/arkit
 | Panorama | 360 photo. | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/panorama_page.dart)|[twitter](https://twitter.com/OlexaLe/status/1154665277654781952) |
 | Custom Animation | Custom object animation. Port of https://github.com/eh3rrera/ARKitAnimation | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/custom_animation_page.dart)|[twitter](https://twitter.com/OlexaLe/status/1173587705206366209) |
 | Widget Projection | Flutter widgets in AR | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/widget_projection.dart)|[twitter](https://twitter.com/OlexaLe/status/1174678765592567814) |
+| Real Time Updates | Calls a function once per frame | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/real_time_updates.dart)| |
+| Snapshot | Make a photo of AR content | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/snapshot_scene.dart)| |
 
 If you prefer video here is a playlist with "AR in Flutter" videos:
 [![AR in Flutter videos](https://img.youtube.com/vi/gOgCdl5_E7k/0.jpg)](https://www.youtube.com/watch?v=MaH4L6R8ZfQ&list=PLjaSBcAZ8TqGoWj3FE96uQ2gGPDGaXbDp "AR in Flutter videos")
