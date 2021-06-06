@@ -130,7 +130,7 @@ class ARKitLightingModelConverter
   const ARKitLightingModelConverter();
 
   @override
-  ARKitLightingModel? fromJson(int? json) => ARKitLightingModel?.values[json!];
+  ARKitLightingModel? fromJson(int? json) => ARKitLightingModel.values[json!];
 
   @override
   int? toJson(ARKitLightingModel? object) => object?.index;
@@ -140,7 +140,7 @@ class ARKitFillModeConverter implements JsonConverter<ARKitFillMode?, int?> {
   const ARKitFillModeConverter();
 
   @override
-  ARKitFillMode? fromJson(int? json) => ARKitFillMode?.values[json!];
+  ARKitFillMode? fromJson(int? json) => ARKitFillMode.values[json!];
 
   @override
   int? toJson(ARKitFillMode? object) => object?.index;
@@ -150,7 +150,7 @@ class ARKitCullModeConverter implements JsonConverter<ARKitCullMode?, int?> {
   const ARKitCullModeConverter();
 
   @override
-  ARKitCullMode? fromJson(int? json) => ARKitCullMode?.values[json!];
+  ARKitCullMode? fromJson(int? json) => ARKitCullMode.values[json!];
 
   @override
   int? toJson(ARKitCullMode? object) => object?.index;

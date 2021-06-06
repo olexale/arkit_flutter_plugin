@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:arkit_plugin/arkit_node.dart';
+import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:arkit_plugin/widget/ar_environment_texturing.dart';
 import 'package:arkit_plugin/widget/ar_tracking_state.dart';
 import 'package:arkit_plugin/geometries/arkit_anchor.dart';
@@ -315,6 +316,21 @@ class ARKitController {
     final params = _addParentNodeNameToParams(node.toMap(), parentNodeName);
     _subsribeToChanges(node);
     return _channel.invokeMethod('addARKitNode', params);
+  }
+
+  Future<void> update(
+    String nodeName, {
+    ARKitNode? node,
+    List<ARKitMaterial>? materials,
+  }) {
+    final params = <String, dynamic>{'nodeName': nodeName};
+    if (node != null) {
+      params.addAll(node.toMap());
+    }
+    if (materials != null) {
+      params['materials'] = materials.map((e) => e.toJson()).toList();
+    }
+    return _channel.invokeMethod('onUpdateNode', params);
   }
 
   Future<void> remove(String nodeName) {
