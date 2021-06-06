@@ -9,6 +9,7 @@ import 'package:arkit_plugin_example/image_detection_page.dart';
 import 'package:arkit_plugin_example/light_estimate_page.dart';
 import 'package:arkit_plugin_example/manipulation_page.dart';
 import 'package:arkit_plugin_example/measure_page.dart';
+import 'package:arkit_plugin_example/midas_page.dart';
 import 'package:arkit_plugin_example/network_image_detection.dart';
 import 'package:arkit_plugin_example/occlusion_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
@@ -54,6 +55,13 @@ class MyApp extends StatelessWidget {
         Icons.touch_app,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => TapPage())),
+      ),
+      Sample(
+        'Midas',
+        'Turns walls, floor, and Earth itself into gold by tap.',
+        Icons.touch_app,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => MidasPage())),
       ),
       Sample(
         'Plane Detection',
@@ -178,6 +186,7 @@ class MyApp extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        brightness: Brightness.dark,
         title: const Text('ARKit Demo'),
       ),
       body:
