@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+* Add `update` function that may override geometry materials and node properties
+* Fix earth and panorama samples
+
 ## 1.0.0
 
 * Add possibility to set metalness and roughness properties for materials
