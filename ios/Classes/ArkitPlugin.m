@@ -11,5 +11,6 @@
 @implementation ArkitPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   [SwiftArkitPlugin registerWithRegistrar:registrar];
+  [VideoArkitPlugin registerWithRegistrar:registrar];
 }
 @end

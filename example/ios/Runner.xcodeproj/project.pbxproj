@@ -12,6 +12,7 @@
 		698A01BE12237C5F6119BC3D /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58B0A74B095F16395F4FFD6A /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		7F11D3DA260DDB080067B61F /* models.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F11D3D9260DDB080067B61F /* models.scnassets */; };
+		7F7EE2B526809B6100DB2A5E /* london.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7F7EE2B426809B3100DB2A5E /* london.mp4 */; };
 		7FFB0300266D1C2D001EC1FA /* photo360.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7FFB02FE266D1C2D001EC1FA /* photo360.jpg */; };
 		7FFB0301266D1C2D001EC1FA /* earth.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7FFB02FF266D1C2D001EC1FA /* earth.jpg */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		7F11D3D9260DDB080067B61F /* models.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = models.scnassets; sourceTree = "<group>"; };
+		7F7EE2B426809B3100DB2A5E /* london.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = london.mp4; sourceTree = "<group>"; };
 		7FFB02FE266D1C2D001EC1FA /* photo360.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = photo360.jpg; sourceTree = "<group>"; };
 		7FFB02FF266D1C2D001EC1FA /* earth.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = earth.jpg; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				7FFB02FF266D1C2D001EC1FA /* earth.jpg */,
+				7F7EE2B426809B3100DB2A5E /* london.mp4 */,
 				7FFB02FE266D1C2D001EC1FA /* photo360.jpg */,
 				7F11D3D9260DDB080067B61F /* models.scnassets */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
@@ -199,6 +202,7 @@
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
+				7F7EE2B526809B6100DB2A5E /* london.mp4 in Resources */,
 				7FFB0301266D1C2D001EC1FA /* earth.jpg in Resources */,
 				7F11D3DA260DDB080067B61F /* models.scnassets in Resources */,
 				7FFB0300266D1C2D001EC1FA /* photo360.jpg in Resources */,
