@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2
+
+* BREAKING CHANGE! Split ARKitMaterialProperty to separate color, image, value, and video properties
+* Add video material
+
 ## 1.0.1
 
 * Add `update` function that may override geometry materials and node properties
