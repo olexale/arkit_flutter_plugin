@@ -34,7 +34,7 @@ class _LightEstimatePageState extends State<LightEstimatePage> {
     this.arkitController = arkitController;
 
     final material = ARKitMaterial(
-      diffuse: ARKitMaterialProperty(image: 'earth.jpg'),
+      diffuse: ARKitMaterialProperty.image('earth.jpg'),
     );
     final sphere = ARKitSphere(
       materials: [material],

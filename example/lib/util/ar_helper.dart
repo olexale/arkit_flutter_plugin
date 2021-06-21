@@ -13,8 +13,8 @@ List<ARKitMaterial> createRandomColorMaterial() {
   return [
     ARKitMaterial(
       lightingModelName: ARKitLightingModel.physicallyBased,
-      diffuse: ARKitMaterialProperty(
-        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0)
+      diffuse: ARKitMaterialProperty.color(
+        Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0)
             .withOpacity(1.0),
       ),
     )

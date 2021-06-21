@@ -32,10 +32,8 @@ class _TapPageState extends State<TapPage> {
     this.arkitController = arkitController;
     this.arkitController.onNodeTap = (nodes) => onNodeTapHandler(nodes);
 
-    final material = ARKitMaterial(
-        diffuse: ARKitMaterialProperty(
-      color: Colors.yellow,
-    ));
+    final material =
+        ARKitMaterial(diffuse: ARKitMaterialProperty.color(Colors.yellow));
     sphere = ARKitSphere(
       materials: [material],
       radius: 0.1,
@@ -51,11 +49,13 @@ class _TapPageState extends State<TapPage> {
 
   void onNodeTapHandler(List<String> nodesList) {
     final name = nodesList.first;
-    final color = sphere.materials.value.first.diffuse.color == Colors.yellow
-        ? Colors.blue
-        : Colors.yellow;
+    final color =
+        (sphere.materials.value.first.diffuse as ARKitMaterialColor).color ==
+                Colors.yellow
+            ? Colors.blue
+            : Colors.yellow;
     sphere.materials.value = [
-      ARKitMaterial(diffuse: ARKitMaterialProperty(color: color))
+      ARKitMaterial(diffuse: ARKitMaterialProperty.color(color))
     ];
     showDialog<void>(
       context: context,

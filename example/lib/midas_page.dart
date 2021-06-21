@@ -43,7 +43,7 @@ class _MidasPageState extends State<MidasPage> {
 
     final material = ARKitMaterial(
       lightingModelName: ARKitLightingModel.lambert,
-      diffuse: ARKitMaterialProperty(image: 'earth.jpg'),
+      diffuse: ARKitMaterialProperty.image('earth.jpg'),
     );
     final sphere = ARKitSphere(
       materials: [material],
@@ -62,11 +62,11 @@ class _MidasPageState extends State<MidasPage> {
     arkitController.update(name, materials: [
       ARKitMaterial(
         lightingModelName: ARKitLightingModel.physicallyBased,
-        diffuse: ARKitMaterialProperty(
-          color: Colors.yellow[600],
+        diffuse: ARKitMaterialProperty.color(
+          Colors.yellow[600],
         ),
-        metalness: ARKitMaterialProperty(value: 1),
-        roughness: ARKitMaterialProperty(value: 0),
+        metalness: ARKitMaterialProperty.value(1),
+        roughness: ARKitMaterialProperty.value(0),
       )
     ]);
   }
@@ -97,7 +97,7 @@ class _MidasPageState extends State<MidasPage> {
       materials: [
         ARKitMaterial(
           transparency: 0.5,
-          diffuse: ARKitMaterialProperty(color: Colors.white),
+          diffuse: ARKitMaterialProperty.color(Colors.white),
         )
       ],
     );

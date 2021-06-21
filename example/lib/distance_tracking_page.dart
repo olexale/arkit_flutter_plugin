@@ -75,7 +75,7 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
       materials: [
         ARKitMaterial(
           transparency: 0.5,
-          diffuse: ARKitMaterialProperty(color: Colors.white),
+          diffuse: ARKitMaterialProperty.color(Colors.white),
         )
       ],
     );
@@ -96,8 +96,7 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
     );
     final material = ARKitMaterial(
       lightingModelName: ARKitLightingModel.constant,
-      diffuse:
-          ARKitMaterialProperty(color: const Color.fromRGBO(255, 153, 83, 1)),
+      diffuse: ARKitMaterialProperty.color(Color.fromRGBO(255, 153, 83, 1)),
     );
     final sphere = ARKitSphere(
       radius: 0.003,
@@ -138,7 +137,7 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
       extrusionDepth: 1,
       materials: [
         ARKitMaterial(
-          diffuse: ARKitMaterialProperty(color: Colors.red),
+          diffuse: ARKitMaterialProperty.color(Colors.red),
         )
       ],
     );

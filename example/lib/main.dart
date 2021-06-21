@@ -18,6 +18,7 @@ import 'package:arkit_plugin_example/snapshot_scene.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
 import 'package:arkit_plugin_example/face_detection_page.dart';
 import 'package:arkit_plugin_example/panorama_page.dart';
+import 'package:arkit_plugin_example/video_page.dart';
 import 'package:arkit_plugin_example/widget_projection.dart';
 import 'package:arkit_plugin_example/real_time_updates.dart';
 import 'package:flutter/material.dart';
@@ -153,6 +154,13 @@ class MyApp extends StatelessWidget {
         Icons.panorama,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => PanoramaPage())),
+      ),
+      Sample(
+        'Video',
+        '360 video sample.',
+        Icons.videocam,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => VideoPage())),
       ),
       Sample(
         'Custom Animation',

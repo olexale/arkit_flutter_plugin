@@ -60,7 +60,7 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
 
       final material = ARKitMaterial(
         lightingModelName: ARKitLightingModel.lambert,
-        diffuse: ARKitMaterialProperty(image: 'earth.jpg'),
+        diffuse: ARKitMaterialProperty.image('earth.jpg'),
       );
       final sphere = ARKitSphere(
         materials: [material],

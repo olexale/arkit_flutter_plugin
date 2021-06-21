@@ -58,7 +58,7 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
       materials: [
         ARKitMaterial(
           transparency: 0.5,
-          diffuse: ARKitMaterialProperty(color: Colors.white),
+          diffuse: ARKitMaterialProperty.color(Colors.white),
         )
       ],
     );
@@ -74,7 +74,7 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
       extrusionDepth: 1,
       materials: [
         ARKitMaterial(
-          diffuse: ARKitMaterialProperty(color: Colors.blue),
+          diffuse: ARKitMaterialProperty.color(Colors.blue),
         )
       ],
     );
@@ -151,11 +151,10 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
     return [
       ARKitMaterial(
         lightingModelName: ARKitLightingModel.physicallyBased,
-        metalness: ARKitMaterialProperty(value: _rnd.nextDouble()),
-        roughness: ARKitMaterialProperty(value: _rnd.nextDouble()),
-        diffuse: ARKitMaterialProperty(
-          color: Color((_rnd.nextDouble() * 0xFFFFFF).toInt() << 0)
-              .withOpacity(1.0),
+        metalness: ARKitMaterialProperty.value(_rnd.nextDouble()),
+        roughness: ARKitMaterialProperty.value(_rnd.nextDouble()),
+        diffuse: ARKitMaterialProperty.color(
+          Color((_rnd.nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0),
         ),
       )
     ];

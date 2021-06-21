@@ -35,7 +35,7 @@ class _EarthPageState extends State<EarthPage> {
 
     final material = ARKitMaterial(
       lightingModelName: ARKitLightingModel.lambert,
-      diffuse: ARKitMaterialProperty(image: 'earth.jpg'),
+      diffuse: ARKitMaterialProperty.image('earth.jpg'),
     );
     final sphere = ARKitSphere(
       materials: [material],

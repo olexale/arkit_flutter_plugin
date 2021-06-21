@@ -64,7 +64,7 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
       transform.getColumn(3).z,
     );
     final material = ARKitMaterial(
-      diffuse: ARKitMaterialProperty(color: Colors.yellow),
+      diffuse: ARKitMaterialProperty.color(Colors.yellow),
     );
     final sphere = ARKitBox(
         materials: [material], width: 0.03, height: 0.03, length: 0.03);

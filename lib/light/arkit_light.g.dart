@@ -9,7 +9,7 @@ part of 'arkit_light.dart';
 ARKitLight _$ARKitLightFromJson(Map<String, dynamic> json) {
   return ARKitLight(
     type: const ARKitLightTypeConverter().fromJson(json['type'] as int),
-    color: const ColorConverter().fromJson(json['color'] as int?),
+    color: const NullableColorConverter().fromJson(json['color'] as int?),
     temperature: (json['temperature'] as num).toDouble(),
     intensity: (json['intensity'] as num?)?.toDouble(),
     spotInnerAngle: (json['spotInnerAngle'] as num).toDouble(),
@@ -27,7 +27,7 @@ Map<String, dynamic> _$ARKitLightToJson(ARKitLight instance) {
   }
 
   writeNotNull('type', const ARKitLightTypeConverter().toJson(instance.type));
-  writeNotNull('color', const ColorConverter().toJson(instance.color));
+  writeNotNull('color', const NullableColorConverter().toJson(instance.color));
   val['temperature'] = instance.temperature;
   writeNotNull('intensity',
       const DoubleValueNotifierConverter().toJson(instance.intensity));

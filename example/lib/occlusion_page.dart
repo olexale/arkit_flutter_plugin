@@ -90,7 +90,7 @@ class _OcclusionPageState extends State<OcclusionPage> {
       point.worldTransform.getColumn(3).z,
     );
     final material =
-        ARKitMaterial(diffuse: ARKitMaterialProperty(color: Colors.red));
+        ARKitMaterial(diffuse: ARKitMaterialProperty.color(Colors.red));
     final sphere = ARKitSphere(
       radius: 0.006,
       materials: [material],

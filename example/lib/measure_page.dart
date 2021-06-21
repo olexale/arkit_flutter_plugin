@@ -50,7 +50,7 @@ class _MeasurePageState extends State<MeasurePage> {
     );
     final material = ARKitMaterial(
         lightingModelName: ARKitLightingModel.constant,
-        diffuse: ARKitMaterialProperty(color: Colors.blue));
+        diffuse: ARKitMaterialProperty.color(Colors.blue));
     final sphere = ARKitSphere(
       radius: 0.006,
       materials: [material],
@@ -91,7 +91,7 @@ class _MeasurePageState extends State<MeasurePage> {
       extrusionDepth: 1,
       materials: [
         ARKitMaterial(
-          diffuse: ARKitMaterialProperty(color: Colors.red),
+          diffuse: ARKitMaterialProperty.color(Colors.red),
         )
       ],
     );

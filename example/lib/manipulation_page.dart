@@ -43,8 +43,8 @@ class _ManipulationPageState extends State<ManipulationPage> {
   void addNode() {
     final material = ARKitMaterial(
       lightingModelName: ARKitLightingModel.physicallyBased,
-      diffuse: ARKitMaterialProperty(
-        color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0)
+      diffuse: ARKitMaterialProperty.color(
+        Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0)
             .withOpacity(1.0),
       ),
     );

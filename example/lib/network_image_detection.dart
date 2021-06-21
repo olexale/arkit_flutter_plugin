@@ -67,8 +67,8 @@ class _NetworkImageDetectionPageState extends State<NetworkImageDetectionPage> {
 
       final material = ARKitMaterial(
         lightingModelName: ARKitLightingModel.lambert,
-        diffuse: ARKitMaterialProperty(
-            image: 'https://www.classe.cornell.edu/~seb/celestia/marsc-1k.jpg'),
+        diffuse: ARKitMaterialProperty.image(
+            'https://www.classe.cornell.edu/~seb/celestia/marsc-1k.jpg'),
       );
       final sphere = ARKitSphere(
         materials: [material],

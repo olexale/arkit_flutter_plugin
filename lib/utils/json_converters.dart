@@ -71,8 +71,18 @@ class ValueNotifierConverter<T> implements JsonConverter<ValueNotifier<T>, T> {
   T toJson(ValueNotifier<T> object) => object.value;
 }
 
-class ColorConverter implements JsonConverter<Color?, int?> {
+class ColorConverter implements JsonConverter<Color, int> {
   const ColorConverter();
+
+  @override
+  Color fromJson(int json) => Color(json);
+
+  @override
+  int toJson(Color object) => object.value;
+}
+
+class NullableColorConverter implements JsonConverter<Color?, int?> {
+  const NullableColorConverter();
 
   @override
   Color? fromJson(int? json) => json != null ? Color(json) : null;

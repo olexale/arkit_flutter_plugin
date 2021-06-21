@@ -6,18 +6,13 @@ part of 'arkit_material_property.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ARKitMaterialProperty _$ARKitMaterialPropertyFromJson(
-    Map<String, dynamic> json) {
-  return ARKitMaterialProperty(
-    color: const ColorConverter().fromJson(json['color'] as int?),
-    image: json['image'] as String?,
-    url: json['url'] as String?,
-    value: (json['value'] as num?)?.toDouble(),
+ARKitMaterialColor _$ARKitMaterialColorFromJson(Map<String, dynamic> json) {
+  return ARKitMaterialColor(
+    const ColorConverter().fromJson(json['color'] as int),
   );
 }
 
-Map<String, dynamic> _$ARKitMaterialPropertyToJson(
-    ARKitMaterialProperty instance) {
+Map<String, dynamic> _$ARKitMaterialColorToJson(ARKitMaterialColor instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -27,8 +22,54 @@ Map<String, dynamic> _$ARKitMaterialPropertyToJson(
   }
 
   writeNotNull('color', const ColorConverter().toJson(instance.color));
-  writeNotNull('image', instance.image);
-  writeNotNull('value', instance.value);
+  return val;
+}
+
+ARKitMaterialImage _$ARKitMaterialImageFromJson(Map<String, dynamic> json) {
+  return ARKitMaterialImage(
+    json['image'] as String,
+  );
+}
+
+Map<String, dynamic> _$ARKitMaterialImageToJson(ARKitMaterialImage instance) =>
+    <String, dynamic>{
+      'image': instance.image,
+    };
+
+ARKitMaterialValue _$ARKitMaterialValueFromJson(Map<String, dynamic> json) {
+  return ARKitMaterialValue(
+    (json['value'] as num).toDouble(),
+  );
+}
+
+Map<String, dynamic> _$ARKitMaterialValueToJson(ARKitMaterialValue instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+    };
+
+ARKitMaterialVideo _$ARKitMaterialVideoFromJson(Map<String, dynamic> json) {
+  return ARKitMaterialVideo(
+    width: json['width'] as int,
+    height: json['height'] as int,
+    autoplay: json['autoplay'] as bool,
+    filename: json['filename'] as String?,
+    url: json['url'] as String?,
+  );
+}
+
+Map<String, dynamic> _$ARKitMaterialVideoToJson(ARKitMaterialVideo instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('filename', instance.filename);
   writeNotNull('url', instance.url);
+  val['width'] = instance.width;
+  val['height'] = instance.height;
+  val['autoplay'] = instance.autoplay;
   return val;
 }

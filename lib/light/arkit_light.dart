@@ -26,7 +26,7 @@ class ARKitLight {
   /// Specifies the receiver's color.
   /// Defaults to white.
   /// The renderer multiplies the light's color is by the color derived from the light's temperature.
-  @ColorConverter()
+  @NullableColorConverter()
   final Color? color;
 
   /// This specifies the temperature of the light in Kelvin.

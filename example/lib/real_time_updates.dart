@@ -35,7 +35,7 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
 
   void _onARKitViewCreated(ARKitController arkitController) {
     final material = ARKitMaterial(
-      diffuse: ARKitMaterialProperty(color: Colors.white),
+      diffuse: ARKitMaterialProperty.color(Colors.white),
     );
 
     final sphere = ARKitSphere(

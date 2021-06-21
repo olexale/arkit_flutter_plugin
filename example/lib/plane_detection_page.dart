@@ -64,7 +64,7 @@ class _PlaneDetectionPageState extends State<PlaneDetectionPage> {
       materials: [
         ARKitMaterial(
           transparency: 0.5,
-          diffuse: ARKitMaterialProperty(color: Colors.white),
+          diffuse: ARKitMaterialProperty.color(Colors.white),
         )
       ],
     );
