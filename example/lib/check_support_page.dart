@@ -20,10 +20,11 @@ class CheckSupportPage extends StatelessWidget {
       FutureBuilder<bool>(
           future: ARKitPlugin.checkConfiguration(configuration),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
+            final data = snapshot.data;
+            if (data == null) {
               return Text(' loading');
             }
-            return Text(snapshot.data ? ' supported' : ' not supported');
+            return Text(data ? ' supported' : ' not supported');
           })
     ]);
   }
