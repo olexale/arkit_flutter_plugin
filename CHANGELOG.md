@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.3
+
+* Fix null safety errors (by @daniel-possienke, @ssp)
+* Fix onCameraDidChangeTrackingState (by @dokkaebi)
+* Port example app to null safety
+* Update README
+
 ## 1.0.2
 
 * BREAKING CHANGE! Split ARKitMaterialProperty to separate color, image, value, and video properties
