@@ -8,11 +8,11 @@ class CustomLightPage extends StatefulWidget {
 }
 
 class _CustomLightPageState extends State<CustomLightPage> {
-  ARKitController arkitController;
+  late ARKitController arkitController;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 

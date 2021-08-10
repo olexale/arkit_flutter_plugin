@@ -10,14 +10,14 @@ class MidasPage extends StatefulWidget {
 }
 
 class _MidasPageState extends State<MidasPage> {
-  ARKitController arkitController;
-  ARKitPlane plane;
-  ARKitNode node;
-  String anchorId;
+  late ARKitController arkitController;
+  ARKitPlane? plane;
+  ARKitNode? node;
+  String? anchorId;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -63,7 +63,7 @@ class _MidasPageState extends State<MidasPage> {
       ARKitMaterial(
         lightingModelName: ARKitLightingModel.physicallyBased,
         diffuse: ARKitMaterialProperty.color(
-          Colors.yellow[600],
+          Colors.yellow[600]!,
         ),
         metalness: ARKitMaterialProperty.value(1),
         roughness: ARKitMaterialProperty.value(0),
@@ -79,14 +79,12 @@ class _MidasPageState extends State<MidasPage> {
   }
 
   void _handleUpdateAnchor(ARKitAnchor anchor) {
-    if (anchor.identifier != anchorId) {
+    if (anchor.identifier != anchorId || anchor is! ARKitPlaneAnchor) {
       return;
     }
-    final ARKitPlaneAnchor planeAnchor = anchor;
-    node.position =
-        vector.Vector3(planeAnchor.center.x, 0, planeAnchor.center.z);
-    plane.width.value = planeAnchor.extent.x;
-    plane.height.value = planeAnchor.extent.z;
+    node?.position = vector.Vector3(anchor.center.x, 0, anchor.center.z);
+    plane?.width.value = anchor.extent.x;
+    plane?.height.value = anchor.extent.z;
   }
 
   void _addPlane(ARKitController controller, ARKitPlaneAnchor anchor) {
@@ -107,6 +105,6 @@ class _MidasPageState extends State<MidasPage> {
       position: vector.Vector3(anchor.center.x, 0, anchor.center.z),
       rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
     );
-    controller.add(node, parentNodeName: anchor.nodeName);
+    controller.add(node!, parentNodeName: anchor.nodeName);
   }
 }

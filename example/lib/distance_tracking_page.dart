@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
+import 'package:collection/collection.dart';
 
 class DistanceTrackingPage extends StatefulWidget {
   @override
@@ -9,15 +10,15 @@ class DistanceTrackingPage extends StatefulWidget {
 }
 
 class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
-  ARKitController arkitController;
-  ARKitPlane plane;
-  ARKitNode node;
-  String anchorId;
-  vector.Vector3 lastPosition;
+  late ARKitController arkitController;
+  ARKitPlane? plane;
+  ARKitNode? node;
+  String? anchorId;
+  vector.Vector3? lastPosition;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -39,9 +40,8 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
     this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
     this.arkitController.onUpdateNodeForAnchor = _handleUpdateAnchor;
     this.arkitController.onARTap = (List<ARKitTestResult> ar) {
-      final planeTap = ar.firstWhere(
+      final planeTap = ar.firstWhereOrNull(
         (tap) => tap.type == ARKitHitTestResultType.existingPlaneUsingExtent,
-        orElse: () => null,
       );
       if (planeTap != null) {
         _onPlaneTapHandler(planeTap.worldTransform);
@@ -60,11 +60,11 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
     if (anchor.identifier != anchorId) {
       return;
     }
-    final ARKitPlaneAnchor planeAnchor = anchor;
-    node.position =
+    final planeAnchor = anchor as ARKitPlaneAnchor;
+    node!.position =
         vector.Vector3(planeAnchor.center.x, 0, planeAnchor.center.z);
-    plane.width.value = planeAnchor.extent.x;
-    plane.height.value = planeAnchor.extent.z;
+    plane?.width.value = planeAnchor.extent.x;
+    plane?.height.value = planeAnchor.extent.z;
   }
 
   void _addPlane(ARKitController controller, ARKitPlaneAnchor anchor) {
@@ -85,7 +85,7 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
       position: vector.Vector3(anchor.center.x, 0, anchor.center.z),
       rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
     );
-    controller.add(node, parentNodeName: anchor.nodeName);
+    controller.add(node!, parentNodeName: anchor.nodeName);
   }
 
   void _onPlaneTapHandler(Matrix4 transform) {
@@ -109,14 +109,14 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
     arkitController.add(node);
     if (lastPosition != null) {
       final line = ARKitLine(
-        fromVector: lastPosition,
+        fromVector: lastPosition!,
         toVector: position,
       );
       final lineNode = ARKitNode(geometry: line);
       arkitController.add(lineNode);
 
-      final distance = _calculateDistanceBetweenPoints(position, lastPosition);
-      final point = _getMiddleVector(position, lastPosition);
+      final distance = _calculateDistanceBetweenPoints(position, lastPosition!);
+      final point = _getMiddleVector(position, lastPosition!);
       _drawText(distance, point);
     }
     lastPosition = position;

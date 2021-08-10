@@ -204,7 +204,10 @@ class MyApp extends StatelessWidget {
 }
 
 class SampleItem extends StatelessWidget {
-  const SampleItem({Key key, this.item}) : super(key: key);
+  const SampleItem({
+    required this.item,
+    Key? key,
+  }) : super(key: key);
   final Sample item;
 
   @override

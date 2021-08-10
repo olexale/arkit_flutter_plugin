@@ -8,12 +8,12 @@ class TapPage extends StatefulWidget {
 }
 
 class _TapPageState extends State<TapPage> {
-  ARKitController arkitController;
-  ARKitSphere sphere;
+  late ARKitController arkitController;
+  ARKitSphere? sphere;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -50,11 +50,11 @@ class _TapPageState extends State<TapPage> {
   void onNodeTapHandler(List<String> nodesList) {
     final name = nodesList.first;
     final color =
-        (sphere.materials.value.first.diffuse as ARKitMaterialColor).color ==
+        (sphere!.materials.value!.first.diffuse as ARKitMaterialColor).color ==
                 Colors.yellow
             ? Colors.blue
             : Colors.yellow;
-    sphere.materials.value = [
+    sphere!.materials.value = [
       ARKitMaterial(diffuse: ARKitMaterialProperty.color(color))
     ];
     showDialog<void>(

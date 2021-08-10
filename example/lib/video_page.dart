@@ -10,14 +10,14 @@ class VideoPage extends StatefulWidget {
 }
 
 class _VideoPageState extends State<VideoPage> {
-  ARKitController arkitController;
-  ARKitMaterialVideo _video;
+  late ARKitController arkitController;
+  late ARKitMaterialVideo _video;
   bool _isPlaying = true;
 
   @override
   void dispose() {
     _video.dispose();
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 

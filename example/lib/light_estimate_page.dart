@@ -10,13 +10,13 @@ class LightEstimatePage extends StatefulWidget {
 }
 
 class _LightEstimatePageState extends State<LightEstimatePage> {
-  ARKitController arkitController;
-  Timer timer;
+  late ARKitController arkitController;
+  Timer? timer;
 
   @override
   void dispose() {
     timer?.cancel();
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 

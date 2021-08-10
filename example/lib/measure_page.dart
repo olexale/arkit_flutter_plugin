@@ -1,6 +1,7 @@
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
+import 'package:collection/collection.dart';
 
 class MeasurePage extends StatefulWidget {
   @override
@@ -8,12 +9,12 @@ class MeasurePage extends StatefulWidget {
 }
 
 class _MeasurePageState extends State<MeasurePage> {
-  ARKitController arkitController;
-  vector.Vector3 lastPosition;
+  late ARKitController arkitController;
+  vector.Vector3? lastPosition;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -32,9 +33,8 @@ class _MeasurePageState extends State<MeasurePage> {
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
     this.arkitController.onARTap = (ar) {
-      final point = ar.firstWhere(
+      final point = ar.firstWhereOrNull(
         (o) => o.type == ARKitHitTestResultType.featurePoint,
-        orElse: () => null,
       );
       if (point != null) {
         _onARTapHandler(point);
@@ -63,14 +63,14 @@ class _MeasurePageState extends State<MeasurePage> {
 
     if (lastPosition != null) {
       final line = ARKitLine(
-        fromVector: lastPosition,
+        fromVector: lastPosition!,
         toVector: position,
       );
       final lineNode = ARKitNode(geometry: line);
       arkitController.add(lineNode);
 
-      final distance = _calculateDistanceBetweenPoints(position, lastPosition);
-      final point = _getMiddleVector(position, lastPosition);
+      final distance = _calculateDistanceBetweenPoints(position, lastPosition!);
+      final point = _getMiddleVector(position, lastPosition!);
       _drawText(distance, point);
     }
     lastPosition = position;

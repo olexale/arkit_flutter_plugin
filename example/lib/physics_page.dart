@@ -9,11 +9,11 @@ class PhysicsPage extends StatefulWidget {
 }
 
 class _PhysicsPageState extends State<PhysicsPage> {
-  ARKitController arkitController;
+  late ARKitController arkitController;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 

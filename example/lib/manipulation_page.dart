@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
+import 'package:collection/collection.dart';
 
 class ManipulationPage extends StatefulWidget {
   @override
@@ -9,12 +10,12 @@ class ManipulationPage extends StatefulWidget {
 }
 
 class _ManipulationPageState extends State<ManipulationPage> {
-  ARKitController arkitController;
-  ARKitNode boxNode;
+  late ARKitController arkitController;
+  ARKitNode? boxNode;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -60,35 +61,33 @@ class _ManipulationPageState extends State<ManipulationPage> {
   }
 
   void _onPinchHandler(List<ARKitNodePinchResult> pinch) {
-    final pinchNode = pinch.firstWhere(
-      (e) => e.nodeName == boxNode.name,
-      orElse: () => null,
+    final pinchNode = pinch.firstWhereOrNull(
+      (e) => e.nodeName == boxNode?.name,
     );
     if (pinchNode != null) {
       final scale = vector.Vector3.all(pinchNode.scale);
-      boxNode.scale = scale;
+      boxNode?.scale = scale;
     }
   }
 
   void _onPanHandler(List<ARKitNodePanResult> pan) {
-    final panNode =
-        pan.firstWhere((e) => e.nodeName == boxNode.name, orElse: () => null);
+    final panNode = pan.firstWhereOrNull((e) => e.nodeName == boxNode?.name);
     if (panNode != null) {
-      final old = boxNode.eulerAngles;
+      final old = boxNode?.eulerAngles;
       final newAngleY = panNode.translation.x * math.pi / 180;
-      boxNode.eulerAngles = vector.Vector3(old.x, newAngleY, old.z);
+      boxNode?.eulerAngles =
+          vector.Vector3(old?.x ?? 0, newAngleY, old?.z ?? 0);
     }
   }
 
   void _onRotationHandler(List<ARKitNodeRotationResult> rotation) {
-    final rotationNode = rotation.firstWhere(
-      (e) => e.nodeName == boxNode.name,
-      orElse: () => null,
+    final rotationNode = rotation.firstWhereOrNull(
+      (e) => e.nodeName == boxNode?.name,
     );
     if (rotationNode != null) {
-      final rotation =
-          boxNode.eulerAngles + vector.Vector3.all(rotationNode.rotation);
-      boxNode.eulerAngles = rotation;
+      final rotation = boxNode?.eulerAngles ??
+          vector.Vector3.zero() + vector.Vector3.all(rotationNode.rotation);
+      boxNode?.eulerAngles = rotation;
     }
   }
 }

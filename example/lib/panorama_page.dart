@@ -8,11 +8,11 @@ class PanoramaPage extends StatefulWidget {
 }
 
 class _PanoramaPageState extends State<PanoramaPage> {
-  ARKitController arkitController;
+  late ARKitController arkitController;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 

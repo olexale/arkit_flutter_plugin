@@ -23,7 +23,7 @@ class CheckSupportPage extends StatelessWidget {
             if (!snapshot.hasData) {
               return Text(' loading');
             }
-            return Text(snapshot.data ? ' supported' : ' not supported');
+            return Text(snapshot.data! ? ' supported' : ' not supported');
           })
     ]);
   }

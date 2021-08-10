@@ -9,17 +9,17 @@ class WidgetProjectionPage extends StatefulWidget {
 }
 
 class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
-  ARKitController arkitController;
-  String anchorId;
-  double x, y;
+  late ARKitController arkitController;
+  String anchorId = '';
+  double x = 0, y = 0;
   double width = 1, height = 1;
   Matrix4 transform = Matrix4.identity();
 
   @override
   void dispose() {
-    arkitController?.onAddNodeForAnchor = null;
-    arkitController?.onUpdateNodeForAnchor = null;
-    arkitController?.dispose();
+    arkitController.onAddNodeForAnchor = null;
+    arkitController.onUpdateNodeForAnchor = null;
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -66,7 +66,7 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
   }
 
   void _handleUpdateAnchor(ARKitAnchor anchor) {
-    if (anchor.identifier == anchorId) {
+    if (anchor.identifier == anchorId && anchor is ARKitImageAnchor) {
       _updatePosition(anchor);
       _updateRotation(anchor);
     }
@@ -103,19 +103,24 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
     final pointsViewportSpaceResults = await Future.wait(pointsViewportSpace);
 
     setState(() {
-      x = pointsViewportSpaceResults[2].x;
-      y = pointsViewportSpaceResults[2].y;
-      this.width = pointsViewportSpaceResults[0]
-          .distanceTo(pointsViewportSpaceResults[3]);
-      this.height = pointsViewportSpaceResults[1]
-          .distanceTo(pointsViewportSpaceResults[2]);
+      x = pointsViewportSpaceResults[2]!.x;
+      y = pointsViewportSpaceResults[2]!.y;
+      this.width = pointsViewportSpaceResults[0]!
+          .distanceTo(pointsViewportSpaceResults[3]!);
+      this.height = pointsViewportSpaceResults[1]!
+          .distanceTo(pointsViewportSpaceResults[2]!);
     });
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
   final String title;
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }

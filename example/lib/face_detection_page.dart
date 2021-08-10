@@ -8,17 +8,15 @@ class FaceDetectionPage extends StatefulWidget {
 }
 
 class _FaceDetectionPageState extends State<FaceDetectionPage> {
-  ARKitController arkitController;
-  ARKitNode node;
-  String anchorId;
+  late ARKitController arkitController;
+  ARKitNode? node;
 
-  ARKitNode leftEye;
-  ARKitNode rightEye;
+  ARKitNode? leftEye;
+  ARKitNode? rightEye;
 
   @override
   void dispose() {
-    arkitController?.dispose();
-    arkitController = null;
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -44,17 +42,15 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
       return;
     }
     final material = ARKitMaterial(fillMode: ARKitFillMode.lines);
-    final ARKitFaceAnchor faceAnchor = anchor;
-    faceAnchor.geometry.materials.value = [material];
+    anchor.geometry.materials.value = [material];
 
-    anchorId = anchor.identifier;
-    node = ARKitNode(geometry: faceAnchor.geometry);
-    arkitController.add(node, parentNodeName: anchor.nodeName);
+    node = ARKitNode(geometry: anchor.geometry);
+    arkitController.add(node!, parentNodeName: anchor.nodeName);
 
-    leftEye = _createEye(faceAnchor.leftEyeTransform);
-    arkitController.add(leftEye, parentNodeName: anchor.nodeName);
-    rightEye = _createEye(faceAnchor.rightEyeTransform);
-    arkitController.add(rightEye, parentNodeName: anchor.nodeName);
+    leftEye = _createEye(anchor.leftEyeTransform);
+    arkitController.add(leftEye!, parentNodeName: anchor.nodeName);
+    rightEye = _createEye(anchor.rightEyeTransform);
+    arkitController.add(rightEye!, parentNodeName: anchor.nodeName);
   }
 
   ARKitNode _createEye(Matrix4 transform) {
@@ -73,13 +69,13 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
   }
 
   void _handleUpdateAnchor(ARKitAnchor anchor) {
-    if (anchor is ARKitFaceAnchor) {
+    if (anchor is ARKitFaceAnchor && mounted) {
       final faceAnchor = anchor;
-      arkitController?.updateFaceGeometry(node, anchor.identifier);
-      _updateEye(leftEye, faceAnchor.leftEyeTransform,
-          faceAnchor.blendShapes['eyeBlink_L']);
-      _updateEye(rightEye, faceAnchor.rightEyeTransform,
-          faceAnchor.blendShapes['eyeBlink_R']);
+      arkitController.updateFaceGeometry(node!, anchor.identifier);
+      _updateEye(leftEye!, faceAnchor.leftEyeTransform,
+          faceAnchor.blendShapes['eyeBlink_L'] ?? 0);
+      _updateEye(rightEye!, faceAnchor.rightEyeTransform,
+          faceAnchor.blendShapes['eyeBlink_R'] ?? 0);
     }
   }
 

@@ -11,14 +11,14 @@ class NetworkImageDetectionPage extends StatefulWidget {
 }
 
 class _NetworkImageDetectionPageState extends State<NetworkImageDetectionPage> {
-  ARKitController arkitController;
-  Timer timer;
+  late ARKitController arkitController;
+  Timer? timer;
   bool anchorWasFound = false;
 
   @override
   void dispose() {
     timer?.cancel();
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -47,7 +47,7 @@ class _NetworkImageDetectionPageState extends State<NetworkImageDetectionPage> {
                         'Point the camera at Mars photo from the article about Mars on Wikipedia.',
                         style: Theme.of(context)
                             .textTheme
-                            .headline5
+                            .headline5!
                             .copyWith(color: Colors.white),
                       ),
                     ),

@@ -10,14 +10,14 @@ class ImageDetectionPage extends StatefulWidget {
 }
 
 class _ImageDetectionPageState extends State<ImageDetectionPage> {
-  ARKitController arkitController;
-  Timer timer;
+  late ARKitController arkitController;
+  Timer? timer;
   bool anchorWasFound = false;
 
   @override
   void dispose() {
     timer?.cancel();
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -41,7 +41,7 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
                         style: Theme.of(context)
                             .textTheme
                             .headline5
-                            .copyWith(color: Colors.white),
+                            ?.copyWith(color: Colors.white),
                       ),
                     ),
             ],

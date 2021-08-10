@@ -1,6 +1,7 @@
 import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
+import 'package:collection/collection.dart';
 
 class RealTimeUpdatesPage extends StatefulWidget {
   @override
@@ -8,14 +9,14 @@ class RealTimeUpdatesPage extends StatefulWidget {
 }
 
 class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
-  ARKitController arkitController;
-  ARKitNode movingNode;
+  late ARKitController arkitController;
+  ARKitNode? movingNode;
   bool busy = false;
 
   @override
   void dispose() {
-    arkitController?.dispose();
-    arkitController = null;
+    arkitController.updateAtTime = null;
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -52,11 +53,11 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
     this.arkitController.updateAtTime = (time) {
       if (busy == false) {
         busy = true;
-        this.arkitController?.performHitTest(x: 0.25, y: 0.75)?.then((results) {
+        this.arkitController.performHitTest(x: 0.25, y: 0.75).then((results) {
           if (results.isNotEmpty) {
-            final point = results.firstWhere(
-                (o) => o.type == ARKitHitTestResultType.featurePoint,
-                orElse: () => null);
+            final point = results.firstWhereOrNull(
+              (o) => o.type == ARKitHitTestResultType.featurePoint,
+            );
             if (point == null) {
               return;
             }
@@ -69,7 +70,7 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
               geometry: sphere,
               position: position,
             );
-            this.arkitController.remove(movingNode.name);
+            this.arkitController.remove(movingNode!.name);
             movingNode = null;
             this.arkitController.add(newNode);
             movingNode = newNode;
@@ -79,6 +80,6 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
       }
     };
 
-    this.arkitController.add(movingNode);
+    this.arkitController.add(movingNode!);
   }
 }

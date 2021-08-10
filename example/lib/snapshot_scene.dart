@@ -8,11 +8,11 @@ class SnapshotScenePage extends StatefulWidget {
 }
 
 class _SnapshotScenePageState extends State<SnapshotScenePage> {
-  ARKitController arkitController;
+  late ARKitController arkitController;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 
@@ -50,8 +50,13 @@ class _SnapshotScenePageState extends State<SnapshotScenePage> {
 }
 
 class SnapshotPreview extends StatelessWidget {
-  const SnapshotPreview({Key key, this.imageProvider}) : super(key: key);
+  const SnapshotPreview({
+    Key? key,
+    required this.imageProvider,
+  }) : super(key: key);
+
   final ImageProvider imageProvider;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
