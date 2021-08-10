@@ -25,8 +25,9 @@ abstract class ARKitAnchor {
         return ARKitFaceAnchor.fromJson(arguments);
       case 'bodyAnchor':
         return ARKitBodyAnchor.fromJson(arguments);
+      default:
+        return ARKitUnkownAnchor.fromJson(arguments);
     }
-    return ARKitUnkownAnchor.fromJson(arguments);
   }
 
   /// Represents the name of the node anchor attached to.
@@ -55,7 +56,7 @@ class ARKitUnkownAnchor extends ARKitAnchor {
   final String anchorType;
 
   static ARKitUnkownAnchor fromJson(Map<String, dynamic> json) =>
-      _$ARKitUnkownAnchorFromJson(json);
+      _$ARKitUnkownAnchorFromJson(json..addAll({'anchorType': 'unknown'}));
 
   @override
   Map<String, dynamic> toJson() => _$ARKitUnkownAnchorToJson(this);
@@ -165,7 +166,8 @@ class ARKitFaceAnchor extends ARKitAnchor {
   final bool isTracked;
 
   static ARKitFaceAnchor fromJson(Map<String, dynamic> json) =>
-      _$ARKitFaceAnchorFromJson(json);
+      _$ARKitFaceAnchorFromJson(
+          json..putIfAbsent('geometry', () => <String, dynamic>{}));
 
   @override
   Map<String, dynamic> toJson() => _$ARKitFaceAnchorToJson(this);

@@ -362,9 +362,9 @@ class ARKitController {
   /// Return list of 2 Vector3 elements, where first element - min value, last element - max value.
   Future<List<Vector3>> getNodeBoundingBox(ARKitNode node) async {
     final params = _addParentNodeNameToParams(node.toMap(), null);
-    final result = await (_channel.invokeListMethod(
-        'getNodeBoundingBox', params) as FutureOr<List<dynamic>>);
-    final typed = result.map((e) => List<double>.from(e));
+    final result =
+        await _channel.invokeListMethod('getNodeBoundingBox', params);
+    final typed = result!.map((e) => List<double>.from(e));
     final vectors = typed.map((e) => _vector3Converter.fromJson(e));
     return vectors.toList();
   }
