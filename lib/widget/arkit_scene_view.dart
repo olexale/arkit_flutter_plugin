@@ -295,7 +295,7 @@ class ARKitController {
   Function(double time)? updateAtTime;
 
   /// Called when camera tracking state is changed;
-  Function(ARTrackingState trackingState, ARTrackingStateReason reason)?
+  Function(ARTrackingState trackingState, ARTrackingStateReason? reason)?
       onCameraDidChangeTrackingState;
 
   final bool debug;
@@ -525,7 +525,7 @@ class ARKitController {
             final trackingState = _stateConverter.fromJson(rawTrackingState);
 
             final int? rawReason = call.arguments['reason'];
-            final reason = _stateReasonConverter.fromJson(rawReason)!;
+            final reason = _stateReasonConverter.fromJson(rawReason);
 
             onCameraDidChangeTrackingState!(trackingState, reason);
           }
