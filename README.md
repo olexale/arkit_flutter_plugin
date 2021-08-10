@@ -56,11 +56,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ARKitController arkitController;
+  late ARKitController arkitController;
 
   @override
   void dispose() {
-    arkitController?.dispose();
+    arkitController.dispose();
     super.dispose();
   }
 
