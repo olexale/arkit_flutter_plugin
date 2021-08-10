@@ -710,15 +710,13 @@ class ARKitController {
   }
 
   Future<Vector3> getCameraEulerAngles() async {
-    final result = await (_channel.invokeListMethod('cameraEulerAngles')
-        as FutureOr<List<dynamic>?>);
+    final result = await _channel.invokeListMethod('cameraEulerAngles');
     final vector3 = _vector3Converter.fromJson(result!);
     return vector3;
   }
 
   Future<ImageProvider> snapshot() async {
-    final result = await (_channel.invokeMethod<Uint8List>('snapshot')
-        as FutureOr<Uint8List?>);
+    final result = await _channel.invokeMethod<Uint8List>('snapshot');
     return MemoryImage(result!);
   }
 }
