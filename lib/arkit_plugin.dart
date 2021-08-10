@@ -49,9 +49,9 @@ class ARKitPlugin {
 
   ARKitPlugin._();
 
-  static Future<bool?> checkConfiguration(ARKitConfiguration configuration) {
+  static Future<bool> checkConfiguration(ARKitConfiguration configuration) {
     return _channel.invokeMethod<bool>('checkConfiguration', {
       'configuration': configuration.index,
-    });
+    }).then((value) => value!);
   }
 }
