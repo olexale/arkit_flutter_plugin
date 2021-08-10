@@ -13,20 +13,20 @@ abstract class ARKitMaterialProperty {
   const ARKitMaterialProperty._(this.type);
 
   /// Specifies the receiver's color.
-  static ARKitMaterialProperty color(Color color) => ARKitMaterialColor(color);
+  static ARKitMaterialColor color(Color color) => ARKitMaterialColor(color);
 
   /// Specifies the receiver's image.
   /// It might be either a name of an image stored in native iOS project or
   /// a full path to the file in the Flutter folder (/assets/image/img.jpg)
   /// or URL
   /// or base64 string (highly not recommended due to potential performance issues)
-  static ARKitMaterialProperty image(String image) => ARKitMaterialImage(image);
+  static ARKitMaterialImage image(String image) => ARKitMaterialImage(image);
 
   /// Floating value between 0 and 1 (NSNumber) for metalness and roughness properties
-  static ARKitMaterialProperty value(double value) => ARKitMaterialValue(value);
+  static ARKitMaterialValue value(double value) => ARKitMaterialValue(value);
 
   /// Specifies the receiver's video.
-  static ARKitMaterialProperty video({
+  static ARKitMaterialVideo video({
     required int width,
     required int height,
     String? filename,
