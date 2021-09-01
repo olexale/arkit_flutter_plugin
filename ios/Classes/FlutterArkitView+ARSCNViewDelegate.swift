@@ -18,6 +18,14 @@ extension FlutterArkitView: ARSCNViewDelegate {
             switch reason {
             case .initializing:
                 params["reason"] = 1
+                if #available(iOS 13.0, *) {
+                    if (shouldShowCoachingOverlay) {
+                        addCoachingOverlay()
+                    }
+                } else {
+                    executeActions()
+                }
+
                 break
             case .relocalizing:
                 params["reason"] = 2

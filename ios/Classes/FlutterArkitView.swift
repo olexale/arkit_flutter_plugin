@@ -1,13 +1,35 @@
 import Foundation
 import ARKit
+import Flutter
+
+class OnAddNode {
+    var function: ((_ arguments: Dictionary<String, Any>) -> Void)?
+    var arguments: Dictionary<String, Any>
+    
+    init(function: ((_ arguments: Dictionary<String, Any>) -> Void)?, arguments: Dictionary<String, Any>) {
+        self.function = function
+        self.arguments = arguments
+    }
+    
+    func execute() {
+        self.function?(arguments)
+    }
+}
 
 class FlutterArkitView: NSObject, FlutterPlatformView {
+    
     let sceneView: ARSCNView
     let channel: FlutterMethodChannel
     
     var forceTapOnCenter: Bool = false
+    var isCoachingOverlayActive: Bool = false
     var configuration: ARConfiguration? = nil
     
+    var actions: [OnAddNode] = []
+    var shouldShowCoachingOverlay: Bool = false
+    @available(iOS 13, *)
+    private(set) lazy var coachingView: ARCoachingOverlayView = ARCoachingOverlayView(frame: self.sceneView.frame)
+        
     init(withFrame frame: CGRect, viewIdentifier viewId: Int64, messenger msg: FlutterBinaryMessenger) {
         self.sceneView = ARSCNView(frame: frame)
         self.channel = FlutterMethodChannel(name: "arkit_\(viewId)", binaryMessenger: msg)
@@ -34,8 +56,12 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
             initalize(arguments!, result)
             result(nil)
             break
-        case "addARKitNode":
-            onAddNode(arguments!)
+        case "addARKitNode":            
+            if (isCoachingOverlayActive || shouldShowCoachingOverlay) {
+                self.actions.append(OnAddNode(function: onAddNode(_:), arguments: arguments!))
+            } else {
+                onAddNode(arguments!)
+            }
             result(nil)
             break
         case "onUpdateNode":
@@ -118,4 +144,39 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
         self.channel.setMethodCallHandler(nil)
         result(nil)
     }
+    
+    func executeActions() {
+        for addFunction in actions {
+            addFunction.execute()
+        }
+        actions.removeAll()
+        
+    }
+}
+
+@available(iOS 13.0, *)
+extension FlutterArkitView: ARCoachingOverlayViewDelegate {
+    func addCoachingOverlay() {
+        
+        isCoachingOverlayActive = true
+        
+        coachingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        sceneView.subviews.forEach({ ($0 as? ARCoachingOverlayView)?.removeFromSuperview()})
+        
+        sceneView.addSubview(coachingView)
+        
+        coachingView.goal = .verticalPlane
+        coachingView.session = self.sceneView.session
+        coachingView.delegate = self
+        coachingView.setActive(true, animated: true)
+    }
+    
+    func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
+        coachingOverlayView.activatesAutomatically = false
+        executeActions()
+        isCoachingOverlayActive = false
+        shouldShowCoachingOverlay = false
+    }
+    
 }

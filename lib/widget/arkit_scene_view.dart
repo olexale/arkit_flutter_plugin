@@ -65,6 +65,7 @@ class ARKitSceneView extends StatefulWidget {
     this.forceUserTapOnCenter = false,
     this.worldAlignment = ARWorldAlignment.gravity,
     this.maximumNumberOfTrackedImages = 0,
+    this.shouldShowCoachingOverlay = true,
     this.debug = false,
   }) : super(key: key);
 
@@ -158,6 +159,11 @@ class ARKitSceneView extends StatefulWidget {
   /// The default is 0
   final int maximumNumberOfTrackedImages;
 
+  /// Show Coaching overlay to calibrate ARKit
+  /// Default is true
+  /// Requires iOS 13 or newer
+  final bool shouldShowCoachingOverlay;
+
   /// When true prints all communication between the plugin and the framework.
   /// The default is false;
   final bool debug;
@@ -201,6 +207,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.trackingImages,
       widget.forceUserTapOnCenter,
       widget.maximumNumberOfTrackedImages,
+      widget.shouldShowCoachingOverlay,
       widget.debug,
     ));
   }
@@ -231,6 +238,7 @@ class ARKitController {
     List<ARKitReferenceImage>? trackingImages,
     bool forceUserTapOnCenter,
     int maximumNumberOfTrackedImages,
+    bool shouldShowCoachingOverlay,
     this.debug,
   ) {
     _channel = MethodChannel('arkit_$id');
@@ -253,6 +261,7 @@ class ARKitController {
       'trackingImages': trackingImages?.map((i) => i.toJson()).toList(),
       'forceUserTapOnCenter': forceUserTapOnCenter,
       'worldAlignment': worldAlignment.index,
+      'shouldShowCoachingOverlay': shouldShowCoachingOverlay,
       'maximumNumberOfTrackedImages': maximumNumberOfTrackedImages,
     });
   }

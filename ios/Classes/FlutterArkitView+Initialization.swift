@@ -2,6 +2,8 @@ import ARKit
 
 extension FlutterArkitView {
     func initalize(_ arguments: Dictionary<String, Any>, _ result:FlutterResult) {
+        shouldShowCoachingOverlay = arguments["shouldShowCoachingOverlay"] as? Bool == true
+
         if let showStatistics = arguments["showStatistics"] as? Bool {
             self.sceneView.showsStatistics = showStatistics
         }
