@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4
+
+* Add coaching overlay (by @HadiIOS)
+
 ## 1.0.3
 
 * Fix null safety errors (by @daniel-possienke, @ssp)

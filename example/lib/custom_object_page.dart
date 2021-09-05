@@ -31,7 +31,8 @@ class _CustomObjectPageState extends State<CustomObjectPage> {
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
-    this.arkitController.onAddNodeForAnchor = _handleAddAnchor;
+    arkitController.addCoachingOverlay(CoachingOverlayGoal.horizontalPlane);
+    arkitController.onAddNodeForAnchor = _handleAddAnchor;
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
