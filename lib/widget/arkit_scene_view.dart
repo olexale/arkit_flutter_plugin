@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:arkit_plugin/arkit_node.dart';
+import 'package:arkit_plugin/enums/coaching_overlay_goal.dart';
 import 'package:arkit_plugin/geometries/material/arkit_material.dart';
 import 'package:arkit_plugin/widget/ar_environment_texturing.dart';
 import 'package:arkit_plugin/widget/ar_tracking_state.dart';
@@ -298,6 +299,12 @@ class ARKitController {
   Function(ARTrackingState trackingState, ARTrackingStateReason? reason)?
       onCameraDidChangeTrackingState;
 
+  /// This is called when the view deactivates, either manually or automatically
+  /// Set this function to do any custom actions your app requires to begin
+  /// the AR experience.
+  /// For example, when coaching is deactivated, your app might restore custom UI.
+  VoidCallback? coachingOverlayViewDidDeactivate;
+
   final bool debug;
 
   static const _boolConverter = ValueNotifierConverter();
@@ -429,6 +436,17 @@ class ARKitController {
     });
   }
 
+  /// A view that displays standardized onboarding instructions to direct users toward a specific goal.
+  /// The view will use context aware messaging and animations to instruct the user on gathering required info for the AR session.
+  /// Requires iOS 13 and above.
+  Future<void> addCoachingOverlay(CoachingOverlayGoal goal) =>
+      _channel.invokeMethod('addCoachingOverlay', {
+        'goal': goal.index,
+      });
+
+  Future<void> removeCoachingOverlay() =>
+      _channel.invokeMethod('removeCoachingOverlay');
+
   Map<String, dynamic> _addParentNodeNameToParams(
       Map geometryMap, String? parentNodeName) {
     if (parentNodeName?.isNotEmpty ?? false) {
@@ -529,6 +547,9 @@ class ARKitController {
 
             onCameraDidChangeTrackingState!(trackingState, reason);
           }
+          break;
+        case 'coachingOverlayViewDidDeactivate':
+          coachingOverlayViewDidDeactivate?.call();
           break;
         default:
           if (debug) {

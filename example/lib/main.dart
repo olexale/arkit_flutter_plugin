@@ -122,7 +122,7 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Custom Object',
-        'Place custom object on plane.',
+        'Place custom object on plane with coaching overlay.',
         Icons.nature,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => CustomObjectPage())),
