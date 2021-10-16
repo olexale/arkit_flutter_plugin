@@ -48,19 +48,23 @@ class _BodyTrackingPageState extends State<BodyTrackingPage> {
       transform.getColumn(3).y,
       transform.getColumn(3).z,
     );
-    final material = ARKitMaterial(
-      diffuse: ARKitMaterialProperty.color(Colors.red),
+    return ARKitReferenceNode(
+      url: 'models.scnassets/dash.dae',
+      scale: vector.Vector3.all(0.5),
+      position: position,
     );
-    final sphere = ARKitSphere(materials: [material], radius: 0.05);
-
-    return ARKitNode(geometry: sphere, position: position);
   }
 
   void _handleUpdateAnchor(ARKitAnchor anchor) {
     if (anchor is ARKitBodyAnchor && mounted) {
       final transform =
-          anchor.skeleton.modelTransformsFor(ARKitSkeletonJointName.leftHand);
-      hand?.transform = transform!;
+          anchor.skeleton.modelTransformsFor(ARKitSkeletonJointName.leftHand)!;
+      final position = vector.Vector3(
+        transform.getColumn(3).x,
+        transform.getColumn(3).y,
+        transform.getColumn(3).z,
+      );
+      hand?.position = position;
     }
   }
 }

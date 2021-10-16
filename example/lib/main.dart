@@ -151,7 +151,7 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Body Tracking',
-        'Red sphere that follows your hand.',
+        'Dash that follows your hand.',
         Icons.person,
         () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => BodyTrackingPage())),
