@@ -1,3 +1,4 @@
+import 'package:arkit_plugin_example/body_tracking_page.dart';
 import 'package:arkit_plugin_example/check_support_page.dart';
 import 'package:arkit_plugin_example/custom_animation_page.dart';
 import 'package:arkit_plugin_example/custom_object_page.dart';
@@ -149,6 +150,13 @@ class MyApp extends StatelessWidget {
             .push<void>(MaterialPageRoute(builder: (c) => FaceDetectionPage())),
       ),
       Sample(
+        'Body Tracking',
+        'Red sphere that follows your hand.',
+        Icons.person,
+        () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => BodyTrackingPage())),
+      ),
+      Sample(
         'Panorama',
         '360 photo sample.',
         Icons.panorama,
@@ -194,7 +202,6 @@ class MyApp extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        brightness: Brightness.dark,
         title: const Text('ARKit Demo'),
       ),
       body:

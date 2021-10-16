@@ -3,7 +3,7 @@ targets:
     builders:
       json_serializable:
         options:
-          any_map: false
+          any_map: true
           checked: false
           create_factory: true
           create_to_json: true
