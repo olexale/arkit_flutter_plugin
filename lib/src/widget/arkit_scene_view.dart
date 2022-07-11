@@ -740,4 +740,13 @@ class ARKitController {
     final result = await _channel.invokeMethod<Uint8List>('snapshot');
     return MemoryImage(result!);
   }
+
+  Future<Vector3?> cameraPosition() async {
+    final result = await _channel.invokeMethod('cameraPosition');
+    if(result != null) {
+      return _vector3Converter.fromJson(result!);
+    } else {
+      return null;
+    }
+  }
 }

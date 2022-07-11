@@ -20,7 +20,7 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
     
     func view() -> UIView { return sceneView }
     
-    func onMethodCalled(_ call :FlutterMethodCall, _ result:FlutterResult) {
+    func onMethodCalled(_ call: FlutterMethodCall, _ result: FlutterResult) {
         let arguments = call.arguments as? Dictionary<String, Any>
         
         if configuration == nil && call.method != "init" {
@@ -119,13 +119,16 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
         case "snapshot":
             onGetSnapshot(result)
             break
+        case "cameraPosition":
+            onGetCameraPosition(result)
+            break
         default:
             result(FlutterMethodNotImplemented)
             break
         }
     }
     
-    func onDispose(_ result:FlutterResult) {
+    func onDispose(_ result: FlutterResult) {
         sceneView.session.pause()
         self.channel.setMethodCallHandler(nil)
         result(nil)

@@ -143,7 +143,6 @@ extension FlutterArkitView {
             let geometry = node.geometry as? ARSCNFaceGeometry,
             let anchor = sceneView.session.currentFrame?.anchors.first(where: {$0.identifier.uuidString == fromAnchorId}) as? ARFaceAnchor
         {
-            
             geometry.update(from: anchor.geometry)
         } else {
             logPluginError("node not found, geometry was empty, or anchor not found", toChannel: channel)
@@ -153,7 +152,7 @@ extension FlutterArkitView {
         #endif
     }
     
-    func onPerformHitTest(_ arguments: Dictionary<String, Any>, _ result:FlutterResult) {
+    func onPerformHitTest(_ arguments: Dictionary<String, Any>, _ result: FlutterResult) {
         guard let x = arguments["x"] as? Double,
             let y = arguments["y"] as? Double else {
                 logPluginError("deserialization failed", toChannel: channel)
@@ -167,7 +166,7 @@ extension FlutterArkitView {
         result(arHitResults)
     }
     
-    func onGetLightEstimate(_ result:FlutterResult) {
+    func onGetLightEstimate(_ result: FlutterResult) {
         let frame = sceneView.session.currentFrame
         if let lightEstimate = frame?.lightEstimate {
             let res = ["ambientIntensity": lightEstimate.ambientIntensity, "ambientColorTemperature": lightEstimate.ambientColorTemperature]
@@ -177,7 +176,7 @@ extension FlutterArkitView {
         }
     }
     
-    func onProjectPoint(_ arguments: Dictionary<String, Any>, _ result:FlutterResult) {
+    func onProjectPoint(_ arguments: Dictionary<String, Any>, _ result: FlutterResult) {
         guard let rawPoint = arguments["point"] as? Array<Double> else {
             logPluginError("deserialization failed", toChannel: channel)
             result(nil)
@@ -189,7 +188,7 @@ extension FlutterArkitView {
         result(res)
     }
     
-    func onCameraProjectionMatrix(_ result:FlutterResult) {
+    func onCameraProjectionMatrix(_ result: FlutterResult) {
         if let frame = sceneView.session.currentFrame {
             let matrix = serializeMatrix(frame.camera.projectionMatrix)
             result(matrix)
@@ -198,7 +197,7 @@ extension FlutterArkitView {
         }
     }
   
-    func onPointOfViewTransform(_ result:FlutterResult) {
+    func onPointOfViewTransform(_ result: FlutterResult) {
         if let pointOfView = sceneView.pointOfView {
           let matrix = serializeMatrix(pointOfView.simdWorldTransform)
             result(matrix)
@@ -235,7 +234,7 @@ extension FlutterArkitView {
         sceneView.scene.rootNode.removeAnimation(forKey: key)
     }
 
-    func onCameraEulerAngles(_ result:FlutterResult){
+    func onCameraEulerAngles(_ result: FlutterResult){
         if let frame = sceneView.session.currentFrame {
             let res = serializeArray(frame.camera.eulerAngles)
             result(res)
@@ -244,7 +243,7 @@ extension FlutterArkitView {
         }
    }
 
-   func onGetSnapshot(_ result:FlutterResult) {
+   func onGetSnapshot(_ result: FlutterResult) {
         let snapshotImage = sceneView.snapshot()
         if let bytes = snapshotImage.pngData() {
             let data = FlutterStandardTypedData(bytes:bytes)
@@ -253,4 +252,14 @@ extension FlutterArkitView {
             result(nil)
         }
     }
+    
+    func onGetCameraPosition(_ result: FlutterResult) {
+        if let frame: ARFrame = sceneView.session.currentFrame {
+            let cameraPosition = frame.camera.transform.columns.3
+            let res = serializeArray(cameraPosition)
+            result(res)
+        } else {
+            result(nil)
+        }
+     }
 }
