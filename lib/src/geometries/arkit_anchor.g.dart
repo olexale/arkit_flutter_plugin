@@ -11,7 +11,6 @@ ARKitUnkownAnchor _$ARKitUnkownAnchorFromJson(Map json) => ARKitUnkownAnchor(
       json['nodeName'] as String?,
       json['identifier'] as String,
       const MatrixConverter().fromJson(json['transform'] as List),
-      const Vector3ListConverter().fromJson(json['geometryVertices'] as List),
     );
 
 Map<String, dynamic> _$ARKitUnkownAnchorToJson(ARKitUnkownAnchor instance) {
@@ -26,8 +25,6 @@ Map<String, dynamic> _$ARKitUnkownAnchorToJson(ARKitUnkownAnchor instance) {
   writeNotNull('nodeName', instance.nodeName);
   val['identifier'] = instance.identifier;
   val['transform'] = const MatrixConverter().toJson(instance.transform);
-  val['geometryVertices'] =
-      const Vector3ListConverter().toJson(instance.geometryVertices);
   val['anchorType'] = instance.anchorType;
   return val;
 }
@@ -38,7 +35,6 @@ ARKitPlaneAnchor _$ARKitPlaneAnchorFromJson(Map json) => ARKitPlaneAnchor(
       json['nodeName'] as String?,
       json['identifier'] as String,
       const MatrixConverter().fromJson(json['transform'] as List),
-      const Vector3ListConverter().fromJson(json['geometryVertices'] as List),
     );
 
 Map<String, dynamic> _$ARKitPlaneAnchorToJson(ARKitPlaneAnchor instance) {
@@ -53,8 +49,6 @@ Map<String, dynamic> _$ARKitPlaneAnchorToJson(ARKitPlaneAnchor instance) {
   writeNotNull('nodeName', instance.nodeName);
   val['identifier'] = instance.identifier;
   val['transform'] = const MatrixConverter().toJson(instance.transform);
-  val['geometryVertices'] =
-      const Vector3ListConverter().toJson(instance.geometryVertices);
   val['center'] = const Vector3Converter().toJson(instance.center);
   val['extent'] = const Vector3Converter().toJson(instance.extent);
   return val;
@@ -68,7 +62,6 @@ ARKitImageAnchor _$ARKitImageAnchorFromJson(Map json) => ARKitImageAnchor(
       json['nodeName'] as String?,
       json['identifier'] as String,
       const MatrixConverter().fromJson(json['transform'] as List),
-      const Vector3ListConverter().fromJson(json['geometryVertices'] as List),
     );
 
 Map<String, dynamic> _$ARKitImageAnchorToJson(ARKitImageAnchor instance) {
@@ -83,8 +76,6 @@ Map<String, dynamic> _$ARKitImageAnchorToJson(ARKitImageAnchor instance) {
   writeNotNull('nodeName', instance.nodeName);
   val['identifier'] = instance.identifier;
   val['transform'] = const MatrixConverter().toJson(instance.transform);
-  val['geometryVertices'] =
-      const Vector3ListConverter().toJson(instance.geometryVertices);
   writeNotNull('referenceImageName', instance.referenceImageName);
   val['referenceImagePhysicalSize'] =
       const Vector2Converter().toJson(instance.referenceImagePhysicalSize);
@@ -118,13 +109,13 @@ Map<String, dynamic> _$ARKitFaceAnchorToJson(ARKitFaceAnchor instance) {
   writeNotNull('nodeName', instance.nodeName);
   val['identifier'] = instance.identifier;
   val['transform'] = const MatrixConverter().toJson(instance.transform);
-  val['geometryVertices'] =
-      const Vector3ListConverter().toJson(instance.geometryVertices);
   val['geometry'] = instance.geometry;
   val['leftEyeTransform'] =
       const MatrixConverter().toJson(instance.leftEyeTransform);
   val['rightEyeTransform'] =
       const MatrixConverter().toJson(instance.rightEyeTransform);
+  val['geometryVertices'] =
+      const Vector3ListConverter().toJson(instance.geometryVertices);
   val['blendShapes'] = instance.blendShapes;
   val['isTracked'] = instance.isTracked;
   return val;
@@ -136,7 +127,6 @@ ARKitBodyAnchor _$ARKitBodyAnchorFromJson(Map json) => ARKitBodyAnchor(
       json['nodeName'] as String?,
       json['identifier'] as String,
       const MatrixConverter().fromJson(json['transform'] as List),
-      const Vector3ListConverter().fromJson(json['geometryVertices'] as List),
     );
 
 Map<String, dynamic> _$ARKitBodyAnchorToJson(ARKitBodyAnchor instance) {
@@ -151,8 +141,6 @@ Map<String, dynamic> _$ARKitBodyAnchorToJson(ARKitBodyAnchor instance) {
   writeNotNull('nodeName', instance.nodeName);
   val['identifier'] = instance.identifier;
   val['transform'] = const MatrixConverter().toJson(instance.transform);
-  val['geometryVertices'] =
-      const Vector3ListConverter().toJson(instance.geometryVertices);
   val['skeleton'] = instance.skeleton;
   val['isTracked'] = instance.isTracked;
   return val;

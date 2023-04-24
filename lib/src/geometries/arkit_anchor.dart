@@ -12,7 +12,6 @@ abstract class ARKitAnchor {
     this.nodeName,
     this.identifier,
     this.transform,
-    this.geometryVertices,
   );
 
   factory ARKitAnchor.fromJson(Map<String, dynamic> arguments) {
@@ -41,10 +40,6 @@ abstract class ARKitAnchor {
   @MatrixConverter()
   final Matrix4 transform;
 
-  /// The transformation matrix that defines the anchor’s rotation, translation and scale in world coordinates.
-  @Vector3ListConverter()
-  final List<Vector3> geometryVertices;
-
   Map<String, dynamic> toJson();
 }
 
@@ -56,12 +51,10 @@ class ARKitUnkownAnchor extends ARKitAnchor {
     String? nodeName,
     String identifier,
     Matrix4 transform,
-    List<Vector3> geometryVertices,
   ) : super(
           nodeName,
           identifier,
           transform,
-          geometryVertices,
         );
 
   final String anchorType;
@@ -83,12 +76,10 @@ class ARKitPlaneAnchor extends ARKitAnchor {
     String? nodeName,
     String identifier,
     Matrix4 transform,
-    List<Vector3> geometryVertices,
   ) : super(
           nodeName,
           identifier,
           transform,
-          geometryVertices,
         );
 
   /// The center of the plane in the anchor’s coordinate space.
@@ -116,12 +107,10 @@ class ARKitImageAnchor extends ARKitAnchor {
     String? nodeName,
     String identifier,
     Matrix4 transform,
-    List<Vector3> geometryVertices,
   ) : super(
           nodeName,
           identifier,
           transform,
-          geometryVertices,
         );
 
   /// Name of the detected image (might be null).
@@ -154,12 +143,11 @@ class ARKitFaceAnchor extends ARKitAnchor {
     Matrix4 transform,
     this.leftEyeTransform,
     this.rightEyeTransform,
-    List<Vector3> geometryVertices,
+    this.geometryVertices,
   ) : super(
           nodeName,
           identifier,
           transform,
-          geometryVertices,
         );
 
   /// The face geometry updated based on the computed blend shapes.
@@ -172,6 +160,10 @@ class ARKitFaceAnchor extends ARKitAnchor {
   /// The right eye’s rotation and translation relative to the anchor’s origin.
   @MatrixConverter()
   final Matrix4 rightEyeTransform;
+
+  /// An array of vertex positions for each point in the face mesh.
+  @Vector3ListConverter()
+  final List<Vector3> geometryVertices;
 
   /// A dictionary of blend shape coefficients for each blend shape location.
   /// Blend shapes coefficients define the amount of displacement of a neutral shape at a specific location on the face.
@@ -199,12 +191,10 @@ class ARKitBodyAnchor extends ARKitAnchor {
     String? nodeName,
     String identifier,
     Matrix4 transform,
-    List<Vector3> geometryVertices,
   ) : super(
           nodeName,
           identifier,
           transform,
-          geometryVertices,
         );
 
   /// The tracked skeleton in 3D.
