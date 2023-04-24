@@ -10,16 +10,7 @@ ARKitPhysicsShape _$ARKitPhysicsShapeFromJson(Map json) => ARKitPhysicsShape(
       const ARKitGeometryConverter().fromJson(json['geometry'] as Map),
     );
 
-Map<String, dynamic> _$ARKitPhysicsShapeToJson(ARKitPhysicsShape instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull(
-      'geometry', const ARKitGeometryConverter().toJson(instance.geometry));
-  return val;
-}
+Map<String, dynamic> _$ARKitPhysicsShapeToJson(ARKitPhysicsShape instance) =>
+    <String, dynamic>{
+      'geometry': const ARKitGeometryConverter().toJson(instance.geometry),
+    };

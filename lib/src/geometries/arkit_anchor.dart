@@ -51,7 +51,11 @@ class ARKitUnkownAnchor extends ARKitAnchor {
     String? nodeName,
     String identifier,
     Matrix4 transform,
-  ) : super(nodeName, identifier, transform);
+  ) : super(
+          nodeName,
+          identifier,
+          transform,
+        );
 
   final String anchorType;
 
@@ -139,6 +143,7 @@ class ARKitFaceAnchor extends ARKitAnchor {
     Matrix4 transform,
     this.leftEyeTransform,
     this.rightEyeTransform,
+    this.geometryVertices,
   ) : super(
           nodeName,
           identifier,
@@ -155,6 +160,10 @@ class ARKitFaceAnchor extends ARKitAnchor {
   /// The right eye’s rotation and translation relative to the anchor’s origin.
   @MatrixConverter()
   final Matrix4 rightEyeTransform;
+
+  /// An array of vertex positions for each point in the face mesh.
+  @Vector3ListConverter()
+  final List<Vector3> geometryVertices;
 
   /// A dictionary of blend shape coefficients for each blend shape location.
   /// Blend shapes coefficients define the amount of displacement of a neutral shape at a specific location on the face.

@@ -25,8 +25,7 @@ Map<String, dynamic> _$ARKitLineToJson(ARKitLine instance) {
 
   writeNotNull('materials',
       const ListMaterialsValueNotifierConverter().toJson(instance.materials));
-  writeNotNull(
-      'fromVector', const Vector3Converter().toJson(instance.fromVector));
-  writeNotNull('toVector', const Vector3Converter().toJson(instance.toVector));
+  val['fromVector'] = const Vector3Converter().toJson(instance.fromVector);
+  val['toVector'] = const Vector3Converter().toJson(instance.toVector);
   return val;
 }

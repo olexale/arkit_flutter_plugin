@@ -10,18 +10,10 @@ ARKitMaterialColor _$ARKitMaterialColorFromJson(Map json) => ARKitMaterialColor(
       const ColorConverter().fromJson(json['color'] as int),
     );
 
-Map<String, dynamic> _$ARKitMaterialColorToJson(ARKitMaterialColor instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('color', const ColorConverter().toJson(instance.color));
-  return val;
-}
+Map<String, dynamic> _$ARKitMaterialColorToJson(ARKitMaterialColor instance) =>
+    <String, dynamic>{
+      'color': const ColorConverter().toJson(instance.color),
+    };
 
 ARKitMaterialImage _$ARKitMaterialImageFromJson(Map json) => ARKitMaterialImage(
       json['image'] as String,

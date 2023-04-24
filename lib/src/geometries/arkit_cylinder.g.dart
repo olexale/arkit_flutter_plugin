@@ -25,9 +25,7 @@ Map<String, dynamic> _$ARKitCylinderToJson(ARKitCylinder instance) {
 
   writeNotNull('materials',
       const ListMaterialsValueNotifierConverter().toJson(instance.materials));
-  writeNotNull(
-      'height', const DoubleValueNotifierConverter().toJson(instance.height));
-  writeNotNull(
-      'radius', const DoubleValueNotifierConverter().toJson(instance.radius));
+  val['height'] = const DoubleValueNotifierConverter().toJson(instance.height);
+  val['radius'] = const DoubleValueNotifierConverter().toJson(instance.radius);
   return val;
 }

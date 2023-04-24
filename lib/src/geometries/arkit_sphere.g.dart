@@ -24,7 +24,6 @@ Map<String, dynamic> _$ARKitSphereToJson(ARKitSphere instance) {
 
   writeNotNull('materials',
       const ListMaterialsValueNotifierConverter().toJson(instance.materials));
-  writeNotNull(
-      'radius', const DoubleValueNotifierConverter().toJson(instance.radius));
+  val['radius'] = const DoubleValueNotifierConverter().toJson(instance.radius);
   return val;
 }
