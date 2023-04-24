@@ -25,8 +25,7 @@ Map<String, dynamic> _$ARKitTextToJson(ARKitText instance) {
 
   writeNotNull('materials',
       const ListMaterialsValueNotifierConverter().toJson(instance.materials));
-  writeNotNull(
-      'text', const StringValueNotifierConverter().toJson(instance.text));
+  val['text'] = const StringValueNotifierConverter().toJson(instance.text);
   val['extrusionDepth'] = instance.extrusionDepth;
   return val;
 }

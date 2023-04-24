@@ -27,10 +27,8 @@ Map<String, dynamic> _$ARKitPlaneToJson(ARKitPlane instance) {
 
   writeNotNull('materials',
       const ListMaterialsValueNotifierConverter().toJson(instance.materials));
-  writeNotNull(
-      'width', const DoubleValueNotifierConverter().toJson(instance.width));
-  writeNotNull(
-      'height', const DoubleValueNotifierConverter().toJson(instance.height));
+  val['width'] = const DoubleValueNotifierConverter().toJson(instance.width);
+  val['height'] = const DoubleValueNotifierConverter().toJson(instance.height);
   val['widthSegmentCount'] = instance.widthSegmentCount;
   val['heightSegmentCount'] = instance.heightSegmentCount;
   return val;

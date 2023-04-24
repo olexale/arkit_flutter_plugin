@@ -25,9 +25,8 @@ Map<String, dynamic> _$ARKitCapsuleToJson(ARKitCapsule instance) {
 
   writeNotNull('materials',
       const ListMaterialsValueNotifierConverter().toJson(instance.materials));
-  writeNotNull('capRadius',
-      const DoubleValueNotifierConverter().toJson(instance.capRadius));
-  writeNotNull(
-      'height', const DoubleValueNotifierConverter().toJson(instance.height));
+  val['capRadius'] =
+      const DoubleValueNotifierConverter().toJson(instance.capRadius);
+  val['height'] = const DoubleValueNotifierConverter().toJson(instance.height);
   return val;
 }

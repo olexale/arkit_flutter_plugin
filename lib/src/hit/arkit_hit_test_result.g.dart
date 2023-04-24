@@ -15,7 +15,12 @@ ARKitTestResult _$ARKitTestResultFromJson(Map json) => ARKitTestResult(
     );
 
 Map<String, dynamic> _$ARKitTestResultToJson(ARKitTestResult instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'type': const ARKitHitTestResultTypeConverter().toJson(instance.type),
+    'distance': instance.distance,
+    'localTransform': const MatrixConverter().toJson(instance.localTransform),
+    'worldTransform': const MatrixConverter().toJson(instance.worldTransform),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -23,13 +28,6 @@ Map<String, dynamic> _$ARKitTestResultToJson(ARKitTestResult instance) {
     }
   }
 
-  writeNotNull(
-      'type', const ARKitHitTestResultTypeConverter().toJson(instance.type));
-  val['distance'] = instance.distance;
-  writeNotNull('localTransform',
-      const MatrixConverter().toJson(instance.localTransform));
-  writeNotNull('worldTransform',
-      const MatrixConverter().toJson(instance.worldTransform));
   writeNotNull('anchor', const ARKitAnchorConverter().toJson(instance.anchor));
   return val;
 }

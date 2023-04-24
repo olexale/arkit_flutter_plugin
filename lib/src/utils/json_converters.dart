@@ -458,3 +458,23 @@ class MatrixValueNotifierConverter
     return list;
   }
 }
+
+class Vector3ListConverter
+    implements JsonConverter<List<Vector3>, List<dynamic>> {
+  const Vector3ListConverter();
+
+  @override
+  List<Vector3> fromJson(List<dynamic> list) {
+    final vectorConverter = Vector3Converter();
+    return list.map((json) => vectorConverter.fromJson(json)).toList();
+  }
+
+  @override
+  List<dynamic> toJson(List<Vector3> vectorList) {
+    final res = List.filled(vectorList.length, List.filled(3, 0.0));
+    for (var i = 0; i < res.length; i++) {
+      vectorList[i].copyIntoArray(res[i]);
+    }
+    return res;
+  }
+}

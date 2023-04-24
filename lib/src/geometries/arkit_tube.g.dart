@@ -26,11 +26,10 @@ Map<String, dynamic> _$ARKitTubeToJson(ARKitTube instance) {
 
   writeNotNull('materials',
       const ListMaterialsValueNotifierConverter().toJson(instance.materials));
-  writeNotNull(
-      'height', const DoubleValueNotifierConverter().toJson(instance.height));
-  writeNotNull('innerRadius',
-      const DoubleValueNotifierConverter().toJson(instance.innerRadius));
-  writeNotNull('outerRadius',
-      const DoubleValueNotifierConverter().toJson(instance.outerRadius));
+  val['height'] = const DoubleValueNotifierConverter().toJson(instance.height);
+  val['innerRadius'] =
+      const DoubleValueNotifierConverter().toJson(instance.innerRadius);
+  val['outerRadius'] =
+      const DoubleValueNotifierConverter().toJson(instance.outerRadius);
   return val;
 }

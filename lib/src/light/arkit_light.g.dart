@@ -20,7 +20,9 @@ ARKitLight _$ARKitLightFromJson(Map json) => ARKitLight(
     );
 
 Map<String, dynamic> _$ARKitLightToJson(ARKitLight instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'type': const ARKitLightTypeConverter().toJson(instance.type),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -28,11 +30,10 @@ Map<String, dynamic> _$ARKitLightToJson(ARKitLight instance) {
     }
   }
 
-  writeNotNull('type', const ARKitLightTypeConverter().toJson(instance.type));
   writeNotNull('color', const NullableColorConverter().toJson(instance.color));
   val['temperature'] = instance.temperature;
-  writeNotNull('intensity',
-      const DoubleValueNotifierConverter().toJson(instance.intensity));
+  val['intensity'] =
+      const DoubleValueNotifierConverter().toJson(instance.intensity);
   val['spotInnerAngle'] = instance.spotInnerAngle;
   val['spotOuterAngle'] = instance.spotOuterAngle;
   return val;
