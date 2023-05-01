@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.6
+
+* Add positions for each point in the face mesh (by @niverovskiinn)
+* Add cameraPosition function (by @alegos27)
+* Update dependencies
+
 ## 1.0.5
 
 * Fix Face detection and Body tracking deserialization errors
