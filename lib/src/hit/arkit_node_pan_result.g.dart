@@ -21,7 +21,6 @@ Map<String, dynamic> _$ARKitNodePanResultToJson(ARKitNodePanResult instance) {
   }
 
   writeNotNull('nodeName', instance.nodeName);
-  writeNotNull(
-      'translation', const Vector2Converter().toJson(instance.translation));
+  val['translation'] = const Vector2Converter().toJson(instance.translation);
   return val;
 }

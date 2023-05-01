@@ -8,12 +8,15 @@ part of 'arkit_physics_body.dart';
 
 ARKitPhysicsBody _$ARKitPhysicsBodyFromJson(Map json) => ARKitPhysicsBody(
       const ARKitPhysicsBodyTypeConverter().fromJson(json['type'] as int),
-      shape: const ARKitPhysicsShapeConverter().fromJson(json['shape'] as Map),
+      shape: _$JsonConverterFromJson<Map<dynamic, dynamic>, ARKitPhysicsShape?>(
+          json['shape'], const ARKitPhysicsShapeConverter().fromJson),
       categoryBitMask: json['categoryBitMask'] as int?,
     );
 
 Map<String, dynamic> _$ARKitPhysicsBodyToJson(ARKitPhysicsBody instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'type': const ARKitPhysicsBodyTypeConverter().toJson(instance.type),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -22,9 +25,13 @@ Map<String, dynamic> _$ARKitPhysicsBodyToJson(ARKitPhysicsBody instance) {
   }
 
   writeNotNull(
-      'type', const ARKitPhysicsBodyTypeConverter().toJson(instance.type));
-  writeNotNull(
       'shape', const ARKitPhysicsShapeConverter().toJson(instance.shape));
   writeNotNull('categoryBitMask', instance.categoryBitMask);
   return val;
 }
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);

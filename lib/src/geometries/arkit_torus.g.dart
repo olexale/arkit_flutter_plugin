@@ -25,9 +25,9 @@ Map<String, dynamic> _$ARKitTorusToJson(ARKitTorus instance) {
 
   writeNotNull('materials',
       const ListMaterialsValueNotifierConverter().toJson(instance.materials));
-  writeNotNull('ringRadius',
-      const DoubleValueNotifierConverter().toJson(instance.ringRadius));
-  writeNotNull('pipeRadius',
-      const DoubleValueNotifierConverter().toJson(instance.pipeRadius));
+  val['ringRadius'] =
+      const DoubleValueNotifierConverter().toJson(instance.ringRadius);
+  val['pipeRadius'] =
+      const DoubleValueNotifierConverter().toJson(instance.pipeRadius);
   return val;
 }

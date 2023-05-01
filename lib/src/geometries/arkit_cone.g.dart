@@ -26,11 +26,10 @@ Map<String, dynamic> _$ARKitConeToJson(ARKitCone instance) {
 
   writeNotNull('materials',
       const ListMaterialsValueNotifierConverter().toJson(instance.materials));
-  writeNotNull(
-      'height', const DoubleValueNotifierConverter().toJson(instance.height));
-  writeNotNull('topRadius',
-      const DoubleValueNotifierConverter().toJson(instance.topRadius));
-  writeNotNull('bottomRadius',
-      const DoubleValueNotifierConverter().toJson(instance.bottomRadius));
+  val['height'] = const DoubleValueNotifierConverter().toJson(instance.height);
+  val['topRadius'] =
+      const DoubleValueNotifierConverter().toJson(instance.topRadius);
+  val['bottomRadius'] =
+      const DoubleValueNotifierConverter().toJson(instance.bottomRadius);
   return val;
 }
