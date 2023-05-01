@@ -1,7 +1,6 @@
 import 'package:arkit_plugin/src/light/arkit_light_type.dart';
 import 'package:arkit_plugin/src/utils/json_converters.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'arkit_light.g.dart';

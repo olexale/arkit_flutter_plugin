@@ -1,5 +1,4 @@
 import 'package:arkit_plugin/arkit_plugin.dart';
-import 'package:arkit_plugin_example/util/ar_helper.dart';
 import 'package:flutter/material.dart';
 
 class CameraPositionScenePage extends StatefulWidget {

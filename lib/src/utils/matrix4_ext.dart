@@ -41,9 +41,9 @@ extension Matrix4Extenstion on Matrix4 {
     final angles = Vector3.zero();
 
     // roll (x-axis rotation)
-    final sinr_cosp = 2 * (q.w * q.x + q.y * q.z);
-    final cosr_cosp = 1 - 2 * (q.x * q.x + q.y * q.y);
-    angles[0] = math.atan2(sinr_cosp, cosr_cosp);
+    final sinrCosp = 2 * (q.w * q.x + q.y * q.z);
+    final cosrCosp = 1 - 2 * (q.x * q.x + q.y * q.y);
+    angles[0] = math.atan2(sinrCosp, cosrCosp);
 
     // pitch (y-axis rotation)
     final sinp = 2 * (q.w * q.y - q.z * q.x);
@@ -54,9 +54,9 @@ extension Matrix4Extenstion on Matrix4 {
       angles[1] = math.asin(sinp);
     }
     // yaw (z-axis rotation)
-    final siny_cosp = 2 * (q.w * q.z + q.x * q.y);
-    final cosy_cosp = 1 - 2 * (q.y * q.y + q.z * q.z);
-    angles[2] = math.atan2(siny_cosp, cosy_cosp);
+    final sinyCosp = 2 * (q.w * q.z + q.x * q.y);
+    final cosyCosp = 1 - 2 * (q.y * q.y + q.z * q.z);
+    angles[2] = math.atan2(sinyCosp, cosyCosp);
 
     return angles;
   }

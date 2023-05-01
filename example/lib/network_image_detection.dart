@@ -47,7 +47,7 @@ class _NetworkImageDetectionPageState extends State<NetworkImageDetectionPage> {
                         'Point the camera at Mars photo from the article about Mars on Wikipedia.',
                         style: Theme.of(context)
                             .textTheme
-                            .headline5!
+                            .headlineSmall!
                             .copyWith(color: Colors.white),
                       ),
                     ),

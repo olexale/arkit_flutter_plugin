@@ -5,6 +5,7 @@
 * Add positions for each point in the face mesh (by @niverovskiinn)
 * Add cameraPosition function (by @alegos27)
 * Update dependencies
+* Migrate to new linter, apply fixes
 
 ## 1.0.5
 

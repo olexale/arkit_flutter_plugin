@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:arkit_plugin/src/arkit_node.dart';
 import 'package:arkit_plugin/src/enums/coaching_overlay_goal.dart';
 import 'package:arkit_plugin/src/geometries/material/arkit_material.dart';
@@ -164,7 +163,7 @@ class ARKitSceneView extends StatefulWidget {
   final bool debug;
 
   @override
-  _ARKitSceneViewState createState() => _ARKitSceneViewState();
+  State<ARKitSceneView> createState() => _ARKitSceneViewState();
 }
 
 class _ARKitSceneViewState extends State<ARKitSceneView> {
@@ -457,14 +456,14 @@ class ARKitController {
 
   Future<void> _platformCallHandler(MethodCall call) {
     if (debug) {
-      print('_platformCallHandler call ${call.method} ${call.arguments}');
+      debugPrint('_platformCallHandler call ${call.method} ${call.arguments}');
     }
     try {
       switch (call.method) {
         case 'onError':
           if (onError != null) {
             onError!(call.arguments);
-            print(call.arguments);
+            debugPrint(call.arguments);
           }
           break;
         case 'onNodeTap':
@@ -553,11 +552,11 @@ class ARKitController {
           break;
         default:
           if (debug) {
-            print('Unknowm method ${call.method} ');
+            debugPrint('Unknowm method ${call.method} ');
           }
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     return Future.value();
   }

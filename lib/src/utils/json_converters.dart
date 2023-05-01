@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:arkit_plugin/src/geometries/arkit_anchor.dart';
@@ -465,7 +464,7 @@ class Vector3ListConverter
 
   @override
   List<Vector3> fromJson(List<dynamic> list) {
-    final vectorConverter = Vector3Converter();
+    const vectorConverter = Vector3Converter();
     return list.map((json) => vectorConverter.fromJson(json)).toList();
   }
 
