@@ -742,9 +742,9 @@ class ARKitController {
   }
 
   Future<Vector3?> cameraPosition() async {
-    final result = await _channel.invokeMethod('cameraPosition');
-    if(result != null) {
-      return _vector3Converter.fromJson(result!);
+    final result = await _channel.invokeListMethod('cameraPosition');
+    if (result != null) {
+      return _vector3Converter.fromJson(result);
     } else {
       return null;
     }
