@@ -255,9 +255,14 @@ extension FlutterArkitView {
     
     func onGetSnapshotWithDepthData(_ result: FlutterResult) {
         if #available(iOS 14.0, *) {
-            let snapshotImage = sceneView.snapshot()
-            if let bytes = snapshotImage.pngData(), let currentFrame = sceneView.session.currentFrame, let depthData = currentFrame.sceneDepth {
-                let imageData = FlutterStandardTypedData(bytes:bytes)
+            if let currentFrame = sceneView.session.currentFrame, let depthData = currentFrame.sceneDepth {
+                let originalImage = currentFrame.capturedImage
+                let ciImage = CIImage(cvPixelBuffer: originalImage)
+                let ciContext = CIContext.init()
+                let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent)!
+                let image = UIImage.init(cgImage: cgImage)
+                let convertedImage = image.jpegData(compressionQuality: 1)!
+                let imageData = FlutterStandardTypedData(bytes: convertedImage)
                 
                 let depthDataMap = depthData.depthMap
                 
