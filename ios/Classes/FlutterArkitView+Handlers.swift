@@ -253,6 +253,50 @@ extension FlutterArkitView {
         }
     }
     
+    func onGetSnapshotWithDepthData(_ result: FlutterResult) {
+        if #available(iOS 14.0, *) {
+            let snapshotImage = sceneView.snapshot()
+            if let bytes = snapshotImage.pngData(), let currentFrame = sceneView.session.currentFrame, let depthData = currentFrame.sceneDepth {
+                let imageData = FlutterStandardTypedData(bytes:bytes)
+                
+                let depthDataMap = depthData.depthMap
+                
+                CVPixelBufferLockBaseAddress(depthDataMap, CVPixelBufferLockFlags(rawValue: 0))
+                
+                let depthWidth = CVPixelBufferGetWidth(depthDataMap)
+                let depthHeight = CVPixelBufferGetHeight(depthDataMap)
+                
+                let floatBuffer = unsafeBitCast(CVPixelBufferGetBaseAddress(depthDataMap), to: UnsafeMutablePointer<Float32>.self)
+                
+                CVPixelBufferUnlockBaseAddress(depthDataMap, CVPixelBufferLockFlags(rawValue: 0))
+                
+                let intrinsics = currentFrame.camera.intrinsics
+                let intrinsicsString = String.init(
+                  format: "%f,%f,%f-%f,%f,%f-%f,%f,%f",
+                  intrinsics.columns.0.x, intrinsics.columns.0.y, intrinsics.columns.0.z,
+                  intrinsics.columns.1.x, intrinsics.columns.1.y, intrinsics.columns.1.z,
+                  intrinsics.columns.2.x, intrinsics.columns.2.y, intrinsics.columns.2.z
+                )
+                
+                let depthArray = Array(UnsafeBufferPointer(start: floatBuffer, count: depthWidth * depthHeight)).map {$0.isNaN ? -1 : $0}
+                
+                let data: Dictionary<String, Any> = [
+                    "image": imageData,
+                    "intrinsics": intrinsicsString,
+                    "depthWidth": depthWidth,
+                    "depthHeight": depthHeight,
+                    "depthMap": depthArray
+                ]
+                
+                result(data)
+            } else {
+                result(nil)
+            }
+        } else {
+            result(nil)
+        }
+     }
+    
     func onGetCameraPosition(_ result: FlutterResult) {
         if let frame: ARFrame = sceneView.session.currentFrame {
             let cameraPosition = frame.camera.transform.columns.3

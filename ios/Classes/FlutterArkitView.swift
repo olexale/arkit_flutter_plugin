@@ -119,6 +119,9 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
         case "snapshot":
             onGetSnapshot(result)
             break
+        case "snapshotWithDepthData":
+            onGetSnapshotWithDepthData(result)
+            break
         case "cameraPosition":
             onGetCameraPosition(result)
             break

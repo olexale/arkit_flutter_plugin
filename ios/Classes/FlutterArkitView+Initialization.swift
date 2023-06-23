@@ -67,6 +67,13 @@ extension FlutterArkitView {
                 logPluginError("configuration is not supported on this device", toChannel: channel)
             }
             break
+        case 4:
+            if #available(iOS 14.0, *) {
+                configuration = createDepthTrackingConfiguration(arguments)
+            } else {
+                logPluginError("configuration is not supported on this device", toChannel: channel)
+            }
+            break
         default:
             break
         }
