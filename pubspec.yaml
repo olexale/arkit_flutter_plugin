@@ -4,7 +4,7 @@ version: 1.0.6
 homepage: https://github.com/olexale/arkit_flutter_plugin
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.15.0 <3.0.0'
   flutter: ">=1.12.0"
 
 dependencies:

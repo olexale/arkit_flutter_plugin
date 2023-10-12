@@ -2,10 +2,12 @@ import 'package:arkit_plugin/src/arkit_node.dart';
 import 'package:arkit_plugin/src/light/arkit_light.dart';
 import 'package:arkit_plugin/src/physics/arkit_physics_body.dart';
 import 'package:vector_math/vector_math_64.dart';
+import 'enums/asset_type.dart';
 
 ///  Node that references an external serialized node graph.
 class ARKitReferenceNode extends ARKitNode {
   ARKitReferenceNode({
+    this.assetType = AssetType.scnassets,
     required this.url,
     ARKitPhysicsBody? physicsBody,
     ARKitLight? light,
@@ -30,9 +32,11 @@ class ARKitReferenceNode extends ARKitNode {
   /// Defaults to path from Main Bundle
   /// If path from main bundle fails, will search as full file path
   final String url;
+  final AssetType assetType;
 
   @override
   Map<String, dynamic> toMap() => <String, dynamic>{
         'url': url,
+        'assetType': assetType.name
       }..addAll(super.toMap());
 }
