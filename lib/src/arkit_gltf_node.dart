@@ -2,10 +2,12 @@ import 'package:arkit_plugin/src/arkit_node.dart';
 import 'package:arkit_plugin/src/light/arkit_light.dart';
 import 'package:arkit_plugin/src/physics/arkit_physics_body.dart';
 import 'package:vector_math/vector_math_64.dart';
+import 'enums/asset_type.dart';
 
-///  Node that references an external serialized node graph.
-class ARKitReferenceNode extends ARKitNode {
-  ARKitReferenceNode({
+///  Node in .gltf or .glb file format.
+class ARKitGltfNode extends ARKitNode {
+  ARKitGltfNode({
+    this.assetType = AssetType.documents,
     required this.url,
     ARKitPhysicsBody? physicsBody,
     ARKitLight? light,
@@ -26,13 +28,12 @@ class ARKitReferenceNode extends ARKitNode {
           isHidden: isHidden,
         );
 
-  /// URL location of the Node
-  /// Defaults to path from Main Bundle
-  /// If path from main bundle fails, will search as full file path
   final String url;
+  final AssetType assetType;
 
   @override
   Map<String, dynamic> toMap() => <String, dynamic>{
         'url': url,
+        'assetType': assetType.index
       }..addAll(super.toMap());
 }

@@ -132,7 +132,7 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Load .gltf or .glb',
-        'Load .gltf or .glb in the flutter assets or documents folder of the current app',
+        'Load .gltf or .glb from the Flutter assets or the Documents folder',
         Icons.folder_copy,
             () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => LoadGltfOrGlbFilePage())),
