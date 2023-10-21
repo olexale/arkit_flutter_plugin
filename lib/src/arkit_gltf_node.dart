@@ -4,7 +4,7 @@ import 'package:arkit_plugin/src/physics/arkit_physics_body.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'enums/asset_type.dart';
 
-///  Node in .gltf or .glb file format.
+/// Node in .gltf or .glb file format.
 class ARKitGltfNode extends ARKitNode {
   ARKitGltfNode({
     this.assetType = AssetType.documents,
@@ -28,7 +28,10 @@ class ARKitGltfNode extends ARKitNode {
           isHidden: isHidden,
         );
 
+  /// Path to the asset.
   final String url;
+
+  /// Describes the location of the asset.
   final AssetType assetType;
 
   @override
