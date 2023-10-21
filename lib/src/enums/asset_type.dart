@@ -1,4 +1,10 @@
+/// Describes the location of the asset.
 enum AssetType {
-  flutterAsset, // Flutter asset folder (e.g. ./example/assets/gltf), path should be added to pubspec.yaml
-  documents, // Documents folder for the current app
+  /// Flutter asset folder (e.g. ./assets/gltf)
+  /// See https://docs.flutter.dev/ui/assets/assets-and-images#specifying-assets
+  flutterAsset,
+
+  /// Documents folder for the current app
+  /// This might be useful for downloading files from the internet
+  documents,
 }
