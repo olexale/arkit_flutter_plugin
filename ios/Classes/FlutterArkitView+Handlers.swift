@@ -4,7 +4,7 @@ extension FlutterArkitView {
     func onAddNode(_ arguments: Dictionary<String, Any>) {
         let geometryArguments = arguments["geometry"] as? Dictionary<String, Any>
         let geometry = createGeometry(geometryArguments, withDevice: sceneView.device)
-        let node = createNode(geometry, fromDict: arguments, forDevice: sceneView.device)
+        let node = createNode(geometry, fromDict: arguments, forDevice: sceneView.device, channel: channel)
         if let parentNodeName = arguments["parentNodeName"] as? String {
             let parentNode = sceneView.scene.rootNode.childNode(withName: parentNodeName, recursively: true)
             parentNode?.addChildNode(node)
@@ -58,7 +58,7 @@ extension FlutterArkitView {
             return
         }
         let geometry = createGeometry(geometryArguments, withDevice: sceneView.device)
-        let node = createNode(geometry, fromDict: arguments, forDevice: sceneView.device)
+        let node = createNode(geometry, fromDict: arguments, forDevice: sceneView.device, channel: channel)
         
         let resArray = [serializeVector(node.boundingBox.min), serializeVector(node.boundingBox.max)]
         result(resArray)
