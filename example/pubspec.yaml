@@ -3,9 +3,11 @@ description: Demonstrates how to use the arkit_plugin plugin.
 publish_to: 'none'
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.12.0 <4.0.0"
 
 dependencies:
+  arkit_plugin:
+    path: ../
   flutter:
     sdk: flutter
 
@@ -13,9 +15,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   pedantic: ^1.11.1
-
-  arkit_plugin:
-    path: ../
 
 flutter:
   uses-material-design: true
