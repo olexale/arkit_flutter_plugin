@@ -1,58 +1,45 @@
 import ARKit
 
-func createGeometry(_ arguments: Dictionary<String, Any>?, withDevice device: MTLDevice?) -> SCNGeometry? {
+func createGeometry(_ arguments: [String: Any]?, withDevice device: MTLDevice?) -> SCNGeometry? {
   if let arguments = arguments {
-    
     var geometry: SCNGeometry?
     let dartType = arguments["dartType"] as! String
     
     switch dartType {
     case "ARKitSphere":
       geometry = createSphere(arguments)
-      break
     case "ARKitPlane":
       geometry = createPlane(arguments)
-      break
     case "ARKitText":
       geometry = createText(arguments)
-      break
     case "ARKitBox":
       geometry = createBox(arguments)
-      break
     case "ARKitLine":
       geometry = createLine(arguments)
-      break
     case "ARKitCylinder":
       geometry = createCylinder(arguments)
-      break
     case "ARKitCone":
       geometry = createCone(arguments)
-      break
     case "ARKitPyramid":
       geometry = createPyramid(arguments)
-      break
     case "ARKitTube":
       geometry = createTube(arguments)
-      break
     case "ARKitTorus":
       geometry = createTorus(arguments)
-      break
     case "ARKitCapsule":
       geometry = createCapsule(arguments)
-      break
     case "ARKitFace":
-      #if !DISABLE_TRUEDEPTH_API
+#if !DISABLE_TRUEDEPTH_API
       geometry = createFace(device)
-      #else
+#else
       // error
-      #endif
-      break
+#endif
     default:
       // error
       break
     }
     
-    if let materials = arguments["materials"] as? Array<Dictionary<String, Any>> {
+    if let materials = arguments["materials"] as? [[String: Any]] {
       geometry?.materials = parseMaterials(materials)
     }
     
@@ -62,11 +49,11 @@ func createGeometry(_ arguments: Dictionary<String, Any>?, withDevice device: MT
   }
 }
 
-func parseMaterials(_ array: Array<Dictionary<String, Any>>) -> Array<SCNMaterial> {
+func parseMaterials(_ array: [[String: Any]]) -> [SCNMaterial] {
   return array.map { parseMaterial($0) }
 }
 
-fileprivate func parseMaterial(_ dict: Dictionary<String, Any>) -> SCNMaterial {
+private func parseMaterial(_ dict: [String: Any]) -> SCNMaterial {
   let material = SCNMaterial()
   
   material.shininess = CGFloat(dict["shininess"] as! Double)
@@ -78,7 +65,7 @@ fileprivate func parseMaterial(_ dict: Dictionary<String, Any>) -> SCNMaterial {
   material.locksAmbientWithDiffuse = dict["locksAmbientWithDiffuse"] as! Bool
   material.writesToDepthBuffer = dict["writesToDepthBuffer"] as! Bool
   material.colorBufferWriteMask = parseColorBufferWriteMask(dict["colorBufferWriteMask"] as? Int)
-  material.blendMode = SCNBlendMode.init(rawValue: dict["blendMode"] as! Int)!
+  material.blendMode = SCNBlendMode(rawValue: dict["blendMode"] as! Int)!
   material.isDoubleSided = dict["doubleSided"] as! Bool
   
   material.diffuse.contents = parsePropertyContents(dict["diffuse"])
@@ -98,7 +85,7 @@ fileprivate func parseMaterial(_ dict: Dictionary<String, Any>) -> SCNMaterial {
   return material
 }
 
-fileprivate func parseLightingModel(_ mode: Int?) -> SCNMaterial.LightingModel {
+private func parseLightingModel(_ mode: Int?) -> SCNMaterial.LightingModel {
   switch mode {
   case 0:
     return .phong
@@ -122,7 +109,7 @@ fileprivate func parseLightingModel(_ mode: Int?) -> SCNMaterial.LightingModel {
   }
 }
 
-fileprivate func parseColorBufferWriteMask(_ mode: Int?) -> SCNColorMask {
+private func parseColorBufferWriteMask(_ mode: Int?) -> SCNColorMask {
   switch mode {
   case 0:
     return .init()
@@ -141,8 +128,8 @@ fileprivate func parseColorBufferWriteMask(_ mode: Int?) -> SCNColorMask {
   }
 }
 
-fileprivate func parsePropertyContents(_ dict: Any?) -> Any? {
-  guard let dict = dict as? Dictionary<String, Any> else {
+private func parsePropertyContents(_ dict: Any?) -> Any? {
+  guard let dict = dict as? [String: Any] else {
     return nil
   }
   
@@ -158,26 +145,27 @@ fileprivate func parsePropertyContents(_ dict: Any?) -> Any? {
   if let width = dict["width"] as? Int,
      let height = dict["height"] as? Int,
      let autoplay = dict["autoplay"] as? Bool,
-     let id = dict["id"] as? String {
-    var videoNode:SKVideoNode
+     let id = dict["id"] as? String
+  {
+    var videoNode: SKVideoNode
     if let videoFilename = dict["filename"] as? String {
       videoNode = SKVideoNode(fileNamed: videoFilename)
     } else if let url = dict["url"] as? String,
-              let videoUrl = URL(string: url) {
+              let videoUrl = URL(string: url)
+    {
       videoNode = SKVideoNode(url: videoUrl)
     } else {
       return nil
     }
     VideoArkitPlugin.nodes[id] = videoNode
-    if (autoplay) {
+    if autoplay {
       videoNode.play()
     }
-    
     
     let skScene = SKScene(size: CGSize(width: width, height: height))
     skScene.addChild(videoNode)
     
-    videoNode.position = CGPoint(x: skScene.size.width/2, y: skScene.size.height/2)
+    videoNode.position = CGPoint(x: skScene.size.width / 2, y: skScene.size.height / 2)
     videoNode.size = skScene.size
     return skScene
   }
