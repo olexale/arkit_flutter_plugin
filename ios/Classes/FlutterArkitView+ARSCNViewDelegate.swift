@@ -30,15 +30,15 @@ extension FlutterArkitView: ARSCNViewDelegate {
       params["trackingState"] = 2
     }
     
-    channel.invokeMethod("onCameraDidChangeTrackingState", arguments: params)
+    sendToFlutter("onCameraDidChangeTrackingState", arguments: params)
   }
   
   func sessionWasInterrupted(_: ARSession) {
-    channel.invokeMethod("onSessionWasInterrupted", arguments: nil)
+    sendToFlutter("onSessionWasInterrupted", arguments: nil)
   }
   
   func sessionInterruptionEnded(_: ARSession) {
-    channel.invokeMethod("onSessionInterruptionEnded", arguments: nil)
+    sendToFlutter("onSessionInterruptionEnded", arguments: nil)
   }
   
   func renderer(_: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
@@ -46,22 +46,22 @@ extension FlutterArkitView: ARSCNViewDelegate {
       node.name = NSUUID().uuidString
     }
     let params = prepareParamsForAnchorEvent(node, anchor)
-    channel.invokeMethod("didAddNodeForAnchor", arguments: params)
+    sendToFlutter("didAddNodeForAnchor", arguments: params)
   }
   
   func renderer(_: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
     let params = prepareParamsForAnchorEvent(node, anchor)
-    channel.invokeMethod("didUpdateNodeForAnchor", arguments: params)
+    sendToFlutter("didUpdateNodeForAnchor", arguments: params)
   }
   
   func renderer(_: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
     let params = prepareParamsForAnchorEvent(node, anchor)
-    channel.invokeMethod("didRemoveNodeForAnchor", arguments: params)
+    sendToFlutter("didRemoveNodeForAnchor", arguments: params)
   }
   
   func renderer(_: SCNSceneRenderer, updateAtTime time: TimeInterval) {
     let params = ["time": NSNumber(floatLiteral: time)]
-    channel.invokeMethod("updateAtTime", arguments: params)
+    sendToFlutter("updateAtTime", arguments: params)
   }
   
   fileprivate func prepareParamsForAnchorEvent(_ node: SCNNode, _ anchor: ARAnchor) -> [String: Any] {

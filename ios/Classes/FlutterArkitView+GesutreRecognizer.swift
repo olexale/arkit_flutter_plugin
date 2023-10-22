@@ -47,12 +47,12 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
     let hitResults = sceneView.hitTest(touchLocation, options: nil)
     let results: [String] = hitResults.compactMap { $0.node.name }
     if results.count != 0 {
-      channel.invokeMethod("onNodeTap", arguments: results)
+      sendToFlutter("onNodeTap", arguments: results)
     }
     
     let arHitResults = getARHitResultsArray(sceneView, atLocation: touchLocation)
     if arHitResults.count != 0 {
-      channel.invokeMethod("onARTap", arguments: arHitResults)
+      sendToFlutter("onARTap", arguments: arHitResults)
     }
   }
   
@@ -71,7 +71,7 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
         }
       }
       if results.count != 0 {
-        channel.invokeMethod("onNodePinch", arguments: results)
+        sendToFlutter("onNodePinch", arguments: results)
       }
     }
   }
@@ -94,7 +94,7 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
         }
       }
       if results.count != 0 {
-        channel.invokeMethod("onNodePan", arguments: results)
+        sendToFlutter("onNodePan", arguments: results)
       }
     }
   }
@@ -115,7 +115,7 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
         }
       }
       if results.count != 0 {
-        channel.invokeMethod("onNodeRotation", arguments: results)
+        sendToFlutter("onNodeRotation", arguments: results)
       }
       recognizer.rotation = 0
     }

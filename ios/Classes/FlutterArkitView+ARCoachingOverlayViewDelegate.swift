@@ -28,6 +28,6 @@ extension FlutterArkitView: ARCoachingOverlayViewDelegate {
   }
   
   func coachingOverlayViewDidDeactivate(_: ARCoachingOverlayView) {
-    channel.invokeMethod("coachingOverlayViewDidDeactivate", arguments: nil)
+    sendToFlutter("coachingOverlayViewDidDeactivate", arguments: nil)
   }
 }

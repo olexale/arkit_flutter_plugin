@@ -103,6 +103,12 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
     }
   }
   
+  func sendToFlutter(_ method: String, arguments: Any?) {
+    DispatchQueue.main.async {
+      self.channel.invokeMethod(method, arguments: arguments)
+    }
+  }
+  
   func onDispose(_ result: FlutterResult) {
     sceneView.session.pause()
     channel.setMethodCallHandler(nil)
