@@ -1,4 +1,5 @@
 import ARKit
+import SCNLine
 
 extension FlutterArkitView {
   func onAddNode(_ arguments: [String: Any]) {
@@ -40,6 +41,18 @@ extension FlutterArkitView {
     }
     let node = sceneView.scene.rootNode.childNode(withName: nodeName, recursively: true)
     node?.removeFromParentNode()
+  }
+
+  func onUpdateLineNode(_ arguments: Dictionary<String, Any>) {
+    guard let nodeName = arguments["nodeName"] as? String else {
+        logPluginError("nodeName deserialization failed", toChannel: channel)
+        return
+    }
+    guard let node = sceneView.scene.rootNode.childNode(withName: nodeName, recursively: true) as? SCNLineNode else {
+        logPluginError("node not found", toChannel: channel)
+        return
+    }
+    updateLineNode(self.sceneView, node, fromDict: arguments, channel: channel)
   }
   
   func onRemoveAnchor(_ arguments: [String: Any]) {

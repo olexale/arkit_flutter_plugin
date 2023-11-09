@@ -1,3 +1,4 @@
+export 'package:arkit_plugin/src/arkit_line_node.dart';
 export 'package:arkit_plugin/src/arkit_gltf_node.dart';
 export 'package:arkit_plugin/src/arkit_node.dart';
 export 'package:arkit_plugin/src/arkit_plugin.dart';

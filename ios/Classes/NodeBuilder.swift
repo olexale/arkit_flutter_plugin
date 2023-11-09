@@ -1,11 +1,14 @@
 import ARKit
 import GLTFSceneKit
+import SCNLine
 
 func createNode(_ geometry: SCNGeometry?, fromDict dict: [String: Any], forDevice device: MTLDevice?, channel: FlutterMethodChannel) -> SCNNode {
   let dartType = dict["dartType"] as! String
   let node: SCNNode
   
   switch dartType {
+  case "ARKitLineNode":
+    node = createSCNLineNode(dict)
   case "ARKitReferenceNode":
     node = createReferenceNode(dict)
   case "ARKitGltfNode":
@@ -42,6 +45,63 @@ func updateNode(_ node: SCNNode, fromDict dict: [String: Any], forDevice device:
   if let isHidden = dict["isHidden"] as? Bool {
     node.isHidden = isHidden
   }
+}
+
+fileprivate func createSCNLineNode(_ dict: Dictionary<String, Any>) -> SCNNode {
+
+    let radius = dict["radius"] as! Double
+    let edges = dict["edges"] as! Int
+    let maxTurning = dict["maxTurning"] as! Int
+    let node = SCNLineNode(with: [], radius: Float(radius), edges: edges, maxTurning: maxTurning)
+
+    if let materials = dict["materials"] as? [[String: Any]] {
+        node.lineMaterials = parseMaterials(materials)
+    }else{
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor(
+            displayP3Red: CGFloat.random(in: 0...1),
+            green: CGFloat.random(in: 0...1),
+            blue: CGFloat.random(in: 0...1),
+            alpha: 1
+        )
+        material.isDoubleSided = true
+        node.lineMaterials = [material]
+    }
+    return node
+}
+
+func updateLineNode(_ sceneView: ARSCNView, _ node: SCNLineNode, fromDict dict: Dictionary<String, Any>, channel: FlutterMethodChannel) {
+    let x = dict["x"] as! Double
+    let y = dict["y"] as! Double
+    let touchPoint = CGPoint(x: x, y: y);
+    var floorNode = sceneView.pointOfView?.childNode(withName: "floorNode", recursively: false)
+    if(floorNode == nil){
+        floorNode = SCNNode(geometry: SCNFloor())
+        floorNode!.name = "floorNode"
+        floorNode!.isHidden = true
+        sceneView.pointOfView?.addChildNode(floorNode!)
+        floorNode!.position.z = -0.5
+        floorNode!.eulerAngles.x = -.pi / 2
+    }
+    guard let lastHit = sceneView.hitTest(touchPoint, options: [
+        SCNHitTestOption.rootNode: floorNode!, SCNHitTestOption.ignoreHiddenNodes: false
+    ]).first else {
+        logPluginError("Failed to get HitTestResult", toChannel: channel)
+        return
+    }
+    
+    let worldCoordinates = lastHit.worldCoordinates
+    var lastPoint = SCNVector3Zero
+    if(!node.points.isEmpty){
+        lastPoint = node.points.last!
+    }
+    
+    let diff = SCNVector3(worldCoordinates.x - lastPoint.x, worldCoordinates.y - lastPoint.y, worldCoordinates.z - lastPoint.z)
+    let distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z)
+    print("distance : " + String(distance))
+    if distance > 0.012 {
+        node.add(point: worldCoordinates)
+    }
 }
 
 private func createGltfNode(_ dict: [String: Any], channel: FlutterMethodChannel) -> SCNNode {

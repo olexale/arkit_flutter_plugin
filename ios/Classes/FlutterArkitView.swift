@@ -7,13 +7,13 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
   
   var forceTapOnCenter: Bool = false
   var configuration: ARConfiguration? = nil
-  
+
   init(withFrame frame: CGRect, viewIdentifier viewId: Int64, messenger msg: FlutterBinaryMessenger) {
     sceneView = ARSCNView(frame: frame)
     channel = FlutterMethodChannel(name: "arkit_\(viewId)", binaryMessenger: msg)
-    
+ 
     super.init()
-    
+
     sceneView.delegate = self
     channel.setMethodCallHandler(onMethodCalled)
   }
@@ -39,6 +39,10 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
     case "onUpdateNode":
       onUpdateNode(arguments!)
       result(nil)
+    case "onUpdateLineNode":
+      onUpdateLineNode(arguments!)
+      result(nil)
+      break
     case "removeARKitNode":
       onRemoveNode(arguments!)
       result(nil)

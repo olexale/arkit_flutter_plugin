@@ -1,34 +1,12 @@
 import 'dart:async';
-import 'package:arkit_plugin/src/arkit_node.dart';
-import 'package:arkit_plugin/src/enums/coaching_overlay_goal.dart';
-import 'package:arkit_plugin/src/geometries/material/arkit_material.dart';
-import 'package:arkit_plugin/src/widget/ar_environment_texturing.dart';
-import 'package:arkit_plugin/src/widget/ar_tracking_state.dart';
-import 'package:arkit_plugin/src/geometries/arkit_anchor.dart';
-import 'package:arkit_plugin/src/geometries/arkit_box.dart';
-import 'package:arkit_plugin/src/geometries/arkit_capsule.dart';
-import 'package:arkit_plugin/src/geometries/arkit_cone.dart';
-import 'package:arkit_plugin/src/geometries/arkit_cylinder.dart';
-import 'package:arkit_plugin/src/geometries/arkit_plane.dart';
-import 'package:arkit_plugin/src/geometries/arkit_pyramid.dart';
-import 'package:arkit_plugin/src/geometries/arkit_sphere.dart';
-import 'package:arkit_plugin/src/geometries/arkit_text.dart';
-import 'package:arkit_plugin/src/geometries/arkit_torus.dart';
-import 'package:arkit_plugin/src/geometries/arkit_tube.dart';
-import 'package:arkit_plugin/src/hit/arkit_node_pan_result.dart';
-import 'package:arkit_plugin/src/hit/arkit_node_pinch_result.dart';
-import 'package:arkit_plugin/src/hit/arkit_node_rotation_result.dart';
-import 'package:arkit_plugin/src/light/arkit_light_estimate.dart';
+
 import 'package:arkit_plugin/src/utils/json_converters.dart';
-import 'package:arkit_plugin/src/widget/arkit_arplane_detection.dart';
-import 'package:arkit_plugin/src/hit/arkit_hit_test_result.dart';
-import 'package:arkit_plugin/src/widget/arkit_configuration.dart';
-import 'package:arkit_plugin/src/widget/arkit_world_alignment.dart';
-import 'package:arkit_plugin/src/widget/arkit_reference_image.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:vector_math/vector_math_64.dart';
+
+import '../../arkit_plugin.dart';
 
 typedef ARKitPluginCreatedCallback = void Function(ARKitController controller);
 typedef StringResultHandler = void Function(String? text);
@@ -337,6 +315,21 @@ class ARKitController {
       params['materials'] = materials.map((e) => e.toJson()).toList();
     }
     return _channel.invokeMethod('onUpdateNode', params);
+  }
+
+  Future<void> updateLine(
+    String nodeName,
+    double x,
+    double y, {
+    ARKitLineNode? node,
+  }) async {
+    final params = <String, dynamic>{'nodeName': nodeName};
+    if (node != null) {
+      params.addAll(node.toMap());
+    }
+    params['x'] = x;
+    params['y'] = y;
+    return _channel.invokeMethod('onUpdateLineNode', params);
   }
 
   Future<void> remove(String nodeName) {

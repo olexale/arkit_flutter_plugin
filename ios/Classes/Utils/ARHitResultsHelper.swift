@@ -6,7 +6,7 @@ func getARHitResultsArray(_ sceneView: ARSCNView, atLocation location: CGPoint) 
   return results
 }
 
-private func getARHitResults(_ sceneView: ARSCNView, atLocation location: CGPoint) -> [ARHitTestResult] {
+func getARHitResults(_ sceneView: ARSCNView, atLocation location: CGPoint) -> [ARHitTestResult] {
   var types = ARHitTestResult.ResultType(
     [.featurePoint, .estimatedHorizontalPlane, .existingPlane, .existingPlaneUsingExtent])
   

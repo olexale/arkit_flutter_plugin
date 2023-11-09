@@ -26,6 +26,8 @@ import 'package:arkit_plugin_example/widget_projection.dart';
 import 'package:arkit_plugin_example/real_time_updates.dart';
 import 'package:flutter/material.dart';
 
+import 'drawing_page.dart';
+
 void main() => runApp(MaterialApp(home: MyApp()));
 
 class MyApp extends StatelessWidget {
@@ -213,6 +215,13 @@ class MyApp extends StatelessWidget {
         Icons.location_on,
             () => Navigator.of(context)
             .push<void>(MaterialPageRoute(builder: (c) => CameraPositionScenePage())),
+      ),
+      Sample(
+        'Drawing',
+        'Draw a line',
+        Icons.draw,
+            () => Navigator.of(context)
+            .push<void>(MaterialPageRoute(builder: (c) => DrawingPage())),
       ),
     ];
 
