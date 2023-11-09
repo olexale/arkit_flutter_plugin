@@ -98,7 +98,6 @@ func updateLineNode(_ sceneView: ARSCNView, _ node: SCNLineNode, fromDict dict: 
     
     let diff = SCNVector3(worldCoordinates.x - lastPoint.x, worldCoordinates.y - lastPoint.y, worldCoordinates.z - lastPoint.z)
     let distance = sqrt(diff.x * diff.x + diff.y * diff.y + diff.z * diff.z)
-    print("distance : " + String(distance))
     if distance > 0.012 {
         node.add(point: worldCoordinates)
     }
