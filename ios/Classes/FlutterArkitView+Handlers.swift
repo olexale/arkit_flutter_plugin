@@ -245,6 +245,24 @@ extension FlutterArkitView {
       result(nil)
     }
   }
+    func onCameraIntrinsics(_ result: FlutterResult) {
+    if let frame = sceneView.session.currentFrame {
+
+      let res = serializeMatrix3x3(frame.camera.intrinsics)
+      result(res)
+    } else {
+      result(nil)
+    }
+  }
+      func onCameraImageResolution(_ result: FlutterResult) {
+    if let frame = sceneView.session.currentFrame {
+      let res = serializeSize(frame.camera.imageResolution)
+      result(res)
+    } else {
+      result(nil)
+    }
+  }
+  
   
   func onGetSnapshot(_ result: FlutterResult) {
     let snapshotImage = sceneView.snapshot()

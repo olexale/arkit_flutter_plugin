@@ -94,6 +94,11 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
       result(nil)
     case "cameraEulerAngles":
       onCameraEulerAngles(result)
+      result(nil)
+    case "cameraIntrinsics":
+      onCameraIntrinsics(result)
+    case "cameraImageResolution":
+      onCameraImageResolution(result)
     case "snapshot":
       onGetSnapshot(result)
     case "cameraPosition":
