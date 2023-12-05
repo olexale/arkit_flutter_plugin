@@ -308,8 +308,10 @@ class ARKitController {
 
   static const _boolConverter = ValueNotifierConverter();
   static const _vector3Converter = Vector3Converter();
+  static const _vector2Converter = Vector2Converter();
   static const _matrixValueNotifierConverter = MatrixValueNotifierConverter();
   static const _matrixConverter = MatrixConverter();
+  static const _matrix3Converter = Matrix3Converter();
   static const _materialsConverter = ListMaterialsValueNotifierConverter();
   static const _stateConverter = ARTrackingStateConverter();
   static const _stateReasonConverter = ARTrackingStateReasonConverter();
@@ -733,6 +735,18 @@ class ARKitController {
     final result = await _channel.invokeListMethod('cameraEulerAngles');
     final vector3 = _vector3Converter.fromJson(result!);
     return vector3;
+  }
+
+  Future<Size> getCameraImageResolution() async {
+    final result = await _channel.invokeListMethod('cameraImageResolution');
+    final vector2 = _vector2Converter.fromJson(result!);
+    return Size(vector2.x, vector2.y);
+  }
+
+  Future<Matrix3> getCameraIntrinsics() async {
+    final result = await _channel.invokeListMethod('cameraIntrinsics');
+    final matrix3 = _matrix3Converter.fromJson(result!);
+    return matrix3;
   }
 
   Future<ImageProvider> snapshot() async {
