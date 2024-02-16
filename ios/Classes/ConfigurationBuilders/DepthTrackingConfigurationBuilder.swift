@@ -2,7 +2,7 @@ import Foundation
 import ARKit
 
 @available(iOS 14.0, *)
-func createDepthTrackingConfiguration(_ arguments: Dictionary<String, Any>) -> ARWorldTrackingConfiguration? {
+func createDepthTrackingConfiguration(_ arguments: [String: Any]) -> ARWorldTrackingConfiguration? {
     if(ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth)) {
         let depthTrackingConfiguration = ARWorldTrackingConfiguration()
         depthTrackingConfiguration.frameSemantics = [.sceneDepth]
@@ -32,7 +32,7 @@ func createDepthTrackingConfiguration(_ arguments: Dictionary<String, Any>) -> A
         if let detectionImagesGroupName = arguments["detectionImagesGroupName"] as? String {
             depthTrackingConfiguration.detectionImages = ARReferenceImage.referenceImages(inGroupNamed: detectionImagesGroupName, bundle: nil)
         }
-        if let detectionImages = arguments["detectionImages"] as? Array<Dictionary<String, Any>> {
+        if let detectionImages = arguments["detectionImages"] as? [[String: Any]] {
             depthTrackingConfiguration.detectionImages = parseReferenceImagesSet(detectionImages)
         }
         if let maximumNumberOfTrackedImages = arguments["maximumNumberOfTrackedImages"] as? Int {

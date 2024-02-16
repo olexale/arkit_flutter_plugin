@@ -261,9 +261,8 @@ extension FlutterArkitView {
             if let currentFrame = sceneView.session.currentFrame, let depthData = currentFrame.sceneDepth {
                 let originalImage = currentFrame.capturedImage
                 let ciImage = CIImage(cvPixelBuffer: originalImage)
-                let rotatedImage = ciImage.oriented(.right)
                 let ciContext = CIContext.init()
-                let cgImage = ciContext.createCGImage(rotatedImage, from: rotatedImage.extent)!
+                let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent)!
                 let image = UIImage.init(cgImage: cgImage)
                 let convertedImage = image.jpegData(compressionQuality: 1)!
                 let imageData = FlutterStandardTypedData(bytes: convertedImage)
