@@ -1,5 +1,5 @@
-import Flutter
 import ARKit
+import Flutter
 
 public class VideoArkitPlugin: NSObject, FlutterPlugin {
   static var nodes = [String: SKVideoNode]()
@@ -11,8 +11,9 @@ public class VideoArkitPlugin: NSObject, FlutterPlugin {
   }
   
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    guard let arguments = call.arguments as? Dictionary<String, Any>,
-       let id = arguments["id"] as? String else {
+    guard let arguments = call.arguments as? [String: Any],
+          let id = arguments["id"] as? String
+    else {
       result(nil)
       return
     }
@@ -20,13 +21,10 @@ public class VideoArkitPlugin: NSObject, FlutterPlugin {
     switch call.method {
     case "play":
       VideoArkitPlugin.nodes[id]?.play()
-      break
     case "pause":
       VideoArkitPlugin.nodes[id]?.pause()
-      break
     case "dispose":
       VideoArkitPlugin.nodes.removeValue(forKey: id)
-      break
     default:
       break
     }

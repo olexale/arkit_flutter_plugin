@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.7
+
+* Add .gltf and .glb support (by @Jaemin-VIRNECT)
+* Fix "The 'arkit_0' channel sent a message from native to Flutter on a non-platform thread"
+* Cleanup swift code
+
 ## 1.0.6
 
 * Add positions for each point in the face mesh (by @niverovskiinn)

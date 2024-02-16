@@ -1,13 +1,13 @@
-import Foundation
 import ARKit
+import Foundation
 
 @available(iOS 13.0, *)
 extension FlutterArkitView: ARCoachingOverlayViewDelegate {
-  func addCoachingOverlay(_ arguments: Dictionary<String, Any>) {
+  func addCoachingOverlay(_ arguments: [String: Any]) {
     let goalType = arguments["goal"] as! Int
-    let goal = ARCoachingOverlayView.Goal.init(rawValue: goalType)!
+    let goal = ARCoachingOverlayView.Goal(rawValue: goalType)!
     
-    let coachingView = ARCoachingOverlayView(frame: self.sceneView.frame)
+    let coachingView = ARCoachingOverlayView(frame: sceneView.frame)
     
     coachingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     
@@ -16,18 +16,18 @@ extension FlutterArkitView: ARCoachingOverlayViewDelegate {
     sceneView.addSubview(coachingView)
     
     coachingView.goal = goal
-    coachingView.session = self.sceneView.session
+    coachingView.session = sceneView.session
     coachingView.delegate = self
     coachingView.setActive(true, animated: true)
   }
   
   func removeCoachingOverlay() {
-    if let view = sceneView.subviews.first(where: {$0 is ARCoachingOverlayView}) {
+    if let view = sceneView.subviews.first(where: { $0 is ARCoachingOverlayView }) {
       view.removeFromSuperview()
     }
   }
   
-  func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
-    self.channel.invokeMethod("coachingOverlayViewDidDeactivate", arguments: nil)
+  func coachingOverlayViewDidDeactivate(_: ARCoachingOverlayView) {
+    sendToFlutter("coachingOverlayViewDidDeactivate", arguments: nil)
   }
 }
