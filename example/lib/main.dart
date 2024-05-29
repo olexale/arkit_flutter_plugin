@@ -1,4 +1,6 @@
 import 'package:arkit_plugin_example/body_tracking_page.dart';
+import 'package:arkit_plugin_example/camera_imageresolution_scene.dart';
+import 'package:arkit_plugin_example/camera_intrinsic_scene.dart';
 import 'package:arkit_plugin_example/camera_position_scene.dart';
 import 'package:arkit_plugin_example/check_support_page.dart';
 import 'package:arkit_plugin_example/custom_animation_page.dart';
@@ -134,8 +136,8 @@ class MyApp extends StatelessWidget {
         'Load .gltf or .glb',
         'Load .gltf or .glb from the Flutter assets or the Documents folder',
         Icons.folder_copy,
-            () => Navigator.of(context)
-            .push<void>(MaterialPageRoute(builder: (c) => LoadGltfOrGlbFilePage())),
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => LoadGltfOrGlbFilePage())),
       ),
       Sample(
         'Occlusion',
@@ -211,8 +213,29 @@ class MyApp extends StatelessWidget {
         'Camera position',
         'Get position of the camera in AR scene',
         Icons.location_on,
-            () => Navigator.of(context)
-            .push<void>(MaterialPageRoute(builder: (c) => CameraPositionScenePage())),
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => CameraPositionScenePage())),
+      ),
+      Sample(
+        'Distance tracking',
+        'Detects horizontal plane and track distance on it.',
+        Icons.blur_on,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => DistanceTrackingPage())),
+      ),
+      Sample(
+        'Camera Intrinsic',
+        'Get Camera Intrinsic of the camera in AR scene',
+        Icons.photo_size_select_small_outlined,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => CameraIntrinsicScenePage())),
+      ),
+      Sample(
+        'Camera Image Resolution',
+        'Get Camera Image Resolution of the camera in AR scene',
+        Icons.rectangle_outlined,
+        () => Navigator.of(context).push<void>(MaterialPageRoute(
+            builder: (c) => CameraImageresolutionScenePage())),
       ),
     ];
 

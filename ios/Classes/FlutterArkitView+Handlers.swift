@@ -1,5 +1,6 @@
 import ARKit
 
+@available(iOS 13.0, *)
 extension FlutterArkitView {
     func onAddNode(_ arguments: [String: Any]) {
         let geometryArguments = arguments["geometry"] as? [String: Any]
@@ -259,6 +260,19 @@ extension FlutterArkitView {
         if let frame = sceneView.session.currentFrame {
             let res = serializeSize(frame.camera.imageResolution)
             result(res)
+        } else {
+            result(nil)
+        }
+    }
+
+    func onCameraCapturedImage(_ result: FlutterResult) {
+        if let frame = sceneView.session.currentFrame {
+            if let bytes = UIImage(ciImage: CIImage(cvPixelBuffer: frame.capturedImage)).pngData() {
+                let res = FlutterStandardTypedData(bytes: bytes)
+                result(res)
+            } else {
+                result(nil)
+            }
         } else {
             result(nil)
         }
