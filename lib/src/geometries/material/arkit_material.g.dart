@@ -38,27 +38,30 @@ ARKitMaterial _$ARKitMaterialFromJson(Map json) => ARKitMaterial(
       lightingModelName: json['lightingModelName'] == null
           ? ARKitLightingModel.blinn
           : const ARKitLightingModelConverter()
-              .fromJson(json['lightingModelName'] as int?),
+              .fromJson((json['lightingModelName'] as num?)?.toInt()),
       fillMode: json['fillMode'] == null
           ? ARKitFillMode.fill
-          : const ARKitFillModeConverter().fromJson(json['fillMode'] as int?),
+          : const ARKitFillModeConverter()
+              .fromJson((json['fillMode'] as num?)?.toInt()),
       cullMode: json['cullMode'] == null
           ? ARKitCullMode.back
-          : const ARKitCullModeConverter().fromJson(json['cullMode'] as int?),
+          : const ARKitCullModeConverter()
+              .fromJson((json['cullMode'] as num?)?.toInt()),
       transparencyMode: json['transparencyMode'] == null
           ? ARKitTransparencyMode.aOne
           : const ARKitTransparencyModeConverter()
-              .fromJson(json['transparencyMode'] as int?),
+              .fromJson((json['transparencyMode'] as num?)?.toInt()),
       locksAmbientWithDiffuse: json['locksAmbientWithDiffuse'] as bool? ?? true,
       writesToDepthBuffer: json['writesToDepthBuffer'] as bool? ?? true,
       colorBufferWriteMask: json['colorBufferWriteMask'] == null
           ? ARKitColorMask.all
           : const ARKitColorMaskConverter()
-              .fromJson(json['colorBufferWriteMask'] as int?),
+              .fromJson((json['colorBufferWriteMask'] as num?)?.toInt()),
       doubleSided: json['doubleSided'] as bool? ?? false,
       blendMode: json['blendMode'] == null
           ? ARKitBlendMode.alpha
-          : const ARKitBlendModeConverter().fromJson(json['blendMode'] as int?),
+          : const ARKitBlendModeConverter()
+              .fromJson((json['blendMode'] as num?)?.toInt()),
     );
 
 Map<String, dynamic> _$ARKitMaterialToJson(ARKitMaterial instance) {

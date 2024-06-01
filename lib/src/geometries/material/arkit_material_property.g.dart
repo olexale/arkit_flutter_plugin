@@ -7,7 +7,7 @@ part of 'arkit_material_property.dart';
 // **************************************************************************
 
 ARKitMaterialColor _$ARKitMaterialColorFromJson(Map json) => ARKitMaterialColor(
-      const ColorConverter().fromJson(json['color'] as int),
+      const ColorConverter().fromJson((json['color'] as num).toInt()),
     );
 
 Map<String, dynamic> _$ARKitMaterialColorToJson(ARKitMaterialColor instance) =>
@@ -34,8 +34,8 @@ Map<String, dynamic> _$ARKitMaterialValueToJson(ARKitMaterialValue instance) =>
     };
 
 ARKitMaterialVideo _$ARKitMaterialVideoFromJson(Map json) => ARKitMaterialVideo(
-      width: json['width'] as int,
-      height: json['height'] as int,
+      width: (json['width'] as num).toInt(),
+      height: (json['height'] as num).toInt(),
       autoplay: json['autoplay'] as bool? ?? true,
       filename: json['filename'] as String?,
       url: json['url'] as String?,

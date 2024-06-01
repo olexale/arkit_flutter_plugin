@@ -9,10 +9,12 @@ part of 'arkit_light.dart';
 ARKitLight _$ARKitLightFromJson(Map json) => ARKitLight(
       type: json['type'] == null
           ? ARKitLightType.omni
-          : const ARKitLightTypeConverter().fromJson(json['type'] as int),
+          : const ARKitLightTypeConverter()
+              .fromJson((json['type'] as num).toInt()),
       color: json['color'] == null
           ? Colors.white
-          : const NullableColorConverter().fromJson(json['color'] as int?),
+          : const NullableColorConverter()
+              .fromJson((json['color'] as num?)?.toInt()),
       temperature: (json['temperature'] as num?)?.toDouble() ?? 6500,
       intensity: (json['intensity'] as num?)?.toDouble(),
       spotInnerAngle: (json['spotInnerAngle'] as num?)?.toDouble() ?? 0,
