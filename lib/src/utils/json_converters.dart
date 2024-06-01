@@ -307,7 +307,7 @@ class Matrix3Converter implements JsonConverter<Matrix3, List<dynamic>> {
 
   @override
   List<dynamic> toJson(Matrix3 matrix) {
-    final list = List.filled(16, 0.0);
+    final list = List.filled(9, 0.0);
     matrix.copyIntoArray(list);
     return list;
   }
