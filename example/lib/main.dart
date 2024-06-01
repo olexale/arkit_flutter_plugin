@@ -217,13 +217,6 @@ class MyApp extends StatelessWidget {
             MaterialPageRoute(builder: (c) => CameraPositionScenePage())),
       ),
       Sample(
-        'Distance tracking',
-        'Detects horizontal plane and track distance on it.',
-        Icons.blur_on,
-        () => Navigator.of(context).push<void>(
-            MaterialPageRoute(builder: (c) => DistanceTrackingPage())),
-      ),
-      Sample(
         'Camera Intrinsic',
         'Get Camera Intrinsic of the camera in AR scene',
         Icons.photo_size_select_small_outlined,
