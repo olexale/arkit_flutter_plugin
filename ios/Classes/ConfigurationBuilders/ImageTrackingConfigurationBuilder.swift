@@ -1,7 +1,6 @@
 import ARKit
 import Foundation
 
-@available(iOS 12.0, *)
 func createImageTrackingConfiguration(_ arguments: [String: Any]) -> ARImageTrackingConfiguration? {
     if ARImageTrackingConfiguration.isSupported {
         let imageTrackingConfiguration = ARImageTrackingConfiguration()

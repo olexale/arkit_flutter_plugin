@@ -17,11 +17,7 @@ func checkConfiguration(_ arguments: Any?) -> Bool {
             return false
         #endif
     case 2:
-        if #available(iOS 12.0, *) {
-            return ARImageTrackingConfiguration.isSupported
-        } else {
-            return false
-        }
+        return ARImageTrackingConfiguration.isSupported
     case 3:
         if #available(iOS 13.0, *) {
             return ARBodyTrackingConfiguration.isSupported

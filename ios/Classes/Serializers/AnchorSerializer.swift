@@ -11,17 +11,13 @@ func serializeAnchor(_ anchor: ARAnchor) -> [String: Any] {
         params = serializePlaneAnchor(planeAnchor, params)
     }
 
-    if #available(iOS 11.3, *) {
-        if let imageAnchor = anchor as? ARImageAnchor {
-            params = serializeImageAnchor(imageAnchor, params)
-        }
+    if let imageAnchor = anchor as? ARImageAnchor {
+        params = serializeImageAnchor(imageAnchor, params)
     }
 
     #if !DISABLE_TRUEDEPTH_API
-        if #available(iOS 12.0, *) {
-            if let faceAnchor = anchor as? ARFaceAnchor {
-                params = serializeFaceAnchor(faceAnchor, params)
-            }
+        if let faceAnchor = anchor as? ARFaceAnchor {
+            params = serializeFaceAnchor(faceAnchor, params)
         }
     #endif
 
@@ -42,7 +38,6 @@ private func serializePlaneAnchor(_ anchor: ARPlaneAnchor, _ params: [String: An
     return params
 }
 
-@available(iOS 11.3, *)
 private func serializeImageAnchor(_ anchor: ARImageAnchor, _ params: [String: Any]) -> [String: Any] {
     var params = params
     params["anchorType"] = "imageAnchor"
@@ -56,7 +51,6 @@ private func serializeImageAnchor(_ anchor: ARImageAnchor, _ params: [String: An
 }
 
 #if !DISABLE_TRUEDEPTH_API
-    @available(iOS 12.0, *)
     fileprivate func serializeFaceAnchor(_ anchor: ARFaceAnchor, _ params: [String: Any]) -> [String: Any] {
         var params = params
         params["anchorType"] = "faceAnchor"
