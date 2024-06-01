@@ -1,6 +1,5 @@
 import ARKit
 
-@available(iOS 13.0, *)
 extension FlutterArkitView {
     func onAddNode(_ arguments: [String: Any]) {
         let geometryArguments = arguments["geometry"] as? [String: Any]

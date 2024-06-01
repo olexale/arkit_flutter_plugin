@@ -8,7 +8,6 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
     var forceTapOnCenter: Bool = false
     var configuration: ARConfiguration? = nil
 
-    @available(iOS 13.0, *)
     init(withFrame frame: CGRect, viewIdentifier viewId: Int64, messenger msg: FlutterBinaryMessenger) {
         sceneView = ARSCNView(frame: frame)
         channel = FlutterMethodChannel(name: "arkit_\(viewId)", binaryMessenger: msg)
@@ -21,7 +20,6 @@ class FlutterArkitView: NSObject, FlutterPlatformView {
 
     func view() -> UIView { return sceneView }
 
-    @available(iOS 13.0, *)
     func onMethodCalled(_ call: FlutterMethodCall, _ result: FlutterResult) {
         let arguments = call.arguments as? [String: Any]
 
