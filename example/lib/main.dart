@@ -209,7 +209,7 @@ class MyApp extends StatelessWidget {
       ),
       Sample(
         'Camera properties',
-        'Prints position, Intrinsic, and resolution of the camera',
+        'Shows position, Intrinsic, and resolution of the camera',
         Icons.location_on,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => CameraPropertiesPage())),
