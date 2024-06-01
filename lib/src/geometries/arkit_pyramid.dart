@@ -13,13 +13,10 @@ class ARKitPyramid extends ARKitGeometry {
     double height = 1,
     double width = 1,
     double length = 1,
-    List<ARKitMaterial>? materials,
+    super.materials,
   })  : height = ValueNotifier(height),
         width = ValueNotifier(width),
-        length = ValueNotifier(length),
-        super(
-          materials: materials,
-        );
+        length = ValueNotifier(length);
 
   /// The height of the pyramid.
   /// If the value is less than or equal to 0, the geometry is empty.

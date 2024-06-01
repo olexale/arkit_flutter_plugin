@@ -12,12 +12,9 @@ class ARKitCylinder extends ARKitGeometry {
   ARKitCylinder({
     double height = 1,
     double radius = 0.5,
-    List<ARKitMaterial>? materials,
+    super.materials,
   })  : height = ValueNotifier(height),
-        radius = ValueNotifier(radius),
-        super(
-          materials: materials,
-        );
+        radius = ValueNotifier(radius);
 
   /// The height of the cylinder.
   /// If the value is less than or equal to 0, the geometry is empty.

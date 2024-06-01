@@ -44,7 +44,7 @@ typedef ARKitPinchGestureHandler = void Function(
 /// A widget that wraps ARSCNView from ARKit.
 class ARKitSceneView extends StatefulWidget {
   const ARKitSceneView({
-    Key? key,
+    super.key,
     required this.onARKitViewCreated,
     this.configuration = ARKitConfiguration.worldTracking,
     this.environmentTexturing =
@@ -66,7 +66,7 @@ class ARKitSceneView extends StatefulWidget {
     this.worldAlignment = ARWorldAlignment.gravity,
     this.maximumNumberOfTrackedImages = 0,
     this.debug = false,
-  }) : super(key: key);
+  });
 
   /// This function will be fired when ARKit view is created.
   final ARKitPluginCreatedCallback onARKitViewCreated;
@@ -571,34 +571,34 @@ class ARKitController {
     if (node.geometry != null) {
       node.geometry!.materials.addListener(() => _updateMaterials(node));
       switch (node.geometry.runtimeType) {
-        case ARKitPlane:
+        case ARKitPlane _:
           _subscribeToPlaneGeometry(node);
           break;
-        case ARKitSphere:
+        case ARKitSphere _:
           _subscribeToSphereGeometry(node);
           break;
-        case ARKitText:
+        case ARKitText _:
           _subscribeToTextGeometry(node);
           break;
-        case ARKitBox:
+        case ARKitBox _:
           _subscribeToBoxGeometry(node);
           break;
-        case ARKitCylinder:
+        case ARKitCylinder _:
           _subscribeToCylinderGeometry(node);
           break;
-        case ARKitCone:
+        case ARKitCone _:
           _subscribeToConeGeometry(node);
           break;
-        case ARKitPyramid:
+        case ARKitPyramid _:
           _subscribeToPyramidGeometry(node);
           break;
-        case ARKitTube:
+        case ARKitTube _:
           _subscribeToTubeGeometry(node);
           break;
-        case ARKitTorus:
+        case ARKitTorus _:
           _subscribeToTorusGeometry(node);
           break;
-        case ARKitCapsule:
+        case ARKitCapsule _:
           _subscribeToCapsuleGeometry(node);
           break;
       }
