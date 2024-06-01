@@ -1,7 +1,5 @@
 import 'package:arkit_plugin_example/body_tracking_page.dart';
-import 'package:arkit_plugin_example/camera_imageresolution_scene.dart';
-import 'package:arkit_plugin_example/camera_intrinsic_scene.dart';
-import 'package:arkit_plugin_example/camera_position_scene.dart';
+import 'package:arkit_plugin_example/camera_properties_page.dart';
 import 'package:arkit_plugin_example/check_support_page.dart';
 import 'package:arkit_plugin_example/custom_animation_page.dart';
 import 'package:arkit_plugin_example/custom_object_page.dart';
@@ -210,25 +208,11 @@ class MyApp extends StatelessWidget {
             .push<void>(MaterialPageRoute(builder: (c) => SnapshotScenePage())),
       ),
       Sample(
-        'Camera position',
-        'Get position of the camera in AR scene',
+        'Camera properties',
+        'Prints position, Intrinsic, and resolution of the camera',
         Icons.location_on,
         () => Navigator.of(context).push<void>(
-            MaterialPageRoute(builder: (c) => CameraPositionScenePage())),
-      ),
-      Sample(
-        'Camera Intrinsic',
-        'Get Camera Intrinsic of the camera in AR scene',
-        Icons.photo_size_select_small_outlined,
-        () => Navigator.of(context).push<void>(
-            MaterialPageRoute(builder: (c) => CameraIntrinsicScenePage())),
-      ),
-      Sample(
-        'Camera Image Resolution',
-        'Get Camera Image Resolution of the camera in AR scene',
-        Icons.rectangle_outlined,
-        () => Navigator.of(context).push<void>(MaterialPageRoute(
-            builder: (c) => CameraImageresolutionScenePage())),
+            MaterialPageRoute(builder: (c) => CameraPropertiesPage())),
       ),
     ];
 
