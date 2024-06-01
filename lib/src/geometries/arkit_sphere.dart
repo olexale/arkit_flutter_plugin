@@ -12,7 +12,7 @@ class ARKitSphere extends ARKitGeometry {
   ARKitSphere({
     double radius = 0.5,
     super.materials,
-  })  : radius = ValueNotifier(radius);
+  }) : radius = ValueNotifier(radius);
 
   /// The sphere radius.
   /// If the value is less than or equal to 0, the geometry is empty.

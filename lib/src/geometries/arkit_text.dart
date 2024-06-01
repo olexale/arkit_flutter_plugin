@@ -13,7 +13,7 @@ class ARKitText extends ARKitGeometry {
     required String text,
     required this.extrusionDepth,
     super.materials,
-  })  : text = ValueNotifier(text);
+  }) : text = ValueNotifier(text);
 
   /// The text to be represented.
   @StringValueNotifierConverter()

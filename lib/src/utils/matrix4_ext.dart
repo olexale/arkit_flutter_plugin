@@ -1,8 +1,8 @@
 import 'package:vector_math/vector_math_64.dart';
 import 'dart:math' as math;
 
-Matrix4 createTransformMatrix(Matrix4? origin, Vector3? position, Vector3? scale,
-    Vector4? rotation, Vector3? eulerAngles) {
+Matrix4 createTransformMatrix(Matrix4? origin, Vector3? position,
+    Vector3? scale, Vector4? rotation, Vector3? eulerAngles) {
   final transform = origin ?? Matrix4.identity();
 
   if (position != null) {
