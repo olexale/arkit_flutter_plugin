@@ -14,13 +14,10 @@ class ARKitBox extends ARKitGeometry {
     double height = 1,
     double length = 1,
     this.chamferRadius = 0,
-    List<ARKitMaterial>? materials,
+    super.materials,
   })  : width = ValueNotifier(width),
         height = ValueNotifier(height),
-        length = ValueNotifier(length),
-        super(
-          materials: materials,
-        );
+        length = ValueNotifier(length);
 
   /// The width of the box.
   /// If the value is less than or equal to 0, the geometry is empty. The default value is 1.

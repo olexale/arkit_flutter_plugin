@@ -7,7 +7,8 @@ part of 'arkit_hit_test_result.dart';
 // **************************************************************************
 
 ARKitTestResult _$ARKitTestResultFromJson(Map json) => ARKitTestResult(
-      const ARKitHitTestResultTypeConverter().fromJson(json['type'] as int),
+      const ARKitHitTestResultTypeConverter()
+          .fromJson((json['type'] as num).toInt()),
       (json['distance'] as num).toDouble(),
       const MatrixConverter().fromJson(json['localTransform'] as List),
       const MatrixConverter().fromJson(json['worldTransform'] as List),

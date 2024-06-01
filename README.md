@@ -3,11 +3,11 @@
 [![Codemagic build status](https://api.codemagic.io/apps/5cb0a01178f5790010ab6978/5cb0a01178f5790010ab6977/status_badge.svg)](https://codemagic.io/apps/5cb0a01178f5790010ab6978/5cb0a01178f5790010ab6977/latest_build) [![flutter awesome](https://img.shields.io/badge/Awesome-Flutter-blue.svg?longCache=true&style=flat-square)](https://github.com/Solido/awesome-flutter)
 [![pub package](https://img.shields.io/pub/v/arkit_plugin.svg)](https://pub.dartlang.org/packages/arkit_plugin)
 
-**Note**: ARKit is only supported by mobile devices with A9 or later processors (iPhone 6s/7/SE/8/X, iPad 2017/Pro) on iOS 11 and newer. For some features iOS 12 or newer is required.
+**Note**: ARKit is only supported by mobile devices with A9 or later processors (iPhone 6s/7/SE/8/X, iPad 2017/Pro) on iOS 11 and newer. For some features iOS 12 or newer is required. Flutter >=3.19.0 supports iOS 12.0 and newer, if iOS 11 support is needed use the plugin version before 1.1.0.
 
 ## Usage
 
-### Depend on it
+### Add dependency
 
 Follow the [installation instructions](https://pub.dartlang.org/packages/arkit_plugin#-installing-tab-) from Dart Packages site.
 
@@ -22,7 +22,7 @@ ARKit uses the device camera, so do not forget to provide the `NSCameraUsageDesc
 ### Update Podfile
 
 At the top level of the `ios` folder uncomment the second line in the `Podfile` and change the iOS minimum version from `9.0` to the appropriate one.
-The minimum supported iOS version is `11.0`, though if you need image anchors use `11.3`, for image tracking configuration or face tracking set `12.0`, and for body tracking minimum version must be `13.0`.
+The minimum supported iOS version is `12.0`. For body tracking minimum version must be `13.0`.
 
 From:
 ```ruby
@@ -31,7 +31,7 @@ From:
 To:
 
 ```ruby
-platform :ios, '11.0'
+platform :ios, '12.0'
 ```
 
 NOTE: If when running for the first time you get a _cocoapods_ error, delete the `Podfile.lock` file in the `ios` folder. Open the `ios` folder in the terminal and run:

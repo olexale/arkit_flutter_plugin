@@ -9,8 +9,8 @@ part of 'arkit_plane.dart';
 ARKitPlane _$ARKitPlaneFromJson(Map json) => ARKitPlane(
       width: (json['width'] as num?)?.toDouble() ?? 1,
       height: (json['height'] as num?)?.toDouble() ?? 1,
-      widthSegmentCount: json['widthSegmentCount'] as int? ?? 1,
-      heightSegmentCount: json['heightSegmentCount'] as int? ?? 1,
+      widthSegmentCount: (json['widthSegmentCount'] as num?)?.toInt() ?? 1,
+      heightSegmentCount: (json['heightSegmentCount'] as num?)?.toInt() ?? 1,
       materials: (json['materials'] as List<dynamic>?)
           ?.map((e) => ARKitMaterial.fromJson(e as Map))
           .toList(),

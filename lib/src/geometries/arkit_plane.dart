@@ -14,12 +14,9 @@ class ARKitPlane extends ARKitGeometry {
     double height = 1,
     this.widthSegmentCount = 1,
     this.heightSegmentCount = 1,
-    List<ARKitMaterial>? materials,
+    super.materials,
   })  : width = ValueNotifier(width),
-        height = ValueNotifier(height),
-        super(
-          materials: materials,
-        );
+        height = ValueNotifier(height);
 
   /// The plane extent along the X axis.
   /// If the value is less than or equal to 0, the geometry is empty.

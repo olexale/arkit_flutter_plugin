@@ -13,13 +13,10 @@ class ARKitTube extends ARKitGeometry {
     double innerRadius = 0.25,
     double outerRadius = 0.5,
     double height = 1,
-    List<ARKitMaterial>? materials,
+    super.materials,
   })  : height = ValueNotifier(height),
         innerRadius = ValueNotifier(innerRadius),
-        outerRadius = ValueNotifier(outerRadius),
-        super(
-          materials: materials,
-        );
+        outerRadius = ValueNotifier(outerRadius);
 
   /// The height of the tube.
   /// If the value is less than or equal to 0, the geometry is empty.
