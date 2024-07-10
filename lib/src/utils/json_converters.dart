@@ -297,6 +297,22 @@ class ARKitAnchorConverter implements JsonConverter<ARKitAnchor?, Map?> {
   Map<dynamic, dynamic>? toJson(ARKitAnchor? object) => object?.toJson();
 }
 
+class Matrix3Converter implements JsonConverter<Matrix3, List<dynamic>> {
+  const Matrix3Converter();
+
+  @override
+  Matrix3 fromJson(List<dynamic> json) {
+    return Matrix3.fromList(json.cast<double>());
+  }
+
+  @override
+  List<dynamic> toJson(Matrix3 matrix) {
+    final list = List.filled(9, 0.0);
+    matrix.copyIntoArray(list);
+    return list;
+  }
+}
+
 class MatrixConverter implements JsonConverter<Matrix4, List<dynamic>> {
   const MatrixConverter();
 

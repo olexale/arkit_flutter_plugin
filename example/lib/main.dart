@@ -1,5 +1,5 @@
 import 'package:arkit_plugin_example/body_tracking_page.dart';
-import 'package:arkit_plugin_example/camera_position_scene.dart';
+import 'package:arkit_plugin_example/camera_properties_page.dart';
 import 'package:arkit_plugin_example/check_support_page.dart';
 import 'package:arkit_plugin_example/custom_animation_page.dart';
 import 'package:arkit_plugin_example/custom_object_page.dart';
@@ -134,8 +134,8 @@ class MyApp extends StatelessWidget {
         'Load .gltf or .glb',
         'Load .gltf or .glb from the Flutter assets or the Documents folder',
         Icons.folder_copy,
-            () => Navigator.of(context)
-            .push<void>(MaterialPageRoute(builder: (c) => LoadGltfOrGlbFilePage())),
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => LoadGltfOrGlbFilePage())),
       ),
       Sample(
         'Occlusion',
@@ -208,11 +208,11 @@ class MyApp extends StatelessWidget {
             .push<void>(MaterialPageRoute(builder: (c) => SnapshotScenePage())),
       ),
       Sample(
-        'Camera position',
-        'Get position of the camera in AR scene',
+        'Camera properties',
+        'Shows position, Intrinsic, and resolution of the camera',
         Icons.location_on,
-            () => Navigator.of(context)
-            .push<void>(MaterialPageRoute(builder: (c) => CameraPositionScenePage())),
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => CameraPropertiesPage())),
       ),
     ];
 

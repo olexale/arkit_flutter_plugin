@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+* BREAKING CHANGE! Drop iOS 11 support.
+* BREAKING CHANGE! Update Flutter constraints to >=3.19.0 and Dart to >=3.3.0 <4.0.0
+* Add `getIntrinsics` and `getImageResolution` functions (by @Oct7)
+
 ## 1.0.7
 
 * Add .gltf and .glb support (by @Jaemin-VIRNECT)

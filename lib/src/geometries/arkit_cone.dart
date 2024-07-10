@@ -13,13 +13,10 @@ class ARKitCone extends ARKitGeometry {
     double height = 1,
     double topRadius = 0,
     double bottomRadius = 0.5,
-    List<ARKitMaterial>? materials,
+    super.materials,
   })  : height = ValueNotifier(height),
         topRadius = ValueNotifier(topRadius),
-        bottomRadius = ValueNotifier(bottomRadius),
-        super(
-          materials: materials,
-        );
+        bottomRadius = ValueNotifier(bottomRadius);
 
   /// The height of the cylinder.
   /// If the value is less than or equal to 0, the geometry is empty.

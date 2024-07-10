@@ -12,12 +12,9 @@ class ARKitTorus extends ARKitGeometry {
   ARKitTorus({
     double ringRadius = 0.5,
     double pipeRadius = 0.25,
-    List<ARKitMaterial>? materials,
+    super.materials,
   })  : ringRadius = ValueNotifier(ringRadius),
-        pipeRadius = ValueNotifier(pipeRadius),
-        super(
-          materials: materials,
-        );
+        pipeRadius = ValueNotifier(pipeRadius);
 
   /// The radius of the torus ring.
   /// If the value is less than or equal to 0, the geometry is empty.

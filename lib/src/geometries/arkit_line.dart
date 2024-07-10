@@ -12,10 +12,8 @@ class ARKitLine extends ARKitGeometry {
   ARKitLine({
     required this.fromVector,
     required this.toVector,
-    List<ARKitMaterial>? materials,
-  }) : super(
-          materials: materials,
-        );
+    super.materials,
+  });
 
   /// Line initial vector position
   @Vector3Converter()
