@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+* Update README (by @biklas7)
+
 ## 1.1.0
 
 * BREAKING CHANGE! Drop iOS 11 support.
