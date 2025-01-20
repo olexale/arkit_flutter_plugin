@@ -17,6 +17,7 @@ import 'package:arkit_plugin_example/network_image_detection.dart';
 import 'package:arkit_plugin_example/occlusion_page.dart';
 import 'package:arkit_plugin_example/physics_page.dart';
 import 'package:arkit_plugin_example/plane_detection_page.dart';
+import 'package:arkit_plugin_example/snapshot_depth_scene.dart';
 import 'package:arkit_plugin_example/snapshot_scene.dart';
 import 'package:arkit_plugin_example/tap_page.dart';
 import 'package:arkit_plugin_example/face_detection_page.dart';
@@ -213,6 +214,13 @@ class MyApp extends StatelessWidget {
         Icons.location_on,
         () => Navigator.of(context).push<void>(
             MaterialPageRoute(builder: (c) => CameraPropertiesPage())),
+      ),
+      Sample(
+        'Depth Scene Snapshot',
+        'Make a photo of the depth scene using LiDAR',
+        Icons.camera,
+        () => Navigator.of(context).push<void>(
+            MaterialPageRoute(builder: (c) => SnapshotDepthScenePage())),
       ),
     ];
 
