@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.2
+
+* Allow to capture snapshot of depth scene using LiDAR to get a depth image and associated information (by @biklas7)
+
 ## 1.1.1
 
 * Update README (by @biklas7)

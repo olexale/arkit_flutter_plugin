@@ -1,6 +1,6 @@
 name: arkit_plugin
 description: Flutter Plugin for ARKit - Apple's augmented reality (AR) development platform for iOS mobile devices.
-version: 1.1.1
+version: 1.1.2
 repository: https://github.com/olexale/arkit_flutter_plugin
 issue_tracker: https://github.com/olexale/arkit_flutter_plugin/issues
 topics:
