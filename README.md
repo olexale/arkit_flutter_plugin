@@ -112,6 +112,7 @@ I would highly recommend to review the [sample](https://github.com/olexale/arkit
 | Widget Projection | Flutter widgets in AR                                                       | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/widget_projection.dart)|[twitter](https://twitter.com/OlexaLe/status/1174678765592567814) |
 | Real Time Updates | Calls a function once per frame                                             | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/real_time_updates.dart)| |
 | Snapshot | Make a photo of AR content                                                  | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/snapshot_scene.dart)| |
+| Depth Scene Snapshot | Make a photo of the depth scene using LiDAR                                          | [code](https://github.com/olexale/arkit_flutter_plugin/blob/master/example/lib/snapshot_depth_scene.dart)| |
 
 If you prefer video here is a playlist with "AR in Flutter" videos:
 
