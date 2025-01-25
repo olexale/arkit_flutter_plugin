@@ -19,4 +19,8 @@ enum ARKitConfiguration {
   /// A configuration for running body tracking.
   /// Body tracking provides 6 degrees of freedom tracking of a detected body in the scene.
   bodyTracking,
+
+  /// A configuration for running world tracking, but with scene depth.
+  /// Provide your app with the distance between the user's device and the real-world objects in the camera feed. ARKit samples this distance using the LiDAR scanner.
+  depthTracking,
 }

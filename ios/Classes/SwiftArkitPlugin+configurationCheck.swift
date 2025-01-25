@@ -24,6 +24,12 @@ func checkConfiguration(_ arguments: Any?) -> Bool {
         } else {
             return false
         }
+    case 4:
+        if #available(iOS 14.0, *) {
+            return ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth)
+        } else {
+            return false
+        }
     default:
         return false
     }

@@ -759,6 +759,28 @@ class ARKitController {
     return MemoryImage(result!);
   }
 
+  Future<Map<String, Object>?> snapshotWithDepthData() async {
+    final result = await _channel
+        .invokeMethod<Map<Object?, Object?>>('snapshotWithDepthData');
+    if (result != null) {
+      result.removeWhere((key, value) => key == null || value == null);
+      return result.cast<Object, Object>().map((key, value) {
+        final parsedKey = key as String;
+
+        if (parsedKey == 'image') {
+          final bytesList = (value as List<Object?>).cast<int>().toList();
+          final bytes = Uint8List.fromList(bytesList);
+          final image = MemoryImage(bytes);
+          return MapEntry(parsedKey, image);
+        } else {
+          return MapEntry(parsedKey, value);
+        }
+      });
+    } else {
+      return null;
+    }
+  }
+
   Future<Vector3?> cameraPosition() async {
     final result = await _channel.invokeListMethod('cameraPosition');
     if (result != null) {
