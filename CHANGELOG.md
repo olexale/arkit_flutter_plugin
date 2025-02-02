@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.3
+
+* Update onGetNodeBoundingBox to use the actual node instead of a new geometry. This allows you to get the bounding box of a loaded model (by @jeremyfb)
+* Update handleTap to find if the tapped node is a child of an SCNReferenceNode and return the name of that instead. This fixes a bug where the names of inner geometries were being returned. (by @jeremyfb)
+
 ## 1.1.2
 
 * Allow to capture snapshot of depth scene using LiDAR to get a depth image and associated information (by @biklas7)
