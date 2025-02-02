@@ -43,15 +43,36 @@ extension FlutterArkitView: UIGestureRecognizerDelegate {
         guard let sceneView = recognizer.view as? ARSCNView else {
             return
         }
-        let touchLocation = forceTapOnCenter ? self.sceneView.center : recognizer.location(in: sceneView)
+        let touchLocation = forceTapOnCenter ? sceneView.center : recognizer.location(in: sceneView)
         let hitResults = sceneView.hitTest(touchLocation, options: nil)
-        let results: [String] = hitResults.compactMap { $0.node.name }
-        if results.count != 0 {
-            sendToFlutter("onNodeTap", arguments: results)
+
+        // Collect tapped node information
+        let nodeInfo: [String] = hitResults.compactMap { hitResult in
+            var targetNode = hitResult.node
+            var walkerNode = targetNode
+
+            // ARKit gives the most specific node name it can. When that is a loaded model
+            // this means the node name is not unique. Walk up the parent nodes and look for
+            // an SCNReferenceNode, this will be the node the calling code created.
+            while let parent = walkerNode.parent {
+                let retainedParent = parent
+                if retainedParent is SCNReferenceNode {
+                    targetNode = retainedParent
+                    break
+                }
+                walkerNode = retainedParent
+            }
+
+            return targetNode.name
+        }
+
+        if !nodeInfo.isEmpty {
+            let uniqueNodeInfo = Array(Set(nodeInfo))
+            sendToFlutter("onNodeTap", arguments: uniqueNodeInfo)
         }
 
         let arHitResults = getARHitResultsArray(sceneView, atLocation: touchLocation)
-        if arHitResults.count != 0 {
+        if !arHitResults.isEmpty {
             sendToFlutter("onARTap", arguments: arHitResults)
         }
     }

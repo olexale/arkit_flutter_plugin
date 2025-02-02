@@ -1,20 +1,18 @@
-import Foundation
 import ARKit
+import Foundation
 
 @available(iOS 14.0, *)
 func createDepthTrackingConfiguration(_ arguments: [String: Any]) -> ARWorldTrackingConfiguration? {
-    if(ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth)) {
+    if ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) {
         let depthTrackingConfiguration = ARWorldTrackingConfiguration()
         depthTrackingConfiguration.frameSemantics = [.sceneDepth]
-        
+
         if let environmentTexturing = arguments["environmentTexturing"] as? Int {
             if environmentTexturing == 0 {
                 depthTrackingConfiguration.environmentTexturing = .none
-            }
-            else if environmentTexturing == 1 {
+            } else if environmentTexturing == 1 {
                 depthTrackingConfiguration.environmentTexturing = .manual
-            }
-            else if environmentTexturing == 2 {
+            } else if environmentTexturing == 2 {
                 depthTrackingConfiguration.environmentTexturing = .automatic
             }
         }
@@ -38,7 +36,7 @@ func createDepthTrackingConfiguration(_ arguments: [String: Any]) -> ARWorldTrac
         if let maximumNumberOfTrackedImages = arguments["maximumNumberOfTrackedImages"] as? Int {
             depthTrackingConfiguration.maximumNumberOfTrackedImages = maximumNumberOfTrackedImages
         }
-        
+
         return depthTrackingConfiguration
     }
     return nil
