@@ -69,7 +69,6 @@ extension FlutterArkitView {
             } else {
                 logPluginError("configuration is not supported on this device", toChannel: channel)
             }
-            break
         default:
             break
         }
