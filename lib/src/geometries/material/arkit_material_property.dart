@@ -30,6 +30,7 @@ abstract class ARKitMaterialProperty {
     String? filename,
     String? url,
     bool? autoplay = true,
+    String? filePath,
   }) =>
       ARKitMaterialVideo(
         filename: filename,
@@ -37,6 +38,7 @@ abstract class ARKitMaterialProperty {
         width: width,
         height: height,
         autoplay: autoplay ?? true,
+        filePath: filePath,
       );
 
   final String type;
@@ -116,11 +118,13 @@ class ARKitMaterialVideo extends ARKitMaterialProperty {
     this.autoplay = true,
     this.filename,
     this.url,
+    this.filePath,
   })  : id = UniqueKey().toString(),
         super._('video');
 
   final String? filename;
   final String? url;
+  final String? filePath;
   final int width;
   final int height;
   final bool autoplay;
@@ -138,6 +142,10 @@ class ARKitMaterialVideo extends ARKitMaterialProperty {
 
   /// Pauses video playback.
   Future<void> pause() => _channel.invokeMethod<void>('pause', {'id': id});
+
+  /// Seek video to a specific time.
+  Future<void> seekTo(Duration duration) =>
+      _channel.invokeMethod<void>('seek', {'id': id, 'seconds': duration.inSeconds});
 
   static ARKitMaterialVideo fromJson(Map<String, dynamic> json) =>
       _$ARKitMaterialVideoFromJson(json);
