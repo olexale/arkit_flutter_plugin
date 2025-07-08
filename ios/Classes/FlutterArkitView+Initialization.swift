@@ -17,10 +17,25 @@ extension FlutterArkitView {
         initalizeGesutreRecognizers(arguments)
 
         sceneView.debugOptions = parseDebugOptions(arguments)
-        configuration = parseConfiguration(arguments)
-        if configuration != nil {
-            sceneView.session.run(configuration!)
+        
+        if #available(iOS 13.0, *) {
+            Task {
+                let config = parseConfiguration(arguments)
+                if let config = config {
+                    DispatchQueue.main.async {
+                        self.sceneView.session.run(config)
+                    }
+                }
+            }
+        } else {
+            // Fallback on earlier versions
+            configuration = parseConfiguration(arguments)
+            if configuration != nil {
+                sceneView.session.run(configuration!)
+            }
         }
+        
+        
     }
 
     func parseDebugOptions(_ arguments: [String: Any]) -> SCNDebugOptions {
