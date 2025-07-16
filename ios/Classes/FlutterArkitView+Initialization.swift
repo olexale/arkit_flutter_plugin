@@ -29,17 +29,15 @@ extension FlutterArkitView {
                 loader.centerYAnchor.constraint(equalTo: sceneView.centerYAnchor)
                 ])
             Task {
-                let config = parseConfiguration(arguments)
-                if let config = config {
-                    DispatchQueue.main.async {
-                        self.sceneView.session.run(config)
+                configuration = parseConfiguration(arguments)
+                DispatchQueue.main.async {
+                    self.sceneView.session.run(self.configuration!)
 
                         if let loader = self.sceneView.subviews.first(where: { $0 is UIActivityIndicatorView }) as? UIActivityIndicatorView {
                             loader.stopAnimating()
                             loader.removeFromSuperview()
                         }
                     }
-                }
             }
         } else {
             // Fallback on earlier versions
