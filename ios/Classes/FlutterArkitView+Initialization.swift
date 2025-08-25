@@ -18,24 +18,11 @@ extension FlutterArkitView {
 
         sceneView.debugOptions = parseDebugOptions(arguments)
         
-        let loader = UIActivityIndicatorView(style: .large)
-        loader.translatesAutoresizingMaskIntoConstraints = false
-        loader.color = .white
-        loader.startAnimating()
-        sceneView.addSubview(loader)
-        NSLayoutConstraint.activate([
-            loader.centerXAnchor.constraint(equalTo: sceneView.centerXAnchor),
-            loader.centerYAnchor.constraint(equalTo: sceneView.centerYAnchor)
-        ])
+        
         Task {
             configuration = parseConfiguration(arguments)
             DispatchQueue.main.async {
                 self.sceneView.session.run(self.configuration!)
-                
-                if let loader = self.sceneView.subviews.first(where: { $0 is UIActivityIndicatorView }) as? UIActivityIndicatorView {
-                    loader.stopAnimating()
-                    loader.removeFromSuperview()
-                }
             }
         }
         
