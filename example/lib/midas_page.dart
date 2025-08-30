@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class MidasPage extends StatefulWidget {
+  const MidasPage({super.key});
+
   @override
-  _MidasPageState createState() => _MidasPageState();
+  State<MidasPage> createState() => _MidasPageState();
 }
 
 class _MidasPageState extends State<MidasPage> {
@@ -24,14 +26,12 @@ class _MidasPageState extends State<MidasPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Midas Sample')),
-        body: Container(
-          child: ARKitSceneView(
-            enableTapRecognizer: true,
-            onARKitViewCreated: onARKitViewCreated,
-            planeDetection: ARPlaneDetection.horizontalAndVertical,
-            environmentTexturing:
-                ARWorldTrackingConfigurationEnvironmentTexturing.automatic,
-          ),
+        body: ARKitSceneView(
+          enableTapRecognizer: true,
+          onARKitViewCreated: onARKitViewCreated,
+          planeDetection: ARPlaneDetection.horizontalAndVertical,
+          environmentTexturing:
+              ARWorldTrackingConfigurationEnvironmentTexturing.automatic,
         ),
       );
 
@@ -72,7 +72,7 @@ class _MidasPageState extends State<MidasPage> {
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
-    if (!(anchor is ARKitPlaneAnchor)) {
+    if (anchor is! ARKitPlaneAnchor) {
       return;
     }
     _addPlane(arkitController, anchor);
@@ -101,10 +101,9 @@ class _MidasPageState extends State<MidasPage> {
     );
 
     node = ARKitNode(
-      geometry: plane,
-      position: vector.Vector3(anchor.center.x, 0, anchor.center.z),
-      rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
-    );
+        geometry: plane,
+        position: vector.Vector3(anchor.center.x, 0, anchor.center.z),
+        rotation: vector.Vector4(1, 0, 0, -math.pi / 2));
     controller.add(node!, parentNodeName: anchor.nodeName);
   }
 }

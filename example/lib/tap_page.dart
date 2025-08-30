@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class TapPage extends StatefulWidget {
+  const TapPage({super.key});
+
   @override
-  _TapPageState createState() => _TapPageState();
+  State<TapPage> createState() => _TapPageState();
 }
 
 class _TapPageState extends State<TapPage> {
@@ -20,11 +22,9 @@ class _TapPageState extends State<TapPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Tap Gesture Sample')),
-        body: Container(
-          child: ARKitSceneView(
-            enableTapRecognizer: true,
-            onARKitViewCreated: onARKitViewCreated,
-          ),
+        body: ARKitSceneView(
+          enableTapRecognizer: true,
+          onARKitViewCreated: onARKitViewCreated,
         ),
       );
 
@@ -58,9 +58,8 @@ class _TapPageState extends State<TapPage> {
       ARKitMaterial(diffuse: ARKitMaterialProperty.color(color))
     ];
     showDialog<void>(
-      context: context,
-      builder: (BuildContext context) =>
-          AlertDialog(content: Text('You tapped on $name')),
-    );
+        context: context,
+        builder: (BuildContext context) =>
+            AlertDialog(content: Text('You tapped on $name')));
   }
 }

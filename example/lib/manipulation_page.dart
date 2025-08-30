@@ -5,8 +5,10 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:collection/collection.dart';
 
 class ManipulationPage extends StatefulWidget {
+  const ManipulationPage({super.key});
+
   @override
-  _ManipulationPageState createState() => _ManipulationPageState();
+  State<ManipulationPage> createState() => _ManipulationPageState();
 }
 
 class _ManipulationPageState extends State<ManipulationPage> {
@@ -22,13 +24,11 @@ class _ManipulationPageState extends State<ManipulationPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Manipulation Sample')),
-        body: Container(
-          child: ARKitSceneView(
-            enablePinchRecognizer: true,
-            enablePanRecognizer: true,
-            enableRotationRecognizer: true,
-            onARKitViewCreated: onARKitViewCreated,
-          ),
+        body: ARKitSceneView(
+          enablePinchRecognizer: true,
+          enablePanRecognizer: true,
+          enableRotationRecognizer: true,
+          onARKitViewCreated: onARKitViewCreated,
         ),
       );
 
@@ -46,7 +46,7 @@ class _ManipulationPageState extends State<ManipulationPage> {
       lightingModelName: ARKitLightingModel.physicallyBased,
       diffuse: ARKitMaterialProperty.color(
         Color((math.Random().nextDouble() * 0xFFFFFF).toInt() << 0)
-            .withOpacity(1.0),
+            .withValues(alpha: 1.0),
       ),
     );
     final box =

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class CustomObjectPage extends StatefulWidget {
+  const CustomObjectPage({super.key});
+
   @override
-  _CustomObjectPageState createState() => _CustomObjectPageState();
+  State<CustomObjectPage> createState() => _CustomObjectPageState();
 }
 
 class _CustomObjectPageState extends State<CustomObjectPage> {
@@ -20,12 +22,10 @@ class _CustomObjectPageState extends State<CustomObjectPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Custom object on plane Sample')),
-        body: Container(
-          child: ARKitSceneView(
-            showFeaturePoints: true,
-            planeDetection: ARPlaneDetection.horizontal,
-            onARKitViewCreated: onARKitViewCreated,
-          ),
+        body: ARKitSceneView(
+          showFeaturePoints: true,
+          planeDetection: ARPlaneDetection.horizontal,
+          onARKitViewCreated: onARKitViewCreated,
         ),
       );
 

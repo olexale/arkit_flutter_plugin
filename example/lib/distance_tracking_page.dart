@@ -5,8 +5,10 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:collection/collection.dart';
 
 class DistanceTrackingPage extends StatefulWidget {
+  const DistanceTrackingPage({super.key});
+
   @override
-  _DistanceTrackingPageState createState() => _DistanceTrackingPageState();
+  State<DistanceTrackingPage> createState() => _DistanceTrackingPageState();
 }
 
 class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
@@ -25,13 +27,11 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Distance Tracking Sample')),
-        body: Container(
-          child: ARKitSceneView(
-            showFeaturePoints: true,
-            planeDetection: ARPlaneDetection.horizontal,
-            onARKitViewCreated: onARKitViewCreated,
-            enableTapRecognizer: true,
-          ),
+        body: ARKitSceneView(
+          showFeaturePoints: true,
+          planeDetection: ARPlaneDetection.horizontal,
+          onARKitViewCreated: onARKitViewCreated,
+          enableTapRecognizer: true,
         ),
       );
 
@@ -50,7 +50,7 @@ class _DistanceTrackingPageState extends State<DistanceTrackingPage> {
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
-    if (!(anchor is ARKitPlaneAnchor)) {
+    if (anchor is! ARKitPlaneAnchor) {
       return;
     }
     _addPlane(arkitController, anchor);

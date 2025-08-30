@@ -3,20 +3,20 @@ description: Demonstrates how to use the arkit_plugin plugin.
 publish_to: 'none'
 
 environment:
-  sdk: ">=2.12.0 <4.0.0"
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   arkit_plugin:
     path: ../
   flutter:
     sdk: flutter
-  vector_math: any
-  collection: any
+  vector_math: 2.2.0
+  collection: 1.19.1
   
 dev_dependencies:
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
-  pedantic: ^1.11.1
 
 flutter:
   uses-material-design: true

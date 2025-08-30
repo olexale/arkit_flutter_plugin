@@ -22,7 +22,7 @@ ARKit uses the device camera, so do not forget to provide the `NSCameraUsageDesc
 ### Update Podfile
 
 At the top level of the `ios` folder uncomment the second line in the `Podfile` and change the iOS minimum version from `9.0` to the appropriate one.
-The minimum supported iOS version is `12.0`. For body tracking minimum version must be `13.0`.
+The minimum supported iOS version is `13.0`.
 
 From:
 ```ruby
@@ -31,7 +31,7 @@ From:
 To:
 
 ```ruby
-platform :ios, '12.0'
+platform :ios, '13.0'
 ```
 
 NOTE: If when running for the first time you get a _cocoapods_ error, delete the `Podfile.lock` file in the `ios` folder. Open the `ios` folder in the terminal and run:

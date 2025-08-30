@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+
+* Prevent UI freeze by loading AR session configuration asynchronously (by @vlad0209)
+* **BREAKING CHANGE** Drop iOS 12 support
+* Fix analyzer warnings
+
 ## 1.1.3
 
 * Update onGetNodeBoundingBox to use the actual node instead of a new geometry. This allows you to get the bounding box of a loaded model (by @jeremyfb)

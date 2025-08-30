@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class PhysicsPage extends StatefulWidget {
+  const PhysicsPage({super.key});
+
   @override
-  _PhysicsPageState createState() => _PhysicsPageState();
+  State<PhysicsPage> createState() => _PhysicsPageState();
 }
 
 class _PhysicsPageState extends State<PhysicsPage> {
@@ -20,8 +22,7 @@ class _PhysicsPageState extends State<PhysicsPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(title: const Text('Physics Sample')),
-      body: Container(
-          child: ARKitSceneView(onARKitViewCreated: onARKitViewCreated)));
+      body: ARKitSceneView(onARKitViewCreated: onARKitViewCreated));
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
@@ -55,15 +56,14 @@ class _PhysicsPageState extends State<PhysicsPage> {
       ],
     );
     final node = ARKitNode(
-      geometry: plane,
-      physicsBody: ARKitPhysicsBody(
-        ARKitPhysicsBodyType.staticType,
-        shape: ARKitPhysicsShape(plane),
-        categoryBitMask: BodyType.plane.index + 1,
-      ),
-      rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
-      position: vector.Vector3(0, -0.5, -1),
-    );
+        geometry: plane,
+        physicsBody: ARKitPhysicsBody(
+          ARKitPhysicsBodyType.staticType,
+          shape: ARKitPhysicsShape(plane),
+          categoryBitMask: BodyType.plane.index + 1,
+        ),
+        rotation: vector.Vector4(1, 0, 0, -math.pi / 2),
+        position: vector.Vector3(0, -0.5, -1));
     controller.add(node);
   }
 }

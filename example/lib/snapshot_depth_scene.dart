@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class SnapshotDepthScenePage extends StatefulWidget {
+  const SnapshotDepthScenePage({super.key});
+
   @override
-  _SnapshotDepthScenePageState createState() => _SnapshotDepthScenePageState();
+  State<SnapshotDepthScenePage> createState() => _SnapshotDepthScenePageState();
 }
 
 class _SnapshotDepthScenePageState extends State<SnapshotDepthScenePage> {
@@ -20,39 +22,40 @@ class _SnapshotDepthScenePageState extends State<SnapshotDepthScenePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: const Text('Snapshot'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
-        onPressed: () async {
-          try {
-            final data = await arkitController.snapshotWithDepthData();
-            if (data == null) return;
-            final image = data['image']! as MemoryImage;
-            final depthData = (data..remove('image')).map<String, String>(
-              (key, value) => MapEntry(key, value.toString()),
-            );
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SnapshotPreview(
-                  imageProvider: image,
-                  depthData: depthData,
+        appBar: AppBar(
+          title: const Text('Snapshot'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.camera_alt),
+          onPressed: () async {
+            final navigator = Navigator.of(context);
+            try {
+              final data = await arkitController.snapshotWithDepthData();
+              if (data == null) return;
+              final image = data['image']! as MemoryImage;
+              final depthData = (data..remove('image')).map<String, String>(
+                (key, value) => MapEntry(key, value.toString()),
+              );
+              if (!mounted) return;
+              await navigator.push(
+                MaterialPageRoute(
+                  builder: (context) => SnapshotPreview(
+                    imageProvider: image,
+                    depthData: depthData,
+                  ),
                 ),
-              ),
-            );
-          } catch (e) {
-            print(e);
-          }
-        },
-      ),
-      body: Container(
-        child: ARKitSceneView(
+              );
+            } catch (e) {
+              // Error handling - print replaced for production use
+              debugPrint('Failed to create snapshot: $e');
+            }
+          },
+        ),
+        body: ARKitSceneView(
           configuration: ARKitConfiguration.depthTracking,
           onARKitViewCreated: onARKitViewCreated,
         ),
-      ));
+      );
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
@@ -62,10 +65,10 @@ class _SnapshotDepthScenePageState extends State<SnapshotDepthScenePage> {
 
 class SnapshotPreview extends StatelessWidget {
   const SnapshotPreview({
-    Key? key,
+    super.key,
     required this.imageProvider,
     required this.depthData,
-  }) : super(key: key);
+  });
 
   final ImageProvider imageProvider;
   final Map<String, String> depthData;
@@ -104,38 +107,37 @@ class SnapshotPreview extends StatelessWidget {
 
 class DepthDataPreview extends StatelessWidget {
   const DepthDataPreview({
-    Key? key,
+    super.key,
     required this.depthData,
-  }) : super(key: key);
+  });
 
   final Map<String, String> depthData;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Depth Data Preview'),
-      ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text('Depth Width'),
-            subtitle: Text(depthData['depthWidth']!),
-          ),
-          ListTile(
-            title: Text('Depth Height'),
-            subtitle: Text(depthData['depthHeight']!),
-          ),
-          ListTile(
-            title: Text('Intrinsics'),
-            subtitle: Text(depthData['intrinsics']!),
-          ),
-          ListTile(
-            title: Text('Depth Map'),
-            subtitle: Text(depthData['depthMap']!),
-          ),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Depth Data Preview'),
+        ),
+        body: ListView(
+          children: [
+            ListTile(
+              title: Text('Depth Width'),
+              subtitle: Text(depthData['depthWidth']!),
+            ),
+            ListTile(
+              title: Text('Depth Height'),
+              subtitle: Text(depthData['depthHeight']!),
+            ),
+            ListTile(
+              title: Text('Intrinsics'),
+              subtitle: Text(depthData['intrinsics']!),
+            ),
+            ListTile(
+              title: Text('Depth Map'),
+              subtitle: Text(depthData['depthMap']!),
+            ),
+          ],
+        ));
   }
 }

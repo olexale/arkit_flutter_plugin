@@ -2,6 +2,8 @@ import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
 
 class CheckSupportPage extends StatelessWidget {
+  const CheckSupportPage({super.key});
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(

@@ -18,14 +18,12 @@ extension FlutterArkitView {
 
         sceneView.debugOptions = parseDebugOptions(arguments)
         
-        Task {
-            configuration = parseConfiguration(arguments)
-            DispatchQueue.main.async {
-                if let config = self.configuration {
-                    self.sceneView.session.run(config)
-                } else {
-                    logPluginError("Failed to create ARConfiguration", toChannel: self.channel)
-                }
+        configuration = parseConfiguration(arguments)
+        DispatchQueue.main.async {
+            if let config = self.configuration {
+                self.sceneView.session.run(config)
+            } else {
+                logPluginError("Failed to create ARConfiguration", toChannel: self.channel)
             }
         }
     }

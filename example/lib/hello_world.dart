@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class HelloWorldPage extends StatefulWidget {
+  const HelloWorldPage({super.key});
+
   @override
-  _HelloWorldPagState createState() => _HelloWorldPagState();
+  State<HelloWorldPage> createState() => _HelloWorldPageState();
 }
 
-class _HelloWorldPagState extends State<HelloWorldPage> {
+class _HelloWorldPageState extends State<HelloWorldPage> {
   late ARKitController arkitController;
 
   @override
@@ -22,12 +24,10 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
       appBar: AppBar(
         title: const Text('ARKit in Flutter'),
       ),
-      body: Container(
-        child: ARKitSceneView(
-          onARKitViewCreated: onARKitViewCreated,
-          environmentTexturing:
-              ARWorldTrackingConfigurationEnvironmentTexturing.automatic,
-        ),
+      body: ARKitSceneView(
+        onARKitViewCreated: onARKitViewCreated,
+        environmentTexturing:
+            ARWorldTrackingConfigurationEnvironmentTexturing.automatic,
       ));
 
   void onARKitViewCreated(ARKitController arkitController) {
@@ -154,7 +154,8 @@ class _HelloWorldPagState extends State<HelloWorldPage> {
         metalness: ARKitMaterialProperty.value(_rnd.nextDouble()),
         roughness: ARKitMaterialProperty.value(_rnd.nextDouble()),
         diffuse: ARKitMaterialProperty.color(
-          Color((_rnd.nextDouble() * 0xFFFFFF).toInt() << 0).withOpacity(1.0),
+          Color((_rnd.nextDouble() * 0xFFFFFF).toInt() << 0)
+              .withValues(alpha: 1.0),
         ),
       )
     ];

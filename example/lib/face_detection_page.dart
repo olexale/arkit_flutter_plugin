@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class FaceDetectionPage extends StatefulWidget {
+  const FaceDetectionPage({super.key});
+
   @override
-  _FaceDetectionPageState createState() => _FaceDetectionPageState();
+  State<FaceDetectionPage> createState() => _FaceDetectionPageState();
 }
 
 class _FaceDetectionPageState extends State<FaceDetectionPage> {
@@ -23,11 +25,9 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Face Detection Sample')),
-        body: Container(
-          child: ARKitSceneView(
-            configuration: ARKitConfiguration.faceTracking,
-            onARKitViewCreated: onARKitViewCreated,
-          ),
+        body: ARKitSceneView(
+          configuration: ARKitConfiguration.faceTracking,
+          onARKitViewCreated: onARKitViewCreated,
         ),
       );
 
@@ -38,7 +38,7 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
-    if (!(anchor is ARKitFaceAnchor)) {
+    if (anchor is! ARKitFaceAnchor) {
       return;
     }
     final material = ARKitMaterial(fillMode: ARKitFillMode.lines);
@@ -59,9 +59,8 @@ class _FaceDetectionPageState extends State<FaceDetectionPage> {
       transform.getColumn(3).y,
       transform.getColumn(3).z,
     );
-    final material = ARKitMaterial(
-      diffuse: ARKitMaterialProperty.color(Colors.yellow),
-    );
+    final material =
+        ARKitMaterial(diffuse: ARKitMaterialProperty.color(Colors.yellow));
     final sphere = ARKitBox(
         materials: [material], width: 0.03, height: 0.03, length: 0.03);
 

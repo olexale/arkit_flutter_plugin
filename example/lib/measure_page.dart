@@ -4,8 +4,10 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:collection/collection.dart';
 
 class MeasurePage extends StatefulWidget {
+  const MeasurePage({super.key});
+
   @override
-  _MeasurePageState createState() => _MeasurePageState();
+  State<MeasurePage> createState() => _MeasurePageState();
 }
 
 class _MeasurePageState extends State<MeasurePage> {
@@ -23,11 +25,9 @@ class _MeasurePageState extends State<MeasurePage> {
       appBar: AppBar(
         title: const Text('Measure Sample'),
       ),
-      body: Container(
-        child: ARKitSceneView(
-          enableTapRecognizer: true,
-          onARKitViewCreated: onARKitViewCreated,
-        ),
+      body: ARKitSceneView(
+        enableTapRecognizer: true,
+        onARKitViewCreated: onARKitViewCreated,
       ));
 
   void onARKitViewCreated(ARKitController arkitController) {

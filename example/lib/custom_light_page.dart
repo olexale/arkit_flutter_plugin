@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class CustomLightPage extends StatefulWidget {
+  const CustomLightPage({super.key});
+
   @override
-  _CustomLightPageState createState() => _CustomLightPageState();
+  State<CustomLightPage> createState() => _CustomLightPageState();
 }
 
 class _CustomLightPageState extends State<CustomLightPage> {
@@ -18,15 +20,14 @@ class _CustomLightPageState extends State<CustomLightPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: const Text('Custom Light Sample'),
-      ),
-      body: Container(
-        child: ARKitSceneView(
+        appBar: AppBar(
+          title: const Text('Custom Light Sample'),
+        ),
+        body: ARKitSceneView(
           autoenablesDefaultLighting: false,
           onARKitViewCreated: onARKitViewCreated,
         ),
-      ));
+      );
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
@@ -92,10 +93,9 @@ class _CustomLightPageState extends State<CustomLightPage> {
       ],
     );
     final node = ARKitNode(
-      geometry: text,
-      position: vector.Vector3(0, 0, -0.5),
-      scale: vector.Vector3(0.02, 0.02, 0.02),
-    );
+        geometry: text,
+        position: vector.Vector3(0, 0, -0.5),
+        scale: vector.Vector3(0.02, 0.02, 0.02));
     controller.add(node);
   }
 }

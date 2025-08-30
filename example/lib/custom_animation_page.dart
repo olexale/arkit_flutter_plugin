@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class CustomAnimationPage extends StatefulWidget {
+  const CustomAnimationPage({super.key});
+
   @override
-  _CustomAnimationPageState createState() => _CustomAnimationPageState();
+  State<CustomAnimationPage> createState() => _CustomAnimationPageState();
 }
 
 class _CustomAnimationPageState extends State<CustomAnimationPage> {
@@ -35,12 +37,10 @@ class _CustomAnimationPageState extends State<CustomAnimationPage> {
             setState(() => idle = !idle);
           },
         ),
-        body: Container(
-          child: ARKitSceneView(
-            showFeaturePoints: true,
-            planeDetection: ARPlaneDetection.horizontal,
-            onARKitViewCreated: onARKitViewCreated,
-          ),
+        body: ARKitSceneView(
+          showFeaturePoints: true,
+          planeDetection: ARPlaneDetection.horizontal,
+          onARKitViewCreated: onARKitViewCreated,
         ),
       );
 
@@ -50,7 +50,7 @@ class _CustomAnimationPageState extends State<CustomAnimationPage> {
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
-    if (!(anchor is ARKitPlaneAnchor)) {
+    if (anchor is! ARKitPlaneAnchor) {
       return;
     }
     _addPlane(arkitController, anchor);
@@ -61,10 +61,9 @@ class _CustomAnimationPageState extends State<CustomAnimationPage> {
       controller?.remove(node!.name);
     }
     node = ARKitReferenceNode(
-      url: 'models.scnassets/idleFixed.dae',
-      position: vector.Vector3(0, 0, 0),
-      scale: vector.Vector3(0.02, 0.02, 0.02),
-    );
+        url: 'models.scnassets/idleFixed.dae',
+        position: vector.Vector3(0, 0, 0),
+        scale: vector.Vector3(0.02, 0.02, 0.02));
     controller?.add(node!, parentNodeName: anchor.nodeName);
   }
 }

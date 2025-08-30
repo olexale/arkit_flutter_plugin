@@ -30,6 +30,8 @@ import 'package:flutter/material.dart';
 void main() => runApp(MaterialApp(home: MyApp()));
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     final samples = [
@@ -237,8 +239,8 @@ class MyApp extends StatelessWidget {
 class SampleItem extends StatelessWidget {
   const SampleItem({
     required this.item,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final Sample item;
 
   @override

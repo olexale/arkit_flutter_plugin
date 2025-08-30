@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class ImageDetectionPage extends StatefulWidget {
+  const ImageDetectionPage({super.key});
+
   @override
-  _ImageDetectionPageState createState() => _ImageDetectionPageState();
+  State<ImageDetectionPage> createState() => _ImageDetectionPageState();
 }
 
 class _ImageDetectionPageState extends State<ImageDetectionPage> {
@@ -24,28 +26,26 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Image Detection Sample')),
-        body: Container(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              ARKitSceneView(
-                detectionImagesGroupName: 'AR Resources',
-                onARKitViewCreated: onARKitViewCreated,
-              ),
-              anchorWasFound
-                  ? Container()
-                  : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Point the camera at the earth image from the article about Earth on Wikipedia.',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall
-                            ?.copyWith(color: Colors.white),
-                      ),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            ARKitSceneView(
+              detectionImagesGroupName: 'AR Resources',
+              onARKitViewCreated: onARKitViewCreated,
+            ),
+            anchorWasFound
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Point the camera at the earth image from the article about Earth on Wikipedia.',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(color: Colors.white),
                     ),
-            ],
-          ),
+                  ),
+          ],
         ),
       );
 
