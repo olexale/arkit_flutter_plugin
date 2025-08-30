@@ -79,7 +79,7 @@ class ColorConverter implements JsonConverter<Color, int> {
   Color fromJson(int json) => Color(json);
 
   @override
-  int toJson(Color object) => object.value;
+  int toJson(Color object) => object.toARGB32();
 }
 
 class NullableColorConverter implements JsonConverter<Color?, int?> {
@@ -89,7 +89,7 @@ class NullableColorConverter implements JsonConverter<Color?, int?> {
   Color? fromJson(int? json) => json != null ? Color(json) : null;
 
   @override
-  int? toJson(Color? object) => object?.value;
+  int? toJson(Color? object) => object?.toARGB32();
 }
 
 class ARKitLightTypeConverter implements JsonConverter<ARKitLightType, int> {
@@ -219,7 +219,6 @@ class ARKitColorMaskConverter implements JsonConverter<ARKitColorMask?, int?> {
       case ARKitColorMask.alpha:
         return 1;
       case ARKitColorMask.all:
-      default:
         return 15;
     }
   }
@@ -275,7 +274,6 @@ class ARKitHitTestResultTypeConverter
       case ARKitHitTestResultType.existingPlaneUsingGeometry:
         return 32;
       case ARKitHitTestResultType.unknown:
-      default:
         return 0;
     }
   }

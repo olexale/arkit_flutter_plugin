@@ -16,9 +16,9 @@ Matrix4 createTransformMatrix(Matrix4? origin, Vector3? position,
     transform.matrixEulerAngles = eulerAngles;
   }
   if (scale != null) {
-    transform.scale(scale);
+    transform.scaleByVector3(scale);
   } else {
-    transform.scale(1.0);
+    transform.scaleByVector3(Vector3.all(1.0));
   }
   return transform;
 }
