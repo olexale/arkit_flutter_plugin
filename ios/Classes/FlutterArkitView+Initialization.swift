@@ -17,9 +17,16 @@ extension FlutterArkitView {
         initalizeGesutreRecognizers(arguments)
 
         sceneView.debugOptions = parseDebugOptions(arguments)
-        configuration = parseConfiguration(arguments)
-        if configuration != nil {
-            sceneView.session.run(configuration!)
+        
+        Task {
+            configuration = parseConfiguration(arguments)
+            DispatchQueue.main.async {
+                if let config = self.configuration {
+                    self.sceneView.session.run(config)
+                } else {
+                    logPluginError("Failed to create ARConfiguration", toChannel: self.channel)
+                }
+            }
         }
     }
 
