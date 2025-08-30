@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class WidgetProjectionPage extends StatefulWidget {
+  const WidgetProjectionPage({super.key});
+
   @override
-  _WidgetProjectionPageState createState() => _WidgetProjectionPageState();
+  State<WidgetProjectionPage> createState() => _WidgetProjectionPageState();
 }
 
 class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
@@ -115,14 +117,14 @@ class _WidgetProjectionPageState extends State<WidgetProjectionPage> {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
-    Key? key,
+    super.key,
     required this.title,
-  }) : super(key: key);
+  });
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {

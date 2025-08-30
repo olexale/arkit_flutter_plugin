@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class PanoramaPage extends StatefulWidget {
+  const PanoramaPage({super.key});
+
   @override
-  _PanoramaPageState createState() => _PanoramaPageState();
+  State<PanoramaPage> createState() => _PanoramaPageState();
 }
 
 class _PanoramaPageState extends State<PanoramaPage> {
@@ -19,10 +21,8 @@ class _PanoramaPageState extends State<PanoramaPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Panorama Sample')),
-        body: Container(
-          child: ARKitSceneView(
-            onARKitViewCreated: onARKitViewCreated,
-          ),
+        body: ARKitSceneView(
+          onARKitViewCreated: onARKitViewCreated,
         ),
       );
 
@@ -39,10 +39,9 @@ class _PanoramaPageState extends State<PanoramaPage> {
     );
 
     final node = ARKitNode(
-      geometry: sphere,
-      position: Vector3.zero(),
-      eulerAngles: Vector3.zero(),
-    );
+        geometry: sphere,
+        position: Vector3.zero(),
+        eulerAngles: Vector3.zero());
     this.arkitController.add(node);
   }
 }

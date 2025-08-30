@@ -2,6 +2,8 @@ import 'package:arkit_plugin/arkit_plugin.dart';
 import 'package:flutter/material.dart';
 
 class CameraPropertiesPage extends StatefulWidget {
+  const CameraPropertiesPage({super.key});
+
   @override
   State createState() => _CameraPropertiesPageState();
 }

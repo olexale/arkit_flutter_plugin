@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class BodyTrackingPage extends StatefulWidget {
+  const BodyTrackingPage({super.key});
+
   @override
-  _BodyTrackingPageState createState() => _BodyTrackingPageState();
+  State<BodyTrackingPage> createState() => _BodyTrackingPageState();
 }
 
 class _BodyTrackingPageState extends State<BodyTrackingPage> {
@@ -33,7 +35,7 @@ class _BodyTrackingPageState extends State<BodyTrackingPage> {
   }
 
   void _handleAddAnchor(ARKitAnchor anchor) {
-    if (!(anchor is ARKitBodyAnchor)) {
+    if (anchor is! ARKitBodyAnchor) {
       return;
     }
     final transform =

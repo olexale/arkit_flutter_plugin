@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class LightEstimatePage extends StatefulWidget {
+  const LightEstimatePage({super.key});
+
   @override
-  _LightEstimatePageState createState() => _LightEstimatePageState();
+  State<LightEstimatePage> createState() => _LightEstimatePageState();
 }
 
 class _LightEstimatePageState extends State<LightEstimatePage> {
@@ -23,10 +25,8 @@ class _LightEstimatePageState extends State<LightEstimatePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Light Estimation Sample')),
-        body: Container(
-          child: ARKitSceneView(
-            onARKitViewCreated: onARKitViewCreated,
-          ),
+        body: ARKitSceneView(
+          onARKitViewCreated: onARKitViewCreated,
         ),
       );
 

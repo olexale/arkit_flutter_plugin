@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 class EarthPage extends StatefulWidget {
+  const EarthPage({super.key});
+
   @override
-  _EarthPageState createState() => _EarthPageState();
+  State<EarthPage> createState() => _EarthPageState();
 }
 
 class _EarthPageState extends State<EarthPage> {
@@ -23,10 +25,8 @@ class _EarthPageState extends State<EarthPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Earth Sample')),
-        body: Container(
-          child: ARKitSceneView(
-            onARKitViewCreated: onARKitViewCreated,
-          ),
+        body: ARKitSceneView(
+          onARKitViewCreated: onARKitViewCreated,
         ),
       );
 
@@ -43,10 +43,9 @@ class _EarthPageState extends State<EarthPage> {
     );
 
     final node = ARKitNode(
-      geometry: sphere,
-      position: Vector3(0, 0, -0.5),
-      eulerAngles: Vector3.zero(),
-    );
+        geometry: sphere,
+        position: Vector3(0, 0, -0.5),
+        eulerAngles: Vector3.zero());
     this.arkitController.add(node);
 
     timer = Timer.periodic(const Duration(milliseconds: 50), (timer) {

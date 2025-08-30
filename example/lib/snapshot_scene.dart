@@ -3,8 +3,10 @@ import 'package:arkit_plugin_example/util/ar_helper.dart';
 import 'package:flutter/material.dart';
 
 class SnapshotScenePage extends StatefulWidget {
+  const SnapshotScenePage({super.key});
+
   @override
-  _SnapshotScenePageState createState() => _SnapshotScenePageState();
+  State<SnapshotScenePage> createState() => _SnapshotScenePageState();
 }
 
 class _SnapshotScenePageState extends State<SnapshotScenePage> {
@@ -18,30 +20,31 @@ class _SnapshotScenePageState extends State<SnapshotScenePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(
-        title: const Text('Snapshot'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
-        onPressed: () async {
-          try {
-            final image = await arkitController.snapshot();
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SnapshotPreview(
-                  imageProvider: image,
+        appBar: AppBar(
+          title: const Text('Snapshot'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.camera_alt),
+          onPressed: () async {
+            final navigator = Navigator.of(context);
+            try {
+              final image = await arkitController.snapshot();
+              if (!mounted) return;
+              await navigator.push(
+                MaterialPageRoute(
+                  builder: (context) => SnapshotPreview(
+                    imageProvider: image,
+                  ),
                 ),
-              ),
-            );
-          } catch (e) {
-            print(e);
-          }
-        },
-      ),
-      body: Container(
-        child: ARKitSceneView(onARKitViewCreated: onARKitViewCreated),
-      ));
+              );
+            } catch (e) {
+              // Error handling - print replaced for production use
+              debugPrint('Failed to create snapshot: $e');
+            }
+          },
+        ),
+        body: ARKitSceneView(onARKitViewCreated: onARKitViewCreated),
+      );
 
   void onARKitViewCreated(ARKitController arkitController) {
     this.arkitController = arkitController;
@@ -51,24 +54,23 @@ class _SnapshotScenePageState extends State<SnapshotScenePage> {
 
 class SnapshotPreview extends StatelessWidget {
   const SnapshotPreview({
-    Key? key,
+    super.key,
     required this.imageProvider,
-  }) : super(key: key);
+  });
 
   final ImageProvider imageProvider;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Image Preview'),
-      ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image(image: imageProvider),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Image Preview'),
+        ),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image(image: imageProvider),
+          ],
+        ));
   }
 }

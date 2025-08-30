@@ -4,8 +4,10 @@ import 'package:vector_math/vector_math_64.dart' as vector;
 import 'package:collection/collection.dart';
 
 class RealTimeUpdatesPage extends StatefulWidget {
+  const RealTimeUpdatesPage({super.key});
+
   @override
-  _RealTimeUpdatesPageState createState() => _RealTimeUpdatesPageState();
+  State<RealTimeUpdatesPage> createState() => _RealTimeUpdatesPageState();
 }
 
 class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
@@ -26,10 +28,8 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
       appBar: AppBar(
         title: const Text('Real Time Updates Sample'),
       ),
-      body: Container(
-        child: ARKitSceneView(
-          onARKitViewCreated: _onARKitViewCreated,
-        ),
+      body: ARKitSceneView(
+        onARKitViewCreated: _onARKitViewCreated,
       ),
     );
   }
@@ -44,10 +44,8 @@ class _RealTimeUpdatesPageState extends State<RealTimeUpdatesPage> {
       radius: 0.01,
     );
 
-    movingNode = ARKitNode(
-      geometry: sphere,
-      position: vector.Vector3(0, 0, -0.25),
-    );
+    movingNode =
+        ARKitNode(geometry: sphere, position: vector.Vector3(0, 0, -0.25));
 
     this.arkitController = arkitController;
     this.arkitController.updateAtTime = (time) {

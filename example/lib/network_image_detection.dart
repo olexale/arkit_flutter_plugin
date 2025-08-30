@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart' as vector;
 
 class NetworkImageDetectionPage extends StatefulWidget {
+  const NetworkImageDetectionPage({super.key});
+
   @override
-  _NetworkImageDetectionPageState createState() =>
+  State<NetworkImageDetectionPage> createState() =>
       _NetworkImageDetectionPageState();
 }
 
@@ -25,34 +27,32 @@ class _NetworkImageDetectionPageState extends State<NetworkImageDetectionPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Image Detection Sample')),
-        body: Container(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              ARKitSceneView(
-                detectionImages: const [
-                  ARKitReferenceImage(
-                    name:
-                        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/800px-OSIRIS_Mars_true_color.jpg',
-                    physicalWidth: 0.2,
-                  ),
-                ],
-                onARKitViewCreated: onARKitViewCreated,
-              ),
-              anchorWasFound
-                  ? Container()
-                  : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Point the camera at Mars photo from the article about Mars on Wikipedia.',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineSmall!
-                            .copyWith(color: Colors.white),
-                      ),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            ARKitSceneView(
+              detectionImages: const [
+                ARKitReferenceImage(
+                  name:
+                      'https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/800px-OSIRIS_Mars_true_color.jpg',
+                  physicalWidth: 0.2,
+                ),
+              ],
+              onARKitViewCreated: onARKitViewCreated,
+            ),
+            anchorWasFound
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Point the camera at Mars photo from the article about Mars on Wikipedia.',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(color: Colors.white),
                     ),
-            ],
-          ),
+                  ),
+          ],
         ),
       );
 
