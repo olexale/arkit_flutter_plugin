@@ -167,6 +167,14 @@ class ARKitSceneView extends StatefulWidget {
 }
 
 class _ARKitSceneViewState extends State<ARKitSceneView> {
+  ARKitController? _controller;
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -181,7 +189,7 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
   }
 
   Future<void> onPlatformViewCreated(int id) async {
-    widget.onARKitViewCreated(ARKitController._init(
+    _controller = ARKitController._init(
       id,
       widget.configuration,
       widget.environmentTexturing,
@@ -202,7 +210,8 @@ class _ARKitSceneViewState extends State<ARKitSceneView> {
       widget.forceUserTapOnCenter,
       widget.maximumNumberOfTrackedImages,
       widget.debug,
-    ));
+      widget.onARKitViewCreated,
+    );
   }
 }
 
@@ -232,6 +241,7 @@ class ARKitController {
     bool forceUserTapOnCenter,
     int maximumNumberOfTrackedImages,
     this.debug,
+    this.onARKitViewCreated,
   ) {
     _channel = MethodChannel('arkit_$id');
     _channel.setMethodCallHandler(_platformCallHandler);
@@ -303,6 +313,8 @@ class ARKitController {
   /// the AR experience.
   /// For example, when coaching is deactivated, your app might restore custom UI.
   VoidCallback? coachingOverlayViewDidDeactivate;
+
+  final ARKitPluginCreatedCallback onARKitViewCreated;
 
   final bool debug;
 
@@ -462,6 +474,9 @@ class ARKitController {
     }
     try {
       switch (call.method) {
+        case 'onInitialized':
+          onARKitViewCreated(this);
+          break;
         case 'onError':
           if (onError != null) {
             onError!(call.arguments);
