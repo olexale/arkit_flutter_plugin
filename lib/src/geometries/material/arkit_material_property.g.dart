@@ -39,6 +39,7 @@ ARKitMaterialVideo _$ARKitMaterialVideoFromJson(Map json) => ARKitMaterialVideo(
       autoplay: json['autoplay'] as bool? ?? true,
       filename: json['filename'] as String?,
       url: json['url'] as String?,
+      filePath: json['filePath'] as String?,
     );
 
 Map<String, dynamic> _$ARKitMaterialVideoToJson(ARKitMaterialVideo instance) {
@@ -52,6 +53,7 @@ Map<String, dynamic> _$ARKitMaterialVideoToJson(ARKitMaterialVideo instance) {
 
   writeNotNull('filename', instance.filename);
   writeNotNull('url', instance.url);
+  writeNotNull('filePath', instance.filePath);
   val['width'] = instance.width;
   val['height'] = instance.height;
   val['autoplay'] = instance.autoplay;

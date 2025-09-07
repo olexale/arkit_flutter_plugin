@@ -148,15 +148,23 @@ private func parsePropertyContents(_ dict: Any?) -> Any? {
        let id = dict["id"] as? String
     {
         var videoNode: SKVideoNode
+        var videoPlayer: AVPlayer?
         if let videoFilename = dict["filename"] as? String {
             videoNode = SKVideoNode(fileNamed: videoFilename)
         } else if let url = dict["url"] as? String,
                   let videoUrl = URL(string: url)
         {
-            videoNode = SKVideoNode(url: videoUrl)
+            videoPlayer = AVPlayer(url: videoUrl)
+            videoNode = SKVideoNode(avPlayer: videoPlayer!)
+        } else if let filePath = dict["filePath"] as? String {
+            let videoFileURL = URL(fileURLWithPath: filePath)
+            videoPlayer = AVPlayer(url: videoFileURL)
+            videoNode = SKVideoNode(avPlayer: videoPlayer!)
+            videoNode.zRotation = .pi
         } else {
             return nil
         }
+        VideoArkitPlugin.players[id] = videoPlayer
         VideoArkitPlugin.nodes[id] = videoNode
         if autoplay {
             videoNode.play()

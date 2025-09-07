@@ -3,6 +3,7 @@ import Flutter
 
 public class VideoArkitPlugin: NSObject, FlutterPlugin {
     static var nodes = [String: SKVideoNode]()
+    static var players = [String: AVPlayer]()
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "arkit_video_playback", binaryMessenger: registrar.messenger())
@@ -20,11 +21,14 @@ public class VideoArkitPlugin: NSObject, FlutterPlugin {
 
         switch call.method {
         case "play":
-            VideoArkitPlugin.nodes[id]?.play()
+            VideoArkitPlugin.players[id]?.play()
         case "pause":
-            VideoArkitPlugin.nodes[id]?.pause()
+            VideoArkitPlugin.players[id]?.pause()
+        case "seek":
+            VideoArkitPlugin.players[id]?.seek(to: CMTime(seconds: arguments["seconds"] as! Double, preferredTimescale: 600))
         case "dispose":
             VideoArkitPlugin.nodes.removeValue(forKey: id)
+            VideoArkitPlugin.players.removeValue(forKey: id)
         default:
             break
         }
