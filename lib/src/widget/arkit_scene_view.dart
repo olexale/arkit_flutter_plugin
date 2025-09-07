@@ -317,6 +317,7 @@ class ARKitController {
   final ARKitPluginCreatedCallback onARKitViewCreated;
 
   final bool debug;
+  bool _wasDisposed = false;
 
   static const _boolConverter = ValueNotifierConverter();
   static const _vector3Converter = Vector3Converter();
@@ -329,6 +330,10 @@ class ARKitController {
   static const _stateReasonConverter = ARTrackingStateReasonConverter();
 
   void dispose() {
+    if (_wasDisposed) {
+      return;
+    }
+    _wasDisposed = true;
     _channel.invokeMethod<void>('dispose');
   }
 
