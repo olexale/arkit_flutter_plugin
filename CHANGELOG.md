@@ -2,6 +2,7 @@
 
 ## 1.2.1
 
+* Enhance ARKit initialization by adding onInitialized callback (by @vlad0209)
 * Set correct constraints for vector_math
 
 ## 1.2.0
