@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+* Set correct constraints for vector_math
+
 ## 1.2.0
 
 * Prevent UI freeze by loading AR session configuration asynchronously (by @vlad0209)
